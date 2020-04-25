@@ -30,6 +30,7 @@
               <e p="TriggerSystem.cs" t="Include" />
               <e p="TurretAttackSystem.cs" t="Include" />
             </e>
+            <e p="Turret.cs" t="Include" />
           </e>
           <e p="DELETE.txt" t="Include" />
         </e>
