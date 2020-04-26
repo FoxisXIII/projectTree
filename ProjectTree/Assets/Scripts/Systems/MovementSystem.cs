@@ -1,22 +1,24 @@
-﻿using Unity.Burst;
-using Unity.Collections;
-using Unity.Entities;
+﻿using Unity.Entities;
 using Unity.Jobs;
-using Unity.Mathematics;
 using Unity.Physics;
-using Unity.Transforms;
-using static Unity.Mathematics.math;
+using float3 = Unity.Mathematics.float3;
 
-[AlwaysSynchronizeSystem]
-public class MovementSystem : JobComponentSystem
+namespace Systems
 {
-    protected override JobHandle OnUpdate(JobHandle inputDependencies)
+    [AlwaysSynchronizeSystem]
+    public class MovementSystem : JobComponentSystem
     {
-        float deltaTime = UnityEngine.Time.deltaTime;
-        Entities.ForEach((ref PhysicsVelocity velocity, in MovementData movementData) =>
+        protected override JobHandle OnUpdate(JobHandle inputDependencies)
         {
-            velocity.Linear.z = -movementData.speed * deltaTime;
-        }).Run();
-        return default;
+            float deltaTime = UnityEngine.Time.deltaTime;
+            Entities.ForEach((ref PhysicsVelocity velocity, in MovementData movementData) =>
+            {
+                velocity.Linear.x = movementData.directionX * movementData.speed * deltaTime;
+                velocity.Linear.z = movementData.directionZ * movementData.speed * deltaTime;
+                
+                velocity.Angular = float3.zero;
+            }).Run();
+            return default;
+        }
     }
 }

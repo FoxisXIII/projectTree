@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 1126792635}
   - component: {fileID: 4950043250768231708}
   - component: {fileID: -2715850310584137635}
-  - component: {fileID: -1702314919200902217}
+  - component: {fileID: 553922938111293855}
+  - component: {fileID: 8785595692099083094}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -97,10 +98,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccea9ea98e38942e0b0938c27ed1903e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MotionType: 0
+  m_MotionType: 1
   m_Mass: 1
-  m_LinearDamping: 0.01
-  m_AngularDamping: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0
   m_InitialLinearVelocity:
     x: 0
     y: 0
@@ -109,7 +110,7 @@ MonoBehaviour:
     x: 0
     y: 0
     z: 0
-  m_GravityFactor: 0
+  m_GravityFactor: 1
   m_OverrideDefaultMassDistribution: 0
   m_CenterOfMass:
     x: 0
@@ -183,7 +184,7 @@ MonoBehaviour:
     m_Template: {fileID: 0}
     m_IsTrigger:
       m_Override: 0
-      m_Value: 1
+      m_Value: 0
     m_Friction:
       m_Override: 0
       m_Value:
@@ -222,31 +223,43 @@ MonoBehaviour:
   directionX: 0
   directionY: 0
   directionZ: 0
-  speed: 100
---- !u!205 &-1702314919200902217
-LODGroup:
+  speed: 500
+--- !u!114 &553922938111293855
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4962769595136294854}
-  serializedVersion: 2
-  m_LocalReferencePoint: {x: 0, y: 1.2571938, z: -0.00000011920929}
-  m_Size: 2.514484
-  m_FadeMode: 0
-  m_AnimateCrossFading: 0
-  m_LastLODIsBillboard: 0
-  m_LODs:
-  - screenRelativeHeight: 0.25
-    fadeTransitionWidth: 0
-    renderers: []
-  - screenRelativeHeight: 0.125
-    fadeTransitionWidth: 0
-    renderers: []
-  - screenRelativeHeight: 0.0625
-    fadeTransitionWidth: 0
-    renderers: []
-  - screenRelativeHeight: 0.01
-    fadeTransitionWidth: 0
-    renderers: []
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b8feb7d6d3b4b0f95bf2f0caf6daf5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasPath: 0
+  position:
+    x: 0
+    y: 0
+    z: 0
+--- !u!195 &8785595692099083094
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4962769595136294854}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.36851677
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2.5
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
