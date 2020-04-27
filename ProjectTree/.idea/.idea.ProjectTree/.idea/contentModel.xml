@@ -17,20 +17,37 @@
         </e>
         <e p="Scripts" t="Include">
           <e p="Defensas" t="Include">
-            <e p="Components" t="Include">
-              <e p="AimComponent.cs" t="Include" />
-              <e p="AttackComponent.cs" t="Include" />
-              <e p="CostComponent.cs" t="Include" />
-              <e p="HealthComponent.cs" t="Include" />
-              <e p="PointedEnemyComponent.cs" t="Include" />
+            <e p="ECS" t="Include">
+              <e p="Components" t="Include">
+                <e p="AimComponent.cs" t="Include" />
+                <e p="AttackComponent.cs" t="Include" />
+                <e p="CostComponent.cs" t="Include" />
+                <e p="HealthComponent.cs" t="Include" />
+                <e p="PointedEnemyComponent.cs" t="Include" />
+              </e>
+              <e p="DefenseSpawner.cs" t="Include" />
+              <e p="Systems" t="Include">
+                <e p="AimSystem.cs" t="Include" />
+                <e p="TriggerSystem.cs" t="Include" />
+                <e p="TurretAttackSystem.cs" t="Include" />
+              </e>
             </e>
-            <e p="DefenseSpawner.cs" t="Include" />
-            <e p="Systems" t="Include">
-              <e p="AimSystem.cs" t="Include" />
-              <e p="TriggerSystem.cs" t="Include" />
-              <e p="TurretAttackSystem.cs" t="Include" />
+            <e p="Projectile" t="Include">
+              <e p="ECS" t="Include">
+                <e p="Components" t="Include">
+                  <e p="BulletPrefab.cs" t="Include" />
+                  <e p="MoveForwardComponent.cs" t="Include" />
+                  <e p="MoveSpeedComponent.cs" t="Include" />
+                  <e p="TimeToLiveComponent.cs" t="Include" />
+                </e>
+                <e p="Systems" t="Include">
+                  <e p="MoveForwardSystem.cs" t="Include" />
+                  <e p="TimeToLiveSystem.cs" t="Include" />
+                </e>
+              </e>
+              <e p="ProjectileBehaviour.cs" t="Include" />
             </e>
-            <e p="Turret.cs" t="Include" />
+            <e p="TurretMonoBehaviour.cs" t="Include" />
           </e>
           <e p="DELETE.txt" t="Include" />
         </e>
