@@ -5,6 +5,6 @@ using Unity.Entities;
 using UnityEngine;
 
 [Serializable]
-public class Dead : IComponentData
+public struct Dead : IComponentData
 {
 }

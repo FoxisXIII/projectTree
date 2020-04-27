@@ -9,7 +9,6 @@ using Unity.Transforms;
 using static Unity.Mathematics.math;
 
 [UpdateBefore(typeof(TimeToLiveSystem))]
-[UpdateAfter(typeof(MoveForward))]
 public class HealthSystem : JobComponentSystem
 {
     private BuildPhysicsWorld _buildPhysicsWorldSystem;

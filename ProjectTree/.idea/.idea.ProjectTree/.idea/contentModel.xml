@@ -57,7 +57,7 @@
           <e p="Systems" t="Include">
             <e p="AttackSystem.cs" t="Include" />
             <e p="DamageCollisionSystem.cs" t="Include" />
-            <e p="DieSystem.cs" t="Include" />
+            <e p="DeathSystem.cs" t="Include" />
             <e p="HealthSystem.cs" t="Include" />
             <e p="MovementSystem.cs" t="Include" />
             <e p="MoveToSystem.cs" t="Include" />
