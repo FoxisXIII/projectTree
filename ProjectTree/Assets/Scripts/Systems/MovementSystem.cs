@@ -15,8 +15,10 @@ namespace Systems
             {
                 velocity.Linear.x = movementData.directionX * movementData.speed * deltaTime;
                 velocity.Linear.z = movementData.directionZ * movementData.speed * deltaTime;
-                
-                velocity.Angular = float3.zero;
+
+                velocity.Angular.x = 0;
+                velocity.Angular.y = 0;
+                velocity.Angular.z = 0;
             }).Run();
             return default;
         }

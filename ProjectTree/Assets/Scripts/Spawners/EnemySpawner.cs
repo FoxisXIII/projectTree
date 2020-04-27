@@ -5,7 +5,10 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.XR.WSA;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -14,7 +17,8 @@ public class EnemySpawner : MonoBehaviour
     private Entity _enemyEntityPrefab;
     private float time;
     private BlobAssetStore blobAssetStore;
-    
+    public float3 finalPosition;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,8 +41,15 @@ public class EnemySpawner : MonoBehaviour
     {
         time = 0;
         Entity enemy = _entityManager.Instantiate(_enemyEntityPrefab);
-        _entityManager.SetComponentData(enemy, new Translation() {Value = transform.position});
+
+        var position = transform.position;
+        _entityManager.SetComponentData(enemy, new Translation() {Value = position});
         _entityManager.SetComponentData(enemy, new Rotation() {Value = Quaternion.identity});
+        _entityManager.SetComponentData(enemy, new AIData()
+        {
+            state = 0,
+            finalPosition = finalPosition,
+        });
     }
 
     private void OnApplicationQuit()

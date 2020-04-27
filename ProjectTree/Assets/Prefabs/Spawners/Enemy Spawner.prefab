@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 388499504665842041}
   - component: {fileID: -3163979558320948062}
-  - component: {fileID: 8067849069738246053}
+  - component: {fileID: -2848532685191905727}
   m_Layer: 0
   m_Name: Enemy Spawner
   m_TagString: Untagged
-  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -46,7 +46,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 4962769595136294854, guid: 94f84516970267a41839b8e23345bfdc,
     type: 3}
---- !u!114 &8067849069738246053
+  finalPosition:
+    x: 0
+    y: 0
+    z: 0
+--- !u!114 &-2848532685191905727
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -55,6 +59,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6770376559426657363}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f3b833205da16744aa3cff6a1580c8c, type: 3}
+  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ConversionMode: 1

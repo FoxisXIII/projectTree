@@ -6,8 +6,11 @@ using UnityEngine;
 [GenerateAuthoringComponent]
 public struct AIData : IComponentData
 {
-    public NativeString64 state;
+    public int state;
 
-    public bool hasPath;
+    public float attackDistance;
+
+    public bool changePosition;
     public float3 position;
+    public float3 finalPosition;
 }
