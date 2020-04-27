@@ -4,7 +4,8 @@ using Unity.Entities;
 using Unity.Mathematics;
 
 [GenerateAuthoringComponent]
+[Serializable]
 public struct HealthData : IComponentData
 {
-    public float health;
+    public float Value;
 }

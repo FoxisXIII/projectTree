@@ -19,6 +19,7 @@ public class TurretMonoBehaviour : MonoBehaviour
     public GameObject BulletPrefab;
     private Entity bulletEntityPrefab;
     private EntityManager _manager;
+    private BlobAssetStore blob;
 
     private GameObject target;
 
@@ -27,8 +28,9 @@ public class TurretMonoBehaviour : MonoBehaviour
     {
         GetComponent<SphereCollider>().radius = Range;
         _manager = World.DefaultGameObjectInjectionWorld.EntityManager;
+        blob = new BlobAssetStore();
         bulletEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(BulletPrefab,
-            GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, new BlobAssetStore()));
+            GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, blob));
     }
 
     // Update is called once per frame
@@ -69,5 +71,10 @@ public class TurretMonoBehaviour : MonoBehaviour
         _manager.SetComponentData(bulletEntity, new Translation{Value = gunBarrel.position});
         _manager.SetComponentData(bulletEntity, new Rotation{Value = rotation});
         
+    }
+
+    private void OnDestroy()
+    {
+        blob.Dispose();
     }
 }

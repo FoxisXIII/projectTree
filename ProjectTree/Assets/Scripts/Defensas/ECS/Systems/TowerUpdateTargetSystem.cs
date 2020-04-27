@@ -17,7 +17,7 @@ public class TowerUpdateTargetSystem : ComponentSystem
             ComponentType.ReadOnly<Translation>(),
             ComponentType.ReadOnly<TowerTag>());
 
-        enemies = GetEntityQuery(ComponentType.ReadOnly<HealthComponent>(),
+        enemies = GetEntityQuery(ComponentType.ReadOnly<HealthData>(),
             ComponentType.ReadOnly<Translation>());
     }
 

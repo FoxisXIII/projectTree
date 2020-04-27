@@ -6,23 +6,22 @@
     <e p="D:\Documents\projectTree\projectTree" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
-        <e p="Materials" t="Include">
-          <e p="DELETE.txt" t="Include" />
-        </e>
-        <e p="Models" t="Include">
-          <e p="DELETE.txt" t="Include" />
-        </e>
-        <e p="Prefabs" t="Include">
-          <e p="DELETE.txt" t="Include" />
-        </e>
         <e p="Scripts" t="Include">
+          <e p="Components" t="Include">
+            <e p="AIData.cs" t="Include" />
+            <e p="BaseTag.cs" t="Include" />
+            <e p="DeadComponent.cs" t="Include" />
+            <e p="EnemyTag.cs" t="Include" />
+            <e p="HealthData.cs" t="Include" />
+            <e p="MovementData.cs" t="Include" />
+            <e p="PlayerTag.cs" t="Include" />
+          </e>
           <e p="Defensas" t="Include">
             <e p="ECS" t="Include">
               <e p="Components" t="Include">
                 <e p="AimComponent.cs" t="Include" />
                 <e p="AttackComponent.cs" t="Include" />
                 <e p="CostComponent.cs" t="Include" />
-                <e p="HealthComponent.cs" t="Include" />
                 <e p="TowerTagComponent.cs" t="Include" />
                 <e p="TurretTargetComponent.cs" t="Include" />
               </e>
@@ -35,12 +34,15 @@
               <e p="ECS" t="Include">
                 <e p="Components" t="Include">
                   <e p="BulletPrefab.cs" t="Include" />
+                  <e p="DamageComponent.cs" t="Include" />
+                  <e p="DealsDamageComponent.cs" t="Include" />
+                  <e p="DestroyOnContactComponent.cs" t="Include" />
+                  <e p="DestroyOnContactSystem.cs" t="Include" />
                   <e p="MoveForwardComponent.cs" t="Include" />
                   <e p="MoveSpeedComponent.cs" t="Include" />
                   <e p="TimeToLiveComponent.cs" t="Include" />
                 </e>
                 <e p="Systems" t="Include">
-                  <e p="BulletHitEnemySystem.cs" t="Include" />
                   <e p="MoveForwardSystem.cs" t="Include" />
                   <e p="TimeToLiveSystem.cs" t="Include" />
                 </e>
@@ -49,12 +51,20 @@
             </e>
             <e p="TurretMonoBehaviour.cs" t="Include" />
           </e>
-          <e p="DELETE.txt" t="Include" />
+          <e p="Spawners" t="Include">
+            <e p="EnemySpawner.cs" t="Include" />
+          </e>
+          <e p="Systems" t="Include">
+            <e p="AttackSystem.cs" t="Include" />
+            <e p="DamageCollisionSystem.cs" t="Include" />
+            <e p="DieSystem.cs" t="Include" />
+            <e p="HealthSystem.cs" t="Include" />
+            <e p="MovementSystem.cs" t="Include" />
+            <e p="MoveToSystem.cs" t="Include" />
+            <e p="ResolveDamageSystem.cs" t="Include" />
+          </e>
         </e>
         <e p="Sound" t="Include">
-          <e p="DELETE.txt" t="Include" />
-        </e>
-        <e p="Textures" t="Include">
           <e p="DELETE.txt" t="Include" />
         </e>
       </e>
