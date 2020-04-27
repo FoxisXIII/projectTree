@@ -14,11 +14,11 @@ namespace Unity.Transforms
         [RequireComponentTag(typeof(MoveForward))]
         struct MoveForwardRotation : IJobForEach<Translation, Rotation, MoveSpeed>
         {
-            public float dt;
+            public float DeltaTime;
             
             public void Execute(ref Translation position, ref Rotation rotation, ref MoveSpeed speed)
             {
-                position.Value = position.Value + (dt * speed.Value * math.forward(rotation.Value));
+                position.Value = position.Value + (DeltaTime * speed.Value * math.forward(rotation.Value));
             }
         }
         
@@ -26,7 +26,7 @@ namespace Unity.Transforms
         {
             var moveForwardRotationJob = new MoveForwardRotation
             {
-                dt = Time.DeltaTime
+                DeltaTime = Time.DeltaTime
             };
             return moveForwardRotationJob.Schedule(this, inputDeps);
         }

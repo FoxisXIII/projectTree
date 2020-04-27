@@ -22,8 +22,6 @@ public class TurretMonoBehaviour : MonoBehaviour
 
     private GameObject target;
 
-    //NativeArray<Entity> enemiesInRange = new NativeArray<Entity>(100, Allocator.Persistent);
-
     // Start is called before the first frame update
     void Start()
     {

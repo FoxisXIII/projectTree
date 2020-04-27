@@ -23,13 +23,12 @@
                 <e p="AttackComponent.cs" t="Include" />
                 <e p="CostComponent.cs" t="Include" />
                 <e p="HealthComponent.cs" t="Include" />
-                <e p="PointedEnemyComponent.cs" t="Include" />
+                <e p="TowerTagComponent.cs" t="Include" />
+                <e p="TurretTargetComponent.cs" t="Include" />
               </e>
               <e p="DefenseSpawner.cs" t="Include" />
               <e p="Systems" t="Include">
-                <e p="AimSystem.cs" t="Include" />
-                <e p="TriggerSystem.cs" t="Include" />
-                <e p="TurretAttackSystem.cs" t="Include" />
+                <e p="TowerUpdateTargetSystem.cs" t="Include" />
               </e>
             </e>
             <e p="Projectile" t="Include">
@@ -41,6 +40,7 @@
                   <e p="TimeToLiveComponent.cs" t="Include" />
                 </e>
                 <e p="Systems" t="Include">
+                  <e p="BulletHitEnemySystem.cs" t="Include" />
                   <e p="MoveForwardSystem.cs" t="Include" />
                   <e p="TimeToLiveSystem.cs" t="Include" />
                 </e>
