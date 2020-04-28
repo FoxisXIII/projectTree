@@ -5,8 +5,8 @@ using Unity.Mathematics;
 using UnityEngine;
 
 [GenerateAuthoringComponent]
-public struct CostComponent : IComponentData
+public struct AttackSpeedComponent : IComponentData
 {
-   public int Resource1;
-   public int Resource2;
+    [Range(0,1)]
+    public float AttackSpeed;
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 [GenerateAuthoringComponent]
 [Serializable]
-public struct Range : IComponentData
+public struct RangeComponent : IComponentData
 {
     public float Value;
 }

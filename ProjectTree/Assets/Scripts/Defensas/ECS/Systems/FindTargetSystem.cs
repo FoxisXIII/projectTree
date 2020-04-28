@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using Unity.Burst;
 using Unity.Entities;
+using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 
-[BurstCompile]
 public class FindTargetSystem : ComponentSystem
 {
     protected override void OnUpdate()
     {
-        Entities.WithNone<TowerCurrentTarget>().WithAll<TowerTag>().ForEach((Entity a, ref Translation position, ref Range turretRange) => 
+        Entities.WithNone<TowerCurrentTarget>().WithAll<TowerTag>().ForEach((Entity a, ref Translation position) => 
         {
             Entity closestTarget = Entity.Null;
             float3 turretPosition = position.Value;
@@ -27,18 +27,19 @@ public class FindTargetSystem : ComponentSystem
                 {
                     if (math.distance(turretPosition, targetPosition.Value) < math.distance(turretPosition, closestPosition))
                     {
+                        Debug.Log("hey2");
                         closestTarget = b;
                         closestPosition = targetPosition.Value;
                     }
                 }
             });
 
-            if (closestTarget != Entity.Null && math.distance(turretPosition, closestPosition) <= turretRange.Value)
+            if (closestTarget != Entity.Null)
             {
-                Debug.Log(closestPosition);
-                TowerCurrentTarget newTarget = new TowerCurrentTarget{target = closestTarget};
-                World.EntityManager.AddComponentData(a, newTarget);
+                Debug.Log(closestTarget);
+                PostUpdateCommands.AddComponent(a, new TowerCurrentTarget{target = closestTarget});
             }
         });
     }
 }
+

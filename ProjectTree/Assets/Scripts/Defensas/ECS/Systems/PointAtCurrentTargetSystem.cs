@@ -6,25 +6,29 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 
-public class PointAtCurrentTargetSystem : JobComponentSystem
+[UpdateAfter(typeof(FindTargetSystem))]
+public class PointAtCurrentTargetSystem : ComponentSystem
 {
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
-        EntityManager entityManager = World.EntityManager;
-        
-        Entities.WithoutBurst().WithAll<TowerTag, Rotation, Translation>().ForEach(
-            (Entity e, ref TowerCurrentTarget target, ref Rotation rotation, ref Translation position) =>
+        Entities.WithAll<TowerTag>().ForEach(
+            (Entity e, ref TowerCurrentTarget target, ref Rotation rotation, ref Translation position, ref RangeComponent turretRange) =>
             {
-                if (target.target != Entity.Null)
+                if (World.EntityManager.Exists(target.target))
                 {
+                    Debug.Log("hey");
                     Entity enemy = target.target;
-                    Translation enemyPos = entityManager.GetComponentData<Translation>(enemy);
-
-                    float3 lookAt = position.Value - enemyPos.Value;
-                    rotation.Value = quaternion.LookRotation(lookAt, math.up());
+                    Translation enemyPos = World.EntityManager.GetComponentData<Translation>(enemy);
+                    if (math.distance(position.Value, enemyPos.Value) <= turretRange.Value)
+                    {
+                        float3 lookAt = math.normalize(position.Value - enemyPos.Value);
+                        rotation.Value = quaternion.Euler(lookAt);
+                    }
                 }
-            }).Run();
-
-        return inputDeps;
+                else
+                {
+                    PostUpdateCommands.RemoveComponent(e, typeof(TowerCurrentTarget));
+                }
+            });
     }
 }
