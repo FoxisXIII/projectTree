@@ -8,27 +8,16 @@ using UnityEngine;
 
 namespace Unity.Transforms
 {
-    public class MoveForwardSystem : JobComponentSystem
+    [BurstCompile]
+    public class MoveForwardSystem : ComponentSystem
     {
-        [BurstCompile]
-        [RequireComponentTag(typeof(MoveForward))]
-        struct MoveForwardRotation : IJobForEach<Translation, Rotation, MoveSpeed>
+        protected override void OnUpdate()
         {
-            public float DeltaTime;
-            
-            public void Execute(ref Translation position, ref Rotation rotation, ref MoveSpeed speed)
-            {
-                position.Value = position.Value + (DeltaTime * speed.Value * math.forward(rotation.Value));
-            }
-        }
-        
-        protected override JobHandle OnUpdate(JobHandle inputDeps)
-        {
-            var moveForwardRotationJob = new MoveForwardRotation
-            {
-                DeltaTime = Time.DeltaTime
-            };
-            return moveForwardRotationJob.Schedule(this, inputDeps);
+            Entities.WithAll<MoveForward>().ForEach(
+                (Entity a, ref Translation position, ref Rotation rotation, ref MoveSpeed speed) =>
+                {
+                    position.Value = position.Value + (Time.DeltaTime * speed.Value * math.forward(rotation.Value));
+                });
         }
     }
 }

@@ -12,12 +12,10 @@ public class TowerUpdateTargetSystem : ComponentSystem
 
     protected override void OnCreate()
     {
-        towers = GetEntityQuery(ComponentType.ReadOnly<AimComponent>(),
-            ComponentType.ReadOnly<TurretTarget>(),
-            ComponentType.ReadOnly<Translation>(),
+        towers = GetEntityQuery(
             ComponentType.ReadOnly<TowerTag>());
 
-        enemies = GetEntityQuery(ComponentType.ReadOnly<HealthData>(),
+        enemies = GetEntityQuery(ComponentType.ReadOnly<EnemyTag>(),
             ComponentType.ReadOnly<Translation>());
     }
 
@@ -25,7 +23,7 @@ public class TowerUpdateTargetSystem : ComponentSystem
     {
         Entities.With(towers).ForEach((Entity t, ref Translation towerPosition, ref AimComponent aimComponent) =>
         {
-            DynamicBuffer<TurretTarget> towerTargets = EntityManager.GetBuffer<TurretTarget>(t);
+            DynamicBuffer<TowerInRangeTargets> towerTargets = EntityManager.GetBuffer<TowerInRangeTargets>(t);
             towerTargets.Clear();
             float3 towerPos = towerPosition.Value;
             float towerRadius = aimComponent.Range;
@@ -38,7 +36,7 @@ public class TowerUpdateTargetSystem : ComponentSystem
 
                 if (distSqr < contactSquared)
                 {
-                    towerTargets.Add(new TurretTarget {target = m});
+                    towerTargets.Add(new TowerInRangeTargets {target = m});
                 }
             });
         });

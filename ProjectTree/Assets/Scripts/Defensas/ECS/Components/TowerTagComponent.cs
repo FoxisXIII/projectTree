@@ -3,6 +3,6 @@ using Unity.Entities;
 
 [GenerateAuthoringComponent]
 [Serializable]
-public class TowerTag : IComponentData
+public struct TowerTag : IComponentData
 {
 }

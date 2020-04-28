@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
 
-[Serializable]
 [GenerateAuthoringComponent]
-public struct MoveSpeed : IComponentData
+[Serializable]
+public struct Range : IComponentData
 {
     public float Value;
 }

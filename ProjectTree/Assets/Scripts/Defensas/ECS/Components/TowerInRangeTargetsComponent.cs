@@ -6,7 +6,7 @@ using UnityEngine;
 
 [Serializable]
 [GenerateAuthoringComponent]
-public struct MoveSpeed : IComponentData
+public struct TowerInRangeTargets : IBufferElementData
 {
-    public float Value;
+    public Entity target;
 }

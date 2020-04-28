@@ -6,7 +6,7 @@ using UnityEngine;
 
 [Serializable]
 [GenerateAuthoringComponent]
-public struct TurretTarget : IBufferElementData
+public struct TowerCurrentTarget : IComponentData
 {
     public Entity target;
 }

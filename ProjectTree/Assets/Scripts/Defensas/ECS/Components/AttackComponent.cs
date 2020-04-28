@@ -8,7 +8,6 @@ using UnityEngine;
 public struct AttackComponent : IComponentData
 {
     //public GameObject BulletPrefab;
-    public float Damage;
     [Range(0,1)]
     public float AttackSpeed;
 }

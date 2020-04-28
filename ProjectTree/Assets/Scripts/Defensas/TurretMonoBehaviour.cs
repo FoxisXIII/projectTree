@@ -51,13 +51,12 @@ public class TurretMonoBehaviour : MonoBehaviour
 
     private void PointAt()
     {
-        float3 dir = target.transform.position - this.transform.position;
-        dir.y = 0f;
-        this.transform.rotation = quaternion.LookRotation(dir, math.up());
+        transform.LookAt(target.transform);
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("hey");
         if (other.CompareTag("Enemy"))
         {
             target = other.gameObject;

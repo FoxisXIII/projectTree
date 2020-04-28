@@ -7,6 +7,6 @@ using UnityEngine;
 [GenerateAuthoringComponent] 
 public struct AimComponent : IComponentData
 {
-    public float Range;
     public float TurnSpeed;
+    public float Range;
 }

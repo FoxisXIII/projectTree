@@ -50,12 +50,8 @@ public class HealthSystem : JobComponentSystem
             {
                 // COLLISION
                 var enemy = enemyGroup[enemyEntity];
-                enemy.Value = 0;
-                enemyGroup[enemyEntity] = enemy;
-                // ComponentDataFromEntity<TimeToLive> ttl;
-                // var ttlEntity = ttl[bulletEntity];
-                // ttlEntity.Value = 0;
-                // ttl[bulletEntity] = ttlEntity;
+                //enemy.Value = 0;
+                //enemyGroup[enemyEntity] = enemy;
             }
         }
     }

@@ -42,7 +42,7 @@ public class ProjectileBehaviour : MonoBehaviour, IConvertGameObjectToEntity
     {
         dstManager.AddComponent(entity, typeof(MoveForward));
         dstManager.AddComponent(entity, typeof(DestroyOnContact));
-        dstManager.AddComponentData(entity, new DealsDamage {Value = 50f});
+        dstManager.AddComponentData(entity, new DealsDamage {Value = 20f});
         MoveSpeed moveSpeed = new MoveSpeed{Value = speed};
         dstManager.AddComponentData(entity, moveSpeed);
         TimeToLive ttl = new TimeToLive{Value = lifeTime};
