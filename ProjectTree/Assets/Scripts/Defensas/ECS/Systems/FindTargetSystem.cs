@@ -10,7 +10,7 @@ public class FindTargetSystem : ComponentSystem
 {
     protected override void OnUpdate()
     {
-        Entities.WithNone<TowerCurrentTarget>().WithAll<TowerTag>().ForEach((Entity a, ref Translation position, ref RangeComponent turretRange) => 
+        Entities.WithNone<TowerCurrentTarget>().WithAll<TowerTag>().ForEach((Entity a, ref Translation position) => 
         {
             Entity closestTarget = Entity.Null;
             float3 turretPosition = position.Value;
@@ -33,11 +33,10 @@ public class FindTargetSystem : ComponentSystem
                 }
             });
 
-            if (closestTarget != Entity.Null && math.distance(turretPosition, closestPosition) <= turretRange.Value)
+            if (closestTarget != Entity.Null)
             {
-                Debug.Log("hey");
-                World.DefaultGameObjectInjectionWorld.EntityManager.AddComponentData(a, new TowerCurrentTarget{target = closestTarget});
-                //PostUpdateCommands.AddComponent(a, new TowerCurrentTarget{target = closestTarget});
+                Debug.Log(closestTarget);
+                PostUpdateCommands.AddComponent(a, new TowerCurrentTarget{target = closestTarget});
             }
         });
     }
