@@ -24,16 +24,13 @@
                 <e p="CostComponent.cs" t="Include" />
                 <e p="RangeComponent.cs" t="Include" />
                 <e p="TowerCurrentTargetComponent.cs" t="Include" />
-                <e p="TowerInRangeTargetsComponent.cs" t="Include" />
                 <e p="TowerTagComponent.cs" t="Include" />
               </e>
               <e p="DefenseSpawner.cs" t="Include" />
               <e p="Systems" t="Include">
                 <e p="DebugTargetSystem.cs" t="Include" />
                 <e p="FindTargetSystem.cs" t="Include" />
-                <e p="GetCurrentTargetSystem.cs" t="Include" />
                 <e p="PointAtCurrentTargetSystem.cs" t="Include" />
-                <e p="TowerUpdateTargetSystem.cs" t="Include" />
               </e>
             </e>
             <e p="Projectile" t="Include">

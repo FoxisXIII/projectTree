@@ -11,7 +11,7 @@ public class DebugTargetSystem : ComponentSystem
         Entities.WithAll<TowerTag, TowerCurrentTarget>().ForEach((Entity e, ref Translation position, ref TowerCurrentTarget target) =>
         {
             Translation targetTranslation = World.EntityManager.GetComponentData<Translation>(e);
-            Debug.Log(targetTranslation.Value);
+            Debug.Log(targetTranslation);
         });
     }
 

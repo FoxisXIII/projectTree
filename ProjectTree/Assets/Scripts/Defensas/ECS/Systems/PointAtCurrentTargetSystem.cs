@@ -6,25 +6,18 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 
-public class PointAtCurrentTargetSystem : JobComponentSystem
+[UpdateAfter(typeof(FindTargetSystem))]
+public class PointAtCurrentTargetSystem : ComponentSystem
 {
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
-        EntityManager entityManager = World.EntityManager;
-        
-        Entities.WithoutBurst().WithAll<TowerTag, Rotation, Translation>().ForEach(
+        Entities.WithAll<TowerTag>().ForEach(
             (Entity e, ref TowerCurrentTarget target, ref Rotation rotation, ref Translation position) =>
             {
-                if (target.target != Entity.Null)
-                {
-                    Entity enemy = target.target;
-                    Translation enemyPos = entityManager.GetComponentData<Translation>(enemy);
-
-                    float3 lookAt = position.Value - enemyPos.Value;
-                    rotation.Value = quaternion.LookRotation(lookAt, math.up());
-                }
-            }).Run();
-
-        return inputDeps;
+                Entity enemy = target.target;
+                Translation enemyPos = World.EntityManager.GetComponentData<Translation>(enemy);
+                float3 lookAt = math.normalize(position.Value - enemyPos.Value);
+                rotation.Value = quaternion.Euler(lookAt);
+            });
     }
 }

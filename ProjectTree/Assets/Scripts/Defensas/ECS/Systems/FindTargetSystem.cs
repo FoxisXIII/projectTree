@@ -6,12 +6,11 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 
-[BurstCompile]
 public class FindTargetSystem : ComponentSystem
 {
     protected override void OnUpdate()
     {
-        Entities.WithNone<TowerCurrentTarget>().WithAll<TowerTag>().ForEach((Entity a, ref Translation position, ref Range turretRange) => 
+        Entities.WithNone<TowerCurrentTarget>().WithAll<TowerTag>().ForEach((Entity a, ref Translation position, ref RangeComponent turretRange) => 
         {
             Entity closestTarget = Entity.Null;
             float3 turretPosition = position.Value;
@@ -27,6 +26,7 @@ public class FindTargetSystem : ComponentSystem
                 {
                     if (math.distance(turretPosition, targetPosition.Value) < math.distance(turretPosition, closestPosition))
                     {
+                        Debug.Log("hey2");
                         closestTarget = b;
                         closestPosition = targetPosition.Value;
                     }
@@ -35,9 +35,9 @@ public class FindTargetSystem : ComponentSystem
 
             if (closestTarget != Entity.Null && math.distance(turretPosition, closestPosition) <= turretRange.Value)
             {
-                Debug.Log(closestPosition);
-                TowerCurrentTarget newTarget = new TowerCurrentTarget{target = closestTarget};
-                World.EntityManager.AddComponentData(a, newTarget);
+                Debug.Log("hey");
+                World.DefaultGameObjectInjectionWorld.EntityManager.AddComponentData(a, new TowerCurrentTarget{target = closestTarget});
+                //PostUpdateCommands.AddComponent(a, new TowerCurrentTarget{target = closestTarget});
             }
         });
     }
