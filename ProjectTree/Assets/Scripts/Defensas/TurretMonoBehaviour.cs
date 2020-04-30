@@ -74,6 +74,7 @@ public class TurretMonoBehaviour : MonoBehaviour
 
     private void OnDestroy()
     {
-        blob.Dispose();
+        if (blob != null)
+            blob.Dispose();
     }
 }

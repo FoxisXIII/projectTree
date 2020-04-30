@@ -10,6 +10,7 @@
           <e p="Components" t="Include">
             <e p="AIData.cs" t="Include" />
             <e p="BaseTag.cs" t="Include" />
+            <e p="DamageComponent.cs" t="Include" />
             <e p="DeadComponent.cs" t="Include" />
             <e p="EnemyTag.cs" t="Include" />
             <e p="HealthData.cs" t="Include" />
@@ -29,7 +30,6 @@
               <e p="DefenseSpawner.cs" t="Include" />
               <e p="Systems" t="Include">
                 <e p="BulletShootingSystem.cs" t="Include" />
-                <e p="DebugTargetSystem.cs" t="Include" />
                 <e p="FindTargetSystem.cs" t="Include" />
                 <e p="PointAtCurrentTargetSystem.cs" t="Include" />
               </e>
@@ -37,15 +37,14 @@
             <e p="Projectile" t="Include">
               <e p="ECS" t="Include">
                 <e p="Components" t="Include">
-                  <e p="DamageComponent.cs" t="Include" />
                   <e p="DealsDamageComponent.cs" t="Include" />
                   <e p="DestroyOnContactComponent.cs" t="Include" />
-                  <e p="DestroyOnContactSystem.cs" t="Include" />
                   <e p="MoveForwardComponent.cs" t="Include" />
                   <e p="MoveSpeedComponent.cs" t="Include" />
                   <e p="TimeToLiveComponent.cs" t="Include" />
                 </e>
                 <e p="Systems" t="Include">
+                  <e p="DestroyOnContactSystem.cs" t="Include" />
                   <e p="MoveForwardSystem.cs" t="Include" />
                   <e p="TimeToLiveSystem.cs" t="Include" />
                 </e>

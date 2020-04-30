@@ -6,6 +6,7 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 
+
 namespace Unity.Transforms
 {
     [BurstCompile]
@@ -16,6 +17,7 @@ namespace Unity.Transforms
             Entities.WithAll<MoveForward>().ForEach(
                 (Entity a, ref Translation position, ref Rotation rotation, ref MoveSpeed speed) =>
                 {
+                    //Debug.Log(rotation.Value);
                     position.Value = position.Value + (Time.DeltaTime * speed.Value * math.forward(rotation.Value));
                 });
         }

@@ -7,6 +7,7 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 
+[BurstCompile]
 public class FindTargetSystem : ComponentSystem
 {
     protected override void OnUpdate()
@@ -27,7 +28,6 @@ public class FindTargetSystem : ComponentSystem
                 {
                     if (math.distance(turretPosition, targetPosition.Value) < math.distance(turretPosition, closestPosition))
                     {
-                        Debug.Log("hey2");
                         closestTarget = b;
                         closestPosition = targetPosition.Value;
                     }
@@ -36,7 +36,7 @@ public class FindTargetSystem : ComponentSystem
 
             if (closestTarget != Entity.Null)
             {
-                Debug.Log(closestTarget);
+                //Debug.Log(closestTarget);
                 PostUpdateCommands.AddComponent(a, new TowerCurrentTarget{target = closestTarget});
             }
         });

@@ -1,5 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using Unity.Burst;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
@@ -7,6 +10,7 @@ using Unity.Transforms;
 using UnityEngine;
 
 [UpdateAfter(typeof(FindTargetSystem))]
+[BurstCompile]
 public class PointAtCurrentTargetSystem : ComponentSystem
 {
     protected override void OnUpdate()
@@ -16,19 +20,30 @@ public class PointAtCurrentTargetSystem : ComponentSystem
             {
                 if (World.EntityManager.Exists(target.target))
                 {
-                    Debug.Log("hey");
                     Entity enemy = target.target;
                     Translation enemyPos = World.EntityManager.GetComponentData<Translation>(enemy);
                     if (math.distance(position.Value, enemyPos.Value) <= turretRange.Value)
                     {
-                        float3 lookAt = math.normalize(position.Value - enemyPos.Value);
-                        rotation.Value = quaternion.Euler(lookAt);
+                        float3 lookAt = math.normalize(enemyPos.Value - position.Value);
+                        quaternion newRotation = quaternion.LookRotation(lookAt, math.up());
+                        rotation.Value = quaternion.LookRotation(lookAt, math.up());
+                        rotation.Value = math.mul(rotation.Value, quaternion.RotateY(math.radians(lookAt.y)));
+                        rotation.Value = math.mul(rotation.Value, quaternion.RotateZ(math.radians(lookAt.z)));
+                    }
+                    else
+                    {
+                        UnbindTarget(e);
                     }
                 }
                 else
                 {
-                    PostUpdateCommands.RemoveComponent(e, typeof(TowerCurrentTarget));
+                    UnbindTarget(e);
                 }
             });
+    }
+
+    void UnbindTarget(Entity e)
+    {
+        PostUpdateCommands.RemoveComponent(e, typeof(TowerCurrentTarget));
     }
 }
