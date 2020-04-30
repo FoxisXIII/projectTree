@@ -11,7 +11,7 @@ namespace Systems
         protected override JobHandle OnUpdate(JobHandle inputDependencies)
         {
             float deltaTime = UnityEngine.Time.deltaTime;
-            Entities.ForEach((ref PhysicsVelocity velocity, in MovementData movementData) =>
+            Entities.WithAll<EnemyTag>().ForEach((ref PhysicsVelocity velocity, in MovementData movementData) =>
             {
                 velocity.Linear.x = movementData.directionX * movementData.speed * deltaTime;
                 velocity.Linear.y = movementData.directionY * movementData.speed * deltaTime;
