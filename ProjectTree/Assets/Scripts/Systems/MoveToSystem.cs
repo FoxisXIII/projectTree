@@ -31,8 +31,8 @@ namespace Systems
 
         {
             destination += offset;
-            var start = navMeshQuery.MapLocation(startPosition, Vector3.one * 100, 0);
-            var end = navMeshQuery.MapLocation(destination, Vector3.one * 100, 0);
+            var start = navMeshQuery.MapLocation(startPosition, Vector3.one * 10, 0);
+            var end = navMeshQuery.MapLocation(destination, Vector3.one * 10, 0);
             var status = navMeshQuery.BeginFindPath(start, end);
 
             navMeshQuery.UpdateFindPath(512, out int performed);
@@ -91,7 +91,7 @@ namespace Systems
 
                     if (n == maxStraightPath)
                     {
-                        // return ; // | PathQueryStatus.BufferTooSmall;
+                        return straightPath[0].position;
                     }
 
                     apex = polyWorldToLocal.MultiplyPoint(termPos);
@@ -113,7 +113,7 @@ namespace Systems
 
                     if (n == maxStraightPath)
                     {
-                        // return PathQueryStatus.Success; // | PathQueryStatus.BufferTooSmall;
+                        return straightPath[0].position;
                     }
 
                     apex = polyWorldToLocal.MultiplyPoint(termPos);
@@ -147,8 +147,7 @@ namespace Systems
 
             if (n == maxStraightPath)
             {
-                // straightPathCount = n;
-                // return PathQueryStatus.Success; // | PathQueryStatus.BufferTooSmall;
+                return straightPath[0].position;
             }
 
             return straightPath[0].position;
@@ -252,7 +251,7 @@ namespace Systems
                             if (Magnitude(direction) > 1)
                             {
                                 var path = FindPath(translation.Value, aiData.finalPosition, query,
-                                    aiData.positionOffset) + aiData.positionOffset;
+                                    aiData.positionOffset);
                                 aiData.position = path;
                                 aiData.changePosition = true;
                             }
