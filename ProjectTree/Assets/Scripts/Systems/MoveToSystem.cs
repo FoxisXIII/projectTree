@@ -16,14 +16,11 @@ namespace Systems
     public class MoveToSystem : JobComponentSystem
     {
         private NavMeshQuery _query;
-        // private static NativeMultiHashMap<NativeString32, float3> _positions;
-        // private static bool _hasStart;
 
         protected override void OnCreate()
         {
             base.OnCreate();
             _query = new NavMeshQuery(NavMeshWorld.GetDefaultWorld(), Allocator.Persistent, 100);
-            // _positions = new NativeMultiHashMap<NativeString32, float3>(1024, Allocator.Persistent);
         }
 
         private static float3 FindPath(float3 startPosition, float3 destination,
@@ -239,36 +236,63 @@ namespace Systems
         {
             var query = _query;
 
+            float3 playerPosition=float3.zero;
+
+            Entities
+                .ForEach(
+                    (ref Translation translation, ref PlayerTag tag) => { playerPosition = translation.Value; }).Run();
+
             Entities
                 .ForEach(
                     (ref AIData aiData, ref Translation translation, ref MovementData movementData) =>
                     {
-                        // if (aiData.state == 0)
-                        if (!aiData.changePosition)
+                        if (math.distance(translation.Value, playerPosition) >= aiData.chaseDistance)
                         {
-                            var direction = new float3(aiData.position.x - aiData.finalPosition.x, 0,
-                                aiData.position.z - aiData.finalPosition.z);
-                            if (Magnitude(direction) > 1)
+                            if (!aiData.changePosition)
                             {
-                                var path = FindPath(translation.Value, aiData.finalPosition, query,
-                                    aiData.positionOffset);
-                                aiData.position = path;
-                                aiData.changePosition = true;
+                                var direction = new float3(aiData.position.x - aiData.finalPosition.x, 0,
+                                    aiData.position.z - aiData.finalPosition.z);
+                                if (Magnitude(direction) > 1)
+                                {
+                                    var path = FindPath(translation.Value, aiData.finalPosition, query,
+                                        aiData.positionOffset);
+                                    aiData.position = path;
+                                    aiData.changePosition = true;
+                                }
+                                else
+                                {
+                                    movementData.directionX = 0;
+                                    movementData.directionY = 0;
+                                    movementData.directionZ = 0;
+                                }
                             }
                             else
+                            {
+                                var direction = new float3(aiData.position.x - translation.Value.x, 0,
+                                    aiData.position.z - translation.Value.z);
+                                var magnitude = Magnitude(direction);
+                                if (magnitude < 1)
+                                    aiData.changePosition = false;
+                                else
+                                {
+                                    direction /= magnitude;
+                                    movementData.directionX = direction.x;
+                                    movementData.directionY = 0;
+                                    movementData.directionZ = direction.z;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var direction = new float3(playerPosition.x - translation.Value.x, 0,
+                                playerPosition.z - translation.Value.z);
+                            var magnitude = Magnitude(direction);
+                            if (magnitude < 1)
                             {
                                 movementData.directionX = 0;
                                 movementData.directionY = 0;
                                 movementData.directionZ = 0;
                             }
-                        }
-                        else
-                        {
-                            var direction = new float3(aiData.position.x - translation.Value.x, 0,
-                                aiData.position.z - translation.Value.z);
-                            var magnitude = Magnitude(direction);
-                            if (magnitude < 1)
-                                aiData.changePosition = false;
                             else
                             {
                                 direction /= magnitude;

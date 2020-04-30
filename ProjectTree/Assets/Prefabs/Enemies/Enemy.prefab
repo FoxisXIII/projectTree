@@ -238,6 +238,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 0
   attackDistance: 1
+  chaseDistance: 10
+  attackTime: 0
   changePosition: 0
   position:
     x: 0

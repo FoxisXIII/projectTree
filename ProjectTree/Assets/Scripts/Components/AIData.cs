@@ -6,12 +6,17 @@ using UnityEngine;
 [GenerateAuthoringComponent]
 public struct AIData : IComponentData
 {
-    public int state;
+    [HideInInspector] public int state;
 
     public float attackDistance;
+    public float chaseDistance;
 
-    public bool changePosition;
-    public float3 position;
-    public float3 finalPosition;
-    public float3 positionOffset;
+    public int attackDamage;
+
+    [HideInInspector] public float attackTime;
+
+    [HideInInspector] public bool changePosition;
+    [HideInInspector] public float3 position;
+    [HideInInspector] public float3 finalPosition;
+    [HideInInspector] public float3 positionOffset;
 }

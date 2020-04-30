@@ -15,14 +15,12 @@ namespace Systems
     [AlwaysSynchronizeSystem]
     public class AttackSystem : JobComponentSystem
     {
-        private static void AttackSequence()
-        {
-            throw new NotImplementedException();
-        }
-    
         protected override JobHandle OnUpdate(JobHandle inputDependencies)
         {
             var basePosition = float3.zero;
+            var damage = 0;
+            var playerBase = GameController.GetInstance().Base;
+            var player = GameController.GetInstance().Player;
             Entities
                 .ForEach(
                     (ref Translation translation, ref BaseTag tag) => { basePosition = translation.Value; }).Run();
@@ -34,22 +32,16 @@ namespace Systems
                 .ForEach(
                     (ref AIData aiData, ref Translation translation, ref MovementData movementData) =>
                     {
+                        Debug.Log(math.distance(basePosition, translation.Value));
                         if (math.distance(basePosition, translation.Value) < aiData.attackDistance)
                         {
-                            AttackSequence();
+                            playerBase.ReceiveDamage(aiData.attackDamage);
                         }
-                        else
+                        else if (math.distance(playerPosition, translation.Value) < aiData.attackDistance)
                         {
+                            player.ReceiveDamage(aiData.attackDamage);
                         }
-
-                        if (math.distance(playerPosition, translation.Value) < aiData.attackDistance)
-                        {
-                            AttackSequence();
-                        }
-                        else
-                        {
-                        }
-                    }).Run();
+                    }).WithoutBurst().Run();
             return default;
         }
     }

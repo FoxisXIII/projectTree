@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +14,12 @@ public class Base : MonoBehaviour
     private int energyCreation;
     private int materialCreation;
 
-    public void receiveDamage(int damage)
+    private void Awake()
+    {
+        GameController.GetInstance().Base = this;
+    }
+
+    public void ReceiveDamage(int damage)
     {
         life -= damage;
         if(life<=0)

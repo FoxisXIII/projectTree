@@ -7,6 +7,9 @@ public class GameController
     private static GameController _instance;
 
     private int currentEnemies, maxWaveEnemies;
+    
+    private Base _base;
+    private ThirPersonCharacterController _player;
 
     private GameController()
     {
@@ -50,11 +53,24 @@ public class GameController
 
     public void gameOver()
     {
+        Debug.Log("Game Over");
     }
 
     public int CurrentEnemies
     {
         get => currentEnemies;
         set => currentEnemies = value;
+    }
+
+    public Base Base
+    {
+        get => _base;
+        set => _base = value;
+    }
+
+    public ThirPersonCharacterController Player
+    {
+        get => _player;
+        set => _player = value;
     }
 }
