@@ -36,10 +36,7 @@ public class BulletShootingSystem : ComponentSystem
                 Entity bulletEntity = EntityManager.Instantiate(bullet.prefab);
                 float3 where = position.Value;
                 where.z += 10f;
-<<<<<<< HEAD
-=======
                 //Debug.Log(where);
->>>>>>> 007177b6d02089a38ac6ba8ccb44f3cda8f1a7e1
                 //Debug.Log(rotation.Value);
                 var direction = Direction(position.Value,
                     EntityManager.GetComponentData<Translation>(tct.target).Value);
