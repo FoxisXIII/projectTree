@@ -13,4 +13,5 @@ public struct AIData : IComponentData
     public bool changePosition;
     public float3 position;
     public float3 finalPosition;
+    public float3 positionOffset;
 }
