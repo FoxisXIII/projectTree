@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using System.Xml.Serialization;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Jobs;
@@ -14,9 +15,19 @@ using UnityEngine;
 public class BulletShootingSystem : ComponentSystem
 {
     float timer;
+
+    private static float3 Direction(float3 v1, float3 v2)
+    {
+        var direction = v2 - v1;
+        var magnitude = math.sqrt(math.pow(direction.x, 2) + math.pow(direction.y, 2) + math.pow(direction.z, 2));
+        return direction / magnitude;
+    }
+
     protected override void OnUpdate()
     {
-        Entities.WithAll<TowerTag, TowerCurrentTarget>().ForEach((Entity entity, ref AttackSpeedComponent attackSpeed, ref BulletPrefabComponent bullet, ref Translation position, ref Rotation rotation
+        Entities.WithAll<TowerTag, TowerCurrentTarget>().ForEach((Entity entity, ref AttackSpeedComponent attackSpeed,
+            ref BulletPrefabComponent bullet, ref Translation position, ref Rotation rotation,
+            ref TowerCurrentTarget tct
         ) =>
         {
             timer -= Time.DeltaTime;
@@ -27,10 +38,20 @@ public class BulletShootingSystem : ComponentSystem
                 Entity bulletEntity = EntityManager.Instantiate(bullet.prefab);
                 float3 where = position.Value;
                 where.z += 10f;
-                Debug.Log(where);
                 //Debug.Log(rotation.Value);
-                EntityManager.SetComponentData(bulletEntity, new Translation{Value = position.Value});
-                EntityManager.SetComponentData(bulletEntity, new Rotation{Value = rotation.Value});
+                var direction = Direction(position.Value,
+                    EntityManager.GetComponentData<Translation>(tct.target).Value);
+                EntityManager.SetComponentData(bulletEntity, new Translation {Value = position.Value});
+
+                var movementData = EntityManager.GetComponentData<MovementData>(bulletEntity);
+
+                movementData.directionX = direction.x;
+                movementData.directionY = direction.y;
+                movementData.directionZ = direction.z;
+
+                EntityManager.SetComponentData(bulletEntity, movementData);
+
+                // EntityManager.SetComponentData(bulletEntity, new Rotation{Value = rotation.Value});
                 if (EntityManager.Exists(bulletEntity))
                 {
                     //Debug.Log("yas");
