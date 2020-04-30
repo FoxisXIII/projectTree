@@ -26,7 +26,7 @@ public class HealthSystem : JobComponentSystem
     {
         public ComponentDataFromEntity<HealthData> enemyGroup;
         //le pongo health data porque no se como se llama el que hace daño
-        public ComponentDataFromEntity<HealthData> bulletGroup;
+        [ReadOnly]public ComponentDataFromEntity<MovesForwardComponent> bulletGroup;
 
         public Entity GetEntityFromComponentGroup<T>(Entity entityA, Entity entityB,
             ComponentDataFromEntity<T> componentGroup) where T : struct, IComponentData
@@ -54,14 +54,15 @@ public class HealthSystem : JobComponentSystem
 
     protected override JobHandle OnUpdate(JobHandle inputDependencies)
     {
-        var job = new CollisionSampleJob
-        {
-            enemyGroup = GetComponentDataFromEntity<HealthData>(),
-            //le pongo health data porque no se como se llama el que hace daño
-            bulletGroup = GetComponentDataFromEntity<HealthData>()
-        };
-
-        return job.Schedule(_stepPhysicsWorldSystem.Simulation, ref _buildPhysicsWorldSystem.PhysicsWorld,
-            inputDependencies);
+        // var job = new CollisionSampleJob
+        // {
+        //     enemyGroup = GetComponentDataFromEntity<HealthData>(),
+        //     //le pongo health data porque no se como se llama el que hace daño
+        //     bulletGroup = GetComponentDataFromEntity<MovesForwardComponent>()
+        // };
+        //
+        // return job.Schedule(_stepPhysicsWorldSystem.Simulation, ref _buildPhysicsWorldSystem.PhysicsWorld,
+        //     inputDependencies);
+        return inputDependencies;
     }
 }
