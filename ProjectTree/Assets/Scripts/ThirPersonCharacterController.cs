@@ -19,7 +19,7 @@ public class ThirPersonCharacterController : MonoBehaviour
     public float VelCaida;
     
     //Salto
-    public float jumpForce=5;
+    public float jumpForce=50;
 
     //Movimiento por posicion de camara
     public Camera cam;
