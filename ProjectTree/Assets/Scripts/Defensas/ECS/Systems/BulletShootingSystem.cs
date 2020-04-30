@@ -24,23 +24,17 @@ public class BulletShootingSystem : ComponentSystem
     protected override void OnUpdate()
     {
         Entities.WithAll<TowerTag, TowerCurrentTarget>().ForEach((Entity entity, ref AttackSpeedComponent attackSpeed,
-            ref BulletPrefabComponent bullet, ref Translation position, ref Rotation rotation,
-            ref TowerCurrentTarget tct
-        ) =>
+            ref BulletPrefabComponent bullet, ref Translation position, ref Rotation rotation, ref MuzzleComponent muzzle, ref TowerCurrentTarget tct) =>
         {
             timer -= Time.DeltaTime;
-            //Debug.Log(timer);
             if (timer <= 0)
             {
-                //Debug.Log("shoot");
                 Entity bulletEntity = EntityManager.Instantiate(bullet.prefab);
+                //float3 where = EntityManager.GetComponentData<Translation>(muzzle.Value).Value;
                 float3 where = position.Value;
-                where.z += 10f;
-                //Debug.Log(where);
-                //Debug.Log(rotation.Value);
-                var direction = Direction(position.Value,
-                    EntityManager.GetComponentData<Translation>(tct.target).Value);
-                EntityManager.SetComponentData(bulletEntity, new Translation {Value = position.Value});
+                //TowerCurrentTarget tct = EntityManager.GetComponentData<TowerCurrentTarget>(entity);
+                var direction = Direction(position.Value, EntityManager.GetComponentData<Translation>(tct.target).Value);
+                EntityManager.SetComponentData(bulletEntity, new Translation {Value = where});
 
                 var movementData = EntityManager.GetComponentData<MovementData>(bulletEntity);
 
@@ -49,11 +43,9 @@ public class BulletShootingSystem : ComponentSystem
                 movementData.directionZ = direction.z;
 
                 EntityManager.SetComponentData(bulletEntity, movementData);
-
-                // EntityManager.SetComponentData(bulletEntity, new Rotation{Value = rotation.Value});
+                
                 if (EntityManager.Exists(bulletEntity))
                 {
-                    //Debug.Log("yas");
                     timer = attackSpeed.AttackSpeed;
                 }
             }
