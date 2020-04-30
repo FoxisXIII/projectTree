@@ -9,8 +9,6 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 
-[UpdateAfter(typeof(PointAtCurrentTargetSystem))]
-[BurstCompile]
 public class BulletShootingSystem : ComponentSystem
 {
     float timer;
@@ -27,7 +25,7 @@ public class BulletShootingSystem : ComponentSystem
                 Entity bulletEntity = EntityManager.Instantiate(bullet.prefab);
                 float3 where = position.Value;
                 where.z += 10f;
-                Debug.Log(where);
+                //Debug.Log(where);
                 //Debug.Log(rotation.Value);
                 EntityManager.SetComponentData(bulletEntity, new Translation{Value = position.Value});
                 EntityManager.SetComponentData(bulletEntity, new Rotation{Value = rotation.Value});
