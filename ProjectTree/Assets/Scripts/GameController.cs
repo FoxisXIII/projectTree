@@ -1,19 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController
 {
     private static GameController _instance;
 
-    private int currentEnemies, maxWaveEnemies;
-    
+    private int _currentEnemies, _maxWaveEnemies, _waveCounter;
+    private float _enemiesSpawnRate;
+
     private Base _base;
     private ThirPersonCharacterController _player;
 
     private GameController()
     {
-        initiateWave();
     }
 
     public static GameController GetInstance()
@@ -26,25 +27,28 @@ public class GameController
         return _instance;
     }
 
-    //TODO: Add the wavenumber/intensity of enemies/something?
-    public void initiateWave()
+    public void startWave()
     {
-        currentEnemies = 0;
+        if (_waveCounter > 1)
+            _maxWaveEnemies *= 2;
+        _enemiesSpawnRate /= 1.25f;
+        _waveCounter++;
     }
 
     public void endWave()
     {
+        _currentEnemies = 0;
     }
 
     public void AddEnemyWave()
     {
-        currentEnemies++;
+        _currentEnemies++;
         // Debug.Log(currentEnemies);
     }
 
     public void RemoveEnemyWave()
     {
-        currentEnemies--;
+        _currentEnemies--;
     }
 
     public void pauseGame()
@@ -53,13 +57,25 @@ public class GameController
 
     public void gameOver()
     {
-        Debug.Log("Game Over");
+        SceneManager.LoadScene("Game Over");
     }
 
     public int CurrentEnemies
     {
-        get => currentEnemies;
-        set => currentEnemies = value;
+        get => _currentEnemies;
+        set => _currentEnemies = value;
+    }
+
+    public int MaxWaveEnemies
+    {
+        get => _maxWaveEnemies;
+        set => _maxWaveEnemies = value;
+    }
+
+    public float EnemiesSpawnRate
+    {
+        get => _enemiesSpawnRate;
+        set => _enemiesSpawnRate = value;
     }
 
     public Base Base

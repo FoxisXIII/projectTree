@@ -213,20 +213,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9ffa91e948da9f44884cf306158a290, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawners:
-  - {fileID: 500350973}
-  - {fileID: 1870684434}
-  - {fileID: 1019720509}
+  northSpawners:
+  - {fileID: 1137079216}
+  - {fileID: 945161823}
+  - {fileID: 1525728649}
+  southSpawners:
+  - {fileID: 721542142}
+  - {fileID: 1420413832}
+  - {fileID: 537436486}
+  eastSpawners:
   - {fileID: 1104351402}
   - {fileID: 1805712880}
   - {fileID: 124225085}
   - {fileID: 1525589354}
-  - {fileID: 1137079216}
-  - {fileID: 945161823}
-  - {fileID: 1525728649}
-  - {fileID: 721542142}
-  - {fileID: 1420413832}
-  - {fileID: 537436486}
+  westSpawners:
+  - {fileID: 1870684434}
+  - {fileID: 500350973}
+  - {fileID: 1019720509}
+  waveCooldown: 1
+  enemySpawnRate: 0.1
 --- !u!114 &1104351402 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8714655531346463649, guid: 8de2162f7e7e85f46900777feda8c73a,
@@ -257,7 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 448531419ea40e5448463e9190d30161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 100
+  life: 500
 --- !u!114 &1137079216 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8763381695214651645, guid: 8de2162f7e7e85f46900777feda8c73a,
