@@ -6,5 +6,5 @@ using UnityEngine;
 [GenerateAuthoringComponent]
 public struct MuzzleComponent : IComponentData
 {
-   //public Transform transform;
+   public Entity Value;
 }
