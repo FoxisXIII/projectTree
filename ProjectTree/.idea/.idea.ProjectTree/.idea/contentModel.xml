@@ -22,6 +22,7 @@
               <e p="Components" t="Include">
                 <e p="AttackSpeedComponent.cs" t="Include" />
                 <e p="BulletPrefabComponent.cs" t="Include" />
+                <e p="EnemiesInRangeComponent.cs" t="Include" />
                 <e p="MuzzleComponent.cs" t="Include" />
                 <e p="RangeComponent.cs" t="Include" />
                 <e p="TowerCurrentTargetComponent.cs" t="Include" />
@@ -31,6 +32,7 @@
               <e p="Systems" t="Include">
                 <e p="BulletShootingSystem.cs" t="Include" />
                 <e p="FindTargetSystem.cs" t="Include" />
+                <e p="GetClosestEnemySystem.cs" t="Include" />
                 <e p="PointAtCurrentTargetSystem.cs" t="Include" />
               </e>
             </e>
