@@ -13,15 +13,20 @@ public class TeleportManager : MonoBehaviour
     private GameObject tpDestination;
     public void teleport()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         canvasMenu.SetActive(true);
-        tpElection();
-        player.transform.position = tpDestination.transform.position;
-        canvasMenu.SetActive(false);
+
     }
 
-    private void tpElection()
+    public void tpElected(GameObject election)
     {
-        
-        //tpDestination= whereClicked();
+        tpDestination = election;
+        player.GetComponent<CharacterController>().enabled = false;
+        player.transform.position = tpDestination.transform.position;
+        player.GetComponent<CharacterController>().enabled = true;
+        canvasMenu.SetActive(false);
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 }

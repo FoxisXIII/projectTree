@@ -21,10 +21,8 @@ public class Teleporter : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        print(other.name);
-        if (other.CompareTag("Teleporter") && Input.GetKeyDown(KeyCode.T))
+        if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.T))
         {
-            print("Teleporting");
             TPManager.teleport();
         }
     }
