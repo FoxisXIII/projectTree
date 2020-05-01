@@ -152,7 +152,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3605885318596676744}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.4015317, y: 3.0482683, z: -0.8575716}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3605885318992382904}
@@ -192,12 +192,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 8
   characterController: {fileID: 3605885318596676746}
-  gravedad: 9.8
+  gravity: 9.8
   VelCaida: 0
   jumpForce: 5
   cam: {fileID: 3605885318740559965}
-  Bullet: {fileID: 6069578650622262789, guid: b972d5ce86c4da74c86b8a7df8911c48, type: 3}
+  Bullet: {fileID: 5137244523718503177, guid: c260176a97a79d14c814ee4055b7f849, type: 3}
   LocFire: {fileID: 1119487954}
+  fireRate: 0
+  useECS: 0
+  life: 0
 --- !u!1 &3605885318740559963
 GameObject:
   m_ObjectHideFlags: 0

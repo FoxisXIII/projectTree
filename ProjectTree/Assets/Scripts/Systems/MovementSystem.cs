@@ -14,6 +14,7 @@ namespace Systems
             Entities.ForEach((ref PhysicsVelocity velocity, in MovementData movementData) =>
             {
                 velocity.Linear.x = movementData.directionX * movementData.speed * deltaTime;
+                velocity.Linear.y = movementData.directionY * movementData.speed * deltaTime;
                 velocity.Linear.z = movementData.directionZ * movementData.speed * deltaTime;
 
                 velocity.Angular.x = 0;

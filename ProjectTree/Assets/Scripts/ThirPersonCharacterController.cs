@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Entities;
+using Unity.Transforms;
 using UnityEngine;
 
 public class ThirPersonCharacterController : MonoBehaviour
@@ -14,12 +16,12 @@ public class ThirPersonCharacterController : MonoBehaviour
     private Vector3 playerinput;
     private Vector3 movPlayer;
     
-    //GraBedad
-    public float gravedad = 9.8f;
+    //Gravedad
+    public float gravity = 9.8f;
     public float VelCaida;
     
     //Salto
-    public float jumpForce=5;
+    public float jumpForce=50;
 
     //Movimiento por posicion de camara
     public Camera cam;
@@ -29,21 +31,52 @@ public class ThirPersonCharacterController : MonoBehaviour
     //Disparo
     public GameObject Bullet;
     public GameObject LocFire;
+    [Range(0,1)]
+    public float fireRate;
+    private float timer;
     
+    //ECS
+    public bool useECS = false;
+    private EntityManager manager;
+    private Entity bulletEntityPrefab;
+    private BlobAssetStore blob;
     
+    //Life
+    public int life;
 
+
+    private void Awake()
+    {
+        GameController.GetInstance().Player = this;
+    }
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (useECS)
+        {
+            manager = World.DefaultGameObjectInjectionWorld.EntityManager;
+            blob = new BlobAssetStore();
+            bulletEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(Bullet,
+                GameObjectConversionSettings.FromWorld(manager.World, blob));
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        timer += Time.deltaTime;
+        if (Input.GetMouseButton(0) && timer >= fireRate)
         {
-            Shoot();
+            if (useECS)
+            {
+                ShootECS();
+            }
+            else
+            {
+                Shoot();
+            }
+
+            timer = 0f;
         }
         
         
@@ -59,8 +92,8 @@ public class ThirPersonCharacterController : MonoBehaviour
 
         movPlayer = movPlayer * Speed;
         
-        setGrabedad();
-        Salto();       
+        setGravity();
+        Jump();       
         
     }
 
@@ -82,21 +115,21 @@ public class ThirPersonCharacterController : MonoBehaviour
     }
 
 
-    void setGrabedad()
+    void setGravity()
     {
         if (characterController.isGrounded)
         {
-            VelCaida = -gravedad * Time.deltaTime;
+            VelCaida = -gravity * Time.deltaTime;
             movPlayer.y = VelCaida;
         }
         else
         {
-            VelCaida -= gravedad * Time.deltaTime;
+            VelCaida -= gravity * Time.deltaTime;
             movPlayer.y = VelCaida;
         }
     }
 
-    void Salto()
+    void Jump()
     {
         if (characterController.isGrounded&& Input.GetButtonDown("Jump"))
         {
@@ -114,4 +147,25 @@ public class ThirPersonCharacterController : MonoBehaviour
         bulletShot.transform.rotation = transform.rotation;
     }
     
+    void ShootECS()
+    {
+        Entity bullet = manager.Instantiate(bulletEntityPrefab);
+        
+        manager.SetComponentData(bullet, new Translation{Value = LocFire.transform.position});
+        manager.SetComponentData(bullet, new Rotation{Value = LocFire.transform.rotation});
+        manager.AddComponent(bullet, typeof(MovesForwardComponent));
+    }
+    
+    
+    public void ReceiveDamage(int damage)
+    {
+        life -= damage;
+        if(life<=0)
+            GameController.GetInstance().gameOver();
+    }
+
+    private void OnDestroy()
+    {
+        blob.Dispose();
+    }
 }

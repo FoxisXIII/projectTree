@@ -9,6 +9,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.XR.WSA;
+using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class EnemySpawner : MonoBehaviour
     private Entity _enemyEntityPrefab;
     private float time;
     private BlobAssetStore blobAssetStore;
+    public float2 spawnMin;
+    public float2 spawnMax;
     public float3 finalPosition;
 
     // Start is called before the first frame update
@@ -28,28 +31,36 @@ public class EnemySpawner : MonoBehaviour
             GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, blobAssetStore));
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (time > 1)
-        // if (Input.GetKeyDown(KeyCode.F))
-            SpawnEnemy();
-        time += Time.deltaTime;
-    }
 
-    private void SpawnEnemy()
+    public void SpawnEnemy()
     {
-        time = 0;
         Entity enemy = _entityManager.Instantiate(_enemyEntityPrefab);
 
         var position = transform.position;
+        if (spawnMin.y == spawnMax.y)
+            position.x = Random.Range(spawnMin.x, spawnMax.x);
+        if (spawnMin.x == spawnMax.x)
+            position.z = Random.Range(spawnMin.y, spawnMax.y);
+
         _entityManager.SetComponentData(enemy, new Translation() {Value = position});
         _entityManager.SetComponentData(enemy, new Rotation() {Value = Quaternion.identity});
-        _entityManager.SetComponentData(enemy, new AIData()
-        {
-            state = 0,
-            finalPosition = finalPosition,
-        });
+        var aiData = _entityManager.GetComponentData<AIData>(enemy);
+        aiData.state = 0;
+        aiData.positionOffset = (transform.position - position) / 2;
+        aiData.finalPosition = finalPosition;
+        aiData.canAttackPlayer = Random.Range(0f, 1f) > .75f;
+        _entityManager.SetComponentData(enemy, aiData);
+
+        GameController.GetInstance().AddEnemyWave();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position, new Vector3(spawnMin.x, 0, spawnMin.y));
+        Gizmos.DrawLine(transform.position, new Vector3(spawnMax.x, 0, spawnMax.y));
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(finalPosition, 1f);
     }
 
     private void OnApplicationQuit()
