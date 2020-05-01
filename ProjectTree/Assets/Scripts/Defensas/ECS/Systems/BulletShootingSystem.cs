@@ -13,7 +13,6 @@ using UnityEngine;
 public class BulletShootingSystem : ComponentSystem
 {
     float timer;
-    public EntityCommandBuffer.Concurrent ecb;
 
     private static float3 Direction(float3 v1, float3 v2)
     {
@@ -31,7 +30,6 @@ public class BulletShootingSystem : ComponentSystem
             if (timer <= 0)
             {
                 Entity bulletEntity = EntityManager.Instantiate(bullet.prefab);
-                //Debug.Log(rotation.Value);
                 var enemyPos=EntityManager.GetComponentData<Translation>(tct.target).Value;
                 enemyPos.y += 1f;
                 var direction = Direction(position.Value,
@@ -46,7 +44,6 @@ public class BulletShootingSystem : ComponentSystem
                 movementData.directionZ = direction.z;
                 
                 EntityManager.SetComponentData(bulletEntity, movementData);
-                //EntityManager.SetComponentData(bulletEntity, new Rotation {Value = rotation.Value});
 
                 if (EntityManager.Exists(bulletEntity))
                 {
