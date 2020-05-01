@@ -40,6 +40,7 @@ public class BulletShootingSystem : ComponentSystem
                 //Debug.Log(rotation.Value);
                 var direction = Direction(position.Value,
                     EntityManager.GetComponentData<Translation>(tct.target).Value);
+                
                 EntityManager.SetComponentData(bulletEntity, new Translation {Value = position.Value});
 
                 var movementData = EntityManager.GetComponentData<MovementData>(bulletEntity);
