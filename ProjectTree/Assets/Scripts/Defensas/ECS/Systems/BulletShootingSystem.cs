@@ -34,7 +34,6 @@ public class BulletShootingSystem : ComponentSystem
                 //float3 where = EntityManager.GetComponentData<Translation>(muzzle.Value).Value;
                 //TowerCurrentTarget tct = EntityManager.GetComponentData<TowerCurrentTarget>(entity);
                 float3 where = position.Value;
-<<<<<<< HEAD
                 where.z += 10f;
                 //Debug.Log(rotation.Value);
                 var enemyPos=EntityManager.GetComponentData<Translation>(tct.target).Value;
@@ -43,12 +42,7 @@ public class BulletShootingSystem : ComponentSystem
                     enemyPos);
                 
                 EntityManager.SetComponentData(bulletEntity, new Translation {Value = position.Value});
-
-=======
-                var direction = Direction(position.Value, EntityManager.GetComponentData<Translation>(tct.target).Value);
-                EntityManager.SetComponentData(bulletEntity, new Translation {Value = where});
                 
->>>>>>> 669001e345a547dc0b93cfcccd1b621452651dde
                 var movementData = EntityManager.GetComponentData<MovementData>(bulletEntity);
                 
                 movementData.directionX = direction.x;
