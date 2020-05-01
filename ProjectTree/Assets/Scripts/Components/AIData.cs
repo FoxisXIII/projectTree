@@ -12,6 +12,7 @@ public struct AIData : IComponentData
     public float chaseDistance;
 
     public int attackDamage;
+    public float attackRate;
 
     [HideInInspector] public float attackTime;
 

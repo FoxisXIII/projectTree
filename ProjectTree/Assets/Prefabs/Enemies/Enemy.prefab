@@ -237,8 +237,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  attackDistance: 1
-  chaseDistance: 10
+  attackDistance: 1.5
+  chaseDistance: 25
+  attackDamage: 1
   attackTime: 0
   changePosition: 0
   position:

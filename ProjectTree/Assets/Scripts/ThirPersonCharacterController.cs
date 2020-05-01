@@ -122,6 +122,7 @@ public class ThirPersonCharacterController : MonoBehaviour
 
     public void ReceiveDamage(int damage)
     {
+        print("Hola");
         life -= damage;
         if(life<=0)
             GameController.GetInstance().gameOver();

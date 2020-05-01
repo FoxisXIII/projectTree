@@ -236,11 +236,7 @@ namespace Systems
         {
             var query = _query;
 
-            float3 playerPosition=float3.zero;
-
-            Entities
-                .ForEach(
-                    (ref Translation translation, ref PlayerTag tag) => { playerPosition = translation.Value; }).Run();
+            float3 playerPosition = GameController.GetInstance().Player.transform.position;
 
             Entities
                 .ForEach(

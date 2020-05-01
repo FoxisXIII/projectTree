@@ -17,22 +17,18 @@ namespace Systems
     {
         protected override JobHandle OnUpdate(JobHandle inputDependencies)
         {
-            var basePosition = float3.zero;
-            var damage = 0;
+
+            var deltaTime = Time.DeltaTime;
             var playerBase = GameController.GetInstance().Base;
             var player = GameController.GetInstance().Player;
-            Entities
-                .ForEach(
-                    (ref Translation translation, ref BaseTag tag) => { basePosition = translation.Value; }).Run();
-            var playerPosition = float3.zero;
-            Entities
-                .ForEach(
-                    (ref Translation translation, ref PlayerTag tag) => { playerPosition = translation.Value; }).Run();
+            var playerPosition = player.transform.position;
+            var basePosition = playerBase.transform.position;
             Entities
                 .ForEach(
                     (ref AIData aiData, ref Translation translation, ref MovementData movementData) =>
                     {
-                        Debug.Log(math.distance(basePosition, translation.Value));
+                        var distance = math.distance(playerPosition, translation.Value);
+                        Debug.Log(distance);
                         if (math.distance(basePosition, translation.Value) < aiData.attackDistance)
                         {
                             playerBase.ReceiveDamage(aiData.attackDamage);
