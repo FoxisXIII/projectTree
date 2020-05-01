@@ -26,7 +26,7 @@ public class EnemySpawnerController : MonoBehaviour
 
     public void SpawnEnemy()
     {
-        if (GameController.GetInstance().CurrentEnemies < 1500)
+        // if (GameController.GetInstance().CurrentEnemies < 1500)
             _spawners[Random.Range(0, _spawners.Length)].SpawnEnemy();
     }
 

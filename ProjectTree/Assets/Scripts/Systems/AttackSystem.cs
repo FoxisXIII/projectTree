@@ -17,25 +17,33 @@ namespace Systems
     {
         protected override JobHandle OnUpdate(JobHandle inputDependencies)
         {
-
             var deltaTime = Time.DeltaTime;
             var playerBase = GameController.GetInstance().Base;
             var player = GameController.GetInstance().Player;
             var playerPosition = player.transform.position;
-            var basePosition = playerBase.transform.position;
             Entities
                 .ForEach(
                     (ref AIData aiData, ref Translation translation, ref MovementData movementData) =>
                     {
-                        var distance = math.distance(playerPosition, translation.Value);
-                        Debug.Log(distance);
-                        if (math.distance(basePosition, translation.Value) < aiData.attackDistance)
+                        if (math.distance(aiData.finalPosition, translation.Value) < aiData.attackDistanceBase)
                         {
-                            playerBase.ReceiveDamage(aiData.attackDamage);
+                            if (aiData.attackWait >= aiData.attackRate)
+                            {
+                                playerBase.ReceiveDamage(aiData.attackDamage);
+                                aiData.attackWait = 0;
+                            }
+
+                            aiData.attackWait += deltaTime;
                         }
-                        else if (math.distance(playerPosition, translation.Value) < aiData.attackDistance)
+                        else if (math.distance(playerPosition, translation.Value) < aiData.attackDistancePlayer)
                         {
-                            player.ReceiveDamage(aiData.attackDamage);
+                            if (aiData.attackWait >= aiData.attackRate)
+                            {
+                                player.ReceiveDamage(aiData.attackDamage);
+                                aiData.attackWait = 0;
+                            }
+
+                            aiData.attackWait += deltaTime;
                         }
                     }).WithoutBurst().Run();
             return default;

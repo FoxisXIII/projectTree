@@ -246,9 +246,9 @@ namespace Systems
                         {
                             if (!aiData.changePosition)
                             {
-                                var direction = new float3(aiData.position.x - aiData.finalPosition.x, 0,
-                                    aiData.position.z - aiData.finalPosition.z);
-                                if (Magnitude(direction) > 1)
+                                var direction = new float3(translation.Value.x - aiData.finalPosition.x, 0,
+                                    translation.Value.z - aiData.finalPosition.z);
+                                if (Magnitude(direction) > 5)
                                 {
                                     var path = FindPath(translation.Value, aiData.finalPosition, query,
                                         aiData.positionOffset);
@@ -278,7 +278,7 @@ namespace Systems
                                 }
                             }
                         }
-                        else
+                        else if(aiData.canAttackPlayer)
                         {
                             var direction = new float3(playerPosition.x - translation.Value.x, 0,
                                 playerPosition.z - translation.Value.z);
