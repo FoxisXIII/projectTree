@@ -16,7 +16,8 @@ public class PointAtCurrentTargetSystem : ComponentSystem
     protected override void OnUpdate()
     {
         Entities.WithAll<TowerTag>().ForEach(
-            (Entity e, ref TowerCurrentTarget target, ref Rotation rotation, ref Translation position, ref RangeComponent turretRange) =>
+            (Entity e, ref TowerCurrentTarget target, ref Rotation rotation, ref Translation position,
+                ref RangeComponent turretRange) =>
             {
                 if (World.EntityManager.Exists(target.target))
                 {
@@ -24,6 +25,7 @@ public class PointAtCurrentTargetSystem : ComponentSystem
                     Translation enemyPos = World.EntityManager.GetComponentData<Translation>(enemy);
                     if (math.distance(position.Value, enemyPos.Value) <= turretRange.Value)
                     {
+                        enemyPos.Value.y += .5f;
                         float3 lookAt = math.normalize(enemyPos.Value - position.Value);
                         quaternion newRotation = quaternion.LookRotation(lookAt, math.up());
                         rotation.Value = quaternion.LookRotation(lookAt, math.up());

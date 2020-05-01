@@ -25,11 +25,11 @@ public class DestroyOnContactSystem : JobComponentSystem
         var destroyGroup = GetComponentDataFromEntity<DestroyOnContact>(true);
         var ecb = ecbSystem.CreateCommandBuffer();
 
-        var destroyTriggerJob = new DestroyTriggerJob
-        {
-            ecb = ecb,
-            destroyGroup = destroyGroup
-        };
+        // var destroyTriggerJob = new DestroyTriggerJob
+        // {
+        //     ecb = ecb,
+        //     destroyGroup = destroyGroup
+        // };
 
         var destroyCollisionJob = new DestroyCollisionJob
         {
@@ -37,32 +37,32 @@ public class DestroyOnContactSystem : JobComponentSystem
             destroyGroup = destroyGroup
         };
 
-        destroyTriggerJob.Schedule(_stepPhysicsWorld.Simulation, ref _buildPhysicsWorld.PhysicsWorld, inputDeps).Complete();
+        // destroyTriggerJob.Schedule(_stepPhysicsWorld.Simulation, ref _buildPhysicsWorld.PhysicsWorld, inputDeps).Complete();
         destroyCollisionJob.Schedule(_stepPhysicsWorld.Simulation, ref _buildPhysicsWorld.PhysicsWorld, inputDeps).Complete();
 
         return inputDeps;
     }
 
-    private struct DestroyTriggerJob : ITriggerEventsJob
-    {
-        public EntityCommandBuffer ecb;
-        [ReadOnly] public ComponentDataFromEntity<DestroyOnContact> destroyGroup;
-        
-        public void Execute(TriggerEvent triggerEvent)
-        {
-            if (destroyGroup.HasComponent(triggerEvent.Entities.EntityA))
-            {
-                ecb.DestroyEntity(triggerEvent.Entities.EntityA);
-                Debug.Log("oooh");
-            }
-            if (destroyGroup.HasComponent(triggerEvent.Entities.EntityB))
-            {
-                ecb.DestroyEntity(triggerEvent.Entities.EntityB);
-                Debug.Log("oooh");
-            }
-            
-        }
-    }
+    // private struct DestroyTriggerJob : ITriggerEventsJob
+    // {
+    //     public EntityCommandBuffer ecb;
+    //     [ReadOnly] public ComponentDataFromEntity<DestroyOnContact> destroyGroup;
+    //     
+    //     public void Execute(TriggerEvent triggerEvent)
+    //     {
+    //         if (destroyGroup.HasComponent(triggerEvent.Entities.EntityA))
+    //         {
+    //             Debug.Log("A");
+    //             ecb.DestroyEntity(triggerEvent.Entities.EntityA);
+    //         }
+    //         if (destroyGroup.HasComponent(triggerEvent.Entities.EntityB))
+    //         {
+    //             ecb.DestroyEntity(triggerEvent.Entities.EntityB);
+    //             Debug.Log("B");
+    //         }
+    //         
+    //     }
+    // }
     
     private struct DestroyCollisionJob : ICollisionEventsJob
     {
@@ -74,12 +74,10 @@ public class DestroyOnContactSystem : JobComponentSystem
             if (destroyGroup.HasComponent(collisionEvent.Entities.EntityA))
             {
                 ecb.DestroyEntity(collisionEvent.Entities.EntityA);
-                Debug.Log("oooh");
             }
             if (destroyGroup.HasComponent(collisionEvent.Entities.EntityB))
             {
                 ecb.DestroyEntity(collisionEvent.Entities.EntityB);
-                Debug.Log("oooh");
             }
         }
     }
