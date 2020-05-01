@@ -15,41 +15,37 @@ namespace Systems
     [AlwaysSynchronizeSystem]
     public class AttackSystem : JobComponentSystem
     {
-        private static void AttackSequence()
-        {
-            throw new NotImplementedException();
-        }
-    
         protected override JobHandle OnUpdate(JobHandle inputDependencies)
         {
-            var basePosition = float3.zero;
-            Entities
-                .ForEach(
-                    (ref Translation translation, ref BaseTag tag) => { basePosition = translation.Value; }).Run();
-            var playerPosition = float3.zero;
-            Entities
-                .ForEach(
-                    (ref Translation translation, ref PlayerTag tag) => { playerPosition = translation.Value; }).Run();
+            var deltaTime = Time.DeltaTime;
+            var playerBase = GameController.GetInstance().Base;
+            var player = GameController.GetInstance().Player;
+            var playerPosition = player.transform.position;
             Entities
                 .ForEach(
                     (ref AIData aiData, ref Translation translation, ref MovementData movementData) =>
                     {
-                        if (math.distance(basePosition, translation.Value) < aiData.attackDistance)
+                        if (math.distance(aiData.finalPosition, translation.Value) < aiData.attackDistanceBase)
                         {
-                            AttackSequence();
-                        }
-                        else
-                        {
-                        }
+                            if (aiData.attackWait >= aiData.attackRate)
+                            {
+                                playerBase.ReceiveDamage(aiData.attackDamage);
+                                aiData.attackWait = 0;
+                            }
 
-                        if (math.distance(playerPosition, translation.Value) < aiData.attackDistance)
-                        {
-                            AttackSequence();
+                            aiData.attackWait += deltaTime;
                         }
-                        else
+                        else if (math.distance(playerPosition, translation.Value) < aiData.attackDistancePlayer)
                         {
+                            if (aiData.attackWait >= aiData.attackRate)
+                            {
+                                player.ReceiveDamage(aiData.attackDamage);
+                                aiData.attackWait = 0;
+                            }
+
+                            aiData.attackWait += deltaTime;
                         }
-                    }).Run();
+                    }).WithoutBurst().Run();
             return default;
         }
     }

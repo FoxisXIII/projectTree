@@ -16,8 +16,8 @@ public class ThirPersonCharacterController : MonoBehaviour
     private Vector3 playerinput;
     private Vector3 movPlayer;
     
-    //GraBedad
-    public float gravedad = 9.8f;
+    //Gravedad
+    public float gravity = 9.8f;
     public float VelCaida;
     
     //Salto
@@ -41,8 +41,14 @@ public class ThirPersonCharacterController : MonoBehaviour
     private Entity bulletEntityPrefab;
     private BlobAssetStore blob;
     
-    
+    //Life
+    public int life;
 
+
+    private void Awake()
+    {
+        GameController.GetInstance().Player = this;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -86,8 +92,8 @@ public class ThirPersonCharacterController : MonoBehaviour
 
         movPlayer = movPlayer * Speed;
         
-        setGrabedad();
-        Salto();       
+        setGravity();
+        Jump();       
         
     }
 
@@ -109,21 +115,21 @@ public class ThirPersonCharacterController : MonoBehaviour
     }
 
 
-    void setGrabedad()
+    void setGravity()
     {
         if (characterController.isGrounded)
         {
-            VelCaida = -gravedad * Time.deltaTime;
+            VelCaida = -gravity * Time.deltaTime;
             movPlayer.y = VelCaida;
         }
         else
         {
-            VelCaida -= gravedad * Time.deltaTime;
+            VelCaida -= gravity * Time.deltaTime;
             movPlayer.y = VelCaida;
         }
     }
 
-    void Salto()
+    void Jump()
     {
         if (characterController.isGrounded&& Input.GetButtonDown("Jump"))
         {
@@ -140,13 +146,21 @@ public class ThirPersonCharacterController : MonoBehaviour
         bulletShot.GetComponent<Rigidbody>().velocity=transform.forward*20;
         bulletShot.transform.rotation = transform.rotation;
     }
-
+    
     void ShootECS()
     {
         Entity bullet = manager.Instantiate(bulletEntityPrefab);
         
         manager.SetComponentData(bullet, new Translation{Value = LocFire.transform.position});
         manager.SetComponentData(bullet, new Rotation{Value = transform.rotation});
+    }
+    
+    
+    public void ReceiveDamage(int damage)
+    {
+        life -= damage;
+        if(life<=0)
+            GameController.GetInstance().gameOver();
     }
 
     private void OnDestroy()
