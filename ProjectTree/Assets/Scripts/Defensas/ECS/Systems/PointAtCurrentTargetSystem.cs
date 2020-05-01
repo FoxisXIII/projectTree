@@ -25,7 +25,7 @@ public class PointAtCurrentTargetSystem : ComponentSystem
                     Translation enemyPos = World.EntityManager.GetComponentData<Translation>(enemy);
                     if (math.distance(position.Value, enemyPos.Value) <= turretRange.Value)
                     {
-                        enemyPos.Value.y += .5f;
+                        enemyPos.Value.y += 1f;
                         float3 lookAt = math.normalize(enemyPos.Value - position.Value);
                         quaternion newRotation = quaternion.LookRotation(lookAt, math.up());
                         rotation.Value = quaternion.LookRotation(lookAt, math.up());
