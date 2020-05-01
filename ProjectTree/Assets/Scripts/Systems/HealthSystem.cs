@@ -25,8 +25,7 @@ public class HealthSystem : JobComponentSystem
     struct CollisionSampleJob : ICollisionEventsJob
     {
         public ComponentDataFromEntity<HealthData> enemyGroup;
-        //le pongo health data porque no se como se llama el que hace daño
-        [ReadOnly]public ComponentDataFromEntity<MovesForwardComponent> bulletGroup;
+        [ReadOnly]public ComponentDataFromEntity<DealsDamage> bulletGroup;
 
         public Entity GetEntityFromComponentGroup<T>(Entity entityA, Entity entityB,
             ComponentDataFromEntity<T> componentGroup) where T : struct, IComponentData
@@ -47,22 +46,27 @@ public class HealthSystem : JobComponentSystem
             var bulletEntity = GetEntityFromComponentGroup(entityA, entityB, bulletGroup);
             if (enemyEntity != Entity.Null && bulletEntity != Entity.Null)
             {
-                // COLLISION
+                var enemy = enemyGroup[enemyEntity];
             }
         }
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDependencies)
     {
-        // var job = new CollisionSampleJob
-        // {
-        //     enemyGroup = GetComponentDataFromEntity<HealthData>(),
-        //     //le pongo health data porque no se como se llama el que hace daño
-        //     bulletGroup = GetComponentDataFromEntity<MovesForwardComponent>()
-        // };
-        //
-        // return job.Schedule(_stepPhysicsWorldSystem.Simulation, ref _buildPhysicsWorldSystem.PhysicsWorld,
-        //     inputDependencies);
-        return inputDependencies;
+        var job = new CollisionSampleJob
+        {
+            enemyGroup = GetComponentDataFromEntity<HealthData>(),
+            bulletGroup = GetComponentDataFromEntity<DealsDamage>()
+        };
+
+        return job.Schedule(_stepPhysicsWorldSystem.Simulation, ref _buildPhysicsWorldSystem.PhysicsWorld, inputDependencies);
+    }
+    
+    static bool CheckCollision(float3 posA, float3 posB, float radiusSqr)
+    {
+        float3 delta = posA - posB;
+        float distanceSquare = delta.x * delta.x + delta.z * delta.z;
+
+        return distanceSquare <= radiusSqr;
     }
 }
