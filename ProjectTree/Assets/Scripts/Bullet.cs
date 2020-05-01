@@ -2,9 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Unity.Entities;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviour, IConvertGameObjectToEntity
 {
 
     public float lifetime;
@@ -35,5 +36,11 @@ public class Bullet : MonoBehaviour
     void LifePass()
     {
         Destroy(gameObject);
+    }
+
+    public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
+    {
+        dstManager.AddComponent(entity, typeof(MovesForwardComponent));
+        dstManager.AddComponentData(entity, new SpeedComponent {Value = speed});
     }
 }

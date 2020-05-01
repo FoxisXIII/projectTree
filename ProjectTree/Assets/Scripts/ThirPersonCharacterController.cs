@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Entities;
+using Unity.Transforms;
 using UnityEngine;
 
 public class ThirPersonCharacterController : MonoBehaviour
@@ -29,21 +31,46 @@ public class ThirPersonCharacterController : MonoBehaviour
     //Disparo
     public GameObject Bullet;
     public GameObject LocFire;
+    [Range(0,1)]
+    public float fireRate;
+    private float timer;
+    
+    //ECS
+    public bool useECS = false;
+    private EntityManager manager;
+    private Entity bulletEntityPrefab;
+    private BlobAssetStore blob;
     
     
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (useECS)
+        {
+            manager = World.DefaultGameObjectInjectionWorld.EntityManager;
+            blob = new BlobAssetStore();
+            bulletEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(Bullet,
+                GameObjectConversionSettings.FromWorld(manager.World, blob));
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        timer += Time.deltaTime;
+        if (Input.GetMouseButton(0) && timer >= fireRate)
         {
-            Shoot();
+            if (useECS)
+            {
+                ShootECS();
+            }
+            else
+            {
+                Shoot();
+            }
+
+            timer = 0f;
         }
         
         
@@ -113,5 +140,17 @@ public class ThirPersonCharacterController : MonoBehaviour
         bulletShot.GetComponent<Rigidbody>().velocity=transform.forward*20;
         bulletShot.transform.rotation = transform.rotation;
     }
-    
+
+    void ShootECS()
+    {
+        Entity bullet = manager.Instantiate(bulletEntityPrefab);
+        
+        manager.SetComponentData(bullet, new Translation{Value = LocFire.transform.position});
+        manager.SetComponentData(bullet, new Rotation{Value = transform.rotation});
+    }
+
+    private void OnDestroy()
+    {
+        blob.Dispose();
+    }
 }
