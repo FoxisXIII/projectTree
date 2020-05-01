@@ -10,7 +10,7 @@ public class MoveBulletSys : JobComponentSystem
 {
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        Entities.WithoutBurst().WithAll<MovesForwardComponent>().ForEach((Entity e, ref Translation position, in Rotation rotation, in SpeedComponent speed) =>
+        Entities.WithoutBurst().WithAll<MovesForwardComponent>().ForEach((Entity e, ref Translation position, in Rotation rotation, in MoveSpeed speed) =>
         {
             position.Value += Time.DeltaTime * speed.Value * math.forward(rotation.Value);
         }).Run();
