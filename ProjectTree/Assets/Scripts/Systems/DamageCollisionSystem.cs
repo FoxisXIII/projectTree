@@ -25,8 +25,7 @@ public class DamageCollisionSystem : JobComponentSystem
         var damageCollisionjob = new DamageCollisionJob
         {
             damageGroup = GetBufferFromEntity<Damage>(),
-            dealDamageGroup = GetComponentDataFromEntity<DealsDamage>(true),
-            deadGroup = GetComponentDataFromEntity<Dead>(true)
+            dealDamageGroup = GetComponentDataFromEntity<DealsDamage>(true)
         };
         
         damageCollisionjob.Schedule(_stepPhysicsWorld.Simulation, ref _buildPhysicsWorld.PhysicsWorld, inputDeps).Complete();
@@ -38,7 +37,6 @@ public class DamageCollisionSystem : JobComponentSystem
     {
         public BufferFromEntity<Damage> damageGroup;
         [ReadOnly] public ComponentDataFromEntity<DealsDamage> dealDamageGroup;
-        [ReadOnly] public ComponentDataFromEntity<Dead> deadGroup;
         
         public void Execute(CollisionEvent collisionEvent)
         {
@@ -46,13 +44,10 @@ public class DamageCollisionSystem : JobComponentSystem
             {
                 if (damageGroup.Exists(collisionEvent.Entities.EntityB))
                 {
-                    // if (!deadGroup.Exists(collisionEvent.Entities.EntityB))
-                    // {
-                        damageGroup[collisionEvent.Entities.EntityB].Add(new Damage
-                        {
-                            Value = dealDamageGroup[collisionEvent.Entities.EntityA].Value
-                        });
-                    // }
+                    damageGroup[collisionEvent.Entities.EntityB].Add(new Damage
+                    {
+                        Value = dealDamageGroup[collisionEvent.Entities.EntityA].Value
+                    });
                 }
             }
 
@@ -60,13 +55,10 @@ public class DamageCollisionSystem : JobComponentSystem
             {
                 if (damageGroup.Exists(collisionEvent.Entities.EntityA))
                 {
-                    // if (deadGroup.Exists(collisionEvent.Entities.EntityA))
-                    // {
-                        damageGroup[collisionEvent.Entities.EntityA].Add(new Damage
-                        {
-                            Value = dealDamageGroup[collisionEvent.Entities.EntityB].Value
-                        });
-                    // }
+                    damageGroup[collisionEvent.Entities.EntityA].Add(new Damage
+                    {
+                        Value = dealDamageGroup[collisionEvent.Entities.EntityB].Value
+                    });
                 }
             }
         }
