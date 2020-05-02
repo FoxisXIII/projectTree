@@ -8,6 +8,8 @@ using UnityEngine;
 public class ThirPersonCharacterController : MonoBehaviour
 {
     public float Speed;
+    private float WalkSpeed;
+    private float RunSpeed;
     public CharacterController characterController;
     
     //Movimento BASE
@@ -15,6 +17,7 @@ public class ThirPersonCharacterController : MonoBehaviour
     private float ver ;
     private Vector3 playerinput;
     private Vector3 movPlayer;
+    public KeyCode RunKey = KeyCode.LeftShift;
     
     //Gravedad
     public float gravity = 9.8f;
@@ -52,6 +55,8 @@ public class ThirPersonCharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        WalkSpeed = Speed;
+        RunSpeed = Speed * 2f;
         if (useECS)
         {
             manager = World.DefaultGameObjectInjectionWorld.EntityManager;
@@ -78,7 +83,16 @@ public class ThirPersonCharacterController : MonoBehaviour
 
             timer = 0f;
         }
-        
+
+        if (Input.GetKey(RunKey))
+        {
+            Speed = RunSpeed;
+        }
+
+        if (Input.GetKeyUp(RunKey))
+        {
+            Speed = WalkSpeed;
+        }
         
         hor = Input.GetAxis("Horizontal");
         ver = Input.GetAxis("Vertical");
