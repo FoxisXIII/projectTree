@@ -74,10 +74,12 @@ public class DestroyOnContactSystem : JobComponentSystem
             if (destroyGroup.HasComponent(collisionEvent.Entities.EntityA))
             {
                 ecb.DestroyEntity(collisionEvent.Entities.EntityA);
+                Debug.Log("buena");
             }
             if (destroyGroup.HasComponent(collisionEvent.Entities.EntityB))
             {
                 ecb.DestroyEntity(collisionEvent.Entities.EntityB);
+                Debug.Log("buena");
             }
         }
     }
