@@ -8,6 +8,7 @@
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
           <e p="Base.cs" t="Include" />
+          <e p="CanvasTP.cs" t="Include" />
           <e p="Components" t="Include">
             <e p="AIData.cs" t="Include" />
             <e p="BaseTag.cs" t="Include" />
@@ -38,6 +39,7 @@
                 <e p="PointAtCurrentTargetSystem.cs" t="Include" />
               </e>
             </e>
+            <e p="PreviewTurret.cs" t="Include" />
             <e p="Projectile" t="Include">
               <e p="ECS" t="Include">
                 <e p="Components" t="Include">
@@ -76,6 +78,8 @@
             <e p="MoveToSystem.cs" t="Include" />
             <e p="ResolveDamageSystem.cs" t="Include" />
           </e>
+          <e p="Teleporter.cs" t="Include" />
+          <e p="TeleportManager.cs" t="Include" />
           <e p="ThirdPersonCameraController.cs" t="Include" />
           <e p="ThirPersonCharacterController.cs" t="Include" />
           <e p="UI" t="Include">

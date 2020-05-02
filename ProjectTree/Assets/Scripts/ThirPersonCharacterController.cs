@@ -9,55 +9,67 @@ public class ThirPersonCharacterController : MonoBehaviour
 {
     public float Speed;
     public CharacterController characterController;
-    
+
     //Movimento BASE
-    private float hor ;
-    private float ver ;
+    private float hor;
+    private float ver;
     private Vector3 playerinput;
     private Vector3 movPlayer;
-    
+
     //Gravedad
     public float gravity = 9.8f;
     public float VelCaida;
-    
+
     //Salto
-    public float jumpForce=50;
+    public float jumpForce = 50;
 
     //Movimiento por posicion de camara
     public Camera cam;
     private Vector3 camForward;
     private Vector3 camRight;
-    
+
     //Disparo
     public GameObject Bullet;
     public GameObject LocFire;
-    [Range(0,1)]
-    public float fireRate;
+    [Range(0, 1)] public float fireRate;
     private float timer;
-    
+
     //ECS
     public bool useECS = false;
     private EntityManager manager;
     private Entity bulletEntityPrefab;
-    private BlobAssetStore blob;
-    
+    private BlobAssetStore blobBullet;
+
     //Life
     public int life;
+
+    //Turret Spawner
+    public Transform instantiateTurrets;
+    public GameObject previewTurret;
+    public GameObject shootingTurret;
+    private Entity turretECS;
+    private PreviewTurret _instantiatedPreviewTurret;
+    private bool _turretCanBePlaced;
+    private BlobAssetStore blobTurret;
 
 
     private void Awake()
     {
         GameController.GetInstance().Player = this;
     }
+
     // Start is called before the first frame update
     void Start()
     {
+        manager = World.DefaultGameObjectInjectionWorld.EntityManager;
+        blobTurret = new BlobAssetStore();
+        turretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(shootingTurret,
+            GameObjectConversionSettings.FromWorld(manager.World, blobTurret));
         if (useECS)
         {
-            manager = World.DefaultGameObjectInjectionWorld.EntityManager;
-            blob = new BlobAssetStore();
+            blobBullet = new BlobAssetStore();
             bulletEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(Bullet,
-                GameObjectConversionSettings.FromWorld(manager.World, blob));
+                GameObjectConversionSettings.FromWorld(manager.World, blobBullet));
         }
     }
 
@@ -78,23 +90,37 @@ public class ThirPersonCharacterController : MonoBehaviour
 
             timer = 0f;
         }
-        
-        
+
+        if (Input.GetMouseButton(1))
+        {
+            if (Input.GetMouseButtonDown(1))
+            {
+                CreatePreviewTurret();
+            }
+
+            UpdatePreviewTurret();
+        }
+        else if (Input.GetMouseButtonUp(1))
+        {
+            CreateTurret();
+        }
+
+
         hor = Input.GetAxis("Horizontal");
+
         ver = Input.GetAxis("Vertical");
-        
-        playerinput=new Vector3(hor,0,ver);
-        playerinput= Vector3.ClampMagnitude(playerinput,1);
-        
+
+        playerinput = new Vector3(hor, 0, ver);
+        playerinput = Vector3.ClampMagnitude(playerinput, 1);
+
         CamDir();
 
         movPlayer = playerinput.x * camRight + playerinput.z * camForward;
 
         movPlayer = movPlayer * Speed;
-        
+
         setGravity();
-        Jump();       
-        
+        Jump();
     }
 
     private void FixedUpdate()
@@ -131,7 +157,7 @@ public class ThirPersonCharacterController : MonoBehaviour
 
     void Jump()
     {
-        if (characterController.isGrounded&& Input.GetButtonDown("Jump"))
+        if (characterController.isGrounded && Input.GetButtonDown("Jump"))
         {
             VelCaida = jumpForce;
             movPlayer.y = VelCaida;
@@ -141,31 +167,59 @@ public class ThirPersonCharacterController : MonoBehaviour
     void Shoot()
     {
         GameObject bulletShot;
-        bulletShot= Instantiate(Bullet, LocFire.transform.position, Quaternion.identity);
-        bulletShot.GetComponent<Rigidbody>().AddForce(transform.forward*20);
-        bulletShot.GetComponent<Rigidbody>().velocity=transform.forward*20;
+        bulletShot = Instantiate(Bullet, LocFire.transform.position, Quaternion.identity);
+        bulletShot.GetComponent<Rigidbody>().AddForce(transform.forward * 20);
+        bulletShot.GetComponent<Rigidbody>().velocity = transform.forward * 20;
         bulletShot.transform.rotation = transform.rotation;
     }
-    
+
     void ShootECS()
     {
         Entity bullet = manager.Instantiate(bulletEntityPrefab);
-        
-        manager.SetComponentData(bullet, new Translation{Value = LocFire.transform.position});
-        manager.SetComponentData(bullet, new Rotation{Value = LocFire.transform.rotation});
+
+        manager.SetComponentData(bullet, new Translation {Value = LocFire.transform.position});
+        manager.SetComponentData(bullet, new Rotation {Value = LocFire.transform.rotation});
         manager.AddComponent(bullet, typeof(MovesForwardComponent));
     }
-    
-    
+
+
     public void ReceiveDamage(int damage)
     {
         life -= damage;
-        if(life<=0)
+        if (life <= 0)
             GameController.GetInstance().gameOver();
+    }
+
+    private void CreatePreviewTurret()
+    {
+        _instantiatedPreviewTurret = Instantiate(previewTurret, instantiateTurrets).GetComponent<PreviewTurret>();
+    }
+
+    private void UpdatePreviewTurret()
+    {
+        _turretCanBePlaced = _instantiatedPreviewTurret.isValidPosition();
+        _instantiatedPreviewTurret.material.color = _turretCanBePlaced
+            ? _instantiatedPreviewTurret.canBePlaced
+            : _instantiatedPreviewTurret.canNotBePlaced;
+    }
+
+    private void CreateTurret()
+    {
+        Destroy(_instantiatedPreviewTurret.gameObject);
+
+        if (_turretCanBePlaced)
+        {
+            Entity turret = manager.Instantiate(turretECS);
+            var position= instantiateTurrets.position;
+            position.y += .5f;
+            manager.SetComponentData(turret, new Translation {Value = position});
+            manager.AddBuffer<EnemiesInRange>(turret);
+        }
     }
 
     private void OnDestroy()
     {
-        blob.Dispose();
+        blobBullet.Dispose();
+        blobTurret.Dispose();
     }
 }

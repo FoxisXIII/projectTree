@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Colocable
   - Base
+  - Preview Turret
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Preview Turret
+  - Ground
   - 
   - 
   - 
