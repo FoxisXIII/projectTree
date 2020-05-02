@@ -13,12 +13,15 @@ public class WaveController : MonoBehaviour
 
     private List<EnemySpawner[]> _spawners;
     private bool[] _spawnersActivated;
+
+    public bool[] SpawnersActivated => _spawnersActivated;
+
     private bool _canSpawn, _canEndWave;
     private float _time;
     public float waveCooldown;
     public float enemySpawnRate;
 
-    void Start()
+    void Awake()
     {
         _spawners = new List<EnemySpawner[]> {northSpawners, southSpawners, eastSpawners, westSpawners};
         _spawnersActivated = new[] {false, false, false, false};
