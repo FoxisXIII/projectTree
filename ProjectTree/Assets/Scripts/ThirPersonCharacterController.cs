@@ -210,7 +210,10 @@ public class ThirPersonCharacterController : MonoBehaviour
         if (_turretCanBePlaced)
         {
             Entity turret = manager.Instantiate(turretECS);
-            manager.SetComponentData(turret, new Translation {Value = instantiateTurrets.position});
+            var position= instantiateTurrets.position;
+            position.y += .5f;
+            manager.SetComponentData(turret, new Translation {Value = position});
+            manager.AddBuffer<EnemiesInRange>(turret);
         }
     }
 
