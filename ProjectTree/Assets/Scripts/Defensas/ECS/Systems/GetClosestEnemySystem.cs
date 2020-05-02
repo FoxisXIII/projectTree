@@ -5,6 +5,7 @@ using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Physics.Systems;
 using Unity.Transforms;
+using UnityEngine;
 
 public class GetClosestEnemySystem : ComponentSystem
 {
@@ -29,18 +30,21 @@ public class GetClosestEnemySystem : ComponentSystem
 
             foreach (var enemy in inRange)
             {
-                float3 enemyPos = manager.GetComponentData<Translation>(enemy.Value).Value;
-                if (closestEnemy == Entity.Null)
+                if(manager.Exists(enemy.Value))
                 {
-                    closestEnemy = enemy.Value;
-                    closestPos = enemyPos;
-                }
-                else
-                {
-                    if (math.distance(turretPos, enemyPos) < math.distance(turretPos, closestPos))
+                    float3 enemyPos = manager.GetComponentData<Translation>(enemy.Value).Value;
+                    if (closestEnemy == Entity.Null)
                     {
                         closestEnemy = enemy.Value;
-                        closestPos = manager.GetComponentData<Translation>(enemy.Value).Value;
+                        closestPos = enemyPos;
+                    }
+                    else
+                    {
+                        if (math.distance(turretPos, enemyPos) < math.distance(turretPos, closestPos))
+                        {
+                            closestEnemy = enemy.Value;
+                            closestPos = manager.GetComponentData<Translation>(enemy.Value).Value;
+                        }
                     }
                 }
             }

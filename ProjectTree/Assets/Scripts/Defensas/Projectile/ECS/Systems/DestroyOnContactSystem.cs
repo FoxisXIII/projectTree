@@ -23,6 +23,8 @@ public class DestroyOnContactSystem : JobComponentSystem
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         var destroyGroup = GetComponentDataFromEntity<DestroyOnContact>(true);
+        var towerGroup = GetComponentDataFromEntity<TowerTag>(true);
+        // var parentGroup = GetComponentDataFromEntity<ParentEntity>(true);
         var ecb = ecbSystem.CreateCommandBuffer();
 
         // var destroyTriggerJob = new DestroyTriggerJob
@@ -34,11 +36,13 @@ public class DestroyOnContactSystem : JobComponentSystem
         var destroyCollisionJob = new DestroyCollisionJob
         {
             ecb = ecb,
-            destroyGroup = destroyGroup
+            destroyGroup = destroyGroup,
+            towerGroup = towerGroup
         };
 
         // destroyTriggerJob.Schedule(_stepPhysicsWorld.Simulation, ref _buildPhysicsWorld.PhysicsWorld, inputDeps).Complete();
-        destroyCollisionJob.Schedule(_stepPhysicsWorld.Simulation, ref _buildPhysicsWorld.PhysicsWorld, inputDeps).Complete();
+        destroyCollisionJob.Schedule(_stepPhysicsWorld.Simulation, ref _buildPhysicsWorld.PhysicsWorld, inputDeps)
+            .Complete();
 
         return inputDeps;
     }
@@ -63,23 +67,28 @@ public class DestroyOnContactSystem : JobComponentSystem
     //         
     //     }
     // }
-    
+
     private struct DestroyCollisionJob : ICollisionEventsJob
     {
         public EntityCommandBuffer ecb;
         [ReadOnly] public ComponentDataFromEntity<DestroyOnContact> destroyGroup;
+        [ReadOnly] public ComponentDataFromEntity<TowerTag> towerGroup;
+        // [ReadOnly] public ComponentDataFromEntity<ParentEntity> parentGroup;
 
         public void Execute(CollisionEvent collisionEvent)
         {
-            if (destroyGroup.HasComponent(collisionEvent.Entities.EntityA))
+            if (!towerGroup.HasComponent(collisionEvent.Entities.EntityA) &&
+                !towerGroup.HasComponent(collisionEvent.Entities.EntityB))
             {
-                ecb.DestroyEntity(collisionEvent.Entities.EntityA);
-                Debug.Log("buena");
-            }
-            if (destroyGroup.HasComponent(collisionEvent.Entities.EntityB))
-            {
-                ecb.DestroyEntity(collisionEvent.Entities.EntityB);
-                Debug.Log("buena");
+                if (destroyGroup.HasComponent(collisionEvent.Entities.EntityA))
+                {
+                    ecb.DestroyEntity(collisionEvent.Entities.EntityA);
+                }
+
+                if (destroyGroup.HasComponent(collisionEvent.Entities.EntityB))
+                {
+                    ecb.DestroyEntity(collisionEvent.Entities.EntityB);
+                }
             }
         }
     }
