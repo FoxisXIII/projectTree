@@ -68,7 +68,7 @@ public class ThirdPersonCameraController : MonoBehaviour
             else
             {
                 if(Obst!=Target)
-                Obst.gameObject.GetComponent<MeshRenderer>().shadowCastingMode =
+                    Obst.gameObject.GetComponent<MeshRenderer>().shadowCastingMode =
                     UnityEngine.Rendering.ShadowCastingMode.On;
                 if (Vector3.Distance(transform.position,Target.position)<4.5f)
                 {
