@@ -57,17 +57,18 @@ public class FindTargetSystem : JobComponentSystem
         var turretGroup = GetBufferFromEntity<EnemiesInRange>();
         var enemyGroup = GetComponentDataFromEntity<EnemyTag>(true);
         
-        var findTargetjJob = new FindTargetTriggerJob()
+        var findTargetJob = new FindTargetTriggerJob()
         {
             towerGroup = turretGroup,
             enemyGroup = enemyGroup
         };
         
-        findTargetjJob.Schedule(_stepPhysicsWorld.Simulation, ref _buildPhysicsWorld.PhysicsWorld, inputDeps).Complete();
+        findTargetJob.Schedule(_stepPhysicsWorld.Simulation, ref _buildPhysicsWorld.PhysicsWorld, inputDeps).Complete();
         
         return inputDeps;
     }
     
+    [RequireComponentTag(typeof(EnemiesInRange))]
     private struct FindTargetTriggerJob : ITriggerEventsJob
     {
         public BufferFromEntity<EnemiesInRange> towerGroup;
@@ -82,7 +83,7 @@ public class FindTargetSystem : JobComponentSystem
                 if (towerGroup.Exists(entityB))
                 {
                     towerGroup[entityB].Add(new EnemiesInRange
-                        {enemies = entityA});
+                        {Value = entityA});
                 }
             }
 
@@ -92,7 +93,7 @@ public class FindTargetSystem : JobComponentSystem
                 {
                     towerGroup[entityA].Add(new EnemiesInRange
                     {
-                        enemies = entityB
+                        Value = entityB
                     });
                 }
             }

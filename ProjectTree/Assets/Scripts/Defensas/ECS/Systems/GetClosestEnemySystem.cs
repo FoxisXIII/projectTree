@@ -21,18 +21,18 @@ public class GetClosestEnemySystem : ComponentSystem
             {
                 foreach (var enemy in inRange)
                 {
-                    float3 enemyPos = manager.GetComponentData<Translation>(enemy.enemies).Value;
+                    float3 enemyPos = manager.GetComponentData<Translation>(enemy.Value).Value;
                     if (closestEnemy == Entity.Null)
                     {
-                        closestEnemy = enemy.enemies;
+                        closestEnemy = enemy.Value;
                         closestPos = enemyPos;
                     }
                     else
                     {
                         if (math.distance(turretPos, enemyPos) < math.distance(turretPos, closestPos))
                         {
-                            closestEnemy = enemy.enemies;
-                            closestPos = manager.GetComponentData<Translation>(enemy.enemies).Value;
+                            closestEnemy = enemy.Value;
+                            closestPos = manager.GetComponentData<Translation>(enemy.Value).Value;
                         }
                     }
                 }
