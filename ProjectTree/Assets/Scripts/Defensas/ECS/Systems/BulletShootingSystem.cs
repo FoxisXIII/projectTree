@@ -24,25 +24,28 @@ public class BulletShootingSystem : ComponentSystem
     protected override void OnUpdate()
     {
         Entities.WithAll<TowerTag, TowerCurrentTarget>().ForEach((Entity entity, ref AttackSpeedComponent attackSpeed,
-            ref BulletPrefabComponent bullet, ref Translation position, ref Rotation rotation, ref TowerCurrentTarget tct) =>
+            ref BulletPrefabComponent bullet, ref Translation position, ref Rotation rotation,
+            ref TowerCurrentTarget tct) =>
         {
             timer -= Time.DeltaTime;
             if (timer <= 0)
             {
                 Entity bulletEntity = EntityManager.Instantiate(bullet.prefab);
-                var enemyPos=EntityManager.GetComponentData<Translation>(tct.target).Value;
+
+                Debug.LogError(bulletEntity);
+
+                var enemyPos = EntityManager.GetComponentData<Translation>(tct.target).Value;
                 enemyPos.y += 1f;
-                var direction = Direction(position.Value,
-                    enemyPos);
-                
+                var direction = Direction(position.Value, enemyPos);
+
                 EntityManager.SetComponentData(bulletEntity, new Translation {Value = position.Value});
-                
+
                 var movementData = EntityManager.GetComponentData<MovementData>(bulletEntity);
-                
+
                 movementData.directionX = direction.x;
                 movementData.directionY = direction.y;
                 movementData.directionZ = direction.z;
-                
+
                 EntityManager.SetComponentData(bulletEntity, movementData);
 
                 if (EntityManager.Exists(bulletEntity))

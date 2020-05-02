@@ -12,9 +12,12 @@ public class TimeToLiveSystem : ComponentSystem
     {
         Entities.WithAll<TimeToLive>().ForEach((Entity a, ref TimeToLive ttl) =>
         {
+            
             ttl.Value -= Time.DeltaTime;
             if (ttl.Value <= 0)
+            {
                 PostUpdateCommands.DestroyEntity(a);
+            }
         });
     }
 }

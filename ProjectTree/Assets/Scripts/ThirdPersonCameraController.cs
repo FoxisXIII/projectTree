@@ -37,15 +37,15 @@ public class ThirdPersonCameraController : MonoBehaviour
         
         transform.LookAt(Target);
 
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            Target.rotation=Quaternion.Euler(mauseY,mauseX,0);
-        }
-        else
-        {
+        // if (Input.GetKey(KeyCode.LeftShift))
+        // {
+        //     Target.rotation=Quaternion.Euler(mauseY,mauseX,0);
+        // }
+        // else
+        // {
             Target.rotation=Quaternion.Euler(mauseY,mauseX,0);
             Player.rotation= Quaternion.Euler(0,mauseX,0);
-        }
+        // }
         
     }
     
@@ -68,7 +68,7 @@ public class ThirdPersonCameraController : MonoBehaviour
             else
             {
                 if(Obst!=Target)
-                Obst.gameObject.GetComponent<MeshRenderer>().shadowCastingMode =
+                    Obst.gameObject.GetComponent<MeshRenderer>().shadowCastingMode =
                     UnityEngine.Rendering.ShadowCastingMode.On;
                 if (Vector3.Distance(transform.position,Target.position)<4.5f)
                 {

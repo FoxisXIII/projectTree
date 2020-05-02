@@ -15,6 +15,9 @@ public class ThirPersonCharacterController : MonoBehaviour
     private float ver;
     private Vector3 playerinput;
     private Vector3 movPlayer;
+    private float WalkSpeed;
+    private float RunSpeed;
+    public KeyCode RunKey = KeyCode.LeftShift;
 
     //Gravedad
     public float gravity = 9.8f;
@@ -61,6 +64,8 @@ public class ThirPersonCharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        WalkSpeed = Speed;
+        RunSpeed = WalkSpeed * 2;
         manager = World.DefaultGameObjectInjectionWorld.EntityManager;
         blobTurret = new BlobAssetStore();
         turretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(shootingTurret,
@@ -105,7 +110,6 @@ public class ThirPersonCharacterController : MonoBehaviour
             CreateTurret();
         }
 
-
         hor = Input.GetAxis("Horizontal");
 
         ver = Input.GetAxis("Vertical");
@@ -116,6 +120,16 @@ public class ThirPersonCharacterController : MonoBehaviour
         CamDir();
 
         movPlayer = playerinput.x * camRight + playerinput.z * camForward;
+        
+        if (Input.GetKey(RunKey))
+        {
+            Speed = RunSpeed;
+        }
+
+        if (Input.GetKeyUp(RunKey))
+        {
+            Speed = WalkSpeed;
+        }
 
         movPlayer = movPlayer * Speed;
 

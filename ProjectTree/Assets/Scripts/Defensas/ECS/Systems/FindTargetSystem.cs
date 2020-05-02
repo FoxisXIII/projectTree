@@ -10,40 +10,9 @@ using Unity.Physics.Systems;
 using Unity.Transforms;
 using UnityEngine;
 
-[BurstCompile]
+[UpdateBefore(typeof(GetClosestEnemySystem))]
 public class FindTargetSystem : JobComponentSystem
 {
-    // protected override void OnUpdate()
-    // {
-    //     Entities.WithNone<TowerCurrentTarget>().WithAll<TowerTag>().ForEach((Entity a, ref Translation position) => 
-    //     {
-    //         Entity closestTarget = Entity.Null;
-    //         float3 turretPosition = position.Value;
-    //         float3 closestPosition = float3.zero;
-    //         Entities.WithAll<EnemyTag>().ForEach((Entity b, ref Translation targetPosition) => 
-    //         {
-    //             if (closestTarget == Entity.Null)
-    //             {
-    //                 closestTarget = b;
-    //                 closestPosition = targetPosition.Value;
-    //             }
-    //             else
-    //             {
-    //                 if (math.distance(turretPosition, targetPosition.Value) < math.distance(turretPosition, closestPosition))
-    //                 {
-    //                     closestTarget = b;
-    //                     closestPosition = targetPosition.Value;
-    //                 }
-    //             }
-    //         });
-    //
-    //         if (closestTarget != Entity.Null)
-    //         {
-    //             //Debug.Log(closestTarget);
-    //             PostUpdateCommands.AddComponent(a, new TowerCurrentTarget{target = closestTarget});
-    //         }
-    //     });}
-    
     private BuildPhysicsWorld _buildPhysicsWorld;
     private StepPhysicsWorld _stepPhysicsWorld;
     
@@ -68,12 +37,11 @@ public class FindTargetSystem : JobComponentSystem
         return inputDeps;
     }
     
-    [RequireComponentTag(typeof(EnemiesInRange))]
     private struct FindTargetTriggerJob : ITriggerEventsJob
     {
         public BufferFromEntity<EnemiesInRange> towerGroup;
         [ReadOnly] public ComponentDataFromEntity<EnemyTag> enemyGroup;
-        
+
         public void Execute(TriggerEvent triggerEvent)
         {
             Entity entityA = triggerEvent.Entities.EntityA;
