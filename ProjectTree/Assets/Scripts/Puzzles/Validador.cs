@@ -35,12 +35,15 @@ public class Validador : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (now && casco.transform.position.y!=20f)
+        if (casco != null)
         {
-            Debug.Log("Arriba plataforma");
-            Vector3 newp = Vector3.MoveTowards(casco.transform.position,
-                new Vector3(casco.transform.position.x, 20, casco.transform.position.z), speed * Time.deltaTime);
-            casco.transform.position = newp;
+            if (now && casco.transform.position.y!=20f)
+            {
+                Debug.Log("Arriba plataforma");
+                Vector3 newp = Vector3.MoveTowards(casco.transform.position,
+                    new Vector3(casco.transform.position.x, 20, casco.transform.position.z), speed * Time.deltaTime);
+                casco.transform.position = newp;
+            }
         }
     }
 
@@ -56,7 +59,6 @@ public class Validador : MonoBehaviour
                     Debug.Log("Correcto");
                 }
             }
-            
         }
     }
 }
