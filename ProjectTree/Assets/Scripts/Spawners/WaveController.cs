@@ -74,6 +74,7 @@ public class WaveController : MonoBehaviour
             nextRoundTimeText.transform.parent.gameObject.SetActive(true);
             _canEndWave = false;
             _canSpawn = false;
+            
         }
     }
 

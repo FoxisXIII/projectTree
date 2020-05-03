@@ -39,6 +39,8 @@ public class GameController
     public void endWave()
     {
         _currentEnemies = 0;
+        _player.recursosA += 100;
+        _player.recValue.text = _player.recursosA.ToString();
     }
 
     public void AddEnemyWave()

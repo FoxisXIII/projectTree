@@ -47,6 +47,11 @@ public class ThirPersonCharacterController : MonoBehaviour
     //Life
     public int life;
     public Text lifeText;
+    
+    //
+    public int recursosA=200;
+    public Text recValue;
+    
 
     //Turret Spawner
     public Transform instantiateTurrets;
@@ -79,6 +84,8 @@ public class ThirPersonCharacterController : MonoBehaviour
             bulletEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(Bullet,
                 GameObjectConversionSettings.FromWorld(manager.World, blobBullet));
         }
+
+        recValue.text = recursosA.ToString();
     }
 
     // Update is called once per frame
@@ -225,13 +232,15 @@ public class ThirPersonCharacterController : MonoBehaviour
     {
         Destroy(_instantiatedPreviewTurret.gameObject);
 
-        if (_turretCanBePlaced)
+        if (_turretCanBePlaced&& recursosA>=20)
         {
             Entity turret = manager.Instantiate(turretECS);
             var position = instantiateTurrets.position;
             position.y += .5f;
             manager.SetComponentData(turret, new Translation {Value = position});
             manager.AddBuffer<EnemiesInRange>(turret);
+            recursosA -= 20;
+            recValue.text = recursosA.ToString();
         }
     }
 
