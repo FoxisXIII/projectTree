@@ -193,6 +193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 8
   characterController: {fileID: 3605885318596676746}
+  RunKey: 304
   gravity: 9.8
   VelCaida: 0
   jumpForce: 10
@@ -202,6 +203,7 @@ MonoBehaviour:
   fireRate: 0.388
   useECS: 1
   life: 20
+  lifeText: {fileID: 0}
   instantiateTurrets: {fileID: 1271921907971335455}
   previewTurret: {fileID: 7019069708846604853, guid: 7fe3bea67a136aa428ef3bac3899923d,
     type: 3}

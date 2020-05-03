@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class WaveController : MonoBehaviour
@@ -21,6 +23,10 @@ public class WaveController : MonoBehaviour
     public float waveCooldown;
     public float enemySpawnRate;
 
+    [SerializeField] private Text nextRoundTimeText;
+    [SerializeField] private Text roundText;
+    [SerializeField] private Text currentEnemiesText;
+
     void Awake()
     {
         _spawners = new List<EnemySpawner[]> {northSpawners, southSpawners, eastSpawners, westSpawners};
@@ -28,8 +34,8 @@ public class WaveController : MonoBehaviour
         _spawnersActivated[Random.Range(0, _spawnersActivated.Length)] = true;
         GameController.GetInstance().MaxWaveEnemies = 50;
         GameController.GetInstance().EnemiesSpawnRate = enemySpawnRate;
-        _canSpawn = false;
-        _canEndWave = false;
+        _canEndWave = true;
+        EndWave();
     }
 
     // Update is called once per frame
@@ -42,6 +48,8 @@ public class WaveController : MonoBehaviour
         EndWave();
 
         _time += Time.deltaTime;
+
+        nextRoundTimeText.text = Math.Round((Decimal) (waveCooldown - _time), 2) + " s";
     }
 
     private void StartWave()
@@ -49,6 +57,9 @@ public class WaveController : MonoBehaviour
         if (!_canSpawn && _time >= waveCooldown)
         {
             GameController.GetInstance().startWave();
+            currentEnemiesText.transform.parent.parent.gameObject.SetActive(true);
+            nextRoundTimeText.transform.parent.gameObject.SetActive(false);
+            roundText.text = GameController.GetInstance().WaveCounter.ToString();
             _canSpawn = true;
             _time = 0;
         }
@@ -56,9 +67,11 @@ public class WaveController : MonoBehaviour
 
     private void EndWave()
     {
-        if (_canEndWave && GameController.GetInstance().CurrentEnemies <= 0)
+        if (_canEndWave)
         {
             GameController.GetInstance().endWave();
+            currentEnemiesText.transform.parent.parent.gameObject.SetActive(false);
+            nextRoundTimeText.transform.parent.gameObject.SetActive(true);
             _canEndWave = false;
             _canSpawn = false;
         }
@@ -83,8 +96,11 @@ public class WaveController : MonoBehaviour
 
             _time = 0;
         }
+        
+        currentEnemiesText.text =
+            (GameController.GetInstance().MaxWaveEnemies - GameController.GetInstance().DiedEnemies).ToString();
 
-        _canEndWave = GameController.GetInstance().CurrentEnemies >= GameController.GetInstance().MaxWaveEnemies;
+        _canEndWave = GameController.GetInstance().DiedEnemies >= GameController.GetInstance().MaxWaveEnemies;
     }
 
     public bool CanSpawn

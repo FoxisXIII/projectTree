@@ -32,8 +32,6 @@ public class BulletShootingSystem : ComponentSystem
             {
                 Entity bulletEntity = EntityManager.Instantiate(bullet.prefab);
 
-                Debug.LogError(bulletEntity);
-
                 var enemyPos = EntityManager.GetComponentData<Translation>(tct.target).Value;
                 enemyPos.y += 1f;
                 var direction = Direction(position.Value, enemyPos);
