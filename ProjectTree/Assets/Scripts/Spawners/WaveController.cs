@@ -60,6 +60,10 @@ public class WaveController : MonoBehaviour
             currentEnemiesText.transform.parent.parent.gameObject.SetActive(true);
             nextRoundTimeText.transform.parent.gameObject.SetActive(false);
             roundText.text = GameController.GetInstance().WaveCounter.ToString();
+            
+            for (int i = 0; i < _spawnersActivated.Length; i++) _spawnersActivated[i] = false;
+
+            _spawnersActivated[Random.Range(0, _spawnersActivated.Length)] = true;
             _canSpawn = true;
             _time = 0;
         }
@@ -74,7 +78,7 @@ public class WaveController : MonoBehaviour
             nextRoundTimeText.transform.parent.gameObject.SetActive(true);
             _canEndWave = false;
             _canSpawn = false;
-            
+            _time = 0;
         }
     }
 
@@ -97,7 +101,7 @@ public class WaveController : MonoBehaviour
 
             _time = 0;
         }
-        
+
         currentEnemiesText.text =
             (GameController.GetInstance().MaxWaveEnemies - GameController.GetInstance().DiedEnemies).ToString();
 

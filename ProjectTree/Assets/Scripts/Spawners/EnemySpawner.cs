@@ -63,6 +63,11 @@ public class EnemySpawner : MonoBehaviour
         Gizmos.DrawSphere(finalPosition, 1f);
     }
 
+    private void OnDestroy()
+    {
+        blobAssetStore.Dispose();
+    }
+
     private void OnApplicationQuit()
     {
         blobAssetStore.Dispose();

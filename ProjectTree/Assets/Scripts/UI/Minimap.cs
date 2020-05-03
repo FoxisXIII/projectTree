@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Minimap : MonoBehaviour
 {
     [SerializeField] private WaveController waveController;
-    [SerializeField] private ThirPersonCharacterController player;
+    [SerializeField] private ThirdPersonCharacterController player;
 
     [SerializeField] private List<Image> zones;
 

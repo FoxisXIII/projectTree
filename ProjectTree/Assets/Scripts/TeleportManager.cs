@@ -23,7 +23,9 @@ public class TeleportManager : MonoBehaviour
     {
         tpDestination = election;
         player.GetComponent<CharacterController>().enabled = false;
-        player.transform.position = tpDestination.transform.position;
+        var transformPosition = tpDestination.transform.position;
+        transformPosition.y += 1;
+        player.transform.position = transformPosition;
         player.GetComponent<CharacterController>().enabled = true;
         canvasMenu.SetActive(false);
         Cursor.visible = false;
