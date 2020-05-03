@@ -5042,7 +5042,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 132960cf410ede54e9d2e78d1ebdd903, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 4000
+  life: 1000
   healthText: {fileID: 0}
 --- !u!1 &3235805899611127525
 GameObject:

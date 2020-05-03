@@ -35,6 +35,11 @@ public class WaveController : MonoBehaviour
         GameController.GetInstance().MaxWaveEnemies = 50;
         GameController.GetInstance().EnemiesSpawnRate = enemySpawnRate;
         _canEndWave = true;
+
+    }
+
+    private void Start()
+    {
         EndWave();
     }
 

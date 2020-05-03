@@ -65,7 +65,8 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnDestroy()
     {
-        blobAssetStore.Dispose();
+        if (GameController.GetInstance().Player.life > 0)
+            blobAssetStore.Dispose();
     }
 
     private void OnApplicationQuit()
