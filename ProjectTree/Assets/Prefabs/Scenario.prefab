@@ -641,6 +641,9 @@ MonoBehaviour:
   - {fileID: 8714655532459651610}
   waveCooldown: 10
   enemySpawnRate: 1
+  nextRoundTimeText: {fileID: 0}
+  roundText: {fileID: 0}
+  currentEnemiesText: {fileID: 0}
 --- !u!1 &523510026
 GameObject:
   m_ObjectHideFlags: 0
@@ -3658,7 +3661,7 @@ GameObject:
   - component: {fileID: 3235805898419512025}
   - component: {fileID: 3235805898419512026}
   - component: {fileID: 779159322}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WestZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3877,7 +3880,7 @@ GameObject:
   - component: {fileID: 3235805898504944428}
   - component: {fileID: 3235805898504944429}
   - component: {fileID: 1534023176}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SouthWestZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3983,7 +3986,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3235805898505774407}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4135,7 +4138,7 @@ GameObject:
   - component: {fileID: 3235805898729359070}
   - component: {fileID: 3235805898729359071}
   - component: {fileID: 620331039}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SouthZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4340,7 +4343,7 @@ GameObject:
   - component: {fileID: 3235805898988319684}
   - component: {fileID: 3235805898988319685}
   - component: {fileID: 1514029886}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: NorthWestZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4450,7 +4453,7 @@ GameObject:
   - component: {fileID: 3235805899085753138}
   - component: {fileID: 3235805899085753139}
   - component: {fileID: 1952184022}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: NorthZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4669,7 +4672,7 @@ GameObject:
   - component: {fileID: 3235805899366177594}
   - component: {fileID: 3235805899366177595}
   - component: {fileID: 885422887}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SouthEastZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5039,6 +5042,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 400
+  healthText: {fileID: 0}
 --- !u!1 &3235805899611127525
 GameObject:
   m_ObjectHideFlags: 0
@@ -5052,7 +5056,7 @@ GameObject:
   - component: {fileID: 3235805899611127522}
   - component: {fileID: 3235805899611127523}
   - component: {fileID: 1057146442}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: EastZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5707,7 +5711,7 @@ GameObject:
   - component: {fileID: 3235805900089114289}
   - component: {fileID: 3235805900089114290}
   - component: {fileID: 52712312}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: NorthEastZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5817,7 +5821,7 @@ GameObject:
   - component: {fileID: 3235805900240846455}
   - component: {fileID: 3235805900240846728}
   - component: {fileID: 1781285750}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CenterZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}

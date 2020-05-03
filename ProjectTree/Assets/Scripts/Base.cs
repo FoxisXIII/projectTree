@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Base : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class Base : MonoBehaviour
 
     [SerializeField]
     private int life;
+    
+    [SerializeField]
+    private Text healthText;
 
     //The base generates them by time?
     private int energyCreation;
@@ -17,11 +21,13 @@ public class Base : MonoBehaviour
     private void Awake()
     {
         GameController.GetInstance().Base = this;
+        healthText.text = life.ToString();
     }
 
     public void ReceiveDamage(int damage)
     {
         life -= damage;
+        healthText.text = life.ToString();
         if(life<=0)
             GameController.GetInstance().gameOver();
     }

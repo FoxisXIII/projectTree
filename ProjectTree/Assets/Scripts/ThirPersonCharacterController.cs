@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Entities;
 using Unity.Transforms;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ThirPersonCharacterController : MonoBehaviour
 {
@@ -45,6 +46,7 @@ public class ThirPersonCharacterController : MonoBehaviour
 
     //Life
     public int life;
+    public Text lifeText;
 
     //Turret Spawner
     public Transform instantiateTurrets;
@@ -59,6 +61,7 @@ public class ThirPersonCharacterController : MonoBehaviour
     private void Awake()
     {
         GameController.GetInstance().Player = this;
+        lifeText.text = life.ToString();
     }
 
     // Start is called before the first frame update
@@ -120,7 +123,7 @@ public class ThirPersonCharacterController : MonoBehaviour
         CamDir();
 
         movPlayer = playerinput.x * camRight + playerinput.z * camForward;
-        
+
         if (Input.GetKey(RunKey))
         {
             Speed = RunSpeed;
@@ -200,6 +203,7 @@ public class ThirPersonCharacterController : MonoBehaviour
     public void ReceiveDamage(int damage)
     {
         life -= damage;
+        lifeText.text = life.ToString();
         if (life <= 0)
             GameController.GetInstance().gameOver();
     }
@@ -224,7 +228,7 @@ public class ThirPersonCharacterController : MonoBehaviour
         if (_turretCanBePlaced)
         {
             Entity turret = manager.Instantiate(turretECS);
-            var position= instantiateTurrets.position;
+            var position = instantiateTurrets.position;
             position.y += .5f;
             manager.SetComponentData(turret, new Translation {Value = position});
             manager.AddBuffer<EnemiesInRange>(turret);

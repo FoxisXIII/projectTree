@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Entities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,7 +8,7 @@ public class GameController
 {
     private static GameController _instance;
 
-    private int _currentEnemies, _maxWaveEnemies, _waveCounter;
+    private int _currentEnemies,_diedEnemies, _maxWaveEnemies, _waveCounter;
     private float _enemiesSpawnRate;
 
     private Base _base;
@@ -43,12 +44,11 @@ public class GameController
     public void AddEnemyWave()
     {
         _currentEnemies++;
-        // Debug.Log(currentEnemies);
     }
 
     public void RemoveEnemyWave()
     {
-        _currentEnemies--;
+        _diedEnemies++;
     }
 
     public void pauseGame()
@@ -57,6 +57,8 @@ public class GameController
 
     public void gameOver()
     {
+        var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+        entityManager.DestroyEntity(entityManager.GetAllEntities());
         SceneManager.LoadScene("Game Over");
     }
 
@@ -64,6 +66,11 @@ public class GameController
     {
         get => _currentEnemies;
         set => _currentEnemies = value;
+    }
+    public int DiedEnemies
+    {
+        get => _diedEnemies;
+        set => _diedEnemies = value;
     }
 
     public int MaxWaveEnemies
@@ -77,6 +84,8 @@ public class GameController
         get => _enemiesSpawnRate;
         set => _enemiesSpawnRate = value;
     }
+
+    public int WaveCounter => _waveCounter;
 
     public Base Base
     {

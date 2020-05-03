@@ -26,6 +26,7 @@ public class ResolveDamageSystem : JobComponentSystem
 
                     if (hp.Value <= 0)
                     {
+                        GameController.GetInstance().RemoveEnemyWave();
                         hp.Value = 0;
                         ecb.AddComponent<Dead>(e);
                         break;
