@@ -7,7 +7,6 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 using UnityEngine.Experimental.AI;
-using UnityEngine.WSA;
 using Random = UnityEngine.Random;
 
 namespace Systems
