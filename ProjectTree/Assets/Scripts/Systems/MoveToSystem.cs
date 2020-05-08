@@ -22,7 +22,7 @@ namespace Systems
             _query = new NavMeshQuery(NavMeshWorld.GetDefaultWorld(), Allocator.Persistent, 100);
         }
 
-        private static float3 FindPath(float3 startPosition, float3 destination, float3 direction,
+        private static NativeList<EnemyPosition> FindPath(float3 startPosition, float3 destination, float3 direction,
             NavMeshQuery navMeshQuery)
 
         {
@@ -35,8 +35,8 @@ namespace Systems
             status = navMeshQuery.EndFindPath(out int polySize);
             var polygonIds = new NativeArray<PolygonId>(polySize + 1, Allocator.Temp);
             navMeshQuery.GetPathResult(polygonIds);
-            var positions = new NativeList<float3>(Allocator.Temp);
-            Debug.Log("Start " + startPosition);
+            var positions = new NativeList<EnemyPosition>(Allocator.Temp);
+            // Debug.Log("Start " + startPosition);
             int counter = 0;
             for (int c = 0; c < polySize; c += 1)
             {
@@ -65,14 +65,15 @@ namespace Systems
                     position.z = Random.Range(left.z, right.z);
                 else if (right.z == left.z)
                     position.x = Random.Range(left.x, right.x);
-                
-                Debug.Log(position);
-                positions.Add(position);
-            }
-            Debug.LogError(destination);
-            positions.Add(destination);
 
-            return float3.zero;
+                // Debug.Log(position);
+                positions.Add(new EnemyPosition() {position = position});
+            }
+
+            // Debug.LogError(destination);
+            positions.Add(new EnemyPosition() {position = destination});
+
+            return positions;
         }
 
 
@@ -85,24 +86,30 @@ namespace Systems
         protected override JobHandle OnUpdate(JobHandle inputDependencies)
         {
             var query = _query;
-
+            var buffers = GetBufferFromEntity<EnemyPosition>();
             float3 playerPosition = GameController.GetInstance().Player.transform.position;
 
             Entities
                 .ForEach(
-                    (ref AIData aiData, ref Translation translation, ref MovementData movementData) =>
+                    (ref AIData aiData, ref Translation translation, ref MovementData movementData,
+                        ref Entity entity) =>
                     {
                         if (math.distance(translation.Value, playerPosition) >= aiData.chaseDistance)
                         {
-                            if (!aiData.changePosition)
+                            if (aiData.hasToInitialize)
+                            {
+                                buffers[entity].AddRange(FindPath(translation.Value, aiData.finalPosition,
+                                    aiData.direction,
+                                    query));
+                                aiData.hasToInitialize = false;
+                            }
+                            else if (!aiData.changePosition)
                             {
                                 var direction = new float3(translation.Value.x - aiData.finalPosition.x, 0,
                                     translation.Value.z - aiData.finalPosition.z);
-                                if (Magnitude(direction) > 5)
+                                if (Magnitude(direction) > 5 && aiData.counter < buffers[entity].Length)
                                 {
-                                    var path = FindPath(translation.Value, aiData.finalPosition, aiData.direction,
-                                        query);
-                                    aiData.position = path;
+                                    aiData.counter++;
                                     aiData.changePosition = true;
                                 }
                                 else
@@ -114,8 +121,9 @@ namespace Systems
                             }
                             else
                             {
-                                var direction = new float3(aiData.position.x - translation.Value.x, 0,
-                                    aiData.position.z - translation.Value.z);
+                                var position = buffers[entity][aiData.counter].position;
+                                var direction = new float3(position.x - translation.Value.x, 0,
+                                    position.z - translation.Value.z);
                                 var magnitude = Magnitude(direction);
                                 if (magnitude < 1)
                                     aiData.changePosition = false;

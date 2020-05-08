@@ -29,7 +29,6 @@ public class EnemySpawner : MonoBehaviour
         _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
         _enemyEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(enemyPrefab,
             GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, blobAssetStore));
-        SpawnEnemy();
     }
 
 
@@ -49,7 +48,10 @@ public class EnemySpawner : MonoBehaviour
             finalPositionLeft.z,
             finalPositionRight.z);
         aiData.canAttackPlayer = Random.Range(0f, 1f) > .75f;
+        aiData.hasToInitialize = true;
         _entityManager.SetComponentData(enemy, aiData);
+
+        _entityManager.AddBuffer<EnemyPosition>(enemy);
 
         GameController.GetInstance().AddEnemyWave();
     }

@@ -14,6 +14,7 @@
             <e p="BaseTag.cs" t="Include" />
             <e p="DamageComponent.cs" t="Include" />
             <e p="DeadComponent.cs" t="Include" />
+            <e p="EnemyPosition.cs" t="Include" />
             <e p="EnemyTag.cs" t="Include" />
             <e p="HealthData.cs" t="Include" />
             <e p="MovementData.cs" t="Include" />
