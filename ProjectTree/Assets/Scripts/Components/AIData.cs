@@ -22,6 +22,6 @@ public struct AIData : IComponentData
     [HideInInspector] public bool changePosition;
     [HideInInspector] public float3 position;
     [HideInInspector] public float3 finalPosition;
-    [HideInInspector] public float3 positionOffset;
+    [HideInInspector] public float3 direction;
     [HideInInspector] public bool canAttackPlayer;
 }
