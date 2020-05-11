@@ -18,9 +18,7 @@ public class EnemySpawner : MonoBehaviour
     private Entity _enemyEntityPrefab;
     private float time;
     private BlobAssetStore blobAssetStore;
-    public float2 spawnMin;
-    public float2 spawnMax;
-    public float3 finalPositionLeft, finalPositionRight;
+    public float3[] min, max;
 
     // Start is called before the first frame update
     void Start()
@@ -36,41 +34,66 @@ public class EnemySpawner : MonoBehaviour
     {
         Entity enemy = _entityManager.Instantiate(_enemyEntityPrefab);
 
+        var random = Random.Range(0f, 1f);
 
-        _entityManager.SetComponentData(enemy,
-            new Translation()
-                {Value = GetRandomPosition(transform.position, spawnMin.x, spawnMax.x, spawnMin.y, spawnMax.y)});
+        _entityManager.SetComponentData(enemy, new Translation() {Value = GetPosition(min[0], max[0], random)});
         _entityManager.SetComponentData(enemy, new Rotation() {Value = Quaternion.identity});
         var aiData = _entityManager.GetComponentData<AIData>(enemy);
         aiData.state = 0;
-        aiData.direction = (spawnMax.x == spawnMin.x) ? Vector3.forward : Vector3.right;
-        aiData.finalPosition = GetRandomPosition(finalPositionLeft, finalPositionLeft.x, finalPositionRight.x,
-            finalPositionLeft.z,
-            finalPositionRight.z);
-        aiData.canAttackPlayer = Random.Range(0f, 1f) > .75f;
         aiData.hasToInitialize = true;
         _entityManager.SetComponentData(enemy, aiData);
 
-        _entityManager.AddBuffer<EnemyPosition>(enemy);
+        _entityManager.AddBuffer<EnemyPosition>(enemy).AddRange(GetAllPositions(random));
+
 
         GameController.GetInstance().AddEnemyWave();
     }
 
-    private Vector3 GetRandomPosition(Vector3 position, float xMin, float xMax, float yMin, float yMax)
+    private NativeArray<EnemyPosition> GetAllPositions(float random)
     {
-        if (yMin == yMax)
-            position.x = Random.Range(xMin, xMax);
-        if (xMin == xMax)
-            position.z = Random.Range(yMax, yMax);
-        return position;
+        var list = new NativeList<EnemyPosition>(Allocator.Temp);
+        for (int i = 1; i < min.Length; i++)
+        {
+            list.Add(new EnemyPosition() {position = GetPosition(min[i], max[i], random)});
+        }
+
+        return list;
+    }
+
+    private Vector3 GetPosition(float3 min, float3 max, float randomValue)
+    {
+        float distance = 0;
+        if (min.z == max.z)
+        {
+            distance = max.x - min.x;
+            min.x += distance * randomValue;
+        }
+        else if (min.x == max.x)
+        {
+            distance = max.z - min.z;
+            min.z += distance * randomValue;
+        }
+        else
+        {
+            distance = max.x - min.x;
+            min.x += distance * randomValue;
+            distance = max.z - min.z;
+            min.z += distance * randomValue;
+        }
+
+        return min;
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(new Vector3(spawnMin.x, 0, spawnMin.y), new Vector3(spawnMax.x, 0, spawnMax.y));
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(finalPositionLeft, finalPositionRight);
+        Gizmos.color = Color.blue;
+        for (int i = 0; i < min.Length; i++)
+        {
+            Gizmos.DrawSphere(min[i], 1);
+            Gizmos.DrawSphere(max[i], 1);
+
+            Gizmos.DrawLine(min[i], max[i]);
+        }
     }
 
     private void OnDestroy()

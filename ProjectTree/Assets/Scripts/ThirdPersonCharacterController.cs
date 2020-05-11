@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Transforms;
 using UnityEngine;
@@ -47,11 +48,11 @@ public class ThirdPersonCharacterController : MonoBehaviour
     //Life
     public int life;
     public Text lifeText;
-    
+
     //
-    public int recursosA=200;
+    public int recursosA = 200;
     public Text recValue;
-    
+
 
     //Turret Spawner
     public Transform instantiateTurrets;
@@ -62,9 +63,13 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private bool _turretCanBePlaced;
     private BlobAssetStore blobTurret;
 
+    //Enemies Attacking
+    private Dictionary<Entity, Vector3> enemies;
+
 
     private void Awake()
     {
+        enemies = new Dictionary<Entity, Vector3>();
         GameController.GetInstance().Player = this;
         lifeText.text = life.ToString();
     }
@@ -232,7 +237,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         Destroy(_instantiatedPreviewTurret.gameObject);
 
-        if (_turretCanBePlaced&& recursosA>=20)
+        if (_turretCanBePlaced && recursosA >= 20)
         {
             Entity turret = manager.Instantiate(turretECS);
             var position = instantiateTurrets.position;
@@ -242,6 +247,23 @@ public class ThirdPersonCharacterController : MonoBehaviour
             recursosA -= 20;
             recValue.text = recursosA.ToString();
         }
+    }
+
+    public void AddEnemy(Entity entity)
+    {
+        if (!enemies.ContainsKey(entity))
+            enemies.Add(entity, Vector3.zero);
+    }
+
+    public void RemoveEnemy(Entity entity)
+    {
+        if (enemies.ContainsKey(entity))
+            enemies.Remove(entity);
+    }
+
+    public float EnemyAttackProbability()
+    {
+        return Mathf.Max(0, (10 - enemies.Keys.Count) / 10);
     }
 
     private void OnDestroy()

@@ -31,8 +31,9 @@ public class WaveController : MonoBehaviour
     {
         _spawners = new List<EnemySpawner[]> {northSpawners, southSpawners, eastSpawners, westSpawners};
         _spawnersActivated = new[] {false, false, false, false};
-        _spawnersActivated[Random.Range(0, _spawnersActivated.Length)] = true;
-        GameController.GetInstance().MaxWaveEnemies = 50;
+        // _spawnersActivated[Random.Range(0, _spawnersActivated.Length)] = true;
+        _spawnersActivated[2] = true;
+        GameController.GetInstance().MaxWaveEnemies = 100;
         GameController.GetInstance().EnemiesSpawnRate = enemySpawnRate;
         _canEndWave = true;
 
@@ -68,7 +69,8 @@ public class WaveController : MonoBehaviour
             
             for (int i = 0; i < _spawnersActivated.Length; i++) _spawnersActivated[i] = false;
 
-            _spawnersActivated[Random.Range(0, _spawnersActivated.Length)] = true;
+            // _spawnersActivated[Random.Range(0, _spawnersActivated.Length)] = true;
+            _spawnersActivated[2] = true;
             _canSpawn = true;
             _time = 0;
         }
@@ -93,11 +95,12 @@ public class WaveController : MonoBehaviour
             GameController.GetInstance().CurrentEnemies <
             GameController.GetInstance().MaxWaveEnemies)
         {
-            var pos = Random.Range(0, _spawnersActivated.Length);
-            while (!_spawnersActivated[pos])
-            {
-                pos = Random.Range(0, _spawnersActivated.Length);
-            }
+            var pos = 2;
+            // var pos = Random.Range(0, _spawnersActivated.Length);
+            // while (!_spawnersActivated[pos])
+            // {
+            //     pos = Random.Range(0, _spawnersActivated.Length);
+            // }
 
             var spawner = _spawners[pos];
 
