@@ -6,7 +6,8 @@ public class PreviewTurret : MonoBehaviour
 {
     public Material material;
     public Color canBePlaced, canNotBePlaced;
-    public LayerMask layerMask;
+    public LayerMask groundLayerMask;
+    public LayerMask wallLayerMask;
     public List<Transform> validPoints;
 
     public bool isValidPosition()
@@ -17,14 +18,15 @@ public class PreviewTurret : MonoBehaviour
             for (int j = 0; j < length; j++)
             {
                 if (i == j) continue;
-
-                Ray ray = new Ray(validPoints[i].position, validPoints[j].position - validPoints[i].position);
-                if (Physics.Raycast(ray, Vector3.Distance(validPoints[i].position, validPoints[j].position),
-                    layerMask.value))
-                    return false;
+                
+                Ray groundRay = new Ray(validPoints[i].position, Vector3.down);
+                Ray wallRay = new Ray(validPoints[i].position, validPoints[j].position-validPoints[i].position);
+                if (Physics.Raycast(groundRay,0.5f, groundLayerMask.value) && !Physics.Raycast(wallRay, Vector3.Distance(validPoints[i].position, validPoints[j].position), wallLayerMask.value))
+                {
+                    return true;
+                }
             }
         }
-
-        return true;
+        return false;
     }
 }

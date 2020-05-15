@@ -15,8 +15,9 @@ public class GetClosestEnemySystem : ComponentSystem
         
         Entities.WithAll<TowerCurrentTarget>().ForEach((Entity e, ref TowerCurrentTarget tct, ref Translation position, ref RangeComponent range) =>
         {
-            float3 enemyPos = manager.GetComponentData<Translation>(tct.target).Value;
-            if (tct.target == Entity.Null || !manager.Exists(tct.target) || math.distance(position.Value, enemyPos) > range.Value || manager.HasComponent(tct.target, typeof(Dead)))
+            
+            if (tct.target == Entity.Null || !manager.Exists(tct.target) || math.distance(position.Value, manager.GetComponentData<Translation>(tct.target).Value) > range.Value 
+                || manager.HasComponent(tct.target, typeof(Dead)))
             {
                 PostUpdateCommands.RemoveComponent(e, typeof(TowerCurrentTarget));
             }

@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: -7955848241685227667}
   - component: {fileID: -2083086940199791340}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: BulletTurret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74796ed994d07e044b83e6a3577df481, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 200
+  speed: 500
   lifeTime: 5
 --- !u!114 &3511667060062645267
 MonoBehaviour:
