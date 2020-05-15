@@ -12,6 +12,7 @@ public class GetClosestEnemySystem : ComponentSystem
     protected override void OnUpdate()
     {
         EntityManager manager = World.DefaultGameObjectInjectionWorld.EntityManager;
+        var buffers = GetBufferFromEntity<EnemiesInRange>();
         
         Entities.WithAll<TowerCurrentTarget>().ForEach((Entity e, ref TowerCurrentTarget tct, ref Translation position, ref RangeComponent range) =>
         {

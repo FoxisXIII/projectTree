@@ -32,7 +32,55 @@ namespace Systems
                     (ref AIData aiData, ref Translation translation, ref MovementData movementData,
                         ref Entity entity) =>
                     {
-                        if (math.distance(translation.Value, playerPosition) >= aiData.chaseDistance)
+                        // if (math.distance(translation.Value, playerPosition) < aiData.chaseDistance)
+                        // {
+                        //     // if (aiData.canAttackPlayer || Random.Range(0f, 1f) < player.EnemyAttackProbability())
+                        //     // {
+                        //     //     if (!aiData.canAttackPlayer)
+                        //     //     {
+                        //     //         player.AddEnemy(entity);
+                        //     //         aiData.canAttackPlayer = true;
+                        //     //         Debug.Log(player.EnemyAttackProbability());
+                        //     //     }
+                        //     //
+                        //     //     var direction = playerPosition - translation.Value;
+                        //     //     var magnitude = Magnitude(direction);
+                        //     //     if (magnitude < 1)
+                        //     //     {
+                        //     //         movementData.directionX = 0;
+                        //     //         movementData.directionY = 0;
+                        //     //         movementData.directionZ = 0;
+                        //     //     }
+                        //     //     else
+                        //     //     {
+                        //     //         direction /= magnitude;
+                        //     //         movementData.directionX = direction.x;
+                        //     //         movementData.directionY = 0;
+                        //     //         movementData.directionZ = direction.z;
+                        //     //     }
+                        //     // }
+                        // }
+                        // else 
+                        if (aiData.goToEntity)
+                        {
+                            Debug.Log("TO ENTITY");
+                            var direction = aiData.entity - translation.Value;
+                            var magnitude = Magnitude(direction);
+                            if (magnitude < 1)
+                            {
+                                movementData.directionX = 0;
+                                movementData.directionY = 0;
+                                movementData.directionZ = 0;
+                            }
+                            else
+                            {
+                                direction /= magnitude;
+                                movementData.directionX = direction.x;
+                                movementData.directionY = 0;
+                                movementData.directionZ = direction.z;
+                            }
+                        }
+                        else
                         {
                             var position = buffers[entity][aiData.counter].position;
                             var direction = position - translation.Value;
@@ -43,7 +91,6 @@ namespace Systems
                                 if (Magnitude(direction) > 5 && aiData.counter < buffers[entity].Length)
                                 {
                                     aiData.counter++;
-                                    aiData.changePosition = true;
                                 }
                                 else
                                 {
@@ -59,34 +106,6 @@ namespace Systems
                                 movementData.directionY = 0;
                                 movementData.directionZ = direction.z;
                             }
-                        }
-                        else
-                        {
-                            // if (aiData.canAttackPlayer || Random.Range(0f, 1f) < player.EnemyAttackProbability())
-                            // {
-                            //     if (!aiData.canAttackPlayer)
-                            //     {
-                            //         player.AddEnemy(entity);
-                            //         aiData.canAttackPlayer = true;
-                            //         Debug.Log(player.EnemyAttackProbability());
-                            //     }
-                            //
-                            //     var direction = playerPosition - translation.Value;
-                            //     var magnitude = Magnitude(direction);
-                            //     if (magnitude < 1)
-                            //     {
-                            //         movementData.directionX = 0;
-                            //         movementData.directionY = 0;
-                            //         movementData.directionZ = 0;
-                            //     }
-                            //     else
-                            //     {
-                            //         direction /= magnitude;
-                            //         movementData.directionX = direction.x;
-                            //         movementData.directionY = 0;
-                            //         movementData.directionZ = direction.z;
-                            //     }
-                            // }
                         }
                     }).Run();
             return default;

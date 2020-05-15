@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b275e5f92732148048d7b77e264ac30e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ShapeType: 0
+  m_ShapeType: 3
   m_PrimitiveCenter:
     x: 0
     y: 1.2572124
@@ -255,11 +255,13 @@ MonoBehaviour:
     x: 0
     y: 0
     z: 0
-  positionOffset:
+  direction:
     x: 0
     y: 0
     z: 0
+  counter: 0
   canAttackPlayer: 0
+  hasToInitialize: 0
 --- !u!114 &5761566178846623500
 MonoBehaviour:
   m_ObjectHideFlags: 0

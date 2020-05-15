@@ -20,6 +20,7 @@ public class DeathSystem : JobComponentSystem
         Entities.WithoutBurst().WithAll<Dead>().ForEach((Entity e) =>
         {
             ecb.DestroyEntity(e);
+            GameController.GetInstance().RemoveEnemyWave();
         }).Run();
 
         return default;

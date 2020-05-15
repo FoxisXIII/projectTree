@@ -40,7 +40,6 @@ public class EnemySpawner : MonoBehaviour
         _entityManager.SetComponentData(enemy, new Rotation() {Value = Quaternion.identity});
         var aiData = _entityManager.GetComponentData<AIData>(enemy);
         aiData.state = 0;
-        aiData.hasToInitialize = true;
         _entityManager.SetComponentData(enemy, aiData);
 
         _entityManager.AddBuffer<EnemyPosition>(enemy).AddRange(GetAllPositions(random));
@@ -98,7 +97,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (GameController.GetInstance().Player.life > 0)
+        if (GameController.GetInstance().Player.life <= 0)
             blobAssetStore.Dispose();
     }
 
