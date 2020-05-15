@@ -155,6 +155,9 @@
         <e p="Sound" t="Include">
           <e p="DELETE.txt" t="Include" />
         </e>
+        <e p="Streaming Assets" t="Include">
+          <e p="aqui-va-fmod.txt" t="Include" />
+        </e>
       </e>
       <e p="obj" t="ExcludeRecursive" />
       <e p="packages" t="ExcludeRecursive" />

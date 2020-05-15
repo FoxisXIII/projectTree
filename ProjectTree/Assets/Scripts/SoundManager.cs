@@ -10,7 +10,7 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     private static SoundManager Instance;
-    private List<EventInstance> positionEvents;
+    private List<EventInstance> eventsList;
 
     public static SoundManager GetInstance()
     {
@@ -20,6 +20,11 @@ public class SoundManager : MonoBehaviour
         }
 
         return Instance;
+    }
+
+    private void Start()
+    {
+        eventsList = new List<EventInstance>();
     }
 
     private void Update()
@@ -57,9 +62,23 @@ public class SoundManager : MonoBehaviour
         {
             soundEvent.set3DAttributes(RuntimeUtils.To3DAttributes(position));
             soundEvent.start();
+            eventsList.Add(soundEvent);
         }
 
         return soundEvent;
+    }
+
+    public void PlayEventOnGameObject(string path, Transform transform, Rigidbody r = null)
+    {
+        EventInstance soundEvent = RuntimeManager.CreateInstance(path);
+        if (!soundEvent.Equals(null))
+        {
+            if (r.Equals(null))
+                r = new Rigidbody();
+            RuntimeManager.AttachInstanceToGameObject(soundEvent, transform, r);
+            soundEvent.start();
+            eventsList.Add(soundEvent);
+        }
     }
 
     //Para objetos en movimiento que actualizan la posición del sonido
