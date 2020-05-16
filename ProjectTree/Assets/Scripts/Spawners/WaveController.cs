@@ -105,7 +105,9 @@ public class WaveController : MonoBehaviour
             var spawner = _spawners[pos];
 
 
-            spawner[Random.Range(0, spawner.Length)].SpawnEnemy();
+            // spawner[Random.Range(0, spawner.Length)].SpawnEnemy();
+            
+            spawner[0].SpawnEnemy();
 
             _time = 0;
         }

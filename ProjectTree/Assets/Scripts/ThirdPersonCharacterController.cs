@@ -96,6 +96,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(life<=0)
+            GameController.GetInstance().gameOver();
+        
         timer += Time.deltaTime;
         if (Input.GetMouseButton(0) && timer >= fireRate)
         {

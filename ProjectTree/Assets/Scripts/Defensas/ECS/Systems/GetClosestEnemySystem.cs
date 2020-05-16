@@ -33,6 +33,7 @@ public class GetClosestEnemySystem : ComponentSystem
             {
                 if(manager.Exists(enemy.Value))
                 {
+                    Debug.Log(enemy.Value);
                     float3 enemyPos = manager.GetComponentData<Translation>(enemy.Value).Value;
                     if (closestEnemy == Entity.Null)
                     {

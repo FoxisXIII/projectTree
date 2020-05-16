@@ -1,4 +1,5 @@
-﻿using Systems;
+﻿using System.Collections.Generic;
+using Systems;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
@@ -12,6 +13,8 @@ using float3 = Unity.Mathematics.float3;
 [UpdateBefore(typeof(MoveToSystem))]
 public class AttackPositionSystem : ComponentSystem
 {
+    private List<float3> list;
+
     protected override void OnUpdate()
     {
         var buffers = GetBufferFromEntity<EnemiesInRange>();
@@ -19,37 +22,32 @@ public class AttackPositionSystem : ComponentSystem
         Entities.WithAll<EnemyAttackPositionComponent>().ForEach((Entity entity, ref Translation translation) =>
         {
             var length = buffers[entity].Length;
-            var distance = GenerateArray(5, length, 10);
-            var positionCount = GenerateArray(10, length, 10);
-            var list = GetPositionAround(translation.Value, distance, positionCount);
+
+            list = GetPositionAround(translation.Value, 5, 15);
+
             for (int i = 0; i < length; i++)
             {
                 var enemy = buffers[entity][i].Value;
-
+        
                 if (manager.Exists(enemy))
                 {
                     var aiData = manager.GetComponentData<AIData>(enemy);
-                    if (!aiData.goToEntity)
-                    {
-                        aiData.goToEntity = true;
-                        aiData.entity = list[i];
-                        manager.SetComponentData(enemy, aiData);
-                        GameObject.CreatePrimitive(PrimitiveType.Sphere).transform.position = list[i];
-                    }
+                    aiData.goToEntity = true;
+                    aiData.entity = list[i%list.Count];
+                    manager.SetComponentData(enemy, aiData);
                 }
                 else
                 {
                     buffers[entity].RemoveAt(i);
+                    length = buffers[entity].Length;
                 }
             }
-
-            list.Dispose();
         });
     }
 
-    private static NativeList<float> GenerateArray(float toMultiply, int length, int maxEnemies)
+    private static List<float> GeneratePositionCountArray(float toMultiply, int length, int maxEnemies)
     {
-        NativeList<float> values = new NativeList<float>(Allocator.TempJob);
+        List<float> values = new List<float>();
         for (int i = 1; i <= (length / maxEnemies) + 1; i++)
         {
             values.Add(toMultiply * i);
@@ -58,26 +56,34 @@ public class AttackPositionSystem : ComponentSystem
         return values;
     }
 
-    private static NativeList<float3> GetPositionAround(float3 startPosition, NativeList<float> ringDistance,
-        NativeList<float> ringPositionCount)
+    private static List<float> GenerateArray(float toMultiply, int length, int maxEnemies)
     {
-        NativeList<float3> positions = new NativeList<float3>(Allocator.TempJob);
+        List<float> values = new List<float>();
+        for (int i = 1; i <= (length / maxEnemies) + 1; i++)
+        {
+            values.Add(toMultiply + (i * 1.5f));
+        }
+
+        return values;
+    }
+
+    private static List<float3> GetPositionAround(float3 startPosition, List<float> ringDistance,
+        List<float> ringPositionCount)
+    {
+        List<float3> positions = new List<float3>();
         startPosition.y = 0;
-        for (int ring = 0; ring < ringPositionCount.Length; ring++)
+        for (int ring = 0; ring < ringPositionCount.Count; ring++)
         {
             var list = GetPositionAround(startPosition, ringDistance[ring], (int) ringPositionCount[ring]);
             positions.AddRange(list);
-            list.Dispose();
         }
 
-        ringDistance.Dispose();
-        ringPositionCount.Dispose();
         return positions;
     }
 
-    private static NativeList<float3> GetPositionAround(float3 startPosition, float distance, int positionCount)
+    private static List<float3> GetPositionAround(float3 startPosition, float distance, int positionCount)
     {
-        NativeList<float3> positions = new NativeList<float3>(Allocator.TempJob);
+        List<float3> positions = new List<float3>();
         startPosition.y = 0;
         for (int i = 1; i <= positionCount; i++)
         {

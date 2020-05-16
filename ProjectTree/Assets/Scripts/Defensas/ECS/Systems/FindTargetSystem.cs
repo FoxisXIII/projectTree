@@ -75,8 +75,10 @@ public class FindTargetSystem : JobComponentSystem
         {
             if (towerGroup[turret].Length <= 0)
                 ecb.AddComponent<EnemyAttackPositionComponent>(turret);
-            if (!ContainsEntity(towerGroup[turret], enemy))
+            if (!ContainsEntity(towerGroup[turret], enemy) && !enemyGroup[enemy].goToEntity)
+            {
                 towerGroup[turret].Add(new EnemiesInRange {Value = enemy});
+            }
         }
 
         private bool ContainsEntity(DynamicBuffer<EnemiesInRange> buffer, Entity entity)
@@ -86,6 +88,7 @@ public class FindTargetSystem : JobComponentSystem
                 if (enemiesInRange.Value.Equals(entity))
                     return true;
             }
+
             return false;
         }
     }

@@ -25,11 +25,15 @@ public class Base : MonoBehaviour
         healthText.text = life.ToString();
     }
 
+    private void Update()
+    {
+        if(life<=0)
+            GameController.GetInstance().gameOver();
+    }
+
     public void ReceiveDamage(int damage)
     {
         life -= damage;
         healthText.text = life.ToString();
-        if(life<=0)
-            GameController.GetInstance().gameOver();
     }
 }

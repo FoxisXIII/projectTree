@@ -42,7 +42,7 @@ namespace Systems
                         {
                             if (aiData.attackWait >= aiData.attackRate)
                             {
-                                playerBase.ReceiveDamage(aiData.attackDamage);
+                                // playerBase.ReceiveDamage(aiData.attackDamage);
                                 aiData.attackWait = 0;
                             }
 

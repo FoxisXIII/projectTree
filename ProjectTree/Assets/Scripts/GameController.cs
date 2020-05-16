@@ -14,6 +14,7 @@ public class GameController
 
     private Base _base;
     private ThirdPersonCharacterController _player;
+    private EntityCommandBuffer ecb;
 
     private GameController()
     {
@@ -61,6 +62,7 @@ public class GameController
 
     public void gameOver()
     {
+        
         var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
         var allEntities = entityManager.GetAllEntities();
         foreach (var entity in allEntities)

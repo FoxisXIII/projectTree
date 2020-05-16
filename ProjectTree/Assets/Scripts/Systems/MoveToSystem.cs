@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Systems;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
@@ -9,61 +10,39 @@ using UnityEngine;
 using UnityEngine.Experimental.AI;
 using Random = UnityEngine.Random;
 
-namespace Systems
+[UpdateAfter(typeof(EnemiesCollisionsSystem))]
+[UpdateBefore(typeof(MovementSystem))]
+[AlwaysSynchronizeSystem]
+public class MoveToSystem : JobComponentSystem
 {
-    [UpdateBefore(typeof(MovementSystem))]
-    [AlwaysSynchronizeSystem]
-    public class MoveToSystem : JobComponentSystem
+    private static float Magnitude(float3 vector)
     {
-        private static float Magnitude(float3 vector)
-        {
-            var magnitude = math.sqrt(math.pow(vector.x, 2) + math.sqrt(math.pow(vector.y, 2)) + math.pow(vector.z, 2));
-            return magnitude;
-        }
+        var magnitude = math.sqrt(math.pow(vector.x, 2) + math.sqrt(math.pow(vector.y, 2)) + math.pow(vector.z, 2));
+        return magnitude;
+    }
 
-        protected override JobHandle OnUpdate(JobHandle inputDependencies)
-        {
-            var buffers = GetBufferFromEntity<EnemyPosition>();
-            var player = GameController.GetInstance().Player;
-            float3 playerPosition = player.transform.position;
+    protected override JobHandle OnUpdate(JobHandle inputDependencies)
+    {
+        var buffers = GetBufferFromEntity<EnemyPosition>();
+        var player = GameController.GetInstance().Player;
+        float3 playerPosition = player.transform.position;
 
-            Entities
-                .ForEach(
-                    (ref AIData aiData, ref Translation translation, ref MovementData movementData,
-                        ref Entity entity) =>
+        Entities
+            .ForEach(
+                (ref AIData aiData, ref Translation translation, ref MovementData movementData,
+                    ref Entity entity) =>
+                {
+                    if (aiData.stop)
                     {
-                        // if (math.distance(translation.Value, playerPosition) < aiData.chaseDistance)
-                        // {
-                        //     // if (aiData.canAttackPlayer || Random.Range(0f, 1f) < player.EnemyAttackProbability())
-                        //     // {
-                        //     //     if (!aiData.canAttackPlayer)
-                        //     //     {
-                        //     //         player.AddEnemy(entity);
-                        //     //         aiData.canAttackPlayer = true;
-                        //     //         Debug.Log(player.EnemyAttackProbability());
-                        //     //     }
-                        //     //
-                        //     //     var direction = playerPosition - translation.Value;
-                        //     //     var magnitude = Magnitude(direction);
-                        //     //     if (magnitude < 1)
-                        //     //     {
-                        //     //         movementData.directionX = 0;
-                        //     //         movementData.directionY = 0;
-                        //     //         movementData.directionZ = 0;
-                        //     //     }
-                        //     //     else
-                        //     //     {
-                        //     //         direction /= magnitude;
-                        //     //         movementData.directionX = direction.x;
-                        //     //         movementData.directionY = 0;
-                        //     //         movementData.directionZ = direction.z;
-                        //     //     }
-                        //     // }
-                        // }
-                        // else 
+                        movementData.directionX = 0;
+                        movementData.directionY = 0;
+                        movementData.directionZ = 0;
+                        aiData.stop = false;
+                    }
+                    else
+                    {
                         if (aiData.goToEntity)
                         {
-                            Debug.Log("TO ENTITY");
                             var direction = aiData.entity - translation.Value;
                             var magnitude = Magnitude(direction);
                             if (magnitude < 1)
@@ -78,6 +57,7 @@ namespace Systems
                                 movementData.directionX = direction.x;
                                 movementData.directionY = 0;
                                 movementData.directionZ = direction.z;
+                                aiData.storedImpulse = default;
                             }
                         }
                         else
@@ -105,10 +85,11 @@ namespace Systems
                                 movementData.directionX = direction.x;
                                 movementData.directionY = 0;
                                 movementData.directionZ = direction.z;
+                                aiData.storedImpulse = default;
                             }
                         }
-                    }).Run();
-            return default;
-        }
+                    }
+                }).Run();
+        return default;
     }
 }
