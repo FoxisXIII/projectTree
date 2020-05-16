@@ -19,12 +19,15 @@ namespace Systems
                 velocity.Linear.y = movementData.directionY * movementData.speed * deltaTime;
                 velocity.Linear.z = movementData.directionZ * movementData.speed * deltaTime;
 
-                velocity.Angular.x = 0;
-                velocity.Angular.y = 0;
-                velocity.Angular.z = 0;
-                rotation.Value.value.x = 0;
-                rotation.Value.value.y = 0;
-                rotation.Value.value.z = 0;
+                if(movementData.lockRotation)
+                {
+                    velocity.Angular.x = 0;
+                    velocity.Angular.y = 0;
+                    velocity.Angular.z = 0;
+                    rotation.Value.value.x = 0;
+                    rotation.Value.value.y = 0;
+                    rotation.Value.value.z = 0;
+                }
             }).Run();
             return default;
         }

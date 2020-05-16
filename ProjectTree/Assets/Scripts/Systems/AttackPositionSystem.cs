@@ -19,6 +19,7 @@ public class AttackPositionSystem : ComponentSystem
     {
         var buffers = GetBufferFromEntity<EnemiesInRange>();
         EntityManager manager = World.DefaultGameObjectInjectionWorld.EntityManager;
+
         Entities.WithAll<EnemyAttackPositionComponent>().ForEach((Entity entity, ref Translation translation) =>
         {
             var length = buffers[entity].Length;
@@ -28,12 +29,12 @@ public class AttackPositionSystem : ComponentSystem
             for (int i = 0; i < length; i++)
             {
                 var enemy = buffers[entity][i].Value;
-        
-                if (manager.Exists(enemy))
+
+                if (manager.Exists(enemy) && manager.HasComponent<AIData>(enemy))
                 {
                     var aiData = manager.GetComponentData<AIData>(enemy);
                     aiData.goToEntity = true;
-                    aiData.entity = list[i%list.Count];
+                    aiData.entity = list[i % list.Count];
                     manager.SetComponentData(enemy, aiData);
                 }
                 else

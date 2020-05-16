@@ -23,7 +23,6 @@ public struct AIData : IComponentData
 
     [HideInInspector] public bool goToEntity;
     [HideInInspector] public float3 entity;
-    [HideInInspector] public float3 storedImpulse;
-    public bool stop;
+    [HideInInspector] public bool stop;
     
 }

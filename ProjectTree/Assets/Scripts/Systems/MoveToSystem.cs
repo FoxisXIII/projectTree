@@ -41,6 +41,7 @@ public class MoveToSystem : JobComponentSystem
                     }
                     else
                     {
+                        aiData.state = 1;
                         if (aiData.goToEntity)
                         {
                             var direction = aiData.entity - translation.Value;
@@ -57,7 +58,6 @@ public class MoveToSystem : JobComponentSystem
                                 movementData.directionX = direction.x;
                                 movementData.directionY = 0;
                                 movementData.directionZ = direction.z;
-                                aiData.storedImpulse = default;
                             }
                         }
                         else
@@ -85,7 +85,6 @@ public class MoveToSystem : JobComponentSystem
                                 movementData.directionX = direction.x;
                                 movementData.directionY = 0;
                                 movementData.directionZ = direction.z;
-                                aiData.storedImpulse = default;
                             }
                         }
                     }

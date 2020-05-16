@@ -19,7 +19,7 @@ public class PointAtCurrentTargetSystem : ComponentSystem
             (Entity e, ref TowerCurrentTarget target, ref Rotation rotation, ref Translation position,
                 ref RangeComponent turretRange) =>
             {
-                if (World.EntityManager.Exists(target.target))
+                if (World.EntityManager.Exists(target.target)&&World.EntityManager.HasComponent<Translation>(target.target))
                 {
                     Entity enemy = target.target;
                     Translation enemyPos = World.EntityManager.GetComponentData<Translation>(enemy);

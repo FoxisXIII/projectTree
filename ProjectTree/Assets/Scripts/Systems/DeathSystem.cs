@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Entities;
 using Unity.Jobs;
 using UnityEngine;
-
+[UpdateBefore(typeof(AttackPositionSystem))]
 public class DeathSystem : JobComponentSystem
 {
     private EndSimulationEntityCommandBufferSystem _entityCommandBufferSystem;

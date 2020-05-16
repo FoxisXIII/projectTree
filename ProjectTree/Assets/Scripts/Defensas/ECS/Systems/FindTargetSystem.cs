@@ -30,11 +30,13 @@ public class FindTargetSystem : JobComponentSystem
     {
         var turretGroup = GetBufferFromEntity<EnemiesInRange>();
         var enemyGroup = GetComponentDataFromEntity<AIData>();
+        var playerTag = GetComponentDataFromEntity<PlayerTag>();
 
         var findTargetJob = new FindTargetTriggerJob()
         {
             towerGroup = turretGroup,
             enemyGroup = enemyGroup,
+            playerTag = playerTag,
             ecb = this.ecb.CreateCommandBuffer()
         };
 
@@ -47,6 +49,7 @@ public class FindTargetSystem : JobComponentSystem
     {
         public BufferFromEntity<EnemiesInRange> towerGroup;
         public ComponentDataFromEntity<AIData> enemyGroup;
+        public ComponentDataFromEntity<PlayerTag> playerTag;
         public EntityCommandBuffer ecb;
 
 
@@ -69,6 +72,14 @@ public class FindTargetSystem : JobComponentSystem
                     AddEnemyInRange(entityA, entityB);
                 }
             }
+
+            if (towerGroup.Exists(entityA) && !playerTag.HasComponent(entityA))
+            {
+                if (towerGroup.Exists(entityB) && !playerTag.HasComponent(entityB))
+                {
+                    Debug.Log("Hola");
+                }
+            }
         }
 
         private void AddEnemyInRange(Entity turret, Entity enemy)
@@ -77,7 +88,9 @@ public class FindTargetSystem : JobComponentSystem
                 ecb.AddComponent<EnemyAttackPositionComponent>(turret);
             if (!ContainsEntity(towerGroup[turret], enemy) && !enemyGroup[enemy].goToEntity)
             {
-                towerGroup[turret].Add(new EnemiesInRange {Value = enemy});
+                if (!playerTag.HasComponent(turret) ||
+                    (playerTag.HasComponent(turret) && towerGroup[turret].Length <= 15))
+                    towerGroup[turret].Add(new EnemiesInRange {Value = enemy});
             }
         }
 

@@ -208,9 +208,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     void ShootECS()
     {
         Entity bullet = manager.Instantiate(bulletEntityPrefab);
-
         manager.SetComponentData(bullet, new Translation {Value = LocFire.transform.position});
-        manager.SetComponentData(bullet, new Rotation {Value = LocFire.transform.rotation});
+        manager.SetComponentData(bullet, new Rotation {Value = transform.rotation});
         manager.AddComponent(bullet, typeof(MovesForwardComponent));
     }
 

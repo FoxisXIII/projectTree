@@ -122,7 +122,7 @@ MonoBehaviour:
     Height: 2.5144248
     Radius: 0.36851686
     Axis: 2
-  m_CylinderSideCount: 6
+  m_CylinderSideCount: 12
   m_SphereRadius: 1.2572124
   m_MinimumSkinnedVertexWeight: 0.1
   m_ConvexHullGenerationParameters:
@@ -176,6 +176,7 @@ MonoBehaviour:
   directionY: 0
   directionZ: 0
   speed: 500
+  lockRotation: 1
 --- !u!114 &-4266191403052175820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,10 +200,6 @@ MonoBehaviour:
   counter: 0
   goToEntity: 0
   entity:
-    x: 0
-    y: 0
-    z: 0
-  storedImpulse:
     x: 0
     y: 0
     z: 0

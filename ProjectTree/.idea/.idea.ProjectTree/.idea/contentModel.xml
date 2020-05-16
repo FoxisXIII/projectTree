@@ -76,12 +76,14 @@
           <e p="Systems" t="Include">
             <e p="AttackPositionSystem.cs" t="Include" />
             <e p="AttackSystem.cs" t="Include" />
+            <e p="CreatePlayerBufferSystem.cs" t="Include" />
             <e p="DamageCollisionSystem.cs" t="Include" />
             <e p="DeathSystem.cs" t="Include" />
             <e p="EnemiesCollisionsSystem.cs" t="Include" />
             <e p="HealthSystem.cs" t="Include" />
             <e p="MoveBulletSys.cs" t="Include" />
             <e p="MovementSystem.cs" t="Include" />
+            <e p="MovePlayerSystem.cs" t="Include" />
             <e p="MoveToSystem.cs" t="Include" />
             <e p="ResolveDamageSystem.cs" t="Include" />
           </e>

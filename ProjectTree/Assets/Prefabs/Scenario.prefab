@@ -8610,7 +8610,7 @@ PrefabInstance:
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
       propertyPath: min.Array.data[4].z
-      value: -30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
@@ -8660,7 +8660,7 @@ PrefabInstance:
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
       propertyPath: max.Array.data[4].z
-      value: 30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 388499504665842041, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}

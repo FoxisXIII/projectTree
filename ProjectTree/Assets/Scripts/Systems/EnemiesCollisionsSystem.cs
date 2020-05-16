@@ -36,25 +36,42 @@ public class EnemiesCollisionsSystem : JobComponentSystem
             if (entityAIsCharacter && entityBIsCharacter)
             {
                 var calculateHitPoint = CalculateHitPoint(TranslationGroup[entityA], TranslationGroup[entityB]);
+
                 var directionA = new float3(MovementGroup[entityA].directionX, MovementGroup[entityA].directionY,
                     MovementGroup[entityA].directionZ);
                 var directionB = new float3(MovementGroup[entityB].directionX, MovementGroup[entityB].directionY,
                     MovementGroup[entityB].directionZ);
-                
-                if(directionB.Equals(float3.zero))
+
+
+                StopEntity(directionB, calculateHitPoint, directionA, entityA);
+                StopEntity(directionA, calculateHitPoint, directionB, entityB);
+            }
+        }
+
+        private void StopEntity(float3 directionB, float3 calculateHitPoint, float3 directionA, Entity entityA)
+        {
+            // NoForwardCollsion(calculateHitPoint, directionA, TranslationGroup[entityA].Value, entityA);
+            if (directionB.Equals(float3.zero))
+                // if (directionB.Equals(float3.zero) && NoForwardCollsion(calculateHitPoint, directionA))
+            {
+                AIData characterA = CharactersGroup[entityA];
+                if (characterA.state == 1)
                 {
-                    AIData characterA = CharactersGroup[entityA];
                     characterA.stop = true;
                     CharactersGroup[entityA] = characterA;
                 }
-                if(directionA.Equals(float3.zero))
-                {
-                    AIData characterB = CharactersGroup[entityB];
-                    characterB.stop = true;
-                    CharactersGroup[entityB] = characterB;
-                }
-                
             }
+        }
+
+        private bool NoForwardCollsion(float3 calculateHitPoint, float3 direction)
+            // private bool NoForwardCollsion(float3 calculateHitPoint, float3 direction, float3 translation, Entity entityA)
+        {
+            // Debug.Log("Entity = " + entityA + ", Collision = " + (translation + calculateHitPoint) + ",Direction = " +
+            //           (translation + direction) + ", Angle = " +
+            // );
+            
+            //S'HA DE LLAÇAR UN RAYCAST
+            return Vector3.SignedAngle(calculateHitPoint, direction, Vector3.up) == 0;
         }
 
         private float3 CalculateHitPoint(Translation translation, Translation translation1)
