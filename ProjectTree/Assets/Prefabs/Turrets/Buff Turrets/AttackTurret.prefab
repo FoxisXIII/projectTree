@@ -228,6 +228,6 @@ MonoBehaviour:
   attack: 2
   speed: 0
   shotgun: 0
-  buffRate: 1
+  buffRate: 0
   buffTimer: 0
-  buffDisapear: 30
+  buffDisapear: 2

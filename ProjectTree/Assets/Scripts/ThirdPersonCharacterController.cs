@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
+using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 using UnityEngine.UI;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 public class ThirdPersonCharacterController : MonoBehaviour
 {
@@ -35,7 +40,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     //Disparo
     public GameObject Bullet;
     public GameObject LocFire;
-    [Range(0, 1)] public float fireRate;
+    [Range(0, 1)] public float initFireRate;
+    [HideInInspector] public float fireRate;
     private float timer;
 
     //ECS
@@ -45,7 +51,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private BlobAssetStore blobBullet;
 
     //Life
-    public int life;
+    public int maxLife;
+    [HideInInspector] public int life;
     public Text lifeText;
 
     //
@@ -64,20 +71,24 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
 
     //Buffs
-    public bool hasBuff;
+    [HideInInspector] public bool hasBuff;
+    public float initialDamage;
+    private float damage;
+    private bool shotgun;
+    private int shotgunRange;
 
 
     private void Awake()
     {
         GameController.GetInstance().Player = this;
+        life = maxLife / 2;
         lifeText.text = life.ToString();
+        StopBuffs();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        WalkSpeed = Speed;
-        RunSpeed = WalkSpeed * 2;
         manager = World.DefaultGameObjectInjectionWorld.EntityManager;
         blobTurret = new BlobAssetStore();
         turretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(shootingTurret,
@@ -100,7 +111,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
         {
             if (useECS)
             {
-                ShootECS();
+                if (shotgun)
+                    ShotgunECS(LocFire.transform.position, LocFire.transform.rotation.eulerAngles);
+                else
+                    ShootECS(LocFire.transform.position, LocFire.transform.rotation);
             }
             else
             {
@@ -134,18 +148,18 @@ public class ThirdPersonCharacterController : MonoBehaviour
         CamDir();
 
         movPlayer = playerinput.x * camRight + playerinput.z * camForward;
-
+        float speed = WalkSpeed;
         if (Input.GetKey(RunKey))
         {
-            Speed = RunSpeed;
+            speed = RunSpeed;
         }
 
         if (Input.GetKeyUp(RunKey))
         {
-            Speed = WalkSpeed;
+            speed = WalkSpeed;
         }
 
-        movPlayer = movPlayer * Speed;
+        movPlayer = movPlayer * speed;
 
         setGravity();
         Jump();
@@ -201,13 +215,47 @@ public class ThirdPersonCharacterController : MonoBehaviour
         bulletShot.transform.rotation = transform.rotation;
     }
 
-    void ShootECS()
+    void ShootECS(Vector3 position, Quaternion rotation)
     {
         Entity bullet = manager.Instantiate(bulletEntityPrefab);
 
-        manager.SetComponentData(bullet, new Translation {Value = LocFire.transform.position});
-        manager.SetComponentData(bullet, new Rotation {Value = LocFire.transform.rotation});
+        manager.SetComponentData(bullet, new Translation {Value = position});
+        manager.SetComponentData(bullet, new Rotation {Value = rotation});
+        var damage = manager.GetComponentData<DealsDamage>(bullet);
+        damage.Value = this.damage;
+        manager.SetComponentData(bullet, damage);
         manager.AddComponent(bullet, typeof(MovesForwardComponent));
+    }
+
+    void ShotgunECS(Vector3 position, Vector3 rotation)
+    {
+        int max = shotgunRange / 2;
+        int min = -max;
+        int totalAmount = shotgunRange * shotgunRange;
+
+        Vector3 tempRot = rotation;
+        int index = 0;
+
+        NativeArray<Entity> bullets = new NativeArray<Entity>(totalAmount, Allocator.TempJob);
+        manager.Instantiate(bulletEntityPrefab, bullets);
+
+        for (int x = min; x < max; x++)
+        {
+            tempRot.x = (rotation.x + 3 * x) % 360;
+            for (int y = min; y < max; y++)
+            {
+                tempRot.y = (rotation.y + 3 * y) % 360;
+                manager.SetComponentData(bullets[index], new Translation {Value = position});
+                manager.SetComponentData(bullets[index], new Rotation {Value = Quaternion.Euler(tempRot)});
+                var damage = manager.GetComponentData<DealsDamage>(bullets[index]);
+                damage.Value = this.damage;
+                manager.SetComponentData(bullets[index], damage);
+                manager.AddComponent(bullets[index], typeof(MovesForwardComponent));
+                index++;
+            }
+        }
+
+        bullets.Dispose();
     }
 
 
@@ -256,11 +304,14 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     public void RecoverHealth(int health)
     {
-        throw new NotImplementedException();
+        StopBuffs();
+        life = Mathf.Min(life + health, maxLife);
+        lifeText.text = life.ToString();
     }
 
     public void IncreaseResources(int resources)
     {
+        StopBuffs();
         recursosA += resources;
         recValue.text = recursosA.ToString();
     }
@@ -269,6 +320,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         if (!hasBuff)
         {
+            StopBuffs();
+            damage = initialDamage * Attack;
         }
     }
 
@@ -276,20 +329,29 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         if (!hasBuff)
         {
-            WalkSpeed *= Speed;
-            RunSpeed *= Speed;
-            fireRate /= Speed;
+            StopBuffs();
+            WalkSpeed = this.Speed * Speed;
+            RunSpeed = WalkSpeed * 2;
+            fireRate = initFireRate / Speed;
         }
     }
 
-    public void Shotgun(int Shotgun)
+    public void Shotgun(int shotgun)
     {
-        throw new NotImplementedException();
+        if (!hasBuff)
+        {
+            StopBuffs();
+            this.shotgun = true;
+            shotgunRange = shotgun;
+        }
     }
 
     public void StopBuffs()
     {
-        WalkSpeed = Speed;
-        RunSpeed = WalkSpeed*2;
+        WalkSpeed = this.Speed;
+        RunSpeed = WalkSpeed * 2;
+        fireRate = initFireRate;
+        damage = initialDamage;
+        shotgun = false;
     }
 }

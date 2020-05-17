@@ -52,8 +52,8 @@ public class BuffTurretSystem : JobComponentSystem
                             if (buffTurretData.buffTimer >= buffTurretData.buffDisapear)
                             {
                                 buffTurretData.buffTimer = 0;
-                                player.StopBuffs();
                                 player.hasBuff = false;
+                                player.StopBuffs();
                             }
                             else
                             {

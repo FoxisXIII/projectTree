@@ -146,8 +146,8 @@ MonoBehaviour:
   resources: 0
   attack: 0
   speed: 0
-  shotgun: 3
-  buffRate: 1
+  shotgun: 4
+  buffRate: 0
   buffTimer: 0
   buffDisapear: 30
 --- !u!1 &8617828296556560418
