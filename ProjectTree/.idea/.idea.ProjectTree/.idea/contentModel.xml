@@ -12,6 +12,7 @@
           <e p="Components" t="Include">
             <e p="AIData.cs" t="Include" />
             <e p="BaseTag.cs" t="Include" />
+            <e p="BuffTurretData.cs" t="Include" />
             <e p="DamageComponent.cs" t="Include" />
             <e p="DeadComponent.cs" t="Include" />
             <e p="EnemyTag.cs" t="Include" />
@@ -73,6 +74,7 @@
           </e>
           <e p="Systems" t="Include">
             <e p="AttackSystem.cs" t="Include" />
+            <e p="BuffTurretSystem.cs" t="Include" />
             <e p="DamageCollisionSystem.cs" t="Include" />
             <e p="DeathSystem.cs" t="Include" />
             <e p="HealthSystem.cs" t="Include" />
