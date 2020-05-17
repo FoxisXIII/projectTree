@@ -22,7 +22,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     //Gravedad
     public float gravity = 9.8f;
-    public float VelCaida;
+    private float VelCaida;
 
     //Salto
     public float jumpForce = 50;
@@ -116,6 +116,19 @@ public class ThirdPersonCharacterController : MonoBehaviour
             UpdatePreviewTurret();
         }
         else if (Input.GetMouseButtonUp(1))
+        {
+            CreateTurret();
+        }
+        
+        if (Input.GetKey(KeyCode.T))
+        {
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                CreatePreviewTurret();
+            }
+
+            UpdatePreviewTurret();
+        }else if (Input.GetKeyUp(KeyCode.T))
         {
             CreateTurret();
         }
@@ -242,6 +255,11 @@ public class ThirdPersonCharacterController : MonoBehaviour
             recursosA -= 20;
             recValue.text = recursosA.ToString();
         }
+    }
+
+    private void CreateTramp()
+    {
+        
     }
 
     private void OnDestroy()
