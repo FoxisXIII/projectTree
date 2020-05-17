@@ -48,36 +48,43 @@ public class EnemiesCollisionsSystem : JobComponentSystem
             }
         }
 
-        private void StopEntity(float3 directionB, float3 calculateHitPoint, float3 directionA, Entity entityA)
+        private void StopEntity(float3 directionB, float3 calculateHitPoint, float3 directionA, Entity entity)
         {
-            // NoForwardCollsion(calculateHitPoint, directionA, TranslationGroup[entityA].Value, entityA);
             if (directionB.Equals(float3.zero))
-                // if (directionB.Equals(float3.zero) && NoForwardCollsion(calculateHitPoint, directionA))
+            // if (directionB.Equals(float3.zero) && ForwardCollsion(calculateHitPoint, directionA, entity))
             {
-                AIData characterA = CharactersGroup[entityA];
-                if (characterA.state == 1)
+                AIData aiData = CharactersGroup[entity];
+                if (aiData.state == 1)
                 {
-                    characterA.stop = true;
-                    CharactersGroup[entityA] = characterA;
+                    aiData.stop = true;
+                    CharactersGroup[entity] = aiData;
                 }
             }
         }
 
-        private bool NoForwardCollsion(float3 calculateHitPoint, float3 direction)
-            // private bool NoForwardCollsion(float3 calculateHitPoint, float3 direction, float3 translation, Entity entityA)
+        private bool ForwardCollsion(float3 calculateHitPoint, float3 direction, Entity entity)
         {
-            // Debug.Log("Entity = " + entityA + ", Collision = " + (translation + calculateHitPoint) + ",Direction = " +
-            //           (translation + direction) + ", Angle = " +
-            // );
-            
-            //S'HA DE LLAÇAR UN RAYCAST
-            return Vector3.SignedAngle(calculateHitPoint, direction, Vector3.up) == 0;
+            // var dot = calculateHitPoint.x * direction.x + calculateHitPoint.y * direction.y +
+            //           calculateHitPoint.z * direction.z;
+            // var magnitude = (Magnitude(calculateHitPoint) * Magnitude(direction));
+            float angle = abs(Vector3.SignedAngle(direction, calculateHitPoint, direction));
+            // Debug.LogError(entity + " - " + calculateHitPoint + ", " +
+            //                abs(Vector3.SignedAngle(direction, calculateHitPoint, direction)));
+            return angle <= 180 && angle >= 165;
+            return true;
         }
+
 
         private float3 CalculateHitPoint(Translation translation, Translation translation1)
         {
             return normalize(translation1.Value - translation.Value);
         }
+    }
+
+    private static float Magnitude(float3 vector)
+    {
+        var magnitude = math.sqrt(math.pow(vector.x, 2) + math.sqrt(math.pow(vector.y, 2)) + math.pow(vector.z, 2));
+        return magnitude;
     }
 
     protected override void OnCreate()

@@ -33,7 +33,7 @@ public class WaveController : MonoBehaviour
         _spawnersActivated = new[] {false, false, false, false};
         // _spawnersActivated[Random.Range(0, _spawnersActivated.Length)] = true;
         _spawnersActivated[2] = true;
-        GameController.GetInstance().MaxWaveEnemies = 2000;
+        GameController.GetInstance().MaxWaveEnemies = 1000;
         GameController.GetInstance().EnemiesSpawnRate = enemySpawnRate;
         _canEndWave = true;
 
@@ -44,7 +44,7 @@ public class WaveController : MonoBehaviour
         EndWave();
     }
 
-    // Update is called once per framex
+    // Update is called once per frame
     void Update()
     {
         StartWave();

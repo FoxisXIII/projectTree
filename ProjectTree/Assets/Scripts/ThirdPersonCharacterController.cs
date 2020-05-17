@@ -46,7 +46,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private BlobAssetStore blobBullet;
 
     //Life
-    public int life;
+    public float life;
     public Text lifeText;
 
     //
@@ -96,6 +96,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        lifeText.text = life.ToString();
         if(life<=0)
             GameController.GetInstance().gameOver();
         
@@ -246,6 +247,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
             position.y += .5f;
             manager.SetComponentData(turret, new Translation {Value = position});
             manager.AddBuffer<EnemiesInRange>(turret);
+            manager.AddBuffer<TurretsInRange>(turret);
             recursosA -= 20;
             recValue.text = recursosA.ToString();
         }

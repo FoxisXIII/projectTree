@@ -14,9 +14,9 @@
             <e p="BaseTag.cs" t="Include" />
             <e p="DamageComponent.cs" t="Include" />
             <e p="DeadComponent.cs" t="Include" />
-            <e p="EnemyAttackPositionComponent.cs" t="Include" />
             <e p="EnemyPosition.cs" t="Include" />
             <e p="EnemyTag.cs" t="Include" />
+            <e p="GenerateAttackPositionComponent.cs" t="Include" />
             <e p="HealthData.cs" t="Include" />
             <e p="MovementData.cs" t="Include" />
             <e p="MovesForwardComponent.cs" t="Include" />
@@ -34,6 +34,7 @@
                 <e p="RangeComponent.cs" t="Include" />
                 <e p="TowerCurrentTargetComponent.cs" t="Include" />
                 <e p="TowerTagComponent.cs" t="Include" />
+                <e p="TurretsInRange.cs" t="Include" />
               </e>
               <e p="DefenseSpawner.cs" t="Include" />
               <e p="Systems" t="Include">
@@ -76,7 +77,8 @@
           <e p="Systems" t="Include">
             <e p="AttackPositionSystem.cs" t="Include" />
             <e p="AttackSystem.cs" t="Include" />
-            <e p="CreatePlayerBufferSystem.cs" t="Include" />
+            <e p="ClearEntities.cs" t="Include" />
+            <e p="ComunicateWithGameObjectSystem.cs" t="Include" />
             <e p="DamageCollisionSystem.cs" t="Include" />
             <e p="DeathSystem.cs" t="Include" />
             <e p="EnemiesCollisionsSystem.cs" t="Include" />

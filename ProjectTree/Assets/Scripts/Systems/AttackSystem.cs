@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 
 namespace Systems
 {
-    [AlwaysSynchronizeSystem]
+    [UpdateBefore(typeof(ResolveDamageSystem))]
     public class AttackSystem : JobComponentSystem
     {
         private EndSimulationEntityCommandBufferSystem _entityCommandBufferSystem;
@@ -30,7 +30,7 @@ namespace Systems
             var player = GameController.GetInstance().Player;
 
             var buffers = GetBufferFromEntity<EnemyPosition>();
-            var healthGroup = GetComponentDataFromEntity<HealthData>();
+            var healthGroup = GetBufferFromEntity<Damage>();
 
             Entities
                 .ForEach(
@@ -42,39 +42,24 @@ namespace Systems
                         {
                             if (aiData.attackWait >= aiData.attackRate)
                             {
-                                // playerBase.ReceiveDamage(aiData.attackDamage);
+                                playerBase.ReceiveDamage(aiData.attackDamage);
                                 aiData.attackWait = 0;
                             }
-
+                        
                             aiData.attackWait += deltaTime;
                         }
-                        else if (math.distance(player.transform.position, translation.Value) <
-                                 aiData.attackDistancePlayer)
+                        else if (aiData.goToEntity && math.distance(aiData.entityPosition, translation.Value) <
+                            aiData.attackDistancePlayer)
                         {
                             if (aiData.attackWait >= aiData.attackRate)
                             {
-                                player.ReceiveDamage(aiData.attackDamage);
+                                if (healthGroup.Exists(aiData.entity))
+                                    healthGroup[aiData.entity].Add(new Damage() {Value = aiData.attackDamage});
                                 aiData.attackWait = 0;
                             }
-
+                        
                             aiData.attackWait += deltaTime;
                         }
-                        // else if (aiData.turret != Entity.Null)
-                        // {
-                        //     if (aiData.attackWait >= aiData.attackRate)
-                        //     {
-                        //         var healthData = healthGroup[aiData.turret];
-                        //         healthData.Value -= aiData.attackDamage;
-                        //         if (healthData.Value <= 0)
-                        //         {
-                        //             ecb.DestroyEntity(aiData.turret);
-                        //         }
-                        //
-                        //         aiData.attackWait = 0;
-                        //     }
-                        //
-                        //     aiData.attackWait += deltaTime;
-                        // }
                     }).WithoutBurst().Run();
             return default;
         }

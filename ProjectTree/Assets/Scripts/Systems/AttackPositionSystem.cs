@@ -18,9 +18,10 @@ public class AttackPositionSystem : ComponentSystem
     protected override void OnUpdate()
     {
         var buffers = GetBufferFromEntity<EnemiesInRange>();
+        var turrets = GetBufferFromEntity<TurretsInRange>();
         EntityManager manager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
-        Entities.WithAll<EnemyAttackPositionComponent>().ForEach((Entity entity, ref Translation translation) =>
+        Entities.WithAll<GenerateAttackPositionComponent>().ForEach((Entity entity, ref Translation translation) =>
         {
             var length = buffers[entity].Length;
 
@@ -34,13 +35,28 @@ public class AttackPositionSystem : ComponentSystem
                 {
                     var aiData = manager.GetComponentData<AIData>(enemy);
                     aiData.goToEntity = true;
-                    aiData.entity = list[i % list.Count];
+                    aiData.entityPosition = list[i % list.Count];
+                    aiData.entity = entity;
                     manager.SetComponentData(enemy, aiData);
                 }
                 else
                 {
                     buffers[entity].RemoveAt(i);
                     length = buffers[entity].Length;
+                }
+            }
+
+            if (turrets.Exists(entity))
+            {
+                length = turrets[entity].Length;
+                for (int i = 0; i < length; i++)
+                {
+                    var turret = turrets[entity][i].Value;
+                    if (!manager.Exists(turret))
+                    {
+                        buffers[entity].RemoveAt(i);
+                        length = buffers[entity].Length;
+                    }
                 }
             }
         });

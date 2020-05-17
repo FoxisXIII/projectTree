@@ -34,7 +34,7 @@ public class GameController
     {
         _waveCounter++;
         if (_waveCounter > 1)
-            _maxWaveEnemies *= 2;
+            _maxWaveEnemies = Mathf.Min(1500, _maxWaveEnemies * 2);
         _enemiesSpawnRate /= 1.25f;
     }
 
@@ -62,14 +62,19 @@ public class GameController
 
     public void gameOver()
     {
-        
-        var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-        var allEntities = entityManager.GetAllEntities();
-        foreach (var entity in allEntities)
+        _waveCounter = 0;
+        World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ClearEntities>().Update();
+        if (World.DefaultGameObjectInjectionWorld.IsCreated)
         {
-            entityManager.DestroyEntity(entity);
+            var systems = World.DefaultGameObjectInjectionWorld.Systems;
+            foreach (var s in systems)
+            {
+                s.Enabled = false;
+            }
+            World.DefaultGameObjectInjectionWorld.Dispose();
         }
-        allEntities.Dispose();
+ 
+        DefaultWorldInitialization.Initialize("Default World", false);
         SceneManager.LoadScene("Game Over");
     }
 

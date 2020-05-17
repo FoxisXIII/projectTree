@@ -2617,6 +2617,10 @@ PrefabInstance:
       propertyPath: currentEnemiesText
       value: 
       objectReference: {fileID: 2055601100}
+    - target: {fileID: 1061024751, guid: 8de2162f7e7e85f46900777feda8c73a, type: 3}
+      propertyPath: waveCooldown
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1130619196, guid: 8de2162f7e7e85f46900777feda8c73a, type: 3}
       propertyPath: healthText
       value: 

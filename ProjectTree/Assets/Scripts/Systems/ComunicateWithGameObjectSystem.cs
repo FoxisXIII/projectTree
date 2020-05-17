@@ -10,16 +10,13 @@ using UnityEngine;
 using UnityEngine.Experimental.AI;
 using Random = UnityEngine.Random;
 
+[UpdateAfter(typeof(ResolveDamageSystem))]
 public class CreatePlayerSystemBuffer : ComponentSystem
 {
-    protected override void OnCreate()
-    {
-        base.OnCreate();
-
-    }
-
     protected override void OnUpdate()
     {
+        var healthGroup = GetComponentDataFromEntity<HealthData>();
+
         Entities.ForEach((Entity entity, ref PlayerTag playerTag) =>
         {
             if (!playerTag.init)
@@ -27,6 +24,9 @@ public class CreatePlayerSystemBuffer : ComponentSystem
                 World.DefaultGameObjectInjectionWorld.EntityManager.AddBuffer<EnemiesInRange>(entity);
                 playerTag.init = true;
             }
+
+            if (GameController.GetInstance().Player != null)
+                GameController.GetInstance().Player.life = healthGroup[entity].Value;
         });
     }
 }

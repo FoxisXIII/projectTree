@@ -199,10 +199,11 @@ MonoBehaviour:
   attackTime: 0
   counter: 0
   goToEntity: 0
-  entity:
+  entityPosition:
     x: 0
     y: 0
     z: 0
+  entity: {fileID: 0}
   stop: 0
 --- !u!114 &5761566178846623500
 MonoBehaviour:
