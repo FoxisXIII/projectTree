@@ -200,9 +200,9 @@ MonoBehaviour:
   Speed: 8
   characterController: {fileID: 3605885318596676746}
   RunKey: 304
-  gravity: 9.8
+  gravity: 29.4
   VelCaida: 0
-  jumpForce: 10
+  jumpForce: 20
   cam: {fileID: 3605885318740559965}
   Bullet: {fileID: 5137244523718503177, guid: c260176a97a79d14c814ee4055b7f849, type: 3}
   LocFire: {fileID: 1119487954}

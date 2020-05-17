@@ -24,6 +24,7 @@ public class EnemiesCollisionsSystem : JobComponentSystem
         public ComponentDataFromEntity<Translation> TranslationGroup;
         public ComponentDataFromEntity<MovementData> MovementGroup;
         public ComponentDataFromEntity<AIData> CharactersGroup;
+        public BufferFromEntity<EnemyPosition> buffers;
 
         public void Execute(CollisionEvent collisionEvent)
         {
@@ -35,7 +36,8 @@ public class EnemiesCollisionsSystem : JobComponentSystem
 
             if (entityAIsCharacter && entityBIsCharacter)
             {
-                var calculateHitPoint = CalculateHitPoint(TranslationGroup[entityA], TranslationGroup[entityB]);
+                var calculateHitPointA = CalculateHitPoint(TranslationGroup[entityA], TranslationGroup[entityB]);
+                var calculateHitPointB = CalculateHitPoint(TranslationGroup[entityB], TranslationGroup[entityA]);
 
                 var directionA = new float3(MovementGroup[entityA].directionX, MovementGroup[entityA].directionY,
                     MovementGroup[entityA].directionZ);
@@ -43,15 +45,14 @@ public class EnemiesCollisionsSystem : JobComponentSystem
                     MovementGroup[entityB].directionZ);
 
 
-                StopEntity(directionB, calculateHitPoint, directionA, entityA);
-                StopEntity(directionA, calculateHitPoint, directionB, entityB);
+                StopEntity(directionB, calculateHitPointA, directionA, entityA);
+                StopEntity(directionA, calculateHitPointB, directionB, entityB);
             }
         }
 
         private void StopEntity(float3 directionB, float3 calculateHitPoint, float3 directionA, Entity entity)
         {
-            if (directionB.Equals(float3.zero))
-            // if (directionB.Equals(float3.zero) && ForwardCollsion(calculateHitPoint, directionA, entity))
+            if (directionB.Equals(float3.zero) )//&& ForwardCollsion(calculateHitPoint, directionA, entity))
             {
                 AIData aiData = CharactersGroup[entity];
                 if (aiData.state == 1)
@@ -64,14 +65,21 @@ public class EnemiesCollisionsSystem : JobComponentSystem
 
         private bool ForwardCollsion(float3 calculateHitPoint, float3 direction, Entity entity)
         {
-            // var dot = calculateHitPoint.x * direction.x + calculateHitPoint.y * direction.y +
-            //           calculateHitPoint.z * direction.z;
-            // var magnitude = (Magnitude(calculateHitPoint) * Magnitude(direction));
-            float angle = abs(Vector3.SignedAngle(direction, calculateHitPoint, direction));
-            // Debug.LogError(entity + " - " + calculateHitPoint + ", " +
-            //                abs(Vector3.SignedAngle(direction, calculateHitPoint, direction)));
-            return angle <= 180 && angle >= 165;
-            return true;
+            if (direction.Equals(float3.zero))
+            {
+                if (CharactersGroup[entity].goToEntity)
+                    direction = CharactersGroup[entity].entityPosition - TranslationGroup[entity].Value;
+                else
+                    direction = buffers[entity][CharactersGroup[entity].counter].position -
+                                TranslationGroup[entity].Value;
+            }
+
+            var dot = calculateHitPoint.x * direction.x + calculateHitPoint.y * direction.y +
+                      calculateHitPoint.z * direction.z;
+            var magnitude = (Magnitude(calculateHitPoint) * Magnitude(direction));
+            float angle = acos(dot / magnitude) * 180 / PI;
+
+            return angle <= 15 && angle >= 0;
         }
 
 
@@ -106,6 +114,7 @@ public class EnemiesCollisionsSystem : JobComponentSystem
             TranslationGroup = GetComponentDataFromEntity<Translation>(),
             MovementGroup = GetComponentDataFromEntity<MovementData>(),
             CharactersGroup = GetComponentDataFromEntity<AIData>(),
+            buffers = GetBufferFromEntity<EnemyPosition>()
         };
         JobHandle collisionHandle =
             collisionJob.Schedule(stepPhysicsWorldSystem.Simulation, ref physicsWorld, inputDependencies);

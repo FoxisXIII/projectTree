@@ -8,12 +8,8 @@ using Random = UnityEngine.Random;
 
 public class WaveController : MonoBehaviour
 {
-    public EnemySpawner[] northSpawners;
-    public EnemySpawner[] southSpawners;
-    public EnemySpawner[] eastSpawners;
-    public EnemySpawner[] westSpawners;
+    public EnemySpawner[] spawners;
 
-    private List<EnemySpawner[]> _spawners;
     private bool[] _spawnersActivated;
 
     public bool[] SpawnersActivated => _spawnersActivated;
@@ -29,14 +25,11 @@ public class WaveController : MonoBehaviour
 
     void Awake()
     {
-        _spawners = new List<EnemySpawner[]> {northSpawners, southSpawners, eastSpawners, westSpawners};
-        _spawnersActivated = new[] {false, false, false, false};
-        // _spawnersActivated[Random.Range(0, _spawnersActivated.Length)] = true;
-        _spawnersActivated[2] = true;
-        GameController.GetInstance().MaxWaveEnemies = 1000;
+        _spawnersActivated = new[] {false, false, false};
+        _spawnersActivated[Random.Range(0, _spawnersActivated.Length)] = true;
+        GameController.GetInstance().MaxWaveEnemies = 10;
         GameController.GetInstance().EnemiesSpawnRate = enemySpawnRate;
         _canEndWave = true;
-
     }
 
     private void Start()
@@ -66,11 +59,21 @@ public class WaveController : MonoBehaviour
             currentEnemiesText.transform.parent.parent.gameObject.SetActive(true);
             nextRoundTimeText.transform.parent.gameObject.SetActive(false);
             roundText.text = GameController.GetInstance().WaveCounter.ToString();
-            
+
             for (int i = 0; i < _spawnersActivated.Length; i++) _spawnersActivated[i] = false;
 
-            // _spawnersActivated[Random.Range(0, _spawnersActivated.Length)] = true;
-            _spawnersActivated[2] = true;
+            for (int i = 0;
+                i <= Mathf.Min(GameController.GetInstance().WaveCounter / 5, _spawnersActivated.Length);
+                i++)
+            {
+                var pos = Random.Range(0, _spawnersActivated.Length);
+                while (!_spawnersActivated[pos])
+                {
+                    _spawnersActivated[pos] = true;
+                    pos = Random.Range(0, _spawnersActivated.Length);
+                }
+            }
+
             _canSpawn = true;
             _time = 0;
         }
@@ -95,19 +98,13 @@ public class WaveController : MonoBehaviour
             GameController.GetInstance().CurrentEnemies <
             GameController.GetInstance().MaxWaveEnemies)
         {
-            var pos = 2;
-            // var pos = Random.Range(0, _spawnersActivated.Length);
-            // while (!_spawnersActivated[pos])
-            // {
-            //     pos = Random.Range(0, _spawnersActivated.Length);
-            // }
+            var pos = Random.Range(0, _spawnersActivated.Length);
+            while (!_spawnersActivated[pos])
+            {
+                pos = Random.Range(0, _spawnersActivated.Length);
+            }
 
-            var spawner = _spawners[pos];
-
-
-            // spawner[Random.Range(0, spawner.Length)].SpawnEnemy();
-            
-            spawner[0].SpawnEnemy();
+            spawners[pos].SpawnEnemy();
 
             _time = 0;
         }
