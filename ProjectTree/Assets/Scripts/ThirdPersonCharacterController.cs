@@ -47,11 +47,11 @@ public class ThirdPersonCharacterController : MonoBehaviour
     //Life
     public int life;
     public Text lifeText;
-    
+
     //
-    public int recursosA=200;
+    public int recursosA = 200;
     public Text recValue;
-    
+
 
     //Turret Spawner
     public Transform instantiateTurrets;
@@ -61,6 +61,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private PreviewTurret _instantiatedPreviewTurret;
     private bool _turretCanBePlaced;
     private BlobAssetStore blobTurret;
+
+
+    //Buffs
+    public bool hasBuff;
 
 
     private void Awake()
@@ -232,7 +236,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         Destroy(_instantiatedPreviewTurret.gameObject);
 
-        if (_turretCanBePlaced&& recursosA>=20)
+        if (_turretCanBePlaced && recursosA >= 20)
         {
             Entity turret = manager.Instantiate(turretECS);
             var position = instantiateTurrets.position;
@@ -248,5 +252,44 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         blobBullet.Dispose();
         blobTurret.Dispose();
+    }
+
+    public void RecoverHealth(int health)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void IncreaseResources(int resources)
+    {
+        recursosA += resources;
+        recValue.text = recursosA.ToString();
+    }
+
+    public void IncreaseAttack(int Attack)
+    {
+        if (!hasBuff)
+        {
+        }
+    }
+
+    public void IncreaseSpeed(int Speed)
+    {
+        if (!hasBuff)
+        {
+            WalkSpeed *= Speed;
+            RunSpeed *= Speed;
+            fireRate /= Speed;
+        }
+    }
+
+    public void Shotgun(int Shotgun)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void StopBuffs()
+    {
+        WalkSpeed = Speed;
+        RunSpeed = WalkSpeed*2;
     }
 }
