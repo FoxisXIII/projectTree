@@ -40,15 +40,16 @@ namespace Systems
                         if (math.distance(buffers[entity][buffers[entity].Length - 1].position, translation.Value) <
                             aiData.attackDistanceBase)
                         {
-                            if (aiData.attackWait >= aiData.attackRate)
-                            {
-                                playerBase.ReceiveDamage(aiData.attackDamage);
-                                aiData.attackWait = 0;
-                            }
-                        
-                            aiData.attackWait += deltaTime;
+                            // if (aiData.attackWait >= aiData.attackRate)
+                            // {
+                            //     playerBase.ReceiveDamage(aiData.attackDamage);
+                            //     aiData.attackWait = 0;
+                            // }
+                            //
+                            // aiData.attackWait += deltaTime;
                         }
-                        else if (aiData.goToEntity && math.distance(aiData.entityPosition, translation.Value) <
+                        else 
+                        if (aiData.goToEntity && math.distance(aiData.entityPosition, translation.Value) <
                             aiData.attackDistancePlayer)
                         {
                             if (aiData.attackWait >= aiData.attackRate)

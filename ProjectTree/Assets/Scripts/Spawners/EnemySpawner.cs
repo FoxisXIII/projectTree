@@ -29,7 +29,6 @@ public class EnemySpawner : MonoBehaviour
             GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, blobAssetStore));
     }
 
-
     public void SpawnEnemy()
     {
         Entity enemy = _entityManager.Instantiate(_enemyEntityPrefab);
@@ -43,6 +42,7 @@ public class EnemySpawner : MonoBehaviour
         _entityManager.SetComponentData(enemy, aiData);
 
         _entityManager.AddBuffer<EnemyPosition>(enemy).AddRange(GetAllPositions(random));
+        _entityManager.AddBuffer<CollisionEnemy>(enemy);
 
 
         GameController.GetInstance().AddEnemyWave();
@@ -95,7 +95,7 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    public void Dispose()
     {
         if (GameController.GetInstance().Player.life <= 0)
             blobAssetStore.Dispose();

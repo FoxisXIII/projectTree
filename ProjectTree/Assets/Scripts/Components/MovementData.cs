@@ -11,4 +11,5 @@ public struct MovementData : IComponentData
     public float speed;
 
     public bool lockRotation;
+    public float rotationY;
 }

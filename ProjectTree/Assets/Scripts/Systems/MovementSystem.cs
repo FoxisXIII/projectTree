@@ -13,16 +13,16 @@ namespace Systems
         protected override JobHandle OnUpdate(JobHandle inputDependencies)
         {
             float deltaTime = UnityEngine.Time.deltaTime;
-            Entities.ForEach((ref PhysicsVelocity velocity,ref Rotation rotation, in MovementData movementData) =>
+            Entities.ForEach((ref PhysicsVelocity velocity, ref Rotation rotation, in MovementData movementData) =>
             {
                 velocity.Linear.x = movementData.directionX * movementData.speed * deltaTime;
                 velocity.Linear.y = movementData.directionY * movementData.speed * deltaTime;
                 velocity.Linear.z = movementData.directionZ * movementData.speed * deltaTime;
+                velocity.Angular.y = movementData.rotationY * movementData.speed * deltaTime;
 
-                if(movementData.lockRotation)
+                if (movementData.lockRotation)
                 {
                     velocity.Angular.x = 0;
-                    velocity.Angular.y = 0;
                     velocity.Angular.z = 0;
                     rotation.Value.value.x = 0;
                     rotation.Value.value.y = 0;

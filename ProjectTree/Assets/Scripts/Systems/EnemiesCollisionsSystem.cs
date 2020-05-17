@@ -23,15 +23,16 @@ public class EnemiesCollisionsSystem : JobComponentSystem
     {
         public ComponentDataFromEntity<Translation> TranslationGroup;
         public ComponentDataFromEntity<MovementData> MovementGroup;
-        public ComponentDataFromEntity<AIData> CharactersGroup;
-        public BufferFromEntity<EnemyPosition> buffers;
+        public ComponentDataFromEntity<AIData> enemiesGroup;
+        public BufferFromEntity<EnemyPosition> enemiesPositions;
+        public BufferFromEntity<CollisionEnemy> CollisionBuffers;
 
         public void Execute(CollisionEvent collisionEvent)
         {
             Entity entityA = collisionEvent.Entities.EntityA;
             Entity entityB = collisionEvent.Entities.EntityB;
-            bool entityAIsCharacter = CharactersGroup.Exists(entityA);
-            bool entityBIsCharacter = CharactersGroup.Exists(entityB);
+            bool entityAIsCharacter = CollisionBuffers.Exists(entityA);
+            bool entityBIsCharacter = CollisionBuffers.Exists(entityB);
 
 
             if (entityAIsCharacter && entityBIsCharacter)
@@ -52,25 +53,18 @@ public class EnemiesCollisionsSystem : JobComponentSystem
 
         private void StopEntity(float3 directionB, float3 calculateHitPoint, float3 directionA, Entity entity)
         {
-            if (directionB.Equals(float3.zero) )//&& ForwardCollsion(calculateHitPoint, directionA, entity))
-            {
-                AIData aiData = CharactersGroup[entity];
-                if (aiData.state == 1)
-                {
-                    aiData.stop = true;
-                    CharactersGroup[entity] = aiData;
-                }
-            }
+            CollisionBuffers[entity].Add(new CollisionEnemy()
+                {Value = directionB.Equals(float3.zero) && ForwardCollsion(calculateHitPoint, directionA, entity)});
         }
 
         private bool ForwardCollsion(float3 calculateHitPoint, float3 direction, Entity entity)
         {
             if (direction.Equals(float3.zero))
             {
-                if (CharactersGroup[entity].goToEntity)
-                    direction = CharactersGroup[entity].entityPosition - TranslationGroup[entity].Value;
+                if (enemiesGroup[entity].goToEntity)
+                    direction = enemiesGroup[entity].entityPosition - TranslationGroup[entity].Value;
                 else
-                    direction = buffers[entity][CharactersGroup[entity].counter].position -
+                    direction = enemiesPositions[entity][enemiesGroup[entity].counter].position -
                                 TranslationGroup[entity].Value;
             }
 
@@ -78,7 +72,6 @@ public class EnemiesCollisionsSystem : JobComponentSystem
                       calculateHitPoint.z * direction.z;
             var magnitude = (Magnitude(calculateHitPoint) * Magnitude(direction));
             float angle = acos(dot / magnitude) * 180 / PI;
-
             return angle <= 15 && angle >= 0;
         }
 
@@ -113,8 +106,9 @@ public class EnemiesCollisionsSystem : JobComponentSystem
         {
             TranslationGroup = GetComponentDataFromEntity<Translation>(),
             MovementGroup = GetComponentDataFromEntity<MovementData>(),
-            CharactersGroup = GetComponentDataFromEntity<AIData>(),
-            buffers = GetBufferFromEntity<EnemyPosition>()
+            enemiesGroup = GetComponentDataFromEntity<AIData>(),
+            enemiesPositions = GetBufferFromEntity<EnemyPosition>(),
+            CollisionBuffers = GetBufferFromEntity<CollisionEnemy>()
         };
         JobHandle collisionHandle =
             collisionJob.Schedule(stepPhysicsWorldSystem.Simulation, ref physicsWorld, inputDependencies);

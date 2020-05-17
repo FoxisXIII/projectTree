@@ -24,20 +24,18 @@ public class MoveToSystem : JobComponentSystem
     protected override JobHandle OnUpdate(JobHandle inputDependencies)
     {
         var buffers = GetBufferFromEntity<EnemyPosition>();
-        var player = GameController.GetInstance().Player;
-        float3 playerPosition = player.transform.position;
+
 
         Entities
             .ForEach(
                 (ref AIData aiData, ref Translation translation, ref MovementData movementData,
-                    ref Entity entity) =>
+                    ref Entity entity, ref DynamicBuffer<CollisionEnemy> collision) =>
                 {
-                    if (aiData.stop)
+                    if (HasCollision(collision))
                     {
                         movementData.directionX = 0;
                         movementData.directionY = 0;
                         movementData.directionZ = 0;
-                        aiData.stop = false;
                     }
                     else
                     {
@@ -58,6 +56,7 @@ public class MoveToSystem : JobComponentSystem
                                 movementData.directionX = direction.x;
                                 movementData.directionY = 0;
                                 movementData.directionZ = direction.z;
+                                movementData.rotationY = direction.x * direction.z;
                             }
 
                             if (aiData.counter < buffers[entity].Length)
@@ -94,10 +93,27 @@ public class MoveToSystem : JobComponentSystem
                                 movementData.directionX = direction.x;
                                 movementData.directionY = 0;
                                 movementData.directionZ = direction.z;
+
+                                var rotation = quaternion.LookRotation(direction, math.up());
+                                rotation = math.mul(rotation, quaternion.RotateY(math.radians(direction.y)));
+                                movementData.rotationY = rotation.value.y;
                             }
                         }
                     }
+
+                    collision.Clear();
                 }).Run();
         return default;
+    }
+
+    private static bool HasCollision(DynamicBuffer<CollisionEnemy> collision)
+    {
+        for (int i = 0; i < collision.Length; i++)
+        {
+            if (collision[i].Value)
+                return true;
+        }
+
+        return false;
     }
 }

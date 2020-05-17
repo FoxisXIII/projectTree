@@ -13,6 +13,7 @@
             <e p="AIData.cs" t="Include" />
             <e p="BaseTag.cs" t="Include" />
             <e p="BuffTurretData.cs" t="Include" />
+            <e p="CollisionEnemy.cs" t="Include" />
             <e p="DamageComponent.cs" t="Include" />
             <e p="DeadComponent.cs" t="Include" />
             <e p="EnemyPosition.cs" t="Include" />
@@ -100,8 +101,6 @@
           <e p="ThirdPersonCharacterController.cs" t="Include" />
           <e p="UI" t="Include">
             <e p="ChangeScene.cs" t="Include" />
-            <e p="Minimap.cs" t="Include" />
-            <e p="TemporalTriggers.cs" t="Include" />
           </e>
         </e>
         <e p="Sound" t="Include">
