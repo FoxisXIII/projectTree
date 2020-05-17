@@ -27,7 +27,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     //Gravedad
     public float gravity = 9.8f;
-    public float VelCaida;
+    private float VelCaida;
 
     //Salto
     public float jumpForce = 50;
@@ -68,7 +68,13 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private PreviewTurret _instantiatedPreviewTurret;
     private bool _turretCanBePlaced;
     private BlobAssetStore blobTurret;
-
+    
+    //Trap spawner
+    public GameObject previewTrap;
+    public GameObject trap;
+    private PreviewTurret _instantiatedPreviewTrap;
+    private Entity trapECS;
+    private BlobAssetStore blobTrap;
 
     //Buffs
     [HideInInspector] public bool hasBuff;
@@ -91,8 +97,11 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         manager = World.DefaultGameObjectInjectionWorld.EntityManager;
         blobTurret = new BlobAssetStore();
+        blobTrap = new BlobAssetStore();
         turretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(shootingTurret,
             GameObjectConversionSettings.FromWorld(manager.World, blobTurret));
+        trapECS=GameObjectConversionUtility.ConvertGameObjectHierarchy(trap,
+            GameObjectConversionSettings.FromWorld(manager.World, blobTrap));
         if (useECS)
         {
             blobBullet = new BlobAssetStore();
@@ -136,6 +145,19 @@ public class ThirdPersonCharacterController : MonoBehaviour
         else if (Input.GetMouseButtonUp(1))
         {
             CreateTurret();
+        }
+        
+        if (Input.GetKey(KeyCode.T))
+        {
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                CreatePreviewTap();
+            }
+
+            UpdatePreviewTrap();
+        }else if (Input.GetKeyUp(KeyCode.T))
+        {
+            CreateTramp();
         }
 
         hor = Input.GetAxis("Horizontal");
@@ -271,6 +293,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         _instantiatedPreviewTurret = Instantiate(previewTurret, instantiateTurrets).GetComponent<PreviewTurret>();
     }
+    private void CreatePreviewTap()
+    {
+        _instantiatedPreviewTrap = Instantiate(previewTrap, instantiateTurrets).GetComponent<PreviewTurret>();
+    }
 
     private void UpdatePreviewTurret()
     {
@@ -278,6 +304,13 @@ public class ThirdPersonCharacterController : MonoBehaviour
         _instantiatedPreviewTurret.material.color = _turretCanBePlaced
             ? _instantiatedPreviewTurret.canBePlaced
             : _instantiatedPreviewTurret.canNotBePlaced;
+    }
+    private void UpdatePreviewTrap()
+    {
+        _turretCanBePlaced = _instantiatedPreviewTrap.isValidPosition();
+        _instantiatedPreviewTrap.material.color = _turretCanBePlaced
+            ? _instantiatedPreviewTrap.canBePlaced
+            : _instantiatedPreviewTrap.canNotBePlaced;
     }
 
     private void CreateTurret()
@@ -291,6 +324,23 @@ public class ThirdPersonCharacterController : MonoBehaviour
             position.y += .5f;
             manager.SetComponentData(turret, new Translation {Value = position});
             manager.AddBuffer<EnemiesInRange>(turret);
+            recursosA -= 20;
+            recValue.text = recursosA.ToString();
+        }
+    }
+
+    private void CreateTramp()
+    {
+        Destroy(_instantiatedPreviewTrap.gameObject);
+
+        if (_turretCanBePlaced&& recursosA>=20)
+        {
+            Entity trap = manager.Instantiate(trapECS);
+            var position = instantiateTurrets.position;
+            position.y += 0f;
+            manager.SetComponentData(trap, new Translation {Value = position});
+            manager.SetComponentData(trap, new Rotation {Value = transform.rotation});
+            manager.AddBuffer<EnemiesInRange>(trap);
             recursosA -= 20;
             recValue.text = recursosA.ToString();
         }
