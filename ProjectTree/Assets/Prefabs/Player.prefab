@@ -198,7 +198,7 @@ MonoBehaviour:
   VelCaida: 0
   jumpForce: 10
   cam: {fileID: 3605885318740559965}
-  Bullet: {fileID: 5137244523718503177, guid: c260176a97a79d14c814ee4055b7f849, type: 3}
+  Bullet: {fileID: 2780486008673328708, guid: 09f192d02fd26fc42ac8893add404947, type: 3}
   LocFire: {fileID: 1119487954}
   fireRate: 0.388
   useECS: 1
