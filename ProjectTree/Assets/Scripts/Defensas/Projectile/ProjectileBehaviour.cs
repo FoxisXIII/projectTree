@@ -40,7 +40,7 @@ public class ProjectileBehaviour : MonoBehaviour, IConvertGameObjectToEntity
     
     public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {
-        dstManager.AddComponentData(entity, new DealsDamage {Value = 20f});
+        dstManager.AddComponentData(entity, new DealsDamage {Value = 20});
         MoveSpeed moveSpeed = new MoveSpeed{Value = speed};
         dstManager.AddComponentData(entity, moveSpeed);
         TimeToLive ttl = new TimeToLive{Value = lifeTime};

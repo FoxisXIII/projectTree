@@ -59,12 +59,15 @@ public class MoveToSystem : JobComponentSystem
                                 movementData.directionY = 0;
                                 movementData.directionZ = direction.z;
                             }
-                            
-                                direction = buffers[entity][aiData.counter].position-translation.Value;
-                                if (Magnitude(direction) <1 && aiData.counter < buffers[entity].Length)
+
+                            if (aiData.counter < buffers[entity].Length)
+                            {
+                                direction = buffers[entity][aiData.counter].position - translation.Value;
+                                if (Magnitude(direction) < 1)
                                 {
                                     aiData.counter++;
                                 }
+                            }
                         }
                         else
                         {

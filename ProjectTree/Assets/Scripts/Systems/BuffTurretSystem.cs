@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Experimental.AI;
 using Random = UnityEngine.Random;
 
+[UpdateBefore(typeof(DamageCollisionSystem))]
 public class BuffTurretSystem : JobComponentSystem
 {
     protected override JobHandle OnUpdate(JobHandle inputDependencies)
@@ -16,6 +17,13 @@ public class BuffTurretSystem : JobComponentSystem
         var deltaTime = Time.DeltaTime;
         var player = GameController.GetInstance().Player;
         var playerPosition = player.transform.position;
+
+        Entity entityPlayer = default;
+
+        Entities.WithAll<PlayerTag>().ForEach((Entity entity) => { entityPlayer = entity; }).Run();
+
+        var healthGroup = GetComponentDataFromEntity<HealthData>();
+
         Entities
             .ForEach(
                 (ref BuffTurretData buffTurretData, ref Translation translation) =>
@@ -24,7 +32,13 @@ public class BuffTurretSystem : JobComponentSystem
                     {
                         if (buffTurretData.health != 0 && buffTurretData.buffTimer >= buffTurretData.buffRate)
                         {
-                            player.RecoverHealth(buffTurretData.health);
+                            if (healthGroup.HasComponent(entityPlayer))
+                            {
+                                var healthData = healthGroup[entityPlayer];
+                                healthData.Value += buffTurretData.health;
+                                healthGroup[entityPlayer] = healthData;
+                            }
+
                             buffTurretData.buffTimer = 0;
                         }
                         else if (buffTurretData.buffTimer < buffTurretData.buffRate)

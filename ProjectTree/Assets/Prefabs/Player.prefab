@@ -200,14 +200,8 @@ MonoBehaviour:
   Speed: 8
   characterController: {fileID: 3605885318596676746}
   RunKey: 304
-<<<<<<< HEAD
   gravity: 29.4
-  VelCaida: 0
   jumpForce: 20
-=======
-  gravity: 9.8
-  jumpForce: 10
->>>>>>> develop
   cam: {fileID: 3605885318740559965}
   Bullet: {fileID: 2780486008673328708, guid: 09f192d02fd26fc42ac8893add404947, type: 3}
   LocFire: {fileID: 1119487954}
@@ -222,9 +216,13 @@ MonoBehaviour:
   instantiateTurrets: {fileID: 1271921907971335455}
   previewTurret: {fileID: 7019069708846604853, guid: 7fe3bea67a136aa428ef3bac3899923d,
     type: 3}
-  shootingTurret: {fileID: 9016695913912356940, guid: 12b734a4c165b1a4ba3914ef73c7c557,
+  shootingTurret: {fileID: 6862334628331411265, guid: 5ec080030146b8142b23f0f6721ebeda,
     type: 3}
-<<<<<<< HEAD
+  previewTrap: {fileID: 947790077566249874, guid: f79829020872d854e8b1a9df9505ddf3,
+    type: 3}
+  trap: {fileID: 204101652445250776, guid: bd7492baaa3e6d74b8c99a8e461252d7, type: 3}
+  hasBuff: 0
+  initialDamage: 1
 --- !u!114 &3766962800411028534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,7 +348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 832efe9605d62bb4fb9e6d0a2c42e208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Values: []
+  Values: 
 --- !u!114 &2146321478587388530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,13 +362,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Value: 100
-=======
-  previewTrap: {fileID: 204101652445250776, guid: bd7492baaa3e6d74b8c99a8e461252d7,
-    type: 3}
-  trap: {fileID: 947790077566249874, guid: f79829020872d854e8b1a9df9505ddf3, type: 3}
-  hasBuff: 0
-  initialDamage: 1
->>>>>>> develop
 --- !u!1 &3605885318740559963
 GameObject:
   m_ObjectHideFlags: 0
