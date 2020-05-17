@@ -2276,6 +2276,12 @@ PrefabInstance:
       propertyPath: recValue
       value: 
       objectReference: {fileID: 998151284}
+    - target: {fileID: 3605885318596676747, guid: 571cd4c17273bbc42b936bf5cdb5408f,
+        type: 3}
+      propertyPath: shootingTurret
+      value: 
+      objectReference: {fileID: 6862334628331411265, guid: 5ec080030146b8142b23f0f6721ebeda,
+        type: 3}
     - target: {fileID: 3605885318596676749, guid: 571cd4c17273bbc42b936bf5cdb5408f,
         type: 3}
       propertyPath: m_LocalPosition.x

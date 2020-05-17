@@ -115,7 +115,10 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 42f7f53fd2d552c438f0d9617c972e70, type: 2}
   canBePlaced: {r: 0, g: 1, b: 0.93222785, a: 1}
   canNotBePlaced: {r: 1, g: 0, b: 0.04789734, a: 1}
-  layerMask:
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
+  wallLayerMask:
     serializedVersion: 2
     m_Bits: 55
   validPoints:
@@ -169,7 +172,10 @@ MonoBehaviour:
   material: {fileID: 0}
   canBePlaced: {r: 0, g: 0, b: 0, a: 0}
   canNotBePlaced: {r: 0, g: 0, b: 0, a: 0}
-  layerMask:
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  wallLayerMask:
     serializedVersion: 2
     m_Bits: 0
   validPoints: []
@@ -219,7 +225,10 @@ MonoBehaviour:
   material: {fileID: 0}
   canBePlaced: {r: 0, g: 0, b: 0, a: 0}
   canNotBePlaced: {r: 0, g: 0, b: 0, a: 0}
-  layerMask:
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  wallLayerMask:
     serializedVersion: 2
     m_Bits: 0
   validPoints: []
@@ -269,7 +278,10 @@ MonoBehaviour:
   material: {fileID: 0}
   canBePlaced: {r: 0, g: 0, b: 0, a: 0}
   canNotBePlaced: {r: 0, g: 0, b: 0, a: 0}
-  layerMask:
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  wallLayerMask:
     serializedVersion: 2
     m_Bits: 0
   validPoints: []
@@ -319,7 +331,10 @@ MonoBehaviour:
   material: {fileID: 0}
   canBePlaced: {r: 0, g: 0, b: 0, a: 0}
   canNotBePlaced: {r: 0, g: 0, b: 0, a: 0}
-  layerMask:
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  wallLayerMask:
     serializedVersion: 2
     m_Bits: 0
   validPoints: []

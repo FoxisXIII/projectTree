@@ -195,7 +195,6 @@ MonoBehaviour:
   characterController: {fileID: 3605885318596676746}
   RunKey: 304
   gravity: 9.8
-  VelCaida: 0
   jumpForce: 10
   cam: {fileID: 3605885318740559965}
   Bullet: {fileID: 2780486008673328708, guid: 09f192d02fd26fc42ac8893add404947, type: 3}
@@ -213,6 +212,9 @@ MonoBehaviour:
     type: 3}
   shootingTurret: {fileID: 9016695913912356940, guid: 12b734a4c165b1a4ba3914ef73c7c557,
     type: 3}
+  previewTrap: {fileID: 204101652445250776, guid: bd7492baaa3e6d74b8c99a8e461252d7,
+    type: 3}
+  trap: {fileID: 947790077566249874, guid: f79829020872d854e8b1a9df9505ddf3, type: 3}
   hasBuff: 0
   initialDamage: 1
 --- !u!1 &3605885318740559963
