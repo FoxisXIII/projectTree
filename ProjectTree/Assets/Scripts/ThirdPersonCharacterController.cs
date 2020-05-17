@@ -82,8 +82,12 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private float damage;
     private bool shotgun;
     private int shotgunRange;
-
-
+    
+    //Change Camera
+    public GameObject fpsCamera;
+    public GameObject birdCamera;
+    public KeyCode cameraChange;
+    
     private void Awake()
     {
         GameController.GetInstance().Player = this;
@@ -115,6 +119,13 @@ public class ThirdPersonCharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(cameraChange))
+        {
+            birdCamera.SetActive(true);
+            characterController.enabled = false;
+            fpsCamera.SetActive(false);
+        }
+        
         timer += Time.deltaTime;
         if (Input.GetMouseButton(0) && timer >= fireRate)
         {
