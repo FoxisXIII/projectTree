@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
-
+using Unity.Entities;
+using Unity.Jobs;
 public class Trap : MonoBehaviour
 {
 
     private int Kills = 0;
-    private Entity bulletEntityPrefab;
     private EntityManager _manager;
-    private BlobAssetStore blob;
+    public int canKill=10;
     
     // Start is called before the first frame update
     void Start()
@@ -23,7 +23,7 @@ public class Trap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Kills>10)
+        if (Kills>canKill)
         {
             Destroy(gameObject);
         }
