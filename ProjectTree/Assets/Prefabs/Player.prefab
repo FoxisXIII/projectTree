@@ -200,14 +200,21 @@ MonoBehaviour:
   Speed: 8
   characterController: {fileID: 3605885318596676746}
   RunKey: 304
+<<<<<<< HEAD
   gravity: 29.4
   VelCaida: 0
   jumpForce: 20
+=======
+  gravity: 9.8
+  jumpForce: 10
+>>>>>>> develop
   cam: {fileID: 3605885318740559965}
-  Bullet: {fileID: 5137244523718503177, guid: c260176a97a79d14c814ee4055b7f849, type: 3}
+  Bullet: {fileID: 2780486008673328708, guid: 09f192d02fd26fc42ac8893add404947, type: 3}
   LocFire: {fileID: 1119487954}
+  initFireRate: 0.5
   fireRate: 0.388
   useECS: 1
+  maxLife: 100
   life: 20
   lifeText: {fileID: 0}
   recursosA: 200
@@ -217,6 +224,7 @@ MonoBehaviour:
     type: 3}
   shootingTurret: {fileID: 9016695913912356940, guid: 12b734a4c165b1a4ba3914ef73c7c557,
     type: 3}
+<<<<<<< HEAD
 --- !u!114 &3766962800411028534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,6 +364,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Value: 100
+=======
+  previewTrap: {fileID: 204101652445250776, guid: bd7492baaa3e6d74b8c99a8e461252d7,
+    type: 3}
+  trap: {fileID: 947790077566249874, guid: f79829020872d854e8b1a9df9505ddf3, type: 3}
+  hasBuff: 0
+  initialDamage: 1
+>>>>>>> develop
 --- !u!1 &3605885318740559963
 GameObject:
   m_ObjectHideFlags: 0

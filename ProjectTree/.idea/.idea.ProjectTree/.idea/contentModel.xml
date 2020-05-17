@@ -12,6 +12,7 @@
           <e p="Components" t="Include">
             <e p="AIData.cs" t="Include" />
             <e p="BaseTag.cs" t="Include" />
+            <e p="BuffTurretData.cs" t="Include" />
             <e p="DamageComponent.cs" t="Include" />
             <e p="DeadComponent.cs" t="Include" />
             <e p="EnemyPosition.cs" t="Include" />
@@ -21,6 +22,7 @@
             <e p="MovementData.cs" t="Include" />
             <e p="MovesForwardComponent.cs" t="Include" />
             <e p="PlayerTag.cs" t="Include" />
+            <e p="TrapComponent.cs" t="Include" />
           </e>
           <e p="DeadZone.cs" t="Include" />
           <e p="Defensas" t="Include">
@@ -63,6 +65,7 @@
               </e>
               <e p="ProjectileBehaviour.cs" t="Include" />
             </e>
+            <e p="Trap.cs" t="Include" />
             <e p="TurretMonoBehaviour.cs" t="Include" />
           </e>
           <e p="GameController.cs" t="Include" />
@@ -77,8 +80,12 @@
           <e p="Systems" t="Include">
             <e p="AttackPositionSystem.cs" t="Include" />
             <e p="AttackSystem.cs" t="Include" />
+<<<<<<< HEAD
             <e p="ClearEntities.cs" t="Include" />
             <e p="ComunicateWithGameObjectSystem.cs" t="Include" />
+=======
+            <e p="BuffTurretSystem.cs" t="Include" />
+>>>>>>> develop
             <e p="DamageCollisionSystem.cs" t="Include" />
             <e p="DeathSystem.cs" t="Include" />
             <e p="EnemiesCollisionsSystem.cs" t="Include" />
@@ -88,6 +95,8 @@
             <e p="MovePlayerSystem.cs" t="Include" />
             <e p="MoveToSystem.cs" t="Include" />
             <e p="ResolveDamageSystem.cs" t="Include" />
+            <e p="TrapDamageSystem.cs" t="Include" />
+            <e p="TrapDeathSystem.cs" t="Include" />
           </e>
           <e p="Teleporter.cs" t="Include" />
           <e p="TeleportManager.cs" t="Include" />

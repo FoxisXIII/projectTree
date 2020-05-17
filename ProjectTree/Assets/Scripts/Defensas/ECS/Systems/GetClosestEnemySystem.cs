@@ -13,7 +13,24 @@ public class GetClosestEnemySystem : ComponentSystem
     protected override void OnUpdate()
     {
         EntityManager manager = World.DefaultGameObjectInjectionWorld.EntityManager;
+<<<<<<< HEAD
         var buffers = GetBufferFromEntity<EnemiesInRange>();
+=======
+        
+        Entities.WithAll<TowerCurrentTarget>().ForEach((Entity e, ref TowerCurrentTarget tct, ref Translation position, ref RangeComponent range) =>
+        {
+            if (tct.target == Entity.Null || !manager.Exists(tct.target) || math.distance(position.Value, manager.GetComponentData<Translation>(tct.target).Value) > range.Value || manager.HasComponent(tct.target, typeof(Dead)))
+            {
+                PostUpdateCommands.RemoveComponent(e, typeof(TowerCurrentTarget));
+            }
+        });
+
+        Entities.WithNone<TowerCurrentTarget>().WithAll<EnemiesInRange, TowerTag>().ForEach((Entity e, ref Translation position, DynamicBuffer<EnemiesInRange> inRange) =>
+        {
+            var closestEnemy = Entity.Null;
+            float3 turretPos = position.Value;
+            float3 closestPos = float3.zero;
+>>>>>>> develop
 
         Entities.WithAll<TowerCurrentTarget>().ForEach(
             (Entity e, ref TowerCurrentTarget tct, ref Translation position, ref RangeComponent range) =>
