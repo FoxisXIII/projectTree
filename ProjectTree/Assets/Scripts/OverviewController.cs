@@ -26,7 +26,7 @@ public class OverviewController : MonoBehaviour
         //_grid = new Grid(20,10, 10f);
         _manager = World.DefaultGameObjectInjectionWorld.EntityManager;
         blobTurret = new BlobAssetStore();
-        GameObjectConversionUtility.ConvertGameObjectHierarchy(shootingTurret,
+        turretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(shootingTurret,
             GameObjectConversionSettings.FromWorld(_manager.World, blobTurret));
         _camera = GetComponent<Camera>();
     }
@@ -60,7 +60,6 @@ public class OverviewController : MonoBehaviour
             {
                 CreateTurret();
                 _creating = false;
-                Debug.Log("claro");
             }
             UpdatePreviewTurret();
         }

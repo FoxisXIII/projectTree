@@ -103,8 +103,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         manager = World.DefaultGameObjectInjectionWorld.EntityManager;
         blobTurret = new BlobAssetStore();
         blobTrap = new BlobAssetStore();
-        turretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(shootingTurret,
-            GameObjectConversionSettings.FromWorld(manager.World, blobTurret));
+        turretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(shootingTurret, GameObjectConversionSettings.FromWorld(manager.World, blobTurret));
         trapECS=GameObjectConversionUtility.ConvertGameObjectHierarchy(trap,
             GameObjectConversionSettings.FromWorld(manager.World, blobTrap));
         if (useECS)
