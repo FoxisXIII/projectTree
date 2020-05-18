@@ -27,7 +27,6 @@ public class PointAtCurrentTargetSystem : ComponentSystem
                     {
                         enemyPos.Value.y += 1f;
                         float3 lookAt = math.normalize(enemyPos.Value - position.Value);
-                        quaternion newRotation = quaternion.LookRotation(lookAt, math.up());
                         rotation.Value = quaternion.LookRotation(lookAt, math.up());
                         rotation.Value = math.mul(rotation.Value, quaternion.RotateY(math.radians(lookAt.y)));
                         rotation.Value = math.mul(rotation.Value, quaternion.RotateZ(math.radians(lookAt.z)));

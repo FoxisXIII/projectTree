@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b275e5f92732148048d7b77e264ac30e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ShapeType: 30
+  m_ShapeType: 0
   m_PrimitiveCenter:
-    x: 0.35999858
-    y: -0.0014393032
+    x: 0.14
+    y: 0
     z: 0.00000011920929
   m_PrimitiveSize:
-    x: 2.1081204
-    y: 0.9965453
-    z: 1.0792947
+    x: 1.5343548
+    y: 0.7
+    z: 0.6959141
   m_PrimitiveOrientation:
     Value:
       x: -0
@@ -28,19 +28,19 @@ MonoBehaviour:
       z: 0
     RotationOrder: 4
   m_Capsule:
-    Height: 1.0792947
-    Radius: 1.0540602
-    Axis: 2
+    Height: 1.5343548
+    Radius: 0.35
+    Axis: 0
   m_Cylinder:
-    Height: 1.0792947
-    Radius: 1.0540602
-    Axis: 2
+    Height: 1.5343548
+    Radius: 0.35
+    Axis: 0
   m_CylinderSideCount: 20
-  m_SphereRadius: 1.0540602
+  m_SphereRadius: 0.7671774
   m_MinimumSkinnedVertexWeight: 0.1
   m_ConvexHullGenerationParameters:
-    m_SimplificationTolerance: 0.031621806
-    m_BevelRadius: 0.05
+    m_SimplificationTolerance: 0.05
+    m_BevelRadius: 1
     m_MinimumAngle: 2.5000002
   m_CustomMesh: {fileID: 2403283451262950110, guid: 3f7c516598505af478b0246cd5efe8b5,
     type: 3}
@@ -54,8 +54,8 @@ MonoBehaviour:
     m_Friction:
       m_Override: 0
       m_Value:
-        Value: 0.5
-        CombineMode: 0
+        Value: 0
+        CombineMode: 2
     m_Restitution:
       m_Override: 0
       m_Value:
@@ -172,11 +172,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95910f82d17d14f42bd7784c3b17b9f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  directionX: 0
+  directionX: 1
   directionY: 0
   directionZ: 0
   speed: 500
   lockRotation: 1
+  rotation:
+    value:
+      x: 0
+      y: 0
+      z: 0
+      w: 0
 --- !u!114 &-4266191403052175820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,7 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d296284c52b090045b60ce6fe2a4d96b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Value: 0
+  Value: 1
 --- !u!114 &8171287326174000517
 MonoBehaviour:
   m_ObjectHideFlags: 0

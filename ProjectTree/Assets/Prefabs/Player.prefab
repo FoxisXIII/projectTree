@@ -201,7 +201,7 @@ MonoBehaviour:
   characterController: {fileID: 3605885318596676746}
   RunKey: 304
   gravity: 29.4
-  jumpForce: 20
+  jumpForce: 15
   cam: {fileID: 3605885318740559965}
   Bullet: {fileID: 2780486008673328708, guid: 09f192d02fd26fc42ac8893add404947, type: 3}
   LocFire: {fileID: 1119487954}
@@ -404,7 +404,7 @@ Camera:
   m_GameObject: {fileID: 3605885318740559963}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2

@@ -2,5 +2,6 @@
 
 public struct CollisionEnemy : IBufferElementData
 {
-    public bool Value;
+    public AIData AiData;
+    public Entity Entity;
 }

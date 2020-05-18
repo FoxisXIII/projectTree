@@ -46,15 +46,58 @@ public class EnemiesCollisionsSystem : JobComponentSystem
                     MovementGroup[entityB].directionZ);
 
 
-                StopEntity(directionB, calculateHitPointA, directionA, entityA);
-                StopEntity(directionA, calculateHitPointB, directionB, entityB);
+                StopEntity(directionB, calculateHitPointA, directionA, entityA, entityB);
+                StopEntity(directionA, calculateHitPointB, directionB, entityB, entityA);
             }
         }
 
-        private void StopEntity(float3 directionB, float3 calculateHitPoint, float3 directionA, Entity entity)
+        private void StopEntity(float3 directionB, float3 calculateHitPoint, float3 directionA, Entity entityA,
+            Entity entityB)
         {
-            CollisionBuffers[entity].Add(new CollisionEnemy()
-                {Value = directionB.Equals(float3.zero) && ForwardCollsion(calculateHitPoint, directionA, entity)});
+            if (directionB.Equals(float3.zero) && ForwardCollsion(calculateHitPoint, directionA, entityA))
+            {
+                var aiData = enemiesGroup[entityA];
+                if (aiData.state == 1)
+                {
+                    aiData.stop = true;
+                    enemiesGroup[entityA] = aiData;
+                    CheckAndAdd(CollisionBuffers[entityA], entityB);
+                }
+            }
+            // else
+            // {
+            //     // var aiData = enemiesGroup[entityA];
+            //     // if (aiData.stop)
+            //     // {
+            //     //     aiData.stop = false;
+            //     //     enemiesGroup[entityA] = aiData;
+            //     //     CheckAndRemove(CollisionBuffers[entityA], entityB);
+            //     // }
+            // }
+        }
+
+        private DynamicBuffer<CollisionEnemy> CheckAndRemove(DynamicBuffer<CollisionEnemy> buffer, Entity entity)
+        {
+            for (int i = 0; i < buffer.Length; i++)
+            {
+                if (buffer[i].AiData.Equals(enemiesGroup[entity]))
+                {
+                    buffer.RemoveAt(i);
+                    return buffer;
+                }
+            }
+            return buffer;
+        }
+        private DynamicBuffer<CollisionEnemy> CheckAndAdd(DynamicBuffer<CollisionEnemy> buffer, Entity entity)
+        {
+            for (int i = 0; i < buffer.Length; i++)
+            {
+                if (buffer[i].AiData.Equals(enemiesGroup[entity]))
+                    return buffer;
+            }
+
+            buffer.Add(new CollisionEnemy() {AiData = enemiesGroup[entity], Entity = entity});
+            return buffer;
         }
 
         private bool ForwardCollsion(float3 calculateHitPoint, float3 direction, Entity entity)

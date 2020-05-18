@@ -21,7 +21,7 @@ public class WaveController : MonoBehaviour
 
     void Awake()
     {
-        GameController.GetInstance().MaxWaveEnemies = 1500;
+        GameController.GetInstance().MaxWaveEnemies = 10;
         GameController.GetInstance().EnemiesSpawnRate = enemySpawnRate;
         _canEndWave = true;
     }

@@ -179,7 +179,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
         movPlayer = playerinput.x * camRight + playerinput.z * camForward;
         float speed = WalkSpeed;
-        if (Input.GetKey(RunKey))
+        if (Input.GetKey(RunKey) && characterController.isGrounded)
         {
             speed = RunSpeed;
         }

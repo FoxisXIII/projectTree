@@ -24,48 +24,49 @@ public class MoveToSystem : JobComponentSystem
     protected override JobHandle OnUpdate(JobHandle inputDependencies)
     {
         var buffers = GetBufferFromEntity<EnemyPosition>();
+        var translations = GetComponentDataFromEntity<Translation>();
 
 
         Entities
             .ForEach(
                 (ref AIData aiData, ref Translation translation, ref MovementData movementData,
-                    ref Entity entity, ref DynamicBuffer<CollisionEnemy> collision) =>
+                    ref Entity entity, ref DynamicBuffer<CollisionEnemy> collisionEnemies) =>
                 {
-                    if (HasCollision(collision))
+                    aiData.state = 1;
+                    if (aiData.stop)
                     {
-                        movementData.directionX = 0;
-                        movementData.directionY = 0;
-                        movementData.directionZ = 0;
+                        movementData = StopMovement(movementData);
+
+                        var direction = float3.zero;
+                        if (aiData.goToEntity)
+                            direction = aiData.entityPosition - translation.Value;
+                        else
+                            direction = buffers[entity][aiData.counter].position - translation.Value;
+                        movementData = SetRotation(movementData, direction);
                     }
                     else
                     {
-                        aiData.state = 1;
                         if (aiData.goToEntity)
                         {
                             var direction = aiData.entityPosition - translation.Value;
                             var magnitude = Magnitude(direction);
                             if (magnitude < 1)
                             {
-                                movementData.directionX = 0;
-                                movementData.directionY = 0;
-                                movementData.directionZ = 0;
+                                movementData = StopMovement(movementData);
                             }
                             else
                             {
-                                direction /= magnitude;
-                                movementData.directionX = direction.x;
-                                movementData.directionY = 0;
-                                movementData.directionZ = direction.z;
-                                movementData.rotationY = direction.x * direction.z;
+                                movementData = SetDirection(movementData, direction, magnitude);
                             }
+
+                            if (aiData.entity != Entity.Null)
+                                movementData = SetRotation(movementData,
+                                    translations[aiData.entity].Value - translation.Value);
 
                             if (aiData.counter < buffers[entity].Length)
                             {
                                 direction = buffers[entity][aiData.counter].position - translation.Value;
-                                if (Magnitude(direction) < 1)
-                                {
-                                    aiData.counter++;
-                                }
+                                if (Magnitude(direction) < 1) aiData.counter++;
                             }
                         }
                         else
@@ -76,44 +77,57 @@ public class MoveToSystem : JobComponentSystem
                             if (magnitude < 1)
                             {
                                 direction = translation.Value - buffers[entity][buffers[entity].Length - 1].position;
-                                if (Magnitude(direction) > 5 && aiData.counter < buffers[entity].Length)
-                                {
+                                if (Magnitude(direction) > 1 && aiData.counter < buffers[entity].Length - 1)
                                     aiData.counter++;
-                                }
                                 else
                                 {
-                                    movementData.directionX = 0;
-                                    movementData.directionY = 0;
-                                    movementData.directionZ = 0;
+                                    aiData.counter = buffers[entity].Length - 1;
+                                    movementData = StopMovement(movementData);
                                 }
                             }
                             else
                             {
-                                direction /= magnitude;
-                                movementData.directionX = direction.x;
-                                movementData.directionY = 0;
-                                movementData.directionZ = direction.z;
-
-                                var rotation = quaternion.LookRotation(direction, math.up());
-                                rotation = math.mul(rotation, quaternion.RotateY(math.radians(direction.y)));
-                                movementData.rotationY = rotation.value.y;
+                                movementData = SetRotation(movementData, direction);
+                                movementData = SetDirection(movementData, direction, magnitude);
                             }
                         }
                     }
-
-                    collision.Clear();
                 }).Run();
         return default;
     }
 
-    private static bool HasCollision(DynamicBuffer<CollisionEnemy> collision)
+    private static bool CheckCollisions(DynamicBuffer<CollisionEnemy> buffer)
     {
-        for (int i = 0; i < collision.Length; i++)
+        for (int i = 0; i < buffer.Length; i++)
         {
-            if (collision[i].Value)
+            if (buffer[i].AiData.stop)
                 return true;
         }
 
         return false;
+    }
+
+    private static MovementData StopMovement(MovementData movementData)
+    {
+        movementData.directionX = 0;
+        movementData.directionY = 0;
+        movementData.directionZ = 0;
+        return movementData;
+    }
+
+    private static MovementData SetDirection(MovementData movementData, float3 direction, float magnitude)
+    {
+        direction /= magnitude;
+        movementData.directionX = direction.x;
+        movementData.directionY = 0;
+        movementData.directionZ = direction.z;
+        return movementData;
+    }
+
+    private static MovementData SetRotation(MovementData movementData, float3 direction)
+    {
+        var rotation = quaternion.LookRotation(direction, math.up());
+        movementData.rotation = math.mul(rotation, quaternion.Euler(0, -89.5f, 0));
+        return movementData;
     }
 }
