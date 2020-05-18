@@ -18,6 +18,7 @@
             <e p="DeadComponent.cs" t="Include" />
             <e p="EnemyPosition.cs" t="Include" />
             <e p="EnemyTag.cs" t="Include" />
+            <e p="ExplosionComponent.cs" t="Include" />
             <e p="GenerateAttackPositionComponent.cs" t="Include" />
             <e p="HealthData.cs" t="Include" />
             <e p="MovementData.cs" t="Include" />
@@ -87,6 +88,9 @@
             <e p="DamageCollisionSystem.cs" t="Include" />
             <e p="DeathSystem.cs" t="Include" />
             <e p="EnemiesCollisionsSystem.cs" t="Include" />
+            <e p="ExplosionCollisionSystem.cs" t="Include" />
+            <e p="ExplosionSystem.cs" t="Include" />
+            <e p="ExplosionTriggerSystem.cs" t="Include" />
             <e p="MoveBulletSys.cs" t="Include" />
             <e p="MovementSystem.cs" t="Include" />
             <e p="MovePlayerSystem.cs" t="Include" />
