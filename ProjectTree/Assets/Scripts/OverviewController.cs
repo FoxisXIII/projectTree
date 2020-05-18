@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Entities;
 using Unity.Transforms;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class OverviewController : MonoBehaviour
 {
     public KeyCode cameraChange;
     private Camera _camera;
-    //private Grid _grid;
+    public Grid grid;
 
     public GameObject previewTurret;
     public GameObject shootingTurret;
@@ -23,7 +24,6 @@ public class OverviewController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //_grid = new Grid(20,10, 10f);
         _manager = World.DefaultGameObjectInjectionWorld.EntityManager;
         blobTurret = new BlobAssetStore();
         turretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(shootingTurret,
@@ -49,7 +49,7 @@ public class OverviewController : MonoBehaviour
             gameObject.SetActive(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1) && !_creating)
         {
             CreatePreviewTurret();
             _creating = true;
@@ -91,12 +91,13 @@ public class OverviewController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
-            _instantiatedPreviewTurret.gameObject.transform.position = hit.point;
-            Vector3 position = _instantiatedPreviewTurret.gameObject.transform.position;
-            position.y+=.5f;
-            _instantiatedPreviewTurret.gameObject.transform.position = position;
-            _instantiatedPreviewTurret.gameObject.transform.rotation =
-                Quaternion.FromToRotation(Vector3.up, hit.normal);
+            var gridPosition = grid.GetNearestpointOnGrid(hit.point);
+            if (!gridPosition.Equals(Vector3.zero))
+            {
+                gridPosition.y += 1f;
+                _instantiatedPreviewTurret.gameObject.transform.position = gridPosition;
+                //_instantiatedPreviewTurret.gameObject.transform.rotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
+            }
         }
     }
 

@@ -1,31 +1,44 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grid
+public class Grid : MonoBehaviour
 {
-    private int _width;
-    private int _height;
-    private float _cellSize;
-    private int[,] _gridArray;
-    
-    public Grid(int width, int height, float cellSize)
-    {
-        _width = width;
-        _height = height;
-        _cellSize = cellSize;
-        _gridArray = new int[width,height];
+    [SerializeField]private int _width;
+    [SerializeField]private int _height;
+    [SerializeField]private float _cellSize;
+    [SerializeField] private LayerMask _obstacleLayer;
 
-        for (int i = 0; i < _gridArray.GetLength(0); i++)
+    public Vector3 GetNearestpointOnGrid(Vector3 position)
+    {
+        int xCount = Mathf.RoundToInt(position.x / _cellSize);
+        int zCount = Mathf.RoundToInt(position.z / _cellSize);
+        
+        Vector3 possibleResult = new Vector3(xCount * _cellSize, 0, zCount * _cellSize);
+        
+        if (!Physics.CheckSphere(possibleResult, 1f, _obstacleLayer))
         {
-            for (int j = 0; j < _gridArray.GetLength(1); j++)
+            return possibleResult;
+        }
+        
+        return Vector3.zero;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.black;
+        for (float x = 0; x < _width; x+=_cellSize)
+        {
+            for (float y = 0; y < _height; y+=_cellSize)
             {
-                Debug.DrawLine(GetWorldPosition(i,j), GetWorldPosition(i,j+1), Color.white, 100f);
-                Debug.DrawLine(GetWorldPosition(i,j), GetWorldPosition(i+1,j), Color.white, 100f);
+                var point = GetNearestpointOnGrid(new Vector3(transform.position.x+x, 0, transform.position.z+y));
+                if (!Physics.CheckSphere(point, 1f, _obstacleLayer))
+                {
+                    Gizmos.DrawCube(point, Vector3.one/1.5f);
+                }
             }
         }
-        Debug.DrawLine(GetWorldPosition(0,height), GetWorldPosition(width,height), Color.white, 100f);
-        Debug.DrawLine(GetWorldPosition(width,0), GetWorldPosition(width,height), Color.white, 100f);
     }
 
     private Vector3 GetWorldPosition(int x, int y)
