@@ -19,7 +19,7 @@ public class PointAtCurrentTargetSystem : ComponentSystem
             (Entity e, ref TowerCurrentTarget target, ref Rotation rotation, ref Translation position,
                 ref RangeComponent turretRange) =>
             {
-                if (World.EntityManager.Exists(target.target))
+                if (World.EntityManager.Exists(target.target)&&World.EntityManager.HasComponent<Translation>(target.target))
                 {
                     Entity enemy = target.target;
                     Translation enemyPos = World.EntityManager.GetComponentData<Translation>(enemy);
@@ -27,7 +27,6 @@ public class PointAtCurrentTargetSystem : ComponentSystem
                     {
                         enemyPos.Value.y += 1f;
                         float3 lookAt = math.normalize(enemyPos.Value - position.Value);
-                        quaternion newRotation = quaternion.LookRotation(lookAt, math.up());
                         rotation.Value = quaternion.LookRotation(lookAt, math.up());
                         rotation.Value = math.mul(rotation.Value, quaternion.RotateY(math.radians(lookAt.y)));
                         rotation.Value = math.mul(rotation.Value, quaternion.RotateZ(math.radians(lookAt.z)));

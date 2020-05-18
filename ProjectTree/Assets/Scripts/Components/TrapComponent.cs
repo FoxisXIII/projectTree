@@ -7,6 +7,6 @@ using Unity.Entities;
 public struct TrapComponent :IComponentData
 {
         public int Deaths;
-        public float Damage;
+        public int Damage;
 
 }

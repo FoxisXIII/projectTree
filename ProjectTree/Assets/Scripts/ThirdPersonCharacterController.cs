@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -68,7 +67,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private PreviewTurret _instantiatedPreviewTurret;
     private bool _turretCanBePlaced;
     private BlobAssetStore blobTurret;
-    
+
     //Trap spawner
     public GameObject previewTrap;
     public GameObject trap;
@@ -78,14 +77,18 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     //Buffs
     [HideInInspector] public bool hasBuff;
-    public float initialDamage;
-    private float damage;
+    public int initialDamage;
+    private int damage;
     private bool shotgun;
     private int shotgunRange;
+
+    //Enemies Attacking
+    private Dictionary<Entity, Vector3> enemies;
 
 
     private void Awake()
     {
+        enemies = new Dictionary<Entity, Vector3>();
         GameController.GetInstance().Player = this;
         life = maxLife / 2;
         lifeText.text = life.ToString();
@@ -100,7 +103,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         blobTrap = new BlobAssetStore();
         turretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(shootingTurret,
             GameObjectConversionSettings.FromWorld(manager.World, blobTurret));
-        trapECS=GameObjectConversionUtility.ConvertGameObjectHierarchy(trap,
+        trapECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(trap,
             GameObjectConversionSettings.FromWorld(manager.World, blobTrap));
         if (useECS)
         {
@@ -115,6 +118,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        lifeText.text = life.ToString();
+        if (life <= 0)
+            GameController.GetInstance().gameOver();
+
         timer += Time.deltaTime;
         if (Input.GetMouseButton(0) && timer >= fireRate)
         {
@@ -146,7 +153,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         {
             CreateTurret();
         }
-        
+
         if (Input.GetKey(KeyCode.T))
         {
             if (Input.GetKeyDown(KeyCode.T))
@@ -155,7 +162,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
             }
 
             UpdatePreviewTrap();
-        }else if (Input.GetKeyUp(KeyCode.T))
+        }
+        else if (Input.GetKeyUp(KeyCode.T))
         {
             CreateTramp();
         }
@@ -171,7 +179,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
         movPlayer = playerinput.x * camRight + playerinput.z * camForward;
         float speed = WalkSpeed;
-        if (Input.GetKey(RunKey))
+        if (Input.GetKey(RunKey) && characterController.isGrounded)
         {
             speed = RunSpeed;
         }
@@ -293,6 +301,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         _instantiatedPreviewTurret = Instantiate(previewTurret, instantiateTurrets).GetComponent<PreviewTurret>();
     }
+
     private void CreatePreviewTap()
     {
         _instantiatedPreviewTrap = Instantiate(previewTrap, instantiateTurrets).GetComponent<PreviewTurret>();
@@ -305,6 +314,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
             ? _instantiatedPreviewTurret.canBePlaced
             : _instantiatedPreviewTurret.canNotBePlaced;
     }
+
     private void UpdatePreviewTrap()
     {
         _turretCanBePlaced = _instantiatedPreviewTrap.isValidPosition();
@@ -324,6 +334,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
             position.y += .5f;
             manager.SetComponentData(turret, new Translation {Value = position});
             manager.AddBuffer<EnemiesInRange>(turret);
+            manager.AddBuffer<TurretsInRange>(turret);
             recursosA -= 20;
             recValue.text = recursosA.ToString();
         }
@@ -333,7 +344,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         Destroy(_instantiatedPreviewTrap.gameObject);
 
-        if (_turretCanBePlaced&& recursosA>=20)
+        if (_turretCanBePlaced && recursosA >= 20)
         {
             Entity trap = manager.Instantiate(trapECS);
             var position = instantiateTurrets.position;
@@ -350,6 +361,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         blobBullet.Dispose();
         blobTurret.Dispose();
+        blobTrap.Dispose();
     }
 
     public void RecoverHealth(int health)

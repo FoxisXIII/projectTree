@@ -6,4 +6,5 @@ using UnityEngine;
 [GenerateAuthoringComponent]
 public struct PlayerTag : IComponentData
 {
+    public bool init;
 }

@@ -11,37 +11,54 @@ using Random = UnityEngine.Random;
 
 namespace Systems
 {
-    [AlwaysSynchronizeSystem]
+    [UpdateBefore(typeof(ResolveDamageSystem))]
     public class AttackSystem : JobComponentSystem
     {
-        protected override JobHandle OnUpdate(JobHandle inputDependencies)
+        private EndSimulationEntityCommandBufferSystem _entityCommandBufferSystem;
+
+        protected override void OnCreate()
         {
+            _entityCommandBufferSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+        }
+
+        protected override JobHandle OnUpdate(JobHandle inputDeps)
+        {
+            EntityCommandBuffer ecb = _entityCommandBufferSystem.CreateCommandBuffer();
+
             var deltaTime = Time.DeltaTime;
             var playerBase = GameController.GetInstance().Base;
             var player = GameController.GetInstance().Player;
-            var playerPosition = player.transform.position;
+
+            var buffers = GetBufferFromEntity<EnemyPosition>();
+            var healthGroup = GetBufferFromEntity<Damage>();
+
             Entities
                 .ForEach(
-                    (ref AIData aiData, ref Translation translation, ref MovementData movementData) =>
+                    (ref AIData aiData, ref Translation translation, ref MovementData movementData,
+                        ref Entity entity) =>
                     {
-                        if (math.distance(aiData.finalPosition, translation.Value) < aiData.attackDistanceBase)
+                        if (math.distance(buffers[entity][buffers[entity].Length - 1].position, translation.Value) <
+                            aiData.attackDistanceBase)
                         {
                             if (aiData.attackWait >= aiData.attackRate)
                             {
                                 playerBase.ReceiveDamage(aiData.attackDamage);
                                 aiData.attackWait = 0;
                             }
-
+                            
                             aiData.attackWait += deltaTime;
                         }
-                        else if (math.distance(playerPosition, translation.Value) < aiData.attackDistancePlayer)
+                        else 
+                        if (aiData.goToEntity && math.distance(aiData.entityPosition, translation.Value) <
+                            aiData.attackDistancePlayer)
                         {
                             if (aiData.attackWait >= aiData.attackRate)
                             {
-                                player.ReceiveDamage(aiData.attackDamage);
+                                if (healthGroup.Exists(aiData.entity))
+                                    healthGroup[aiData.entity].Add(new Damage() {Value = aiData.attackDamage});
                                 aiData.attackWait = 0;
                             }
-
+                            
                             aiData.attackWait += deltaTime;
                         }
                     }).WithoutBurst().Run();
