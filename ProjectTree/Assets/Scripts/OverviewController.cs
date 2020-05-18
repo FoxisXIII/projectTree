@@ -40,7 +40,7 @@ public class OverviewController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(cameraChange))
+        if (Input.GetKeyDown(cameraChange) || GameController.GetInstance().WaveInProcess)
         {
             GameController.GetInstance().Player.characterController.enabled = true;
             GameController.GetInstance().Player.fpsCamera.SetActive(true);
@@ -70,13 +70,13 @@ public class OverviewController : MonoBehaviour
     {
         Destroy(_instantiatedPreviewTurret.gameObject);
 
-        if (_turretCanBePlaced)
+        if (_turretCanBePlaced && GameController.GetInstance().RecursosA>=20)
         {
             Entity turret = _manager.Instantiate(turretECS);
             var position = _instantiatedPreviewTurret.gameObject.transform.position;
-            //position.y += .5f;
             _manager.SetComponentData(turret, new Translation {Value = position});
             _manager.AddBuffer<EnemiesInRange>(turret);
+            GameController.GetInstance().UpdateResources(-20);
         }
     }
 
@@ -93,7 +93,7 @@ public class OverviewController : MonoBehaviour
         {
             _instantiatedPreviewTurret.gameObject.transform.position = hit.point;
             Vector3 position = _instantiatedPreviewTurret.gameObject.transform.position;
-            position.y+=1;
+            position.y+=.5f;
             _instantiatedPreviewTurret.gameObject.transform.position = position;
             _instantiatedPreviewTurret.gameObject.transform.rotation =
                 Quaternion.FromToRotation(Vector3.up, hit.normal);

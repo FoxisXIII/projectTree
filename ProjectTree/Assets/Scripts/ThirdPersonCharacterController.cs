@@ -56,7 +56,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public Text lifeText;
 
     //
-    public int recursosA = 200;
     public Text recValue;
 
 
@@ -113,13 +112,13 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 GameObjectConversionSettings.FromWorld(manager.World, blobBullet));
         }
 
-        recValue.text = recursosA.ToString();
+        recValue.text = GameController.GetInstance().RecursosA.ToString();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(cameraChange))
+        if (Input.GetKeyDown(cameraChange) && !GameController.GetInstance().WaveInProcess)
         {
             birdCamera.SetActive(true);
             characterController.enabled = false;
@@ -333,15 +332,13 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         Destroy(_instantiatedPreviewTurret.gameObject);
 
-        if (_turretCanBePlaced && recursosA >= 20)
+        if (_turretCanBePlaced)
         {
             Entity turret = manager.Instantiate(turretECS);
             var position = instantiateTurrets.position;
             position.y += .5f;
             manager.SetComponentData(turret, new Translation {Value = position});
             manager.AddBuffer<EnemiesInRange>(turret);
-            recursosA -= 20;
-            recValue.text = recursosA.ToString();
         }
     }
 
@@ -349,7 +346,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         Destroy(_instantiatedPreviewTrap.gameObject);
 
-        if (_turretCanBePlaced&& recursosA>=20)
+        if (_turretCanBePlaced && GameController.GetInstance().RecursosA >= 10)
         {
             Entity trap = manager.Instantiate(trapECS);
             var position = instantiateTurrets.position;
@@ -357,8 +354,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
             manager.SetComponentData(trap, new Translation {Value = position});
             manager.SetComponentData(trap, new Rotation {Value = transform.rotation});
             manager.AddBuffer<EnemiesInRange>(trap);
-            recursosA -= 20;
-            recValue.text = recursosA.ToString();
+            GameController.GetInstance().UpdateResources(-10);
         }
     }
 
@@ -379,8 +375,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public void IncreaseResources(int resources)
     {
         StopBuffs();
-        recursosA += resources;
-        recValue.text = recursosA.ToString();
+        GameController.GetInstance().UpdateResources(resources);
     }
 
     public void IncreaseAttack(int Attack)
