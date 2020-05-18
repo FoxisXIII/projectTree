@@ -1102,6 +1102,8 @@ MonoBehaviour:
     type: 3}
   shootingTurret: {fileID: 9016695913912356940, guid: 12b734a4c165b1a4ba3914ef73c7c557,
     type: 3}
+  healthTurret: {fileID: 6769324826959267574, guid: 8a8f41523af485d44be24a19a386fcd7,
+    type: 3}
 --- !u!81 &598514247
 AudioListener:
   m_ObjectHideFlags: 0

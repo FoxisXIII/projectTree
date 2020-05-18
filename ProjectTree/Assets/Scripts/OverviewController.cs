@@ -14,20 +14,28 @@ public class OverviewController : MonoBehaviour
 
     public GameObject previewTurret;
     public GameObject shootingTurret;
+    public GameObject healthTurret;
     private bool _creating;
     private BlobAssetStore blobTurret;
-    private Entity turretECS;
+    private Entity shootTurretECS, hpTurretECS;
     private PreviewTurret _instantiatedPreviewTurret;
     private bool _turretCanBePlaced;
     private EntityManager _manager;
+    private List<Entity> turretsToCreate;
+    private int _indexToCreate;
     
     // Start is called before the first frame update
     void Start()
     {
         _manager = World.DefaultGameObjectInjectionWorld.EntityManager;
         blobTurret = new BlobAssetStore();
-        turretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(shootingTurret,
+        shootTurretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(shootingTurret,
             GameObjectConversionSettings.FromWorld(_manager.World, blobTurret));
+        hpTurretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(healthTurret,
+            GameObjectConversionSettings.FromWorld(_manager.World, blobTurret));
+        turretsToCreate = new List<Entity>();
+        turretsToCreate.Add(shootTurretECS);
+        turretsToCreate.Add(hpTurretECS);
         _camera = GetComponent<Camera>();
     }
 
@@ -49,16 +57,20 @@ public class OverviewController : MonoBehaviour
             gameObject.SetActive(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1) && !_creating)
+        for (int i = 1; i < turretsToCreate.Count+1 && !_creating; i++)
         {
-            CreatePreviewTurret();
-            _creating = true;
+            if (Input.GetKeyDown(i.ToString()))
+            {
+                _indexToCreate = i-1;
+                CreatePreviewTurret();
+                _creating = true;
+            }
         }
         if (_creating)
         {
             if (Input.GetMouseButtonDown(0))
             {
-                CreateTurret();
+                CreateTurret(_indexToCreate);
                 _creating = false;
             }
             UpdatePreviewTurret();
@@ -66,13 +78,18 @@ public class OverviewController : MonoBehaviour
 
     }
 
-    private void CreateTurret()
+    private bool GetPressedNumber()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void CreateTurret(int index)
     {
         Destroy(_instantiatedPreviewTurret.gameObject);
 
         if (_turretCanBePlaced && GameController.GetInstance().RecursosA>=20)
         {
-            Entity turret = _manager.Instantiate(turretECS);
+            Entity turret = _manager.Instantiate(turretsToCreate[index]);
             var position = _instantiatedPreviewTurret.gameObject.transform.position;
             _manager.SetComponentData(turret, new Translation {Value = position});
             _manager.AddBuffer<EnemiesInRange>(turret);
