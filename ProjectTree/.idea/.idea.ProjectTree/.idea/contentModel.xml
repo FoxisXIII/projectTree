@@ -43,6 +43,7 @@
                 <e p="PointAtCurrentTargetSystem.cs" t="Include" />
               </e>
             </e>
+            <e p="Grid.cs" t="Include" />
             <e p="PreviewTurret.cs" t="Include" />
             <e p="Projectile" t="Include">
               <e p="ECS" t="Include">

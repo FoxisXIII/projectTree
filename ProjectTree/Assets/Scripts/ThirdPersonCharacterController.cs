@@ -87,6 +87,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public GameObject fpsCamera;
     public GameObject birdCamera;
     public KeyCode cameraChange;
+    public bool cameraChanged;
     
     private void Awake()
     {
@@ -124,83 +125,88 @@ public class ThirdPersonCharacterController : MonoBehaviour
             birdCamera.SetActive(true);
             characterController.enabled = false;
             fpsCamera.SetActive(false);
+            cameraChanged = true;
         }
-        
-        timer += Time.deltaTime;
-        if (Input.GetMouseButton(0) && timer >= fireRate)
+
+        if (!cameraChanged)
         {
-            if (useECS)
+            timer += Time.deltaTime;
+            if (Input.GetMouseButton(0) && timer >= fireRate)
             {
-                if (shotgun)
-                    ShotgunECS(LocFire.transform.position, LocFire.transform.rotation.eulerAngles);
+                if (useECS)
+                {
+                    if (shotgun)
+                        ShotgunECS(LocFire.transform.position, LocFire.transform.rotation.eulerAngles);
+                    else
+                        ShootECS(LocFire.transform.position, LocFire.transform.rotation);
+                }
                 else
-                    ShootECS(LocFire.transform.position, LocFire.transform.rotation);
+                {
+                    Shoot();
+                }
+
+                timer = 0f;
             }
-            else
+
+            if (Input.GetMouseButton(1))
             {
-                Shoot();
+                if (Input.GetMouseButtonDown(1))
+                {
+                    CreatePreviewTurret();
+                }
+
+                UpdatePreviewTurret();
             }
-
-            timer = 0f;
-        }
-
-        if (Input.GetMouseButton(1))
-        {
-            if (Input.GetMouseButtonDown(1))
+            else if (Input.GetMouseButtonUp(1))
             {
-                CreatePreviewTurret();
+                CreateTurret();
             }
-
-            UpdatePreviewTurret();
-        }
-        else if (Input.GetMouseButtonUp(1))
-        {
-            CreateTurret();
-        }
         
-        if (Input.GetKey(KeyCode.T))
-        {
-            if (Input.GetKeyDown(KeyCode.T))
+            if (Input.GetKey(KeyCode.T))
             {
-                CreatePreviewTap();
+                if (Input.GetKeyDown(KeyCode.T))
+                {
+                    CreatePreviewTap();
+                }
+
+                UpdatePreviewTrap();
+            }else if (Input.GetKeyUp(KeyCode.T))
+            {
+                CreateTramp();
             }
 
-            UpdatePreviewTrap();
-        }else if (Input.GetKeyUp(KeyCode.T))
-        {
-            CreateTramp();
+            hor = Input.GetAxis("Horizontal");
+
+            ver = Input.GetAxis("Vertical");
+
+            playerinput = new Vector3(hor, 0, ver);
+            playerinput = Vector3.ClampMagnitude(playerinput, 1);
+
+            CamDir();
+
+            movPlayer = playerinput.x * camRight + playerinput.z * camForward;
+            float speed = WalkSpeed;
+            if (Input.GetKey(RunKey))
+            {
+                speed = RunSpeed;
+            }
+
+            if (Input.GetKeyUp(RunKey))
+            {
+                speed = WalkSpeed;
+            }
+
+            movPlayer = movPlayer * speed;
+
+            setGravity();
+            Jump();
         }
-
-        hor = Input.GetAxis("Horizontal");
-
-        ver = Input.GetAxis("Vertical");
-
-        playerinput = new Vector3(hor, 0, ver);
-        playerinput = Vector3.ClampMagnitude(playerinput, 1);
-
-        CamDir();
-
-        movPlayer = playerinput.x * camRight + playerinput.z * camForward;
-        float speed = WalkSpeed;
-        if (Input.GetKey(RunKey))
-        {
-            speed = RunSpeed;
-        }
-
-        if (Input.GetKeyUp(RunKey))
-        {
-            speed = WalkSpeed;
-        }
-
-        movPlayer = movPlayer * speed;
-
-        setGravity();
-        Jump();
     }
 
     private void FixedUpdate()
     {
-        characterController.Move(movPlayer * Time.deltaTime);
+        if (!cameraChanged)
+            characterController.Move(movPlayer * Time.deltaTime);
     }
 
 
@@ -361,6 +367,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         blobBullet.Dispose();
         blobTurret.Dispose();
+        blobTrap.Dispose();
     }
 
     public void RecoverHealth(int health)
