@@ -7,6 +7,6 @@ using UnityEngine;
 [GenerateAuthoringComponent]
 public struct AttackSpeedComponent : IComponentData
 {
-    [Range(0,1)]
+    [Range(0,3)]
     public float AttackSpeed;
 }

@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1119487954}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.466}
+  m_LocalPosition: {x: -0, y: 0, z: -0.323}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1835853005}
@@ -216,7 +216,7 @@ MonoBehaviour:
   instantiateTurrets: {fileID: 1271921907971335455}
   previewTurret: {fileID: 7019069708846604853, guid: 7fe3bea67a136aa428ef3bac3899923d,
     type: 3}
-  shootingTurret: {fileID: 6862334628331411265, guid: 5ec080030146b8142b23f0f6721ebeda,
+  shootingTurret: {fileID: 9016695913912356940, guid: 12b734a4c165b1a4ba3914ef73c7c557,
     type: 3}
   previewTrap: {fileID: 947790077566249874, guid: f79829020872d854e8b1a9df9505ddf3,
     type: 3}
@@ -311,7 +311,7 @@ MonoBehaviour:
         CombineMode: 2
     m_BelongsTo:
       m_Override: 0
-      m_Value: 0100000000000000000000000000000000000000000000000000000000000000
+      m_Value: 0000010000000000000000000000000000000000000000000000000000000000
     m_CollidesWith:
       m_Override: 0
       m_Value: 0100010101010101010101010101010101010101010101010101010101010101
