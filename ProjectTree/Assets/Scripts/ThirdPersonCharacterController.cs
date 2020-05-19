@@ -55,7 +55,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public Text lifeText;
 
     //
-    public int recursosA = 200;
     public Text recValue;
 
 
@@ -84,8 +83,14 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     //Enemies Attacking
     private Dictionary<Entity, Vector3> enemies;
-
-
+    
+    
+    //Change Camera
+    public GameObject fpsCamera;
+    public GameObject birdCamera;
+    public KeyCode cameraChange;
+    public bool cameraChanged;
+    
     private void Awake()
     {
         enemies = new Dictionary<Entity, Vector3>();
@@ -101,9 +106,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
         manager = World.DefaultGameObjectInjectionWorld.EntityManager;
         blobTurret = new BlobAssetStore();
         blobTrap = new BlobAssetStore();
-        turretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(shootingTurret,
-            GameObjectConversionSettings.FromWorld(manager.World, blobTurret));
-        trapECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(trap,
+        turretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(shootingTurret, GameObjectConversionSettings.FromWorld(manager.World, blobTurret));
+        trapECS=GameObjectConversionUtility.ConvertGameObjectHierarchy(trap,
             GameObjectConversionSettings.FromWorld(manager.World, blobTrap));
         if (useECS)
         {
@@ -112,7 +116,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 GameObjectConversionSettings.FromWorld(manager.World, blobBullet));
         }
 
-        recValue.text = recursosA.ToString();
+        recValue.text = GameController.GetInstance().RecursosA.ToString();
     }
 
     // Update is called once per frame
@@ -122,82 +126,80 @@ public class ThirdPersonCharacterController : MonoBehaviour
         if (life <= 0)
             GameController.GetInstance().gameOver();
 
-        timer += Time.deltaTime;
-        if (Input.GetMouseButton(0) && timer >= fireRate)
+        if (Input.GetKeyDown(cameraChange) /*&& !GameController.GetInstance().WaveInProcess*/)
         {
-            if (useECS)
+            birdCamera.SetActive(true);
+            characterController.enabled = false;
+            fpsCamera.SetActive(false);
+            cameraChanged = true;
+        }
+
+        if (!cameraChanged)
+        {
+            timer += Time.deltaTime;
+            if (Input.GetMouseButton(0) && timer >= fireRate)
             {
-                if (shotgun)
-                    ShotgunECS(LocFire.transform.position, LocFire.transform.rotation.eulerAngles);
+                if (useECS)
+                {
+                    if (shotgun)
+                        ShotgunECS(LocFire.transform.position, LocFire.transform.rotation.eulerAngles);
+                    else
+                        ShootECS(LocFire.transform.position, LocFire.transform.rotation);
+                }
                 else
-                    ShootECS(LocFire.transform.position, LocFire.transform.rotation);
+                {
+                    Shoot();
+                }
+
+                timer = 0f;
             }
-            else
+
+            if (Input.GetKey(KeyCode.T))
             {
-                Shoot();
+                if (Input.GetKeyDown(KeyCode.T))
+                {
+                    CreatePreviewTrap();
+                }
+                UpdatePreviewTrap();
             }
-
-            timer = 0f;
-        }
-
-        if (Input.GetMouseButton(1))
-        {
-            if (Input.GetMouseButtonDown(1))
+            else if (Input.GetKeyUp(KeyCode.T))
             {
-                CreatePreviewTurret();
+                CreateTramp();
             }
 
-            UpdatePreviewTurret();
-        }
-        else if (Input.GetMouseButtonUp(1))
-        {
-            CreateTurret();
-        }
+            hor = Input.GetAxis("Horizontal");
 
-        if (Input.GetKey(KeyCode.T))
-        {
-            if (Input.GetKeyDown(KeyCode.T))
+            ver = Input.GetAxis("Vertical");
+
+            playerinput = new Vector3(hor, 0, ver);
+            playerinput = Vector3.ClampMagnitude(playerinput, 1);
+
+            CamDir();
+
+
+            movPlayer = playerinput.x * camRight + playerinput.z * camForward;
+            float speed = WalkSpeed;
+            if (Input.GetKey(RunKey) && characterController.isGrounded)
             {
-                CreatePreviewTap();
+                speed = RunSpeed;
             }
 
-            UpdatePreviewTrap();
+            if (Input.GetKeyUp(RunKey))
+            {
+                speed = WalkSpeed;
+            }
+
+            movPlayer = movPlayer * speed;
+
+            setGravity();
+            Jump();
         }
-        else if (Input.GetKeyUp(KeyCode.T))
-        {
-            CreateTramp();
-        }
-
-        hor = Input.GetAxis("Horizontal");
-
-        ver = Input.GetAxis("Vertical");
-
-        playerinput = new Vector3(hor, 0, ver);
-        playerinput = Vector3.ClampMagnitude(playerinput, 1);
-
-        CamDir();
-
-        movPlayer = playerinput.x * camRight + playerinput.z * camForward;
-        float speed = WalkSpeed;
-        if (Input.GetKey(RunKey) && characterController.isGrounded)
-        {
-            speed = RunSpeed;
-        }
-
-        if (Input.GetKeyUp(RunKey))
-        {
-            speed = WalkSpeed;
-        }
-
-        movPlayer = movPlayer * speed;
-
-        setGravity();
-        Jump();
     }
 
     private void FixedUpdate()
     {
-        characterController.Move(movPlayer * Time.deltaTime);
+        if (!cameraChanged)
+            characterController.Move(movPlayer * Time.deltaTime);
     }
 
 
@@ -296,23 +298,11 @@ public class ThirdPersonCharacterController : MonoBehaviour
         if (life <= 0)
             GameController.GetInstance().gameOver();
     }
+    
 
-    private void CreatePreviewTurret()
-    {
-        _instantiatedPreviewTurret = Instantiate(previewTurret, instantiateTurrets).GetComponent<PreviewTurret>();
-    }
-
-    private void CreatePreviewTap()
+    private void CreatePreviewTrap()
     {
         _instantiatedPreviewTrap = Instantiate(previewTrap, instantiateTurrets).GetComponent<PreviewTurret>();
-    }
-
-    private void UpdatePreviewTurret()
-    {
-        _turretCanBePlaced = _instantiatedPreviewTurret.isValidPosition();
-        _instantiatedPreviewTurret.material.color = _turretCanBePlaced
-            ? _instantiatedPreviewTurret.canBePlaced
-            : _instantiatedPreviewTurret.canNotBePlaced;
     }
 
     private void UpdatePreviewTrap()
@@ -323,28 +313,11 @@ public class ThirdPersonCharacterController : MonoBehaviour
             : _instantiatedPreviewTrap.canNotBePlaced;
     }
 
-    private void CreateTurret()
-    {
-        Destroy(_instantiatedPreviewTurret.gameObject);
-
-        if (_turretCanBePlaced && recursosA >= 20)
-        {
-            Entity turret = manager.Instantiate(turretECS);
-            var position = instantiateTurrets.position;
-            position.y += .5f;
-            manager.SetComponentData(turret, new Translation {Value = position});
-            manager.AddBuffer<EnemiesInRange>(turret);
-            manager.AddBuffer<TurretsInRange>(turret);
-            recursosA -= 20;
-            recValue.text = recursosA.ToString();
-        }
-    }
-
     private void CreateTramp()
     {
         Destroy(_instantiatedPreviewTrap.gameObject);
-
-        if (_turretCanBePlaced && recursosA >= 20)
+        
+        if (_turretCanBePlaced && GameController.GetInstance().RecursosA >= 10)
         {
             Entity trap = manager.Instantiate(trapECS);
             var position = instantiateTurrets.position;
@@ -352,8 +325,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
             manager.SetComponentData(trap, new Translation {Value = position});
             manager.SetComponentData(trap, new Rotation {Value = transform.rotation});
             manager.AddBuffer<EnemiesInRange>(trap);
-            recursosA -= 20;
-            recValue.text = recursosA.ToString();
+            GameController.GetInstance().UpdateResources(-10);
         }
     }
 
@@ -374,8 +346,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public void IncreaseResources(int resources)
     {
         StopBuffs();
-        recursosA += resources;
-        recValue.text = recursosA.ToString();
+        GameController.GetInstance().UpdateResources(resources);
     }
 
     public void IncreaseAttack(int Attack)
