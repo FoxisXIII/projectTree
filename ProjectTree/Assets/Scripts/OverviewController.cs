@@ -13,12 +13,9 @@ public class OverviewController : MonoBehaviour
     public Grid grid;
 
     public GameObject previewTurret;
-    // public GameObject shootingTurret;
-    // public GameObject healthTurret;
     public GameObject[] prefabsTurrets;
     private bool _creating;
     private BlobAssetStore blobTurret;
-    //private Entity shootTurretECS, hpTurretECS;
     private PreviewTurret _instantiatedPreviewTurret;
     private bool _turretCanBePlaced;
     private EntityManager _manager;
@@ -31,12 +28,6 @@ public class OverviewController : MonoBehaviour
         _manager = World.DefaultGameObjectInjectionWorld.EntityManager;
         blobTurret = new BlobAssetStore();
         turretsToCreate = new List<Entity>();
-        // shootTurretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(shootingTurret,
-        //     GameObjectConversionSettings.FromWorld(_manager.World, blobTurret));
-        // hpTurretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(healthTurret,
-        //     GameObjectConversionSettings.FromWorld(_manager.World, blobTurret));
-        // turretsToCreate.Add(shootTurretECS);
-        // turretsToCreate.Add(hpTurretECS);
         for (int i = 0; i < prefabsTurrets.Length; i++)
         {
             turretsToCreate.Add(GameObjectConversionUtility.ConvertGameObjectHierarchy(prefabsTurrets[i],
@@ -54,7 +45,7 @@ public class OverviewController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(cameraChange) /*|| GameController.GetInstance().WaveInProcess*/)
+        if (Input.GetKeyDown(cameraChange) || GameController.GetInstance().WaveInProcess)
         {
             GameController.GetInstance().Player.characterController.enabled = true;
             GameController.GetInstance().Player.fpsCamera.SetActive(true);
@@ -114,7 +105,6 @@ public class OverviewController : MonoBehaviour
             {
                 gridPosition.y += 1f;
                 _instantiatedPreviewTurret.gameObject.transform.position = gridPosition;
-                //_instantiatedPreviewTurret.gameObject.transform.rotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
             }
         }
     }

@@ -40,9 +40,4 @@ public class Grid : MonoBehaviour
             }
         }
     }
-
-    private Vector3 GetWorldPosition(int x, int y)
-    {
-        return new Vector3(x,y)*_cellSize;
-    }
 }
