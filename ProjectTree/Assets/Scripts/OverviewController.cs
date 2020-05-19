@@ -13,11 +13,12 @@ public class OverviewController : MonoBehaviour
     public Grid grid;
 
     public GameObject previewTurret;
-    public GameObject shootingTurret;
-    public GameObject healthTurret;
+    // public GameObject shootingTurret;
+    // public GameObject healthTurret;
+    public GameObject[] prefabsTurrets;
     private bool _creating;
     private BlobAssetStore blobTurret;
-    private Entity shootTurretECS, hpTurretECS;
+    //private Entity shootTurretECS, hpTurretECS;
     private PreviewTurret _instantiatedPreviewTurret;
     private bool _turretCanBePlaced;
     private EntityManager _manager;
@@ -29,13 +30,18 @@ public class OverviewController : MonoBehaviour
     {
         _manager = World.DefaultGameObjectInjectionWorld.EntityManager;
         blobTurret = new BlobAssetStore();
-        shootTurretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(shootingTurret,
-            GameObjectConversionSettings.FromWorld(_manager.World, blobTurret));
-        hpTurretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(healthTurret,
-            GameObjectConversionSettings.FromWorld(_manager.World, blobTurret));
         turretsToCreate = new List<Entity>();
-        turretsToCreate.Add(shootTurretECS);
-        turretsToCreate.Add(hpTurretECS);
+        // shootTurretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(shootingTurret,
+        //     GameObjectConversionSettings.FromWorld(_manager.World, blobTurret));
+        // hpTurretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(healthTurret,
+        //     GameObjectConversionSettings.FromWorld(_manager.World, blobTurret));
+        // turretsToCreate.Add(shootTurretECS);
+        // turretsToCreate.Add(hpTurretECS);
+        for (int i = 0; i < prefabsTurrets.Length; i++)
+        {
+            turretsToCreate.Add(GameObjectConversionUtility.ConvertGameObjectHierarchy(prefabsTurrets[i],
+                GameObjectConversionSettings.FromWorld(_manager.World, blobTurret)));
+        }
         _camera = GetComponent<Camera>();
     }
 
@@ -76,11 +82,6 @@ public class OverviewController : MonoBehaviour
             UpdatePreviewTurret();
         }
 
-    }
-
-    private bool GetPressedNumber()
-    {
-        throw new NotImplementedException();
     }
 
     private void CreateTurret(int index)

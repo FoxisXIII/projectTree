@@ -1100,10 +1100,13 @@ MonoBehaviour:
   grid: {fileID: 286537541}
   previewTurret: {fileID: 7019069708846604853, guid: 7fe3bea67a136aa428ef3bac3899923d,
     type: 3}
-  shootingTurret: {fileID: 9016695913912356940, guid: 12b734a4c165b1a4ba3914ef73c7c557,
-    type: 3}
-  healthTurret: {fileID: 6769324826959267574, guid: 8a8f41523af485d44be24a19a386fcd7,
-    type: 3}
+  prefabsTurrets:
+  - {fileID: 9016695913912356940, guid: 12b734a4c165b1a4ba3914ef73c7c557, type: 3}
+  - {fileID: 6769324826959267574, guid: 8a8f41523af485d44be24a19a386fcd7, type: 3}
+  - {fileID: 8925988436613222773, guid: 4fed0eb7c5b9c404ca327bf00965463c, type: 3}
+  - {fileID: 6862334628331411265, guid: 5ec080030146b8142b23f0f6721ebeda, type: 3}
+  - {fileID: 8050025665890462194, guid: 4723e42de014c764e8efc24ab829d226, type: 3}
+  - {fileID: 9081911661977233675, guid: c1ca15dde22614e4fac3903e34df169f, type: 3}
 --- !u!81 &598514247
 AudioListener:
   m_ObjectHideFlags: 0
