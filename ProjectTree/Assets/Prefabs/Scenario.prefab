@@ -50,7 +50,7 @@ MonoBehaviour:
   - {fileID: 8714655531306366450}
   - {fileID: 8714655532654386036}
   - {fileID: 8714655532376469625}
-  waveCooldown: 1
+  waveCooldown: 10
   enemySpawnRate: 1
   nextRoundTimeText: {fileID: 0}
   roundText: {fileID: 0}
@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 3235805898500347595}
   - component: {fileID: 3235805898500347596}
   - component: {fileID: 759028717}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: West Wall 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -496,7 +496,7 @@ GameObject:
   - component: {fileID: 3235805898517337021}
   - component: {fileID: 3235805898517337022}
   - component: {fileID: 1825624343}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: West Wall 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -873,7 +873,7 @@ GameObject:
   - component: {fileID: 3235805899802685379}
   - component: {fileID: 3235805899802685380}
   - component: {fileID: 1411749080}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: NorthWest Building Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -982,7 +982,7 @@ GameObject:
   - component: {fileID: 3235805900267093409}
   - component: {fileID: 3235805900267093410}
   - component: {fileID: 1190840528}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SouthWest Building Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}

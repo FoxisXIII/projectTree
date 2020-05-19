@@ -76,21 +76,23 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     //Buffs
     [HideInInspector] public bool hasBuff;
+    [HideInInspector] public Entity buffEntity;
     public int initialDamage;
     private int damage;
     private bool shotgun;
     private int shotgunRange;
 
+
     //Enemies Attacking
     private Dictionary<Entity, Vector3> enemies;
-    
-    
+
+
     //Change Camera
     public GameObject fpsCamera;
     public GameObject birdCamera;
     public KeyCode cameraChange;
     public bool cameraChanged;
-    
+
     private void Awake()
     {
         enemies = new Dictionary<Entity, Vector3>();
@@ -106,8 +108,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
         manager = World.DefaultGameObjectInjectionWorld.EntityManager;
         blobTurret = new BlobAssetStore();
         blobTrap = new BlobAssetStore();
-        turretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(shootingTurret, GameObjectConversionSettings.FromWorld(manager.World, blobTurret));
-        trapECS=GameObjectConversionUtility.ConvertGameObjectHierarchy(trap,
+        turretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(shootingTurret,
+            GameObjectConversionSettings.FromWorld(manager.World, blobTurret));
+        trapECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(trap,
             GameObjectConversionSettings.FromWorld(manager.World, blobTrap));
         if (useECS)
         {
@@ -154,17 +157,18 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 timer = 0f;
             }
 
-            if (Input.GetKey(KeyCode.T))
+            if (Input.GetMouseButton(0))
             {
-                if (Input.GetKeyDown(KeyCode.T))
+                if (Input.GetMouseButtonDown(0))
                 {
                     CreatePreviewTrap();
                 }
+
                 UpdatePreviewTrap();
             }
-            else if (Input.GetKeyUp(KeyCode.T))
+            else if (Input.GetMouseButtonUp(0))
             {
-                CreateTramp();
+                CreateTrap();
             }
 
             hor = Input.GetAxis("Horizontal");
@@ -298,7 +302,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         if (life <= 0)
             GameController.GetInstance().gameOver();
     }
-    
+
 
     private void CreatePreviewTrap()
     {
@@ -313,10 +317,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
             : _instantiatedPreviewTrap.canNotBePlaced;
     }
 
-    private void CreateTramp()
+    private void CreateTrap()
     {
         Destroy(_instantiatedPreviewTrap.gameObject);
-        
+
         if (_turretCanBePlaced && GameController.GetInstance().RecursosA >= 10)
         {
             Entity trap = manager.Instantiate(trapECS);

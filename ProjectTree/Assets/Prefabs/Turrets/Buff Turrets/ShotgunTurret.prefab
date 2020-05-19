@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6862334626540274919}
   - component: {fileID: 6862334626540274938}
   - component: {fileID: 6862334626540274937}
-  - component: {fileID: 6862334626540274936}
   m_Layer: 0
   m_Name: Render
   m_TagString: Untagged
@@ -82,20 +81,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &6862334626540274936
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6862334626540274918}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6862334628331411265
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,6 +94,7 @@ GameObject:
   - component: {fileID: -9200366522620431289}
   - component: {fileID: -7814943113499245081}
   - component: {fileID: -3650009945970589322}
+  - component: {fileID: 8585368276141303453}
   m_Layer: 0
   m_Name: ShotgunTurret
   m_TagString: Untagged
@@ -252,6 +238,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Values: 
+--- !u!136 &8585368276141303453
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6862334628331411265}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8617828296556560418
 GameObject:
   m_ObjectHideFlags: 0

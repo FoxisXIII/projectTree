@@ -26,7 +26,7 @@ public class BuffTurretSystem : JobComponentSystem
 
         Entities
             .ForEach(
-                (ref BuffTurretData buffTurretData, ref Translation translation) =>
+                (ref BuffTurretData buffTurretData, ref Translation translation, ref Entity entity) =>
                 {
                     if (math.distance(playerPosition, translation.Value) <= buffTurretData.range)
                     {
@@ -57,13 +57,15 @@ public class BuffTurretSystem : JobComponentSystem
                         else if (buffTurretData.shotgun != 0 && !player.hasBuff)
                             player.Shotgun(buffTurretData.shotgun);
 
+                        player.buffEntity = entity;
                         player.hasBuff = true;
                     }
                     else
                     {
                         if (player.hasBuff)
                         {
-                            if (buffTurretData.buffTimer >= buffTurretData.buffDisapear)
+                            if (player.buffEntity.Equals(entity) &&
+                                buffTurretData.buffTimer >= buffTurretData.buffDisapear)
                             {
                                 buffTurretData.buffTimer = 0;
                                 player.hasBuff = false;

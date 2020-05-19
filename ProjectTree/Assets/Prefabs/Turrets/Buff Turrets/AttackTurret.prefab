@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 9081911661327350445}
   - component: {fileID: 9081911661327350448}
   - component: {fileID: 9081911661327350451}
-  - component: {fileID: 9081911661327350450}
   m_Layer: 0
   m_Name: Render
   m_TagString: Untagged
@@ -163,20 +162,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &9081911661327350450
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9081911661327350444}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9081911661977233675
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,6 +175,7 @@ GameObject:
   - component: {fileID: -1662528915051369840}
   - component: {fileID: 3493984503017666294}
   - component: {fileID: -7272559184271360357}
+  - component: {fileID: 4825377821469888901}
   m_Layer: 0
   m_Name: AttackTurret
   m_TagString: Untagged
@@ -233,7 +219,7 @@ MonoBehaviour:
   shotgun: 0
   buffRate: 0
   buffTimer: 0
-  buffDisapear: 2
+  buffDisapear: 30
 --- !u!114 &-1662528915051369840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,3 +319,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Values: 
+--- !u!136 &4825377821469888901
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9081911661977233675}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}

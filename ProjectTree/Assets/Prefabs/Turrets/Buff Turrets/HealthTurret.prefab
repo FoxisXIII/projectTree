@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6286384767396417537}
   - component: {fileID: 5623779935775045851}
   - component: {fileID: -7127317123137054403}
+  - component: {fileID: -466029516989668301}
   m_Layer: 0
   m_Name: HealthTurret
   m_TagString: Untagged
@@ -156,6 +157,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Values: 
+--- !u!136 &-466029516989668301
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6769324826959267574}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6769324828758791505
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,7 +182,6 @@ GameObject:
   - component: {fileID: 6769324828758791504}
   - component: {fileID: 6769324828758791501}
   - component: {fileID: 6769324828758791502}
-  - component: {fileID: 6769324828758791503}
   m_Layer: 0
   m_Name: Render
   m_TagString: Untagged
@@ -238,20 +252,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &6769324828758791503
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6769324828758791505}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8453886253446582677
 GameObject:
   m_ObjectHideFlags: 0

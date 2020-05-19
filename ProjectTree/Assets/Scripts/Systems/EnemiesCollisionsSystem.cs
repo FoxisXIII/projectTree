@@ -12,7 +12,7 @@ using UnityEngine;
 using static Unity.Mathematics.math;
 using float3 = Unity.Mathematics.float3;
 
-[UpdateAfter(typeof(EndFramePhysicsSystem))]
+[UpdateBefore(typeof(MoveToSystem))]
 public class EnemiesCollisionsSystem : JobComponentSystem
 {
     private BuildPhysicsWorld buildPhysicsWorldSystem;

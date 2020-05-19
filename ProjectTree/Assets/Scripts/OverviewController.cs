@@ -21,7 +21,7 @@ public class OverviewController : MonoBehaviour
     private EntityManager _manager;
     private List<Entity> turretsToCreate;
     private int _indexToCreate;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +33,7 @@ public class OverviewController : MonoBehaviour
             turretsToCreate.Add(GameObjectConversionUtility.ConvertGameObjectHierarchy(prefabsTurrets[i],
                 GameObjectConversionSettings.FromWorld(_manager.World, blobTurret)));
         }
+
         _camera = GetComponent<Camera>();
     }
 
@@ -54,15 +55,16 @@ public class OverviewController : MonoBehaviour
             gameObject.SetActive(false);
         }
 
-        for (int i = 1; i < turretsToCreate.Count+1 && !_creating; i++)
+        for (int i = 1; i < turretsToCreate.Count + 1 && !_creating; i++)
         {
             if (Input.GetKeyDown(i.ToString()))
             {
-                _indexToCreate = i-1;
+                _indexToCreate = i - 1;
                 CreatePreviewTurret();
                 _creating = true;
             }
         }
+
         if (_creating)
         {
             if (Input.GetMouseButtonDown(0))
@@ -70,21 +72,22 @@ public class OverviewController : MonoBehaviour
                 CreateTurret(_indexToCreate);
                 _creating = false;
             }
+
             UpdatePreviewTurret();
         }
-
     }
 
     private void CreateTurret(int index)
     {
         Destroy(_instantiatedPreviewTurret.gameObject);
 
-        if (_turretCanBePlaced && GameController.GetInstance().RecursosA>=20)
+        if (_turretCanBePlaced && GameController.GetInstance().RecursosA >= 20)
         {
             Entity turret = _manager.Instantiate(turretsToCreate[index]);
             var position = _instantiatedPreviewTurret.gameObject.transform.position;
             _manager.SetComponentData(turret, new Translation {Value = position});
             _manager.AddBuffer<EnemiesInRange>(turret);
+            _manager.AddBuffer<TurretsInRange>(turret);
             GameController.GetInstance().UpdateResources(-20);
         }
     }
@@ -95,7 +98,7 @@ public class OverviewController : MonoBehaviour
         _instantiatedPreviewTurret.material.color = _turretCanBePlaced
             ? _instantiatedPreviewTurret.canBePlaced
             : _instantiatedPreviewTurret.canNotBePlaced;
-        
+
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))

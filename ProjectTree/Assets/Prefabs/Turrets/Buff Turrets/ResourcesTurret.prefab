@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 8925988435158024915}
   - component: {fileID: 8925988435158024910}
   - component: {fileID: 8925988435158024909}
-  - component: {fileID: 8925988435158024908}
   m_Layer: 0
   m_Name: Render
   m_TagString: Untagged
@@ -163,20 +162,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &8925988435158024908
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8925988435158024914}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8925988436613222773
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,6 +175,7 @@ GameObject:
   - component: {fileID: -826419060939972697}
   - component: {fileID: 3846214564988173375}
   - component: {fileID: 8660036998847006672}
+  - component: {fileID: 4523757388995082303}
   m_Layer: 0
   m_Name: ResourcesTurret
   m_TagString: Untagged
@@ -333,3 +319,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Values: 
+--- !u!136 &4523757388995082303
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8925988436613222773}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
