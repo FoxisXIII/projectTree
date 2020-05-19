@@ -49,10 +49,8 @@ MonoBehaviour:
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 0
-  wallLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
   validPoints: []
+  distanceToGround: 0
 --- !u!1 &2917077685046285904
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,10 +100,8 @@ MonoBehaviour:
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 0
-  wallLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
   validPoints: []
+  distanceToGround: 0
 --- !u!1 &4867694606037524528
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,10 +151,8 @@ MonoBehaviour:
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 0
-  wallLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
   validPoints: []
+  distanceToGround: 0
 --- !u!1 &5398361478188868653
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,10 +202,8 @@ MonoBehaviour:
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 0
-  wallLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
   validPoints: []
+  distanceToGround: 0
 --- !u!1 &7019069708846604853
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,11 +322,9 @@ MonoBehaviour:
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 512
-  wallLayerMask:
-    serializedVersion: 2
-    m_Bits: 55
   validPoints:
   - {fileID: 3827877298481855}
   - {fileID: 2861824021413154957}
   - {fileID: 7366025844012090812}
   - {fileID: 7598910499398111838}
+  distanceToGround: 1

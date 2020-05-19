@@ -60,12 +60,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     //Turret Spawner
     public Transform instantiateTurrets;
-    public GameObject previewTurret;
-    public GameObject shootingTurret;
-    private Entity turretECS;
     private PreviewTurret _instantiatedPreviewTurret;
     private bool _turretCanBePlaced;
-    private BlobAssetStore blobTurret;
 
     //Trap spawner
     public GameObject previewTrap;
@@ -106,10 +102,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     void Start()
     {
         manager = World.DefaultGameObjectInjectionWorld.EntityManager;
-        blobTurret = new BlobAssetStore();
         blobTrap = new BlobAssetStore();
-        turretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(shootingTurret,
-            GameObjectConversionSettings.FromWorld(manager.World, blobTurret));
         trapECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(trap,
             GameObjectConversionSettings.FromWorld(manager.World, blobTrap));
         if (useECS)
@@ -157,16 +150,16 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 timer = 0f;
             }
 
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(1))
             {
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(1))
                 {
                     CreatePreviewTrap();
                 }
 
                 UpdatePreviewTrap();
             }
-            else if (Input.GetMouseButtonUp(0))
+            else if (Input.GetMouseButtonUp(1))
             {
                 CreateTrap();
             }
@@ -336,7 +329,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private void OnDestroy()
     {
         blobBullet.Dispose();
-        blobTurret.Dispose();
         blobTrap.Dispose();
     }
 

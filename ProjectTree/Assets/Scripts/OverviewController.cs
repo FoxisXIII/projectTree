@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Entities;
 using Unity.Transforms;
 using UnityEditor.Experimental.GraphView;
@@ -21,6 +22,7 @@ public class OverviewController : MonoBehaviour
     private EntityManager _manager;
     private List<Entity> turretsToCreate;
     private int _indexToCreate;
+    public GameObject toCreateText;
 
     // Start is called before the first frame update
     void Start()
@@ -52,10 +54,14 @@ public class OverviewController : MonoBehaviour
             GameController.GetInstance().Player.fpsCamera.SetActive(true);
             GameController.GetInstance().Player.cameraChanged = false;
             Cursor.visible = false;
+            if (!ReferenceEquals(_instantiatedPreviewTurret, null))
+            {
+                Destroy(_instantiatedPreviewTurret);
+            }
             gameObject.SetActive(false);
         }
 
-        for (int i = 1; i < turretsToCreate.Count + 1 && !_creating; i++)
+        for (int i = 1; i < turretsToCreate.Count + 1; i++)
         {
             if (Input.GetKeyDown(i.ToString()))
             {
@@ -67,7 +73,7 @@ public class OverviewController : MonoBehaviour
 
         if (_creating)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(1))
             {
                 CreateTurret(_indexToCreate);
                 _creating = false;
@@ -80,6 +86,7 @@ public class OverviewController : MonoBehaviour
     private void CreateTurret(int index)
     {
         Destroy(_instantiatedPreviewTurret.gameObject);
+        toCreateText.SetActive(false);
 
         if (_turretCanBePlaced && GameController.GetInstance().RecursosA >= 20)
         {
@@ -114,7 +121,20 @@ public class OverviewController : MonoBehaviour
 
     private void CreatePreviewTurret()
     {
+        if (!ReferenceEquals(_instantiatedPreviewTurret, null))
+        {
+            //Destroy(_instantiatedPreviewTurret.gameObject);
+            Destroy(_instantiatedPreviewTurret);
+        }
         _instantiatedPreviewTurret = Instantiate(previewTurret).GetComponent<PreviewTurret>();
+        toCreateText.SetActive(true);
+    }
+
+    public void OnClick(int index)
+    {
+        CreatePreviewTurret();
+        _creating = true;
+        _indexToCreate = index;
     }
 
     private void OnDestroy()
