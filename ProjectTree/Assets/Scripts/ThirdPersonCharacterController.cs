@@ -157,16 +157,16 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 timer = 0f;
             }
 
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(1))
             {
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(1))
                 {
                     CreatePreviewTrap();
                 }
 
                 UpdatePreviewTrap();
             }
-            else if (Input.GetMouseButtonUp(0))
+            else if (Input.GetMouseButtonUp(1))
             {
                 CreateTrap();
             }
