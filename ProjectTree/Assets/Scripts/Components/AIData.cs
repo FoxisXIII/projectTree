@@ -1,4 +1,5 @@
-﻿using Unity.Collections;
+﻿using System;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
@@ -25,5 +26,4 @@ public struct AIData : IComponentData
     [HideInInspector] public float3 entityPosition;
     [HideInInspector] public Entity entity;
     [HideInInspector] public bool stop;
-    
 }

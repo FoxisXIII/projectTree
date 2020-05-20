@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\miki_\AppData\Local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\miki_\AppData\Local\JetBrains\Rider2020.1\resharper-host\Local\Transient\ReSharperHost\v201\SolutionCaches\_ProjectTree.-1035324771.00" t="ExcludeRecursive" />
-    <e p="D:\Documents\ProjectTree\ProjectTree" t="IncludeRecursive">
+    <e p="C:\Users\erike\AppData\Local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\erike\AppData\Local\JetBrains\Rider2020.1\resharper-host\Local\Transient\ReSharperHost\v201\SolutionCaches\_ProjectTree.1444738749.00" t="ExcludeRecursive" />
+    <e p="E:\Github Projects\Universitat\ProjectTree\ProjectTree" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
@@ -68,7 +68,6 @@
               </e>
               <e p="ProjectileBehaviour.cs" t="Include" />
             </e>
-            <e p="Trap.cs" t="Include" />
             <e p="TurretMonoBehaviour.cs" t="Include" />
           </e>
           <e p="GameController.cs" t="Include" />
@@ -107,6 +106,7 @@
           <e p="ThirdPersonCharacterController.cs" t="Include" />
           <e p="UI" t="Include">
             <e p="ChangeScene.cs" t="Include" />
+            <e p="PauseMenu.cs" t="Include" />
           </e>
         </e>
         <e p="Sound" t="Include">

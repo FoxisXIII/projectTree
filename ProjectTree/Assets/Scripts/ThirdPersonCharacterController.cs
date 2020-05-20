@@ -294,13 +294,12 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         life -= damage;
         lifeText.text = life.ToString();
-        var color=LifeImage.color;
-        Debug.Log(life/maxLife);
-        color.a = life/maxLife;
+        var color = LifeImage.color;
+        Debug.Log(life / maxLife);
+        color.a = life / maxLife;
         LifeImage.color = color;
         if (life <= 0)
             GameController.GetInstance().gameOver();
-
     }
 
 
@@ -354,32 +353,25 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     public void IncreaseAttack(int Attack)
     {
-        if (!hasBuff)
-        {
-            StopBuffs();
-            damage = initialDamage * Attack;
-        }
+        StopBuffs();
+        damage = initialDamage * Attack;
     }
 
     public void IncreaseSpeed(int Speed)
     {
-        if (!hasBuff)
-        {
-            StopBuffs();
-            WalkSpeed = this.Speed * Speed;
-            RunSpeed = WalkSpeed * 2;
-            fireRate = initFireRate / Speed;
-        }
+        StopBuffs();
+        WalkSpeed = this.Speed * Speed;
+        RunSpeed = WalkSpeed * 2;
+        fireRate = initFireRate / Speed;
+        Debug.Log("Speed");
     }
 
     public void Shotgun(int shotgun)
     {
-        if (!hasBuff)
-        {
-            StopBuffs();
-            this.shotgun = true;
-            shotgunRange = shotgun;
-        }
+        StopBuffs();
+        this.shotgun = true;
+        shotgunRange = shotgun;
+        Debug.Log("Shot");
     }
 
     public void StopBuffs()
