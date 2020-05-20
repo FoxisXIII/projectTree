@@ -860,6 +860,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 1000
   healthText: {fileID: 0}
+  LifeImage: {fileID: 0}
 --- !u!1 &3235805899802685382
 GameObject:
   m_ObjectHideFlags: 0
