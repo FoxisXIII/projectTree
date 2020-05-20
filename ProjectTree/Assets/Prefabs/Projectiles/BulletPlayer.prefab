@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: -8472690541056764059, guid: c260176a97a79d14c814ee4055b7f849,
         type: 3}
       propertyPath: speed
-      value: 200
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 2740377096010578199, guid: c260176a97a79d14c814ee4055b7f849,
         type: 3}
@@ -66,6 +66,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3511667060062645267, guid: c260176a97a79d14c814ee4055b7f849,
+        type: 3}
+      propertyPath: m_Material.m_RaisesCollisionEvents.m_Value
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5137244523718503177, guid: c260176a97a79d14c814ee4055b7f849,
         type: 3}
