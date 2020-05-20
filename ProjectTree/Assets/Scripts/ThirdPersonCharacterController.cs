@@ -51,9 +51,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private BlobAssetStore blobBullet;
 
     //Life
-    public int maxLife;
-    [HideInInspector] public int life;
+    public float maxLife;
+    [HideInInspector] public float life;
     public Text lifeText;
+    public Image LifeImage;
 
     //
     public int recursosA = 200;
@@ -285,6 +286,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         life -= damage;
         lifeText.text = life.ToString();
+        var color=LifeImage.color;
+        Debug.Log(life/maxLife);
+        color.a = life/maxLife;
+        LifeImage.color = color;
         if (life <= 0)
             GameController.GetInstance().gameOver();
     }
