@@ -121,11 +121,11 @@ public class OverviewController : MonoBehaviour
 
     private void CreatePreviewTurret()
     {
-        if (!ReferenceEquals(_instantiatedPreviewTurret, null))
-        {
-            //Destroy(_instantiatedPreviewTurret.gameObject);
-            Destroy(_instantiatedPreviewTurret);
-        }
+        // if (!ReferenceEquals(_instantiatedPreviewTurret, null))
+        // {
+        //     //Destroy(_instantiatedPreviewTurret.gameObject);
+        //     Destroy(_instantiatedPreviewTurret);
+        // }
         _instantiatedPreviewTurret = Instantiate(previewTurret).GetComponent<PreviewTurret>();
         toCreateText.SetActive(true);
     }

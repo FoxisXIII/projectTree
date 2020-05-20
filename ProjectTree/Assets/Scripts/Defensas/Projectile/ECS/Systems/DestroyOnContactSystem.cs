@@ -6,7 +6,9 @@ using Unity.Jobs;
 using Unity.Physics;
 using Unity.Physics.Systems;
 using UnityEngine;
+using UnityEngine.Rendering;
 
+[UpdateAfter(typeof(DamageCollisionSystem))]
 public class DestroyOnContactSystem : JobComponentSystem
 {
     private EndSimulationEntityCommandBufferSystem ecbSystem;
@@ -24,14 +26,7 @@ public class DestroyOnContactSystem : JobComponentSystem
     {
         var destroyGroup = GetComponentDataFromEntity<DestroyOnContact>(true);
         var towerGroup = GetComponentDataFromEntity<TowerTag>(true);
-        // var parentGroup = GetComponentDataFromEntity<ParentEntity>(true);
         var ecb = ecbSystem.CreateCommandBuffer();
-
-        // var destroyTriggerJob = new DestroyTriggerJob
-        // {
-        //     ecb = ecb,
-        //     destroyGroup = destroyGroup
-        // };
 
         var destroyCollisionJob = new DestroyCollisionJob
         {
@@ -40,40 +35,17 @@ public class DestroyOnContactSystem : JobComponentSystem
             towerGroup = towerGroup
         };
 
-        // destroyTriggerJob.Schedule(_stepPhysicsWorld.Simulation, ref _buildPhysicsWorld.PhysicsWorld, inputDeps).Complete();
         destroyCollisionJob.Schedule(_stepPhysicsWorld.Simulation, ref _buildPhysicsWorld.PhysicsWorld, inputDeps)
             .Complete();
 
         return inputDeps;
     }
 
-    // private struct DestroyTriggerJob : ITriggerEventsJob
-    // {
-    //     public EntityCommandBuffer ecb;
-    //     [ReadOnly] public ComponentDataFromEntity<DestroyOnContact> destroyGroup;
-    //     
-    //     public void Execute(TriggerEvent triggerEvent)
-    //     {
-    //         if (destroyGroup.HasComponent(triggerEvent.Entities.EntityA))
-    //         {
-    //             Debug.Log("A");
-    //             ecb.DestroyEntity(triggerEvent.Entities.EntityA);
-    //         }
-    //         if (destroyGroup.HasComponent(triggerEvent.Entities.EntityB))
-    //         {
-    //             ecb.DestroyEntity(triggerEvent.Entities.EntityB);
-    //             Debug.Log("B");
-    //         }
-    //         
-    //     }
-    // }
-
     private struct DestroyCollisionJob : ICollisionEventsJob
     {
         public EntityCommandBuffer ecb;
         [ReadOnly] public ComponentDataFromEntity<DestroyOnContact> destroyGroup;
         [ReadOnly] public ComponentDataFromEntity<TowerTag> towerGroup;
-        // [ReadOnly] public ComponentDataFromEntity<ParentEntity> parentGroup;
 
         public void Execute(CollisionEvent collisionEvent)
         {
