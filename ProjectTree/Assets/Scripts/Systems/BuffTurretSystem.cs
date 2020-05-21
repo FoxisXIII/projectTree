@@ -43,22 +43,26 @@ public class BuffTurretSystem : JobComponentSystem
                         }
                         else if (buffTurretData.buffTimer < buffTurretData.buffRate)
                             buffTurretData.buffTimer += deltaTime;
-                        else if (buffTurretData.resources != 0 && buffTurretData.buffTimer >= buffTurretData.buffRate)
+                        else if (buffTurretData.resources != 0 &&
+                                 buffTurretData.buffTimer >= buffTurretData.buffRate)
                         {
                             player.IncreaseResources(buffTurretData.resources);
                             buffTurretData.buffTimer = 0;
                         }
                         else if (buffTurretData.buffTimer < buffTurretData.buffRate)
                             buffTurretData.buffTimer += deltaTime;
-                        else if (buffTurretData.attack != 0 && !player.hasBuff)
-                            player.IncreaseAttack(buffTurretData.attack);
-                        else if (buffTurretData.speed != 0 && !player.hasBuff)
-                            player.IncreaseSpeed(buffTurretData.speed);
-                        else if (buffTurretData.shotgun != 0 && !player.hasBuff)
-                            player.Shotgun(buffTurretData.shotgun);
+                        else if (!player.hasBuff || player.hasBuff && !player.buffEntity.Equals(entity))
+                        {
+                            if (buffTurretData.attack != 0)
+                                player.IncreaseAttack(buffTurretData.attack);
+                            else if (buffTurretData.speed != 0)
+                                player.IncreaseSpeed(buffTurretData.speed);
+                            else if (buffTurretData.shotgun != 0)
+                                player.Shotgun(buffTurretData.shotgun);
 
-                        player.buffEntity = entity;
-                        player.hasBuff = true;
+                            player.buffEntity = entity;
+                            player.hasBuff = true;
+                        }
                     }
                     else
                     {

@@ -1,5 +1,79 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1327785660876709020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210805211475529185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b275e5f92732148048d7b77e264ac30e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShapeType: 0
+  m_PrimitiveCenter:
+    x: -0.0066153407
+    y: 0.48633942
+    z: -0.047101766
+  m_PrimitiveSize:
+    x: 1.0129488
+    y: 1.1582396
+    z: 0.2126525
+  m_PrimitiveOrientation:
+    Value:
+      x: -0
+      y: 0
+      z: 0
+    RotationOrder: 4
+  m_Capsule:
+    Height: 1.1582396
+    Radius: 0.5064744
+    Axis: 1
+  m_Cylinder:
+    Height: 0.2126525
+    Radius: 0.5791198
+    Axis: 2
+  m_CylinderSideCount: 20
+  m_SphereRadius: 0.5791198
+  m_MinimumSkinnedVertexWeight: 0.1
+  m_ConvexHullGenerationParameters:
+    m_SimplificationTolerance: 0.031621806
+    m_BevelRadius: 0.05
+    m_MinimumAngle: 2.5000002
+  m_CustomMesh: {fileID: 2403283451262950110, guid: 3f7c516598505af478b0246cd5efe8b5,
+    type: 3}
+  m_ForceUnique: 0
+  m_Material:
+    m_SupportsTemplate: 1
+    m_Template: {fileID: 0}
+    m_IsTrigger:
+      m_Override: 0
+      m_Value: 0
+    m_Friction:
+      m_Override: 0
+      m_Value:
+        Value: 0
+        CombineMode: 2
+    m_Restitution:
+      m_Override: 0
+      m_Value:
+        Value: 0
+        CombineMode: 2
+    m_BelongsTo:
+      m_Override: 0
+      m_Value: 0000000100000000000000000000000000000000000000000000000000000000
+    m_CollidesWith:
+      m_Override: 0
+      m_Value: 0101010101010101010101010101010101010101010101010101010101010101
+    m_RaisesCollisionEvents:
+      m_Override: 0
+      m_Value: 1
+    m_CustomTags:
+      m_Override: 0
+      m_Value: 0000000000000000
+  m_ConvexRadius_Deprecated: -1
 --- !u!114 &6938585680081231302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,6 +323,80 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Values: 
+--- !u!114 &9115093915190438872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7587337977144556334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b275e5f92732148048d7b77e264ac30e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShapeType: 0
+  m_PrimitiveCenter:
+    x: -0.0037837029
+    y: -0.4823535
+    z: -0.04710141
+  m_PrimitiveSize:
+    x: 1.0129488
+    y: 1.1582397
+    z: 0.2126525
+  m_PrimitiveOrientation:
+    Value:
+      x: -0
+      y: 0
+      z: 0
+    RotationOrder: 4
+  m_Capsule:
+    Height: 1.1582397
+    Radius: 0.5064744
+    Axis: 1
+  m_Cylinder:
+    Height: 0.2126525
+    Radius: 0.57911986
+    Axis: 2
+  m_CylinderSideCount: 20
+  m_SphereRadius: 0.57911986
+  m_MinimumSkinnedVertexWeight: 0.1
+  m_ConvexHullGenerationParameters:
+    m_SimplificationTolerance: 0.031621806
+    m_BevelRadius: 0.05
+    m_MinimumAngle: 2.5000002
+  m_CustomMesh: {fileID: 2403283451262950110, guid: 3f7c516598505af478b0246cd5efe8b5,
+    type: 3}
+  m_ForceUnique: 0
+  m_Material:
+    m_SupportsTemplate: 1
+    m_Template: {fileID: 0}
+    m_IsTrigger:
+      m_Override: 0
+      m_Value: 0
+    m_Friction:
+      m_Override: 0
+      m_Value:
+        Value: 0
+        CombineMode: 2
+    m_Restitution:
+      m_Override: 0
+      m_Value:
+        Value: 0
+        CombineMode: 2
+    m_BelongsTo:
+      m_Override: 0
+      m_Value: 0000000100000000000000000000000000000000000000000000000000000000
+    m_CollidesWith:
+      m_Override: 0
+      m_Value: 0101010101010101010101010101010101010101010101010101010101010101
+    m_RaisesCollisionEvents:
+      m_Override: 0
+      m_Value: 1
+    m_CustomTags:
+      m_Override: 0
+      m_Value: 0000000000000000
+  m_ConvexRadius_Deprecated: -1
 --- !u!1001 &5825959930005286909
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -342,6 +490,18 @@ GameObject:
 --- !u!4 &1559164108304434407 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 3f7c516598505af478b0246cd5efe8b5,
+    type: 3}
+  m_PrefabInstance: {fileID: 5825959930005286909}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7587337977144556334 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5074901468145265453, guid: 3f7c516598505af478b0246cd5efe8b5,
+    type: 3}
+  m_PrefabInstance: {fileID: 5825959930005286909}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &210805211475529185 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5923668963045351964, guid: 3f7c516598505af478b0246cd5efe8b5,
     type: 3}
   m_PrefabInstance: {fileID: 5825959930005286909}
   m_PrefabAsset: {fileID: 0}

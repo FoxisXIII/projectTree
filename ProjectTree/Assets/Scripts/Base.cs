@@ -39,7 +39,6 @@ public class Base : MonoBehaviour
         life -= damage;
         healthText.text = life.ToString();
         var color=LifeImage.color;
-        Debug.Log(life/1000);
         color.a = life/1000;
         LifeImage.color = color;
         if(life<=0)
