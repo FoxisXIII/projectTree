@@ -17,16 +17,15 @@ public class ResolveDamageSystem : JobComponentSystem
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         EntityCommandBuffer ecb = this.ecb.CreateCommandBuffer();
-        Entities.WithoutBurst().WithNone<Dead>().ForEach(
+        Entities.WithNone<Dead>().ForEach(
             (Entity e, ref DynamicBuffer<Damage> damageBuffer, ref HealthData hp) =>
             {
-                foreach (var damage in damageBuffer)
+                for (int i = 0; i < damageBuffer.Length; i++)
                 {
-                    hp.Value -= damage.Value;
+                    hp.Value -= damageBuffer[i].Value;
 
                     if (hp.Value <= 0)
                     {
-                        GameController.GetInstance().RemoveEnemyWave();
                         hp.Value = 0;
                         ecb.AddComponent<Dead>(e);
                         break;

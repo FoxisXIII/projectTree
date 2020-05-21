@@ -8,5 +8,5 @@ using UnityEngine;
 [GenerateAuthoringComponent]
 public struct Damage : IBufferElementData
 {
-    public float Value;
+    public int Value;
 }

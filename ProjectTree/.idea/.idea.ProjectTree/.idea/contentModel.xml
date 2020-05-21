@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\erike\AppData\local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\erike\AppData\local\JetBrains\Rider2020.1\resharper-host\local\Transient\ReSharperHost\v201\SolutionCaches\_ProjectTree.1444738749.00" t="ExcludeRecursive" />
-    <e p="E:\Github Projects\Universitat\projectTree\projectTree" t="IncludeRecursive">
+    <e p="C:\Users\erike\AppData\Local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\erike\AppData\Local\JetBrains\Rider2020.1\resharper-host\Local\Transient\ReSharperHost\v201\SolutionCaches\_ProjectTree.1444738749.00" t="ExcludeRecursive" />
+    <e p="E:\Github Projects\Universitat\ProjectTree\ProjectTree" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
@@ -12,13 +12,19 @@
           <e p="Components" t="Include">
             <e p="AIData.cs" t="Include" />
             <e p="BaseTag.cs" t="Include" />
+            <e p="BuffTurretData.cs" t="Include" />
+            <e p="CollisionEnemy.cs" t="Include" />
             <e p="DamageComponent.cs" t="Include" />
             <e p="DeadComponent.cs" t="Include" />
+            <e p="EnemyPosition.cs" t="Include" />
             <e p="EnemyTag.cs" t="Include" />
+            <e p="ExplosionComponent.cs" t="Include" />
+            <e p="GenerateAttackPositionComponent.cs" t="Include" />
             <e p="HealthData.cs" t="Include" />
             <e p="MovementData.cs" t="Include" />
             <e p="MovesForwardComponent.cs" t="Include" />
             <e p="PlayerTag.cs" t="Include" />
+            <e p="TrapComponent.cs" t="Include" />
           </e>
           <e p="DeadZone.cs" t="Include" />
           <e p="Defensas" t="Include">
@@ -32,6 +38,7 @@
                 <e p="RangeComponent.cs" t="Include" />
                 <e p="TowerCurrentTargetComponent.cs" t="Include" />
                 <e p="TowerTagComponent.cs" t="Include" />
+                <e p="TurretsInRange.cs" t="Include" />
               </e>
               <e p="DefenseSpawner.cs" t="Include" />
               <e p="Systems" t="Include">
@@ -41,6 +48,7 @@
                 <e p="PointAtCurrentTargetSystem.cs" t="Include" />
               </e>
             </e>
+            <e p="Grid.cs" t="Include" />
             <e p="PreviewTurret.cs" t="Include" />
             <e p="Projectile" t="Include">
               <e p="ECS" t="Include">
@@ -63,6 +71,7 @@
             <e p="TurretMonoBehaviour.cs" t="Include" />
           </e>
           <e p="GameController.cs" t="Include" />
+          <e p="OverviewController.cs" t="Include" />
           <e p="Puzzles" t="Include">
             <e p="Boton.cs" t="Include" />
             <e p="Validador.cs" t="Include" />
@@ -72,14 +81,24 @@
             <e p="WaveController.cs" t="Include" />
           </e>
           <e p="Systems" t="Include">
+            <e p="AttackPositionSystem.cs" t="Include" />
             <e p="AttackSystem.cs" t="Include" />
+            <e p="BuffTurretSystem.cs" t="Include" />
+            <e p="ClearEntities.cs" t="Include" />
+            <e p="ComunicateWithGameObjectSystem.cs" t="Include" />
             <e p="DamageCollisionSystem.cs" t="Include" />
             <e p="DeathSystem.cs" t="Include" />
-            <e p="HealthSystem.cs" t="Include" />
+            <e p="EnemiesCollisionsSystem.cs" t="Include" />
+            <e p="ExplosionCollisionSystem.cs" t="Include" />
+            <e p="ExplosionSystem.cs" t="Include" />
+            <e p="ExplosionTriggerSystem.cs" t="Include" />
             <e p="MoveBulletSys.cs" t="Include" />
             <e p="MovementSystem.cs" t="Include" />
+            <e p="MovePlayerSystem.cs" t="Include" />
             <e p="MoveToSystem.cs" t="Include" />
             <e p="ResolveDamageSystem.cs" t="Include" />
+            <e p="TrapDamageSystem.cs" t="Include" />
+            <e p="TrapDeathSystem.cs" t="Include" />
           </e>
           <e p="Teleporter.cs" t="Include" />
           <e p="TeleportManager.cs" t="Include" />
@@ -87,16 +106,43 @@
           <e p="ThirdPersonCharacterController.cs" t="Include" />
           <e p="UI" t="Include">
             <e p="ChangeScene.cs" t="Include" />
-            <e p="Minimap.cs" t="Include" />
-            <e p="TemporalTriggers.cs" t="Include" />
+            <e p="PauseMenu.cs" t="Include" />
           </e>
         </e>
         <e p="Sound" t="Include">
           <e p="DELETE.txt" t="Include" />
         </e>
+        <e p="TextMesh Pro" t="Include">
+          <e p="Fonts" t="Include">
+            <e p="LiberationSans - OFL.txt" t="Include" />
+          </e>
+          <e p="Resources" t="Include">
+            <e p="LineBreaking Following Characters.txt" t="Include" />
+            <e p="LineBreaking Leading Characters.txt" t="Include" />
+            <e p="Shaders" t="Include">
+              <e p="TMP_Bitmap-Custom-Atlas.shader" t="Include" />
+              <e p="TMP_Bitmap-Mobile.shader" t="Include" />
+              <e p="TMP_Bitmap.shader" t="Include" />
+              <e p="TMP_SDF Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Masking.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface.shader" t="Include" />
+              <e p="TMP_SDF.shader" t="Include" />
+              <e p="TMP_Sprite.shader" t="Include" />
+              <e p="TMPro.cginc" t="Include" />
+              <e p="TMPro_Properties.cginc" t="Include" />
+              <e p="TMPro_Surface.cginc" t="Include" />
+            </e>
+          </e>
+          <e p="Sprites" t="Include">
+            <e p="EmojiOne Attribution.txt" t="Include" />
+          </e>
+        </e>
       </e>
       <e p="obj" t="ExcludeRecursive" />
-      <e p="packages" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
       <e p="ProjectTree.sln" t="IncludeFlat" />
       <e p="Temp\bin" t="ExcludeRecursive" />
     </e>

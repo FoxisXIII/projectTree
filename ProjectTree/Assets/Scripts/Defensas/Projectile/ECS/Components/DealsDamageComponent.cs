@@ -8,5 +8,5 @@ using UnityEngine;
 [Serializable]
 public struct DealsDamage : IComponentData
 {
-    public float Value;
+    public int Value;
 }

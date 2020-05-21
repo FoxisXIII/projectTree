@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
@@ -15,32 +16,45 @@ public class FindTargetSystem : JobComponentSystem
 {
     private BuildPhysicsWorld _buildPhysicsWorld;
     private StepPhysicsWorld _stepPhysicsWorld;
-    
+
+    private EndSimulationEntityCommandBufferSystem ecb;
+
     protected override void OnCreate()
     {
+        ecb = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
         _buildPhysicsWorld = World.GetOrCreateSystem<BuildPhysicsWorld>();
         _stepPhysicsWorld = World.GetOrCreateSystem<StepPhysicsWorld>();
     }
+
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        var turretGroup = GetBufferFromEntity<EnemiesInRange>();
-        var enemyGroup = GetComponentDataFromEntity<EnemyTag>(true);
-        
+        var towerGroup = GetBufferFromEntity<EnemiesInRange>();
+        var turretGroup = GetBufferFromEntity<TurretsInRange>();
+        var enemyGroup = GetComponentDataFromEntity<AIData>();
+        var playerTag = GetComponentDataFromEntity<PlayerTag>();
+
         var findTargetJob = new FindTargetTriggerJob()
         {
-            towerGroup = turretGroup,
-            enemyGroup = enemyGroup
+            towerGroup = towerGroup,
+            turretGroup = turretGroup,
+            enemyGroup = enemyGroup,
+            playerTag = playerTag,
+            ecb = this.ecb.CreateCommandBuffer()
         };
-        
+
         findTargetJob.Schedule(_stepPhysicsWorld.Simulation, ref _buildPhysicsWorld.PhysicsWorld, inputDeps).Complete();
-        
+
         return inputDeps;
     }
-    
+
     private struct FindTargetTriggerJob : ITriggerEventsJob
     {
         public BufferFromEntity<EnemiesInRange> towerGroup;
-        [ReadOnly] public ComponentDataFromEntity<EnemyTag> enemyGroup;
+        public BufferFromEntity<TurretsInRange> turretGroup;
+        public ComponentDataFromEntity<AIData> enemyGroup;
+        public ComponentDataFromEntity<PlayerTag> playerTag;
+        public EntityCommandBuffer ecb;
+
 
         public void Execute(TriggerEvent triggerEvent)
         {
@@ -50,8 +64,7 @@ public class FindTargetSystem : JobComponentSystem
             {
                 if (towerGroup.Exists(entityB))
                 {
-                    towerGroup[entityB].Add(new EnemiesInRange
-                        {Value = entityA});
+                    AddEnemyInRange(entityB, entityA);
                 }
             }
 
@@ -59,14 +72,63 @@ public class FindTargetSystem : JobComponentSystem
             {
                 if (towerGroup.Exists(entityA))
                 {
-                    towerGroup[entityA].Add(new EnemiesInRange
-                    {
-                        Value = entityB
-                    });
+                    AddEnemyInRange(entityA, entityB);
+                }
+            }
+
+            if (towerGroup.Exists(entityA) && !playerTag.HasComponent(entityA))
+            {
+                if (towerGroup.Exists(entityB) && !playerTag.HasComponent(entityB))
+                {
+                    if (!ContainsEntity(turretGroup[entityA], entityB))
+                        turretGroup[entityA].Add(new TurretsInRange() {Value = entityB});
+                    if (!ContainsEntity(turretGroup[entityB], entityA))
+                        turretGroup[entityB].Add(new TurretsInRange() {Value = entityA});
                 }
             }
         }
+
+        private void AddEnemyInRange(Entity turret, Entity enemy)
+        {
+            if (towerGroup[turret].Length <= 0)
+                ecb.AddComponent<GenerateAttackPositionComponent>(turret);
+            if (!ContainsEntity(towerGroup[turret], enemy) && !enemyGroup[enemy].goToEntity)
+            {
+                if (!playerTag.HasComponent(turret) && towerGroup[turret].Length <=
+                    (GameController.GetInstance().CurrentEnemies) /
+                    (turretGroup[turret].Length + 1) ||
+                    playerTag.HasComponent(turret) && towerGroup[turret].Length <= 15)
+                {
+                    towerGroup[turret].Add(new EnemiesInRange {Value = enemy});
+                    var aiData = enemyGroup[enemy];
+                    aiData.goToEntity = true;
+                    enemyGroup[enemy] = aiData;
+                }
+                
+                
+            }
+        }
+
+        private bool ContainsEntity(DynamicBuffer<EnemiesInRange> buffer, Entity entity)
+        {
+            foreach (var enemiesInRange in buffer)
+            {
+                if (enemiesInRange.Value.Equals(entity))
+                    return true;
+            }
+
+            return false;
+        }
+
+        private bool ContainsEntity(DynamicBuffer<TurretsInRange> buffer, Entity entity)
+        {
+            foreach (var enemiesInRange in buffer)
+            {
+                if (enemiesInRange.Value.Equals(entity))
+                    return true;
+            }
+
+            return false;
+        }
     }
 }
-
-
