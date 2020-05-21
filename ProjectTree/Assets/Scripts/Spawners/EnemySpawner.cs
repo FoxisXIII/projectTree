@@ -39,6 +39,7 @@ public class EnemySpawner : MonoBehaviour
         _entityManager.SetComponentData(enemy, new Rotation() {Value = Quaternion.identity});
         var aiData = _entityManager.GetComponentData<AIData>(enemy);
         aiData.state = 0;
+        aiData.me = enemy;
         _entityManager.SetComponentData(enemy, aiData);
 
         _entityManager.AddBuffer<EnemyPosition>(enemy).AddRange(GetAllPositions(random));

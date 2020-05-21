@@ -201,9 +201,10 @@ MonoBehaviour:
     Shoot - Mouse
     Left Click
 
-    Place Turret - Mouse Right Click
+    Place Turret - C+Mouse Right Click
 
-    Teleport - T
+    Place Trap - Mouse Right
+    Click
 
 '
 --- !u!222 &176976769
@@ -923,7 +924,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: PROTOTYPE
+  m_Text: ALPHA
 --- !u!222 &1848864379
 CanvasRenderer:
   m_ObjectHideFlags: 0

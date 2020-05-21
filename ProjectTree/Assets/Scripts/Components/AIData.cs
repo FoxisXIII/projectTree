@@ -26,4 +26,5 @@ public struct AIData : IComponentData
     [HideInInspector] public float3 entityPosition;
     [HideInInspector] public Entity entity;
     [HideInInspector] public bool stop;
+    [HideInInspector] public Entity me;
 }

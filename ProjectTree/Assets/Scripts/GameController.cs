@@ -96,6 +96,24 @@ public class GameController
         DefaultWorldInitialization.Initialize("Default World", false);
         SceneManager.LoadScene("Game Over");
     }
+    
+    public void retry()
+    {
+        _waveCounter = 0;
+        World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ClearEntities>().Update();
+        if (World.DefaultGameObjectInjectionWorld.IsCreated)
+        {
+            var systems = World.DefaultGameObjectInjectionWorld.Systems;
+            foreach (var s in systems)
+            {
+                s.Enabled = false;
+            }
+            World.DefaultGameObjectInjectionWorld.Dispose();
+        }
+ 
+        DefaultWorldInitialization.Initialize("Default World", false);
+        SceneManager.LoadScene("Scenario");
+    }
 
     public int CurrentEnemies
     {

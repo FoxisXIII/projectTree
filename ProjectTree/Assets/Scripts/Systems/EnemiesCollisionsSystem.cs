@@ -76,23 +76,11 @@ public class EnemiesCollisionsSystem : JobComponentSystem
             // }
         }
 
-        private DynamicBuffer<CollisionEnemy> CheckAndRemove(DynamicBuffer<CollisionEnemy> buffer, Entity entity)
-        {
-            for (int i = 0; i < buffer.Length; i++)
-            {
-                if (buffer[i].AiData.Equals(enemiesGroup[entity]))
-                {
-                    buffer.RemoveAt(i);
-                    return buffer;
-                }
-            }
-            return buffer;
-        }
         private DynamicBuffer<CollisionEnemy> CheckAndAdd(DynamicBuffer<CollisionEnemy> buffer, Entity entity)
         {
             for (int i = 0; i < buffer.Length; i++)
             {
-                if (buffer[i].AiData.Equals(enemiesGroup[entity]))
+                if (buffer[i].AiData.me.Equals(enemiesGroup[entity].me))
                     return buffer;
             }
 
