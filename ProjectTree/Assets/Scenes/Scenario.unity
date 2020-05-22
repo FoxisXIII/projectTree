@@ -3075,11 +3075,18 @@ PrefabInstance:
       propertyPath: currentEnemiesText
       value: 
       objectReference: {fileID: 2055601100}
-    - target: {fileID: 1130619196, guid: 8de2162f7e7e85f46900777feda8c73a, type: 3}
+    - target: {fileID: 1768147853141310366, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ff47fca3d8ed9084ab54586a39557be7, type: 2}
+    - target: {fileID: 2871665260106136060, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
       propertyPath: healthText
       value: 
       objectReference: {fileID: 1335061800}
-    - target: {fileID: 1130619196, guid: 8de2162f7e7e85f46900777feda8c73a, type: 3}
+    - target: {fileID: 2871665260106136060, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
       propertyPath: LifeImage
       value: 
       objectReference: {fileID: 1656677906}
