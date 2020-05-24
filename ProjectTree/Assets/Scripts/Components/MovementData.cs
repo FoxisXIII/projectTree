@@ -9,4 +9,7 @@ public struct MovementData : IComponentData
     public float directionY;
     public float directionZ;
     public float speed;
+
+    public bool lockRotation;
+    public quaternion rotation;
 }

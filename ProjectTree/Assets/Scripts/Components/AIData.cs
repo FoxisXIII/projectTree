@@ -1,4 +1,5 @@
-﻿using Unity.Collections;
+﻿using System;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
@@ -18,10 +19,12 @@ public struct AIData : IComponentData
     [HideInInspector] public float attackWait;
 
     [HideInInspector] public float attackTime;
+    
+    [HideInInspector] public int counter;
 
-    [HideInInspector] public bool changePosition;
-    [HideInInspector] public float3 position;
-    [HideInInspector] public float3 finalPosition;
-    [HideInInspector] public float3 positionOffset;
-    [HideInInspector] public bool canAttackPlayer;
+    [HideInInspector] public bool goToEntity;
+    [HideInInspector] public float3 entityPosition;
+    [HideInInspector] public Entity entity;
+    [HideInInspector] public bool stop;
+    [HideInInspector] public Entity me;
 }

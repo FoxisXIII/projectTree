@@ -7,5 +7,5 @@ using Unity.Mathematics;
 [Serializable]
 public struct HealthData : IComponentData
 {
-    public float Value;
+    public int Value;
 }

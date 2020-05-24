@@ -15,8 +15,8 @@ MonoBehaviour:
   m_CategoryNames:
   - Turret
   - Bullet
-  - 
-  - 
+  - Player
+  - Enemy
   - 
   - 
   - 

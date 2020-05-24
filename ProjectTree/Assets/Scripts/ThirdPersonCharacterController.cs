@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 using UnityEngine.UI;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 public class ThirdPersonCharacterController : MonoBehaviour
 {
@@ -22,7 +26,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     //Gravedad
     public float gravity = 9.8f;
-    public float VelCaida;
+    private float VelCaida;
 
     //Salto
     public float jumpForce = 50;
@@ -35,7 +39,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     //Disparo
     public GameObject Bullet;
     public GameObject LocFire;
-    [Range(0, 1)] public float fireRate;
+    [Range(0, 1)] public float initFireRate;
+    [HideInInspector] public float fireRate;
     private float timer;
 
     //ECS
@@ -45,39 +50,63 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private BlobAssetStore blobBullet;
 
     //Life
-    public int life;
+    public float maxLife;
+    [HideInInspector] public float life;
     public Text lifeText;
-    
+    public Image LifeImage;
+
+
     //
-    public int recursosA=200;
     public Text recValue;
-    
+
 
     //Turret Spawner
     public Transform instantiateTurrets;
-    public GameObject previewTurret;
-    public GameObject shootingTurret;
-    private Entity turretECS;
     private PreviewTurret _instantiatedPreviewTurret;
     private bool _turretCanBePlaced;
-    private BlobAssetStore blobTurret;
 
+    //Trap spawner
+    public GameObject previewTrap;
+    public GameObject trap;
+    private PreviewTurret _instantiatedPreviewTrap;
+    private Entity trapECS;
+    private BlobAssetStore blobTrap;
+
+    //Buffs
+    [HideInInspector] public bool hasBuff;
+    [HideInInspector] public Entity buffEntity;
+    public int initialDamage;
+    private int damage;
+    private bool shotgun;
+    private int shotgunRange;
+
+
+    //Enemies Attacking
+    private Dictionary<Entity, Vector3> enemies;
+
+
+    //Change Camera
+    public GameObject fpsCamera;
+    public GameObject birdCamera;
+    public KeyCode cameraChange;
+    public bool cameraChanged;
 
     private void Awake()
     {
+        enemies = new Dictionary<Entity, Vector3>();
         GameController.GetInstance().Player = this;
+        life = maxLife / 2;
         lifeText.text = life.ToString();
+        StopBuffs();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        WalkSpeed = Speed;
-        RunSpeed = WalkSpeed * 2;
         manager = World.DefaultGameObjectInjectionWorld.EntityManager;
-        blobTurret = new BlobAssetStore();
-        turretECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(shootingTurret,
-            GameObjectConversionSettings.FromWorld(manager.World, blobTurret));
+        blobTrap = new BlobAssetStore();
+        trapECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(trap,
+            GameObjectConversionSettings.FromWorld(manager.World, blobTrap));
         if (useECS)
         {
             blobBullet = new BlobAssetStore();
@@ -85,71 +114,91 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 GameObjectConversionSettings.FromWorld(manager.World, blobBullet));
         }
 
-        recValue.text = recursosA.ToString();
+        recValue.text = GameController.GetInstance().RecursosA.ToString();
     }
 
     // Update is called once per frame
     void Update()
     {
-        timer += Time.deltaTime;
-        if (Input.GetMouseButton(0) && timer >= fireRate)
+        lifeText.text = life.ToString();
+        if (life <= 0)
+            GameController.GetInstance().gameOver();
+
+        if (Input.GetKeyDown(cameraChange) /*&& !GameController.GetInstance().WaveInProcess*/)
         {
-            if (useECS)
+            birdCamera.SetActive(true);
+            characterController.enabled = false;
+            fpsCamera.SetActive(false);
+            cameraChanged = true;
+        }
+
+        if (!cameraChanged)
+        {
+            timer += Time.deltaTime;
+            if (Input.GetMouseButton(0) && timer >= fireRate)
             {
-                ShootECS();
+                if (useECS)
+                {
+                    if (shotgun)
+                        ShotgunECS(LocFire.transform.position, LocFire.transform.rotation.eulerAngles);
+                    else
+                        ShootECS(LocFire.transform.position, LocFire.transform.rotation);
+                }
+                else
+                {
+                    Shoot();
+                }
+
+                timer = 0f;
             }
-            else
+
+            if (Input.GetMouseButton(1))
             {
-                Shoot();
+                if (Input.GetMouseButtonDown(1))
+                {
+                    CreatePreviewTrap();
+                }
+
+                UpdatePreviewTrap();
             }
-
-            timer = 0f;
-        }
-
-        if (Input.GetMouseButton(1))
-        {
-            if (Input.GetMouseButtonDown(1))
+            else if (Input.GetMouseButtonUp(1))
             {
-                CreatePreviewTurret();
+                CreateTrap();
             }
 
-            UpdatePreviewTurret();
+            hor = Input.GetAxis("Horizontal");
+
+            ver = Input.GetAxis("Vertical");
+
+            playerinput = new Vector3(hor, 0, ver);
+            playerinput = Vector3.ClampMagnitude(playerinput, 1);
+
+            CamDir();
+
+
+            movPlayer = playerinput.x * camRight + playerinput.z * camForward;
+            float speed = WalkSpeed;
+            if (Input.GetKey(RunKey) && characterController.isGrounded)
+            {
+                speed = RunSpeed;
+            }
+
+            if (Input.GetKeyUp(RunKey))
+            {
+                speed = WalkSpeed;
+            }
+
+            movPlayer = movPlayer * speed;
+
+            setGravity();
+            Jump();
         }
-        else if (Input.GetMouseButtonUp(1))
-        {
-            CreateTurret();
-        }
-
-        hor = Input.GetAxis("Horizontal");
-
-        ver = Input.GetAxis("Vertical");
-
-        playerinput = new Vector3(hor, 0, ver);
-        playerinput = Vector3.ClampMagnitude(playerinput, 1);
-
-        CamDir();
-
-        movPlayer = playerinput.x * camRight + playerinput.z * camForward;
-
-        if (Input.GetKey(RunKey))
-        {
-            Speed = RunSpeed;
-        }
-
-        if (Input.GetKeyUp(RunKey))
-        {
-            Speed = WalkSpeed;
-        }
-
-        movPlayer = movPlayer * Speed;
-
-        setGravity();
-        Jump();
     }
 
     private void FixedUpdate()
     {
-        characterController.Move(movPlayer * Time.deltaTime);
+        if (!cameraChanged)
+            characterController.Move(movPlayer * Time.deltaTime);
     }
 
 
@@ -197,13 +246,47 @@ public class ThirdPersonCharacterController : MonoBehaviour
         bulletShot.transform.rotation = transform.rotation;
     }
 
-    void ShootECS()
+    void ShootECS(Vector3 position, Quaternion rotation)
     {
         Entity bullet = manager.Instantiate(bulletEntityPrefab);
 
-        manager.SetComponentData(bullet, new Translation {Value = LocFire.transform.position});
-        manager.SetComponentData(bullet, new Rotation {Value = LocFire.transform.rotation});
+        manager.SetComponentData(bullet, new Translation {Value = position});
+        manager.SetComponentData(bullet, new Rotation {Value = rotation});
+        var damage = manager.GetComponentData<DealsDamage>(bullet);
+        damage.Value = this.damage;
+        manager.SetComponentData(bullet, damage);
         manager.AddComponent(bullet, typeof(MovesForwardComponent));
+    }
+
+    void ShotgunECS(Vector3 position, Vector3 rotation)
+    {
+        int max = shotgunRange / 2;
+        int min = -max;
+        int totalAmount = shotgunRange * shotgunRange;
+
+        Vector3 tempRot = rotation;
+        int index = 0;
+
+        NativeArray<Entity> bullets = new NativeArray<Entity>(totalAmount, Allocator.TempJob);
+        manager.Instantiate(bulletEntityPrefab, bullets);
+
+        for (int x = min; x < max; x++)
+        {
+            tempRot.x = (rotation.x + 3 * x) % 360;
+            for (int y = min; y < max; y++)
+            {
+                tempRot.y = (rotation.y + 3 * y) % 360;
+                manager.SetComponentData(bullets[index], new Translation {Value = position});
+                manager.SetComponentData(bullets[index], new Rotation {Value = Quaternion.Euler(tempRot)});
+                var damage = manager.GetComponentData<DealsDamage>(bullets[index]);
+                damage.Value = this.damage;
+                manager.SetComponentData(bullets[index], damage);
+                manager.AddComponent(bullets[index], typeof(MovesForwardComponent));
+                index++;
+            }
+        }
+
+        bullets.Dispose();
     }
 
 
@@ -211,42 +294,92 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         life -= damage;
         lifeText.text = life.ToString();
+        var color = LifeImage.color;
+        Debug.Log(life / maxLife);
+        color.a = life / maxLife;
+        LifeImage.color = color;
         if (life <= 0)
             GameController.GetInstance().gameOver();
     }
 
-    private void CreatePreviewTurret()
+
+    private void CreatePreviewTrap()
     {
-        _instantiatedPreviewTurret = Instantiate(previewTurret, instantiateTurrets).GetComponent<PreviewTurret>();
+        _instantiatedPreviewTrap = Instantiate(previewTrap, instantiateTurrets).GetComponent<PreviewTurret>();
     }
 
-    private void UpdatePreviewTurret()
+    private void UpdatePreviewTrap()
     {
-        _turretCanBePlaced = _instantiatedPreviewTurret.isValidPosition();
-        _instantiatedPreviewTurret.material.color = _turretCanBePlaced
-            ? _instantiatedPreviewTurret.canBePlaced
-            : _instantiatedPreviewTurret.canNotBePlaced;
+        _turretCanBePlaced = _instantiatedPreviewTrap.isValidPosition();
+        _instantiatedPreviewTrap.material.color = _turretCanBePlaced
+            ? _instantiatedPreviewTrap.canBePlaced
+            : _instantiatedPreviewTrap.canNotBePlaced;
     }
 
-    private void CreateTurret()
+    private void CreateTrap()
     {
-        Destroy(_instantiatedPreviewTurret.gameObject);
+        Destroy(_instantiatedPreviewTrap.gameObject);
 
-        if (_turretCanBePlaced&& recursosA>=20)
+        if (_turretCanBePlaced && GameController.GetInstance().RecursosA >= 10)
         {
-            Entity turret = manager.Instantiate(turretECS);
+            Entity trap = manager.Instantiate(trapECS);
             var position = instantiateTurrets.position;
-            position.y += .5f;
-            manager.SetComponentData(turret, new Translation {Value = position});
-            manager.AddBuffer<EnemiesInRange>(turret);
-            recursosA -= 20;
-            recValue.text = recursosA.ToString();
+            position.y += 0f;
+            manager.SetComponentData(trap, new Translation {Value = position});
+            manager.SetComponentData(trap, new Rotation {Value = transform.rotation});
+            manager.AddBuffer<EnemiesInRange>(trap);
+            GameController.GetInstance().UpdateResources(-10);
         }
     }
 
     private void OnDestroy()
     {
         blobBullet.Dispose();
-        blobTurret.Dispose();
+        blobTrap.Dispose();
+    }
+
+    public void RecoverHealth(int health)
+    {
+        StopBuffs();
+        life = Mathf.Min(life + health, maxLife);
+        lifeText.text = life.ToString();
+    }
+
+    public void IncreaseResources(int resources)
+    {
+        StopBuffs();
+        GameController.GetInstance().UpdateResources(resources);
+    }
+
+    public void IncreaseAttack(int Attack)
+    {
+        StopBuffs();
+        damage = initialDamage * Attack;
+    }
+
+    public void IncreaseSpeed(int Speed)
+    {
+        StopBuffs();
+        WalkSpeed = this.Speed * Speed;
+        RunSpeed = WalkSpeed * 2;
+        fireRate = initFireRate / Speed;
+        Debug.Log("Speed");
+    }
+
+    public void Shotgun(int shotgun)
+    {
+        StopBuffs();
+        this.shotgun = true;
+        shotgunRange = shotgun;
+        Debug.Log("Shot");
+    }
+
+    public void StopBuffs()
+    {
+        WalkSpeed = this.Speed;
+        RunSpeed = WalkSpeed * 2;
+        fireRate = initFireRate;
+        damage = initialDamage;
+        shotgun = false;
     }
 }
