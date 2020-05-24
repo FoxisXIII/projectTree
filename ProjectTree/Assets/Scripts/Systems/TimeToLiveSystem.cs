@@ -5,7 +5,7 @@ using Unity.Jobs;
 using Unity.Transforms;
 using UnityEngine;
 
-[UpdateAfter(typeof(MoveForwardSystem))]
+[UpdateAfter(typeof(MoveBulletSys))]
 public class TimeToLiveSystem : ComponentSystem
 {
     protected override void OnUpdate()

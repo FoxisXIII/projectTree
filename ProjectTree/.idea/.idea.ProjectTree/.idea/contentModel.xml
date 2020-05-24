@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\erike\AppData\Local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\erike\AppData\Local\JetBrains\Rider2020.1\resharper-host\Local\Transient\ReSharperHost\v201\SolutionCaches\_ProjectTree.1444738749.00" t="ExcludeRecursive" />
-    <e p="E:\Github Projects\Universitat\ProjectTree\ProjectTree" t="IncludeRecursive">
+    <e p="C:\Users\miki_\AppData\Local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\miki_\AppData\Local\JetBrains\Rider2020.1\resharper-host\Local\Transient\ReSharperHost\v201\SolutionCaches\_ProjectTree.-1035324771.00" t="ExcludeRecursive" />
+    <e p="D:\Documents\ProjectTree\ProjectTree" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
           <e p="Base.cs" t="Include" />
-          <e p="CanvasTP.cs" t="Include" />
           <e p="Components" t="Include">
             <e p="AIData.cs" t="Include" />
+            <e p="AttackSpeedComponent.cs" t="Include" />
             <e p="BaseTag.cs" t="Include" />
             <e p="BuffTurretData.cs" t="Include" />
+            <e p="BulletPrefabComponent.cs" t="Include" />
             <e p="CollisionEnemy.cs" t="Include" />
             <e p="DamageComponent.cs" t="Include" />
             <e p="DeadComponent.cs" t="Include" />
+            <e p="DealsDamageComponent.cs" t="Include" />
+            <e p="DestroyOnContactComponent.cs" t="Include" />
+            <e p="EnemiesInRangeComponent.cs" t="Include" />
             <e p="EnemyPosition.cs" t="Include" />
             <e p="EnemyTag.cs" t="Include" />
             <e p="ExplosionComponent.cs" t="Include" />
@@ -23,58 +27,24 @@
             <e p="HealthData.cs" t="Include" />
             <e p="MovementData.cs" t="Include" />
             <e p="MovesForwardComponent.cs" t="Include" />
+            <e p="MoveSpeedComponent.cs" t="Include" />
+            <e p="ParentEntity.cs" t="Include" />
             <e p="PlayerTag.cs" t="Include" />
+            <e p="RangeComponent.cs" t="Include" />
+            <e p="TimeToLiveComponent.cs" t="Include" />
+            <e p="TowerCurrentTargetComponent.cs" t="Include" />
+            <e p="TowerTagComponent.cs" t="Include" />
             <e p="TrapComponent.cs" t="Include" />
-          </e>
-          <e p="DeadZone.cs" t="Include" />
-          <e p="Defensas" t="Include">
-            <e p="ConvertTurret.cs" t="Include" />
-            <e p="ECS" t="Include">
-              <e p="Components" t="Include">
-                <e p="AttackSpeedComponent.cs" t="Include" />
-                <e p="BulletPrefabComponent.cs" t="Include" />
-                <e p="EnemiesInRangeComponent.cs" t="Include" />
-                <e p="MuzzleComponent.cs" t="Include" />
-                <e p="RangeComponent.cs" t="Include" />
-                <e p="TowerCurrentTargetComponent.cs" t="Include" />
-                <e p="TowerTagComponent.cs" t="Include" />
-                <e p="TurretsInRange.cs" t="Include" />
-              </e>
-              <e p="DefenseSpawner.cs" t="Include" />
-              <e p="Systems" t="Include">
-                <e p="BulletShootingSystem.cs" t="Include" />
-                <e p="FindTargetSystem.cs" t="Include" />
-                <e p="GetClosestEnemySystem.cs" t="Include" />
-                <e p="PointAtCurrentTargetSystem.cs" t="Include" />
-              </e>
-            </e>
-            <e p="Grid.cs" t="Include" />
-            <e p="PreviewTurret.cs" t="Include" />
-            <e p="Projectile" t="Include">
-              <e p="ECS" t="Include">
-                <e p="Components" t="Include">
-                  <e p="DealsDamageComponent.cs" t="Include" />
-                  <e p="DestroyOnContactComponent.cs" t="Include" />
-                  <e p="MoveForwardComponent.cs" t="Include" />
-                  <e p="MoveSpeedComponent.cs" t="Include" />
-                  <e p="ParentEntity.cs" t="Include" />
-                  <e p="TimeToLiveComponent.cs" t="Include" />
-                </e>
-                <e p="Systems" t="Include">
-                  <e p="DestroyOnContactSystem.cs" t="Include" />
-                  <e p="MoveForwardSystem.cs" t="Include" />
-                  <e p="TimeToLiveSystem.cs" t="Include" />
-                </e>
-              </e>
-              <e p="ProjectileBehaviour.cs" t="Include" />
-            </e>
-            <e p="TurretMonoBehaviour.cs" t="Include" />
+            <e p="TurretsInRange.cs" t="Include" />
           </e>
           <e p="GameController.cs" t="Include" />
-          <e p="OverviewController.cs" t="Include" />
-          <e p="Puzzles" t="Include">
-            <e p="Boton.cs" t="Include" />
-            <e p="Validador.cs" t="Include" />
+          <e p="Player" t="Include">
+            <e p="OverviewController.cs" t="Include" />
+            <e p="ThirdPersonCameraController.cs" t="Include" />
+            <e p="ThirdPersonCharacterController.cs" t="Include" />
+          </e>
+          <e p="Projectile" t="Include">
+            <e p="ProjectileBehaviour.cs" t="Include" />
           </e>
           <e p="Spawners" t="Include">
             <e p="EnemySpawner.cs" t="Include" />
@@ -84,26 +54,33 @@
             <e p="AttackPositionSystem.cs" t="Include" />
             <e p="AttackSystem.cs" t="Include" />
             <e p="BuffTurretSystem.cs" t="Include" />
+            <e p="BulletShootingSystem.cs" t="Include" />
             <e p="ClearEntities.cs" t="Include" />
             <e p="ComunicateWithGameObjectSystem.cs" t="Include" />
             <e p="DamageCollisionSystem.cs" t="Include" />
             <e p="DeathSystem.cs" t="Include" />
+            <e p="DestroyOnContactSystem.cs" t="Include" />
             <e p="EnemiesCollisionsSystem.cs" t="Include" />
             <e p="ExplosionCollisionSystem.cs" t="Include" />
             <e p="ExplosionSystem.cs" t="Include" />
             <e p="ExplosionTriggerSystem.cs" t="Include" />
+            <e p="FindTargetSystem.cs" t="Include" />
+            <e p="GetClosestEnemySystem.cs" t="Include" />
             <e p="MoveBulletSys.cs" t="Include" />
             <e p="MovementSystem.cs" t="Include" />
             <e p="MovePlayerSystem.cs" t="Include" />
             <e p="MoveToSystem.cs" t="Include" />
+            <e p="PointAtCurrentTargetSystem.cs" t="Include" />
             <e p="ResolveDamageSystem.cs" t="Include" />
+            <e p="TimeToLiveSystem.cs" t="Include" />
             <e p="TrapDamageSystem.cs" t="Include" />
             <e p="TrapDeathSystem.cs" t="Include" />
           </e>
-          <e p="Teleporter.cs" t="Include" />
-          <e p="TeleportManager.cs" t="Include" />
-          <e p="ThirdPersonCameraController.cs" t="Include" />
-          <e p="ThirdPersonCharacterController.cs" t="Include" />
+          <e p="Turrets" t="Include">
+            <e p="ConvertTurret.cs" t="Include" />
+            <e p="Grid.cs" t="Include" />
+            <e p="PreviewTurret.cs" t="Include" />
+          </e>
           <e p="UI" t="Include">
             <e p="ChangeScene.cs" t="Include" />
             <e p="PauseMenu.cs" t="Include" />

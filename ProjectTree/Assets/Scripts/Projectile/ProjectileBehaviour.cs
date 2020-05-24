@@ -10,14 +10,8 @@ public class ProjectileBehaviour : MonoBehaviour, IConvertGameObjectToEntity
     public float speed = 50f;
 
     public float lifeTime = 1f;
-    
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-    
-    
+
     public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {
         dstManager.AddComponentData(entity, new DealsDamage {Value = 20});
