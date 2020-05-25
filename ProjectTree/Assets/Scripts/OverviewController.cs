@@ -57,6 +57,7 @@ public class OverviewController : MonoBehaviour
             {
                 Destroy(_instantiatedPreviewTurret);
             }
+
             gameObject.SetActive(false);
         }
 
@@ -112,7 +113,7 @@ public class OverviewController : MonoBehaviour
             var gridPosition = grid.GetNearestpointOnGrid(hit.point);
             if (!gridPosition.Equals(Vector3.zero))
             {
-                gridPosition.y += 1f;
+                gridPosition.y = hit.point.y + 1f;
                 _instantiatedPreviewTurret.gameObject.transform.position = gridPosition;
             }
         }

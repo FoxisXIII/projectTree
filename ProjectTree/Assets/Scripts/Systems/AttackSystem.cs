@@ -31,6 +31,7 @@ namespace Systems
 
             var buffers = GetBufferFromEntity<EnemyPosition>();
             var healthGroup = GetBufferFromEntity<Damage>();
+            var translations = GetComponentDataFromEntity<Translation>();
 
             Entities
                 .ForEach(
@@ -45,12 +46,12 @@ namespace Systems
                                 playerBase.ReceiveDamage(aiData.attackDamage);
                                 aiData.attackWait = 0;
                             }
-                            
+
                             aiData.attackWait += deltaTime;
                         }
-                        else 
-                        if (aiData.goToEntity && math.distance(aiData.entityPosition, translation.Value) <
-                            aiData.attackDistancePlayer)
+                        else if (aiData.goToEntity &&
+                                 math.distance(translations[aiData.entity].Value, translation.Value) <
+                                 aiData.attackDistancePlayer)
                         {
                             if (aiData.attackWait >= aiData.attackRate)
                             {
@@ -58,7 +59,7 @@ namespace Systems
                                     healthGroup[aiData.entity].Add(new Damage() {Value = aiData.attackDamage});
                                 aiData.attackWait = 0;
                             }
-                            
+
                             aiData.attackWait += deltaTime;
                         }
                     }).WithoutBurst().Run();

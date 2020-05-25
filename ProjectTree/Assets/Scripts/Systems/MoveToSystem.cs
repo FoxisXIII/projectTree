@@ -48,9 +48,9 @@ public class MoveToSystem : JobComponentSystem
                     {
                         if (aiData.goToEntity)
                         {
-                            var direction = aiData.entityPosition - translation.Value;
+                            var direction = translations[aiData.entity].Value - translation.Value;
                             var magnitude = Magnitude(direction);
-                            if (magnitude < 1)
+                            if (magnitude < aiData.attackDistancePlayer)
                             {
                                 movementData = StopMovement(movementData);
                             }
@@ -119,8 +119,9 @@ public class MoveToSystem : JobComponentSystem
     {
         direction /= magnitude;
         movementData.directionX = direction.x;
-        movementData.directionY = 0;
+        movementData.directionY = direction.y;
         movementData.directionZ = direction.z;
+        movementData.freezePosY = false;
         return movementData;
     }
 

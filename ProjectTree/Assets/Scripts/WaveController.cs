@@ -14,6 +14,7 @@ public class WaveController : MonoBehaviour
     private float _time;
     public float waveCooldown;
     public float enemySpawnRate;
+    public int maxWaveEnemies;
 
     [SerializeField] private Text nextRoundTimeText;
     [SerializeField] private Text roundText;
@@ -21,7 +22,7 @@ public class WaveController : MonoBehaviour
 
     void Awake()
     {
-        GameController.GetInstance().MaxWaveEnemies = 10;
+        GameController.GetInstance().MaxWaveEnemies = maxWaveEnemies;
         GameController.GetInstance().EnemiesSpawnRate = enemySpawnRate;
         _canEndWave = true;
     }

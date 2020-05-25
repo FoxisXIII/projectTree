@@ -15,7 +15,7 @@ public class Grid : MonoBehaviour
         int xCount = Mathf.RoundToInt(position.x / _cellSize);
         int zCount = Mathf.RoundToInt(position.z / _cellSize);
         
-        Vector3 possibleResult = new Vector3(xCount * _cellSize, 0.5f, zCount * _cellSize);
+        Vector3 possibleResult = new Vector3(xCount * _cellSize, -5, zCount * _cellSize);
         
         if (!Physics.CheckSphere(possibleResult, 1, _obstacleLayer))
         {
@@ -33,7 +33,7 @@ public class Grid : MonoBehaviour
             for (float y = 0; y < _height; y+=_cellSize)
             {
                 var point = GetNearestpointOnGrid(new Vector3(transform.position.x+x, 0, transform.position.z+y));
-                if (!Physics.CheckSphere(point, 1, _obstacleLayer))
+                if (!Physics.CheckSphere(point, 2, _obstacleLayer))
                 {
                     Gizmos.DrawCube(point, Vector3.one/1.5f);
                 }

@@ -78,7 +78,6 @@
           </e>
           <e p="Spawners" t="Include">
             <e p="EnemySpawner.cs" t="Include" />
-            <e p="WaveController.cs" t="Include" />
           </e>
           <e p="Systems" t="Include">
             <e p="AttackPositionSystem.cs" t="Include" />
@@ -108,6 +107,7 @@
             <e p="ChangeScene.cs" t="Include" />
             <e p="PauseMenu.cs" t="Include" />
           </e>
+          <e p="WaveController.cs" t="Include" />
         </e>
         <e p="Sound" t="Include">
           <e p="DELETE.txt" t="Include" />
