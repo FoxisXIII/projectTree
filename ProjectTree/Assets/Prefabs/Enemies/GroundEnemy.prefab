@@ -163,9 +163,8 @@ GameObject:
   - component: {fileID: 5761566178846623500}
   - component: {fileID: 8171287326174000517}
   - component: {fileID: 4052090944905896833}
-  - component: {fileID: 603013962}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: GroundEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -258,6 +257,7 @@ MonoBehaviour:
       y: 0
       z: 0
       w: 0
+  freezePosY: 0
 --- !u!114 &-4266191403052175820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,13 +271,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  canFly: 1
   attackDistancePlayer: 2
   attackDistanceBase: 5
   chaseDistance: 25
   attackDamage: 1
   attackRate: 1
   attackWait: 0
-  attackTime: 0
   counter: 0
   goToEntity: 0
   entityPosition:
@@ -325,23 +325,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Values: 
---- !u!111 &603013962
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4962769595136294854}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 1827226128182048838, guid: 3f7c516598505af478b0246cd5efe8b5,
-    type: 3}
-  m_Animations:
-  - {fileID: 1827226128182048838, guid: 3f7c516598505af478b0246cd5efe8b5, type: 3}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!114 &9115093915190438872
 MonoBehaviour:
   m_ObjectHideFlags: 0

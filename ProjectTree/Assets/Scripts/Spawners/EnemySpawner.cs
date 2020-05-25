@@ -13,48 +13,62 @@ using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private GameObject enemyFlyPrefab;
+    [SerializeField] private GameObject enemyGroundPrefab;
     private EntityManager _entityManager;
-    private Entity _enemyEntityPrefab;
+    private Entity _flyEnemyEntity;
+    private Entity _groundEnemyEntity;
     private float time;
-    private BlobAssetStore blobAssetStore;
+    private BlobAssetStore _blobAssetFly;
+    private BlobAssetStore _blobAssetGround;
     public float3[] min, max;
 
     // Start is called before the first frame update
     void Start()
     {
-        blobAssetStore = new BlobAssetStore();
+        _blobAssetFly = new BlobAssetStore();
+        _blobAssetGround = new BlobAssetStore();
         _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-        _enemyEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(enemyPrefab,
-            GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, blobAssetStore));
+        _flyEnemyEntity = GameObjectConversionUtility.ConvertGameObjectHierarchy(enemyFlyPrefab,
+            GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, _blobAssetFly));
+        _groundEnemyEntity = GameObjectConversionUtility.ConvertGameObjectHierarchy(enemyGroundPrefab,
+            GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, _blobAssetFly));
     }
 
     public void SpawnEnemy()
     {
-        Entity enemy = _entityManager.Instantiate(_enemyEntityPrefab);
+        Entity enemy;
+        if (Random.Range(0f, 1f) > .5f)
+            enemy = _entityManager.Instantiate(_flyEnemyEntity);
+        else
+            enemy = _entityManager.Instantiate(_groundEnemyEntity);
+
 
         var random = Random.Range(0f, 1f);
 
         _entityManager.SetComponentData(enemy, new Translation() {Value = GetPosition(min[0], max[0], random)});
         _entityManager.SetComponentData(enemy, new Rotation() {Value = Quaternion.identity});
         var aiData = _entityManager.GetComponentData<AIData>(enemy);
-        aiData.state = 0;
+        if (aiData.canFly)
+
+            aiData.state = 0;
         aiData.me = enemy;
         _entityManager.SetComponentData(enemy, aiData);
 
-        _entityManager.AddBuffer<EnemyPosition>(enemy).AddRange(GetAllPositions(random));
+        _entityManager.AddBuffer<EnemyPosition>(enemy).AddRange(GetAllPositions(random,
+            aiData.canFly ? Vector3.up * Random.Range(0f, 5f) : Vector3.zero));
         _entityManager.AddBuffer<CollisionEnemy>(enemy);
 
 
         GameController.GetInstance().AddEnemyWave();
     }
 
-    private NativeArray<EnemyPosition> GetAllPositions(float random)
+    private NativeArray<EnemyPosition> GetAllPositions(float random, Vector3 offset)
     {
         var list = new NativeList<EnemyPosition>(Allocator.Temp);
         for (int i = 1; i < min.Length; i++)
         {
-            list.Add(new EnemyPosition() {position = GetPosition(min[i], max[i], random)});
+            list.Add(new EnemyPosition() {position = GetPosition(min[i], max[i], random) + offset});
         }
 
         return list;
@@ -99,11 +113,11 @@ public class EnemySpawner : MonoBehaviour
     public void Dispose()
     {
         if (GameController.GetInstance().Player.life <= 0)
-            blobAssetStore.Dispose();
+            _blobAssetFly.Dispose();
     }
 
     private void OnApplicationQuit()
     {
-        blobAssetStore.Dispose();
+        _blobAssetFly.Dispose();
     }
 }

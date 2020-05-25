@@ -50,7 +50,7 @@ public class GameController
         _waveCounter++;
         if (_waveCounter > 1)
             _maxWaveEnemies = Mathf.Min(1500, _maxWaveEnemies * 2);
-        _enemiesSpawnRate /= 1.25f;
+        _enemiesSpawnRate = Mathf.Max(.01f, _enemiesSpawnRate / 1.1f);
         _waveInProcess = true;
     }
 
@@ -90,13 +90,14 @@ public class GameController
             {
                 s.Enabled = false;
             }
+
             World.DefaultGameObjectInjectionWorld.Dispose();
         }
- 
+
         DefaultWorldInitialization.Initialize("Default World", false);
         SceneManager.LoadScene("Game Over");
     }
-    
+
     public void retry()
     {
         _waveCounter = 0;
@@ -108,9 +109,10 @@ public class GameController
             {
                 s.Enabled = false;
             }
+
             World.DefaultGameObjectInjectionWorld.Dispose();
         }
- 
+
         DefaultWorldInitialization.Initialize("Default World", false);
         SceneManager.LoadScene("Scenario");
     }

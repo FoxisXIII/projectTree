@@ -43,6 +43,20 @@ public class MoveToSystem : JobComponentSystem
                         else
                             direction = buffers[entity][aiData.counter].position - translation.Value;
                         movementData = SetRotation(movementData, direction);
+
+                        if (aiData.goToEntity)
+                        {
+                            direction = translations[aiData.entity].Value - translation.Value;
+                            var magnitude = Magnitude(direction);
+                            if (magnitude > aiData.attackDistancePlayer)
+                                aiData.stop = false;
+                        }
+                        else
+                        {
+                            direction = translation.Value - buffers[entity][buffers[entity].Length - 1].position;
+                            if (Magnitude(direction) > 1 && aiData.counter < buffers[entity].Length - 1)
+                                aiData.stop = false;
+                        }
                     }
                     else
                     {
