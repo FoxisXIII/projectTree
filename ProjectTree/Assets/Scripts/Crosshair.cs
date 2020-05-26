@@ -1,18 +1,33 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Crosshair : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public Texture2D image;
+    public int size;
+    public Camera cam;
+    public float maxAngle;
+    public float minAngle;
+
+    private float lookHeight;
+
+    public void LookHeight(float value)
     {
-        
+        lookHeight = value;
+        if (lookHeight>maxAngle)
+        {
+            lookHeight -= value;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnGUI()
     {
         
+        Vector3 screenPositon = cam.WorldToScreenPoint(transform.position);
+        screenPositon.y = Screen.height - screenPositon.y;
+        GUI.DrawTexture(new Rect(screenPositon.x,screenPositon.y-lookHeight,size,size),image );
     }
 }

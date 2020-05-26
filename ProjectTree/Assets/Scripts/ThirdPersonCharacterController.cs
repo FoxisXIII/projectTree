@@ -207,7 +207,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         if (!cameraChanged)
         {
-            characterController.Move(moveDir.normalized * speedper * Time.deltaTime);
+            characterController.Move(moveDir * speedper * Time.deltaTime);
             moveDir = Vector3.zero;
         }
     }
