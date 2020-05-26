@@ -16,9 +16,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public CharacterController characterController;
 
     //Movimento BASE
+    private float turnSmoothVelocity;
+    public float turnSmoothTime=0.1f;
     private float hor;
     private float ver;
-    private Vector3 playerinput;
     private Vector3 movPlayer;
     private float WalkSpeed;
     private float RunSpeed;
@@ -170,14 +171,19 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
             ver = Input.GetAxis("Vertical");
 
-            playerinput = new Vector3(hor, 0, ver);
-            playerinput = Vector3.ClampMagnitude(playerinput, 1);
+            movPlayer= new Vector3(hor, 0, ver).normalized;;
+            if (movPlayer.magnitude>=0.1f)
+            {
+                float targetAngle = Mathf.Atan2(movPlayer.x, movPlayer.z) * Mathf.Rad2Deg;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity,
+                    turnSmoothTime);
+                transform.rotation=Quaternion.Euler(0f,angle,0f);
+                
+                
+            }
 
-            CamDir();
-
-
-            movPlayer = playerinput.x * camRight + playerinput.z * camForward;
-            float speed = WalkSpeed;
+            
+           float speed = WalkSpeed;
             if (Input.GetKey(RunKey) && characterController.isGrounded)
             {
                 speed = RunSpeed;
@@ -197,7 +203,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!cameraChanged)
+       if (!cameraChanged)
             characterController.Move(movPlayer * Time.deltaTime);
     }
 
