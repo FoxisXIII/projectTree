@@ -43,14 +43,28 @@ public class MoveToSystem : JobComponentSystem
                         else
                             direction = buffers[entity][aiData.counter].position - translation.Value;
                         movementData = SetRotation(movementData, direction);
+
+                        if (aiData.goToEntity)
+                        {
+                            direction = translations[aiData.entity].Value - translation.Value;
+                            var magnitude = Magnitude(direction);
+                            if (magnitude > aiData.attackDistancePlayer)
+                                aiData.stop = false;
+                        }
+                        else
+                        {
+                            direction = translation.Value - buffers[entity][buffers[entity].Length - 1].position;
+                            if (Magnitude(direction) > 1 && aiData.counter < buffers[entity].Length - 1)
+                                aiData.stop = false;
+                        }
                     }
                     else
                     {
                         if (aiData.goToEntity)
                         {
-                            var direction = aiData.entityPosition - translation.Value;
+                            var direction = translations[aiData.entity].Value - translation.Value;
                             var magnitude = Magnitude(direction);
-                            if (magnitude < 1)
+                            if (magnitude < aiData.attackDistancePlayer)
                             {
                                 movementData = StopMovement(movementData);
                             }
@@ -119,8 +133,9 @@ public class MoveToSystem : JobComponentSystem
     {
         direction /= magnitude;
         movementData.directionX = direction.x;
-        movementData.directionY = 0;
+        movementData.directionY = direction.y;
         movementData.directionZ = direction.z;
+        movementData.freezePosY = false;
         return movementData;
     }
 

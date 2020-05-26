@@ -9,7 +9,7 @@ public class GameController
 {
     private static GameController _instance;
 
-    private int _currentEnemies, _diedEnemies, _maxWaveEnemies, _waveCounter;
+    private int _currentEnemies, _diedEnemies, _maxWaveEnemies, _waveCounter, _enemiesKilled, _towersPlaced;
     private float _enemiesSpawnRate;
     private bool _waveInProcess;
 
@@ -50,7 +50,7 @@ public class GameController
         _waveCounter++;
         if (_waveCounter > 1)
             _maxWaveEnemies = Mathf.Min(1500, _maxWaveEnemies * 2);
-        _enemiesSpawnRate /= 1.25f;
+        _enemiesSpawnRate = Mathf.Max(.01f, _enemiesSpawnRate / 1.1f);
         _waveInProcess = true;
     }
 
@@ -71,6 +71,7 @@ public class GameController
     public void RemoveEnemyWave()
     {
         _diedEnemies++;
+        _enemiesKilled++;
     }
 
     public bool WaveInProcess => _waveInProcess;
@@ -79,27 +80,31 @@ public class GameController
     {
     }
 
-    public void gameOver()
+    public void gameOver(string text)
     {
-        _waveCounter = 0;
-        World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ClearEntities>().Update();
-        if (World.DefaultGameObjectInjectionWorld.IsCreated)
+        DestroyEntities();
+        if (PlayerPrefs.GetInt("KILLED") < _enemiesKilled)
         {
-            var systems = World.DefaultGameObjectInjectionWorld.Systems;
-            foreach (var s in systems)
-            {
-                s.Enabled = false;
-            }
-            World.DefaultGameObjectInjectionWorld.Dispose();
+            PlayerPrefs.SetInt("KILLED", _enemiesKilled);
         }
- 
-        DefaultWorldInitialization.Initialize("Default World", false);
+
+        if (PlayerPrefs.GetInt("ROUNDS") < _waveCounter)
+        {
+            PlayerPrefs.SetInt("ROUNDS", _waveCounter);
+        }
+
+        if (PlayerPrefs.GetInt("TOWERS") < _towersPlaced)
+        {
+            PlayerPrefs.SetInt("TOWERS", _towersPlaced);
+        }
+
+        PlayerPrefs.SetString("DIE", text);
+        
         SceneManager.LoadScene("Game Over");
     }
-    
-    public void retry()
+
+    public void DestroyEntities()
     {
-        _waveCounter = 0;
         World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ClearEntities>().Update();
         if (World.DefaultGameObjectInjectionWorld.IsCreated)
         {
@@ -108,11 +113,11 @@ public class GameController
             {
                 s.Enabled = false;
             }
+
             World.DefaultGameObjectInjectionWorld.Dispose();
         }
- 
+
         DefaultWorldInitialization.Initialize("Default World", false);
-        SceneManager.LoadScene("Scenario");
     }
 
     public int CurrentEnemies
@@ -139,7 +144,11 @@ public class GameController
         set => _enemiesSpawnRate = value;
     }
 
-    public int WaveCounter => _waveCounter;
+    public int WaveCounter
+    {
+        get => _waveCounter;
+        set => _waveCounter = value;
+    }
 
     public Base Base
     {
@@ -151,5 +160,17 @@ public class GameController
     {
         get => _player;
         set => _player = value;
+    }
+
+    public int EnemiesKilled
+    {
+        get => _enemiesKilled;
+        set => _enemiesKilled = value;
+    }
+
+    public int TowersPlaced
+    {
+        get => _towersPlaced;
+        set => _towersPlaced = value;
     }
 }

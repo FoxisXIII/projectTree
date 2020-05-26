@@ -28,12 +28,6 @@ public class Base : MonoBehaviour
         healthText.text = life.ToString();
     }
 
-    private void Update()
-    {
-        if(life<=0)
-            GameController.GetInstance().gameOver();
-    }
-
     public void ReceiveDamage(int damage)
     {
         life -= damage;
@@ -42,7 +36,7 @@ public class Base : MonoBehaviour
         color.a = life/1000;
         LifeImage.color = color;
         if(life<=0)
-            GameController.GetInstance().gameOver();
+            GameController.GetInstance().gameOver("THE DRONS ENTERED!");
 
     }
 }

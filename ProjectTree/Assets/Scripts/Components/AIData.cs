@@ -8,6 +8,7 @@ using UnityEngine;
 public struct AIData : IComponentData
 {
     [HideInInspector] public int state;
+    public bool canFly;
 
     public float attackDistancePlayer;
     public float attackDistanceBase;
@@ -18,8 +19,6 @@ public struct AIData : IComponentData
 
     [HideInInspector] public float attackWait;
 
-    [HideInInspector] public float attackTime;
-    
     [HideInInspector] public int counter;
 
     [HideInInspector] public bool goToEntity;

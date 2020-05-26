@@ -26,7 +26,6 @@
             <e p="PlayerTag.cs" t="Include" />
             <e p="TrapComponent.cs" t="Include" />
           </e>
-          <e p="DeadZone.cs" t="Include" />
           <e p="Defensas" t="Include">
             <e p="ConvertTurret.cs" t="Include" />
             <e p="ECS" t="Include">
@@ -78,7 +77,7 @@
           </e>
           <e p="Spawners" t="Include">
             <e p="EnemySpawner.cs" t="Include" />
-            <e p="WaveController.cs" t="Include" />
+            <e p="EnemySpawnerMenu.cs" t="Include" />
           </e>
           <e p="Systems" t="Include">
             <e p="AttackPositionSystem.cs" t="Include" />
@@ -106,8 +105,11 @@
           <e p="ThirdPersonCharacterController.cs" t="Include" />
           <e p="UI" t="Include">
             <e p="ChangeScene.cs" t="Include" />
+            <e p="ChangeSceneNoButton.cs" t="Include" />
+            <e p="GameOverMenu.cs" t="Include" />
             <e p="PauseMenu.cs" t="Include" />
           </e>
+          <e p="WaveController.cs" t="Include" />
         </e>
         <e p="Sound" t="Include">
           <e p="DELETE.txt" t="Include" />
