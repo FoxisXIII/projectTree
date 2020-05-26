@@ -114,6 +114,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
             bulletEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(Bullet,
                 GameObjectConversionSettings.FromWorld(manager.World, blobBullet));
         }
+        
+        
 
         recValue.text = GameController.GetInstance().RecursosA.ToString();
     }
@@ -174,6 +176,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
             movPlayer= new Vector3(hor, 0, ver).normalized;;
             if (movPlayer.magnitude>=0.1f)
             {
+                
                 float targetAngle = Mathf.Atan2(movPlayer.x, movPlayer.z) * Mathf.Rad2Deg+cam.eulerAngles.y;
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity,
                     turnSmoothTime);
@@ -202,8 +205,11 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     private void FixedUpdate()
     {
-       if (!cameraChanged)
+        if (!cameraChanged)
+        {
             characterController.Move(moveDir.normalized * speedper * Time.deltaTime);
+            moveDir = Vector3.zero;
+        }
     }
 
 
