@@ -177,15 +177,16 @@ public class ThirdPersonCharacterController : MonoBehaviour
             ver = Input.GetAxis("Vertical");
 
             movPlayer= new Vector3(hor, 0, ver).normalized;;
+            
+            float targetAngle = Mathf.Atan2(movPlayer.x, movPlayer.z) * Mathf.Rad2Deg+cam.eulerAngles.y;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity,
+                turnSmoothTime);
+            transform.rotation=Quaternion.Euler(0f,angle,0f);
+            
             if (movPlayer.magnitude>=0.1f)
             {
-                
-                float targetAngle = Mathf.Atan2(movPlayer.x, movPlayer.z) * Mathf.Rad2Deg+cam.eulerAngles.y;
-                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity,
-                    turnSmoothTime);
-                transform.rotation=Quaternion.Euler(0f,angle,0f);
                 moveDir = Quaternion.Euler(0, targetAngle, 0f)*Vector3.forward;
-
+            
             }
 
             speedper = WalkSpeed;
@@ -221,12 +222,13 @@ public class ThirdPersonCharacterController : MonoBehaviour
         if (characterController.isGrounded)
         {
             VelCaida = -gravity * Time.deltaTime;
-            movPlayer.y = VelCaida;
+            moveDir.y = VelCaida;
         }
         else
         {
             VelCaida -= gravity * Time.deltaTime;
-            movPlayer.y = VelCaida;
+            moveDir.y = VelCaida;
+            Debug.Log(moveDir.y);
         }
     }
 
@@ -235,7 +237,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         if (characterController.isGrounded && Input.GetButtonDown("Jump"))
         {
             VelCaida = jumpForce;
-            movPlayer.y = VelCaida;
+            moveDir.y = VelCaida;
         }
     }
 
