@@ -56,10 +56,9 @@ public class EnemySpawner : MonoBehaviour
         _entityManager.SetComponentData(enemy, aiData);
 
         _entityManager.AddBuffer<EnemyPosition>(enemy).AddRange(GetAllPositions(random,
-            aiData.canFly ? Vector3.up * Random.Range(0f, 5f) : Vector3.zero));
+            aiData.canFly ? Vector3.up * Random.Range(1f, 5f) : Vector3.zero));
         _entityManager.AddBuffer<CollisionEnemy>(enemy);
-
-
+        
         GameController.GetInstance().AddEnemyWave();
     }
 

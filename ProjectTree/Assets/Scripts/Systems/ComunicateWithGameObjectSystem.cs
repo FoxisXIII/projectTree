@@ -19,12 +19,6 @@ public class CreatePlayerSystemBuffer : ComponentSystem
 
         Entities.ForEach((Entity entity, ref PlayerTag playerTag) =>
         {
-            if (!playerTag.init)
-            {
-                World.DefaultGameObjectInjectionWorld.EntityManager.AddBuffer<EnemiesInRange>(entity);
-                playerTag.init = true;
-            }
-
             if (GameController.GetInstance().Player != null)
                 GameController.GetInstance().Player.life = healthGroup[entity].Value;
         });

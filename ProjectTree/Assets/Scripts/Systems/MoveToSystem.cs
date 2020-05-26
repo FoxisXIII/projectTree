@@ -42,7 +42,7 @@ public class MoveToSystem : JobComponentSystem
                             direction = aiData.entityPosition - translation.Value;
                         else
                             direction = buffers[entity][aiData.counter].position - translation.Value;
-                        movementData = SetRotation(movementData, direction);
+                        movementData = SetRotation(movementData, direction, aiData.canFly);
 
                         if (aiData.goToEntity)
                         {
@@ -62,7 +62,15 @@ public class MoveToSystem : JobComponentSystem
                     {
                         if (aiData.goToEntity)
                         {
-                            var direction = translations[aiData.entity].Value - translation.Value;
+                            float3 direction;
+
+                            if (aiData.canFly)
+                                direction = new float3(translations[aiData.entity].Value.x, 0,
+                                    translations[aiData.entity].Value.z) - new float3(translation.Value.x,
+                                    0, translation.Value.z);
+                            else
+                                direction = translations[aiData.entity].Value - translation.Value;
+
                             var magnitude = Magnitude(direction);
                             if (magnitude < aiData.attackDistancePlayer)
                             {
@@ -75,7 +83,7 @@ public class MoveToSystem : JobComponentSystem
 
                             if (aiData.entity != Entity.Null)
                                 movementData = SetRotation(movementData,
-                                    translations[aiData.entity].Value - translation.Value);
+                                    translations[aiData.entity].Value - translation.Value, aiData.canFly);
 
                             if (aiData.counter < buffers[entity].Length)
                             {
@@ -101,7 +109,7 @@ public class MoveToSystem : JobComponentSystem
                             }
                             else
                             {
-                                movementData = SetRotation(movementData, direction);
+                                movementData = SetRotation(movementData, direction, aiData.canFly);
                                 movementData = SetDirection(movementData, direction, magnitude);
                             }
                         }
@@ -139,10 +147,19 @@ public class MoveToSystem : JobComponentSystem
         return movementData;
     }
 
-    private static MovementData SetRotation(MovementData movementData, float3 direction)
+    private static MovementData SetRotation(MovementData movementData, float3 direction, bool fly)
     {
-        var rotation = quaternion.LookRotation(direction, math.up());
-        movementData.rotation = math.mul(rotation, quaternion.Euler(0, -89.5f, 0));
+        if (fly)
+        {
+            var rotation = quaternion.LookRotation(direction, math.up());
+            movementData.rotation = math.mul(rotation, quaternion.Euler(0, -89.5f, 0));
+        }
+        else
+        {
+            var rotation = quaternion.LookRotation(direction, math.up());
+            movementData.rotation = math.mul(rotation, quaternion.Euler(0, -89.5f, 0));
+        }
+
         return movementData;
     }
 }
