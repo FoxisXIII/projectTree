@@ -90,6 +90,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public GameObject birdCamera;
     public KeyCode cameraChange;
     public bool cameraChanged;
+    private Vector3 initialPosition;
 
     private void Awake()
     {
@@ -98,6 +99,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
         life = maxLife / 2;
         lifeText.text = life.ToString();
         StopBuffs();
+
+        initialPosition = transform.position;
     }
 
     // Start is called before the first frame update
@@ -122,7 +125,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         lifeText.text = life.ToString();
         if (life <= 0)
-            GameController.GetInstance().gameOver();
+            GameController.GetInstance().gameOver("KILLED BY X Æ A-12");
 
         if (Input.GetKeyDown(cameraChange) /*&& !GameController.GetInstance().WaveInProcess*/)
         {
@@ -299,7 +302,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         color.a = life / maxLife;
         LifeImage.color = color;
         if (life <= 0)
-            GameController.GetInstance().gameOver();
+            GameController.GetInstance().gameOver("KILLED BY X Æ A-12!");
     }
 
 
@@ -381,5 +384,12 @@ public class ThirdPersonCharacterController : MonoBehaviour
         fireRate = initFireRate;
         damage = initialDamage;
         shotgun = false;
+    }
+
+    public void ResetToBase()
+    {
+        characterController.enabled = false;
+        transform.position = initialPosition;
+        characterController.enabled = true;
     }
 }

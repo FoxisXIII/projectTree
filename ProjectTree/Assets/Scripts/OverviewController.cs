@@ -93,9 +93,8 @@ public class OverviewController : MonoBehaviour
             Entity turret = _manager.Instantiate(turretsToCreate[index]);
             var position = _instantiatedPreviewTurret.gameObject.transform.position;
             _manager.SetComponentData(turret, new Translation {Value = position});
-            _manager.AddBuffer<EnemiesInRange>(turret);
-            _manager.AddBuffer<TurretsInRange>(turret);
             GameController.GetInstance().UpdateResources(-20);
+            GameController.GetInstance().TowersPlaced++;
         }
     }
 

@@ -28,10 +28,8 @@ public class FindTargetSystem : JobComponentSystem
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        var towerGroup = GetBufferFromEntity<EnemiesInRange>();
-        var turretGroup = GetBufferFromEntity<TurretsInRange>();
+        var towerGroup = GetComponentDataFromEntity<TowerTag>();
         var enemyGroup = GetComponentDataFromEntity<AIData>();
-        var playerTag = GetComponentDataFromEntity<PlayerTag>();
 
         var findTargetJob = new FindTargetTriggerJob()
         {
@@ -46,7 +44,7 @@ public class FindTargetSystem : JobComponentSystem
 
     private struct FindTargetTriggerJob : ITriggerEventsJob
     {
-        public BufferFromEntity<EnemiesInRange> towerGroup;
+        public ComponentDataFromEntity<TowerTag> towerGroup;
         public ComponentDataFromEntity<AIData> enemyGroup;
 
 

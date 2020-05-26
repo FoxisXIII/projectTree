@@ -29,6 +29,7 @@ public class WaveController : MonoBehaviour
 
     private void Start()
     {
+        GameController.GetInstance().WaveCounter = 0;
         EndWave();
     }
 

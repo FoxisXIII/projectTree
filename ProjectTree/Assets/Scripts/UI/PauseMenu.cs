@@ -51,7 +51,7 @@ public class PauseMenu : MonoBehaviour
     public void Restart()
     {
         Time.timeScale = 1;
-        GameController.GetInstance().retry();
+        GameController.GetInstance().gameOver("YOU QUIT!");
     }
 
     public void Resume()

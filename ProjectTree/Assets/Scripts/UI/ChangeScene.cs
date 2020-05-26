@@ -16,6 +16,7 @@ public class ChangeScene : MonoBehaviour
 
     public void changeScene()
     {
+        GameController.GetInstance().DestroyEntities();
         SceneManager.LoadSceneAsync(scene);
     }
 }

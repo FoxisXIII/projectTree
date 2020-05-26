@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  canFly: 1
+  canFly: 0
   attackDistancePlayer: 2
   attackDistanceBase: 5
   chaseDistance: 25
