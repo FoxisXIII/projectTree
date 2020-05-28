@@ -30,11 +30,13 @@ public class MoveToSystem : JobComponentSystem
         Entities
             .ForEach(
                 (ref AIData aiData, ref Translation translation, ref MovementData movementData,
-                    ref Entity entity, ref DynamicBuffer<CollisionEnemy> collisionEnemies) =>
+                    ref Entity entity, ref DynamicBuffer<CollisionEnemy> collisionEnemies,
+                    ref AnimationData animationData) =>
                 {
                     aiData.state = 1;
                     if (aiData.stop)
                     {
+                        animationData = ChangeAnimation(0,animationData);
                         movementData = StopMovement(movementData);
 
                         var direction = float3.zero;
@@ -74,10 +76,12 @@ public class MoveToSystem : JobComponentSystem
                             var magnitude = Magnitude(direction);
                             if (magnitude < aiData.attackDistancePlayer)
                             {
+                                animationData = ChangeAnimation(0, animationData);
                                 movementData = StopMovement(movementData);
                             }
                             else
                             {
+                                animationData = ChangeAnimation(1, animationData);
                                 movementData = SetDirection(movementData, direction, magnitude);
                             }
 
@@ -103,12 +107,14 @@ public class MoveToSystem : JobComponentSystem
                                     aiData.counter++;
                                 else
                                 {
+                                    animationData = ChangeAnimation(0, animationData);
                                     aiData.counter = buffers[entity].Length - 1;
                                     movementData = StopMovement(movementData);
                                 }
                             }
                             else
                             {
+                                animationData = ChangeAnimation(1, animationData);
                                 movementData = SetRotation(movementData, direction, aiData.canFly);
                                 movementData = SetDirection(movementData, direction, magnitude);
                             }
@@ -118,15 +124,10 @@ public class MoveToSystem : JobComponentSystem
         return default;
     }
 
-    private static bool CheckCollisions(DynamicBuffer<CollisionEnemy> buffer)
+    private static AnimationData ChangeAnimation(int animation, AnimationData animationData)
     {
-        for (int i = 0; i < buffer.Length; i++)
-        {
-            if (buffer[i].AiData.stop)
-                return true;
-        }
-
-        return false;
+        animationData._animationType = animation;
+        return animationData;
     }
 
     private static MovementData StopMovement(MovementData movementData)
@@ -151,13 +152,19 @@ public class MoveToSystem : JobComponentSystem
     {
         if (fly)
         {
-            var rotation = quaternion.LookRotation(direction, math.up());
-            movementData.rotation = math.mul(rotation, quaternion.Euler(0, -89.5f, 0));
+            float3 lookAt = math.normalize(direction);
+            var rotation = quaternion.LookRotation(lookAt, math.up());
+            rotation = math.mul(rotation, quaternion.RotateY(math.radians(lookAt.y)));
+            rotation = math.mul(rotation, quaternion.RotateZ(math.radians(lookAt.x)));
+            movementData.rotation = rotation;
         }
         else
         {
-            var rotation = quaternion.LookRotation(direction, math.up());
-            movementData.rotation = math.mul(rotation, quaternion.Euler(0, -89.5f, 0));
+            float3 lookAt = math.normalize(direction);
+            var rotation = quaternion.LookRotation(lookAt, math.up());
+            rotation = math.mul(rotation, quaternion.RotateY(math.radians(lookAt.y)));
+            rotation = math.mul(rotation, quaternion.RotateZ(math.radians(lookAt.x)));
+            movementData.rotation = rotation;
         }
 
         return movementData;

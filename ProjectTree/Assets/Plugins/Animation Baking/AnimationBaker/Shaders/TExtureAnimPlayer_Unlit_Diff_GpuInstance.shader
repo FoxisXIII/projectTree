@@ -5,12 +5,13 @@
 // Private use -- yes
 // YusufuCote@gmail.com
 
-Shader "Unlit/TExtureAnimPlayer_Unlit_Diff_GpuInstance"
+Shader "Unlit/TextureAnimPlayer_Unlit_Diff_GpuInstance"
 {
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
 		_PosTex("position texture", 2D) = "black"{}
+		_NmlTex("normal texture", 2D) = "black"{}
 		_DT("delta time", float) = 0
 		_Length("animation length", Float) = 1
 		[Toggle(ANIM_LOOP)] _Loop("loop", Float) = 0
@@ -40,11 +41,12 @@ Shader "Unlit/TExtureAnimPlayer_Unlit_Diff_GpuInstance"
 			struct v2f
 			{
 				float2 uv : TEXCOORD0;
+				float3 normal : TEXCOORD1;
 				float4 vertex : SV_POSITION;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
-			sampler2D _MainTex, _PosTex;
+			sampler2D _MainTex, _PosTex, _NmlTex;
 			UNITY_INSTANCING_BUFFER_START(Props)
 				UNITY_DEFINE_INSTANCED_PROP(float4, _MainTex_ST)
 				UNITY_DEFINE_INSTANCED_PROP(float4, _PosTex_TexelSize)
@@ -69,8 +71,10 @@ Shader "Unlit/TExtureAnimPlayer_Unlit_Diff_GpuInstance"
 				float x = (vid + 0.5) * UNITY_ACCESS_INSTANCED_PROP(Props, _PosTex_TexelSize.x);
 				float y = t;
 				float4 pos = tex2Dlod(_PosTex, float4(x, y, 0, 0));
+				float4 normal = tex2Dlod(_NmlTex, float4(x, y, 0, 0));
 
 				o.vertex = UnityObjectToClipPos(pos);
+				o.normal = UnityObjectToWorldNormal(normal);
 				o.uv = TRANSFORM_TEX(v.uv, UNITY_ACCESS_INSTANCED_PROP(Props, _MainTex));
 				return o;
 			}
@@ -78,11 +82,12 @@ Shader "Unlit/TExtureAnimPlayer_Unlit_Diff_GpuInstance"
 			fixed4 frag (v2f i) : SV_Target
 			{
 				UNITY_SETUP_INSTANCE_ID(i);
+				half diff = dot(i.normal, float3(0,1,0))*0.5 + 0.5;
 				fixed4 col = tex2D(_MainTex, i.uv);
-				return col;
+				return diff * col;
 			}
 			ENDCG
 		}
 	}
-	FallBack "Unlit/TExtureAnimPlayer_Unlit_Diff"
+	FallBack "Unlit/TextureAnimPlayer_Unlit_Diff"
 }

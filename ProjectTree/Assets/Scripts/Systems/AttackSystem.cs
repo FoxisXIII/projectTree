@@ -33,7 +33,7 @@ namespace Systems
             Entities
                 .ForEach(
                     (ref AIData aiData, ref Translation translation, ref MovementData movementData,
-                        ref Entity entity) =>
+                        ref Entity entity,ref AnimationData animationData) =>
                     {
                         if (math.distance(buffers[entity][buffers[entity].Length - 1].position, translation.Value) <
                             aiData.attackDistanceBase)
@@ -59,6 +59,7 @@ namespace Systems
                                 aiData.attackDistancePlayer)
                                 if (aiData.attackWait >= aiData.attackRate)
                                 {
+                                    animationData._animationType = 2;
                                     if (aiData.canFly)
                                     {
                                         //INSTANTIATE LASER

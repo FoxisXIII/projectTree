@@ -4,6 +4,7 @@ using Unity.Entities;
 using Unity.Jobs;
 using UnityEngine;
 
+[UpdateAfter(typeof(TrapDamageSystem))]
 public class TrapDeathSystem : JobComponentSystem
 {
     private EndSimulationEntityCommandBufferSystem _entityCommandBufferSystem;

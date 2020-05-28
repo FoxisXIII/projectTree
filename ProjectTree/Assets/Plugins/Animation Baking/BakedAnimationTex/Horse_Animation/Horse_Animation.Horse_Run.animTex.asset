@@ -8,10 +8,10 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Horse_Animation.Horse_Run.animTex
-  m_Shader: {fileID: 4800000, guid: c6e38db4bb1289d4d888dbc1d121a69e, type: 3}
+  m_Shader: {fileID: 4800000, guid: a770891cbf22ac54faa880bd365a6caf, type: 3}
   m_ShaderKeywords: ANIM_LOOP
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}

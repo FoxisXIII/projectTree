@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -19,6 +20,7 @@ public class GameController
 
     //Recursos
     private int _recursosA = 200;
+    private Dictionary<string, List<Material>> animationMaterials;
 
     private GameController()
     {
@@ -172,5 +174,14 @@ public class GameController
     {
         get => _towersPlaced;
         set => _towersPlaced = value;
+    }
+
+    public Dictionary<string,List<Material>> getMaterials()
+    {
+        return animationMaterials;
+    }
+    public void setMaterials(Dictionary<string,List<Material>> dictionary)
+    {
+        animationMaterials = dictionary;
     }
 }

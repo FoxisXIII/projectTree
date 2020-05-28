@@ -68,6 +68,7 @@
           <e p="CanvasTP.cs" t="Include" />
           <e p="Components" t="Include">
             <e p="AIData.cs" t="Include" />
+            <e p="AnimationData.cs" t="Include" />
             <e p="BaseTag.cs" t="Include" />
             <e p="BuffTurretData.cs" t="Include" />
             <e p="CollisionEnemy.cs" t="Include" />
@@ -137,6 +138,7 @@
             <e p="EnemySpawnerMenu.cs" t="Include" />
           </e>
           <e p="Systems" t="Include">
+            <e p="AnimationSystem.cs" t="Include" />
             <e p="AttackSystem.cs" t="Include" />
             <e p="BuffTurretSystem.cs" t="Include" />
             <e p="ClearEntities.cs" t="Include" />
