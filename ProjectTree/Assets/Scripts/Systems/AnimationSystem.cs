@@ -19,13 +19,13 @@ public class AnimationSystem : SystemBase
                 if (aiData.canFly)
                 {
                     var renderMesh = manager.GetSharedComponentData<RenderMesh>(entity);
-                    renderMesh.material = new Material(materials["Dron"][animationData._animationType]);
+                    renderMesh.material = materials["Dron"][animationData._animationType];
                     manager.SetSharedComponentData<RenderMesh>(entity, renderMesh);
                 }
                 else
                 {
                     var renderMesh = manager.GetSharedComponentData<RenderMesh>(entity);
-                    renderMesh.material = new Material(materials["Tank"][animationData._animationType]);
+                    renderMesh.material = materials["Tank"][animationData._animationType];
                     manager.SetSharedComponentData<RenderMesh>(entity, renderMesh);
                 }
             }

@@ -155,7 +155,7 @@ public class MoveToSystem : JobComponentSystem
             float3 lookAt = math.normalize(direction);
             var rotation = quaternion.LookRotation(lookAt, math.up());
             rotation = math.mul(rotation, quaternion.RotateY(math.radians(lookAt.y)));
-            rotation = math.mul(rotation, quaternion.RotateZ(math.radians(lookAt.x)));
+            rotation = math.mul(rotation, quaternion.RotateZ(math.radians(lookAt.z)));
             movementData.rotation = rotation;
         }
         else
@@ -163,7 +163,7 @@ public class MoveToSystem : JobComponentSystem
             float3 lookAt = math.normalize(direction);
             var rotation = quaternion.LookRotation(lookAt, math.up());
             rotation = math.mul(rotation, quaternion.RotateY(math.radians(lookAt.y)));
-            rotation = math.mul(rotation, quaternion.RotateZ(math.radians(lookAt.x)));
+            rotation = math.mul(rotation, quaternion.RotateZ(math.radians(lookAt.z)));
             movementData.rotation = rotation;
         }
 

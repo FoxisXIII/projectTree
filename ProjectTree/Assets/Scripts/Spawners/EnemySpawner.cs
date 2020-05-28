@@ -51,7 +51,7 @@ public class EnemySpawner : MonoBehaviour
 
             aiData.state = 0;
         aiData.me = enemy;
-        Vector3 offset = aiData.canFly ? Vector3.up * Random.Range(1f, 5f) : Vector3.zero;
+        Vector3 offset = aiData.canFly ? Vector3.up * Random.Range(1f, 5f) : Vector3.up * .5f;
         _entityManager.SetComponentData(enemy, aiData);
 
         _entityManager.SetComponentData(enemy,
@@ -101,12 +101,19 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.blue;
+
         for (int i = 0; i < min.Length; i++)
         {
+            if(i<min.Length-1)
+            {
+                Gizmos.color = Color.green;
+                Gizmos.DrawLine(min[i], min[i + 1]);
+                Gizmos.DrawLine(max[i], max[i + 1]);
+            }
+            Gizmos.color = Color.red;
             Gizmos.DrawSphere(min[i], 1);
             Gizmos.DrawSphere(max[i], 1);
-
+            Gizmos.color = Color.blue;
             Gizmos.DrawLine(min[i], max[i]);
         }
     }

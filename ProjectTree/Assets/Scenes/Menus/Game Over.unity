@@ -2365,6 +2365,8 @@ MonoBehaviour:
   waveCooldown: 1
   enemySpawnRate: 0.01
   maxWaveEnemies: 1500
+  flyAnim: []
+  groundAnim: []
   nextRoundTimeText: {fileID: 0}
   roundText: {fileID: 0}
   currentEnemiesText: {fileID: 0}
@@ -2671,7 +2673,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 22b3d7b835e0db8459a09ea2e6040813, type: 2}
+  - {fileID: 2100000, guid: b1bdc0a820f8a044b8efa64b7b412cc7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
