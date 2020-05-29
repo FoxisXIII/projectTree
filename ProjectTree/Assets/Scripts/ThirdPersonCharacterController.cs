@@ -97,7 +97,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         enemies = new Dictionary<Entity, Vector3>();
         GameController.GetInstance().Player = this;
         life = maxLife / 2;
-        lifeText.text = life.ToString();
+        // lifeText.text = life.ToString();
         StopBuffs();
 
         initialPosition = transform.position;
@@ -123,7 +123,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        lifeText.text = life.ToString();
+        // lifeText.text = life.ToString();
         if (life <= 0)
             GameController.GetInstance().gameOver("KILLED BY X Æ A-12");
 
