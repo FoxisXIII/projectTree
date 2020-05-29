@@ -40,6 +40,7 @@ namespace Systems
                         {
                             if (aiData.attackWait >= aiData.attackRate)
                             {
+                                animationData._animationType = 2;
                                 playerBase.ReceiveDamage(aiData.attackDamage);
                                 aiData.attackWait = 0;
                             }

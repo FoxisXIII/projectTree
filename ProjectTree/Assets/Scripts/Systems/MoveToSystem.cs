@@ -36,7 +36,7 @@ public class MoveToSystem : JobComponentSystem
                     aiData.state = 1;
                     if (aiData.stop)
                     {
-                        animationData = ChangeAnimation(0,animationData);
+                        animationData = ChangeAnimation(0, animationData);
                         movementData = StopMovement(movementData);
 
                         var direction = float3.zero;
@@ -44,7 +44,7 @@ public class MoveToSystem : JobComponentSystem
                             direction = aiData.entityPosition - translation.Value;
                         else
                             direction = buffers[entity][aiData.counter].position - translation.Value;
-                        movementData = SetRotation(movementData, direction, aiData.canFly);
+                        // movementData = SetRotation(movementData, direction, aiData.canFly);
 
                         if (aiData.goToEntity)
                         {
@@ -99,6 +99,8 @@ public class MoveToSystem : JobComponentSystem
                         {
                             var position = buffers[entity][aiData.counter].position;
                             var direction = position - translation.Value;
+                            var directionY = direction.y;
+                            direction.y = 0;
                             var magnitude = Magnitude(direction);
                             if (magnitude < 1)
                             {
@@ -114,6 +116,7 @@ public class MoveToSystem : JobComponentSystem
                             }
                             else
                             {
+                                direction.y = directionY;
                                 animationData = ChangeAnimation(1, animationData);
                                 movementData = SetRotation(movementData, direction, aiData.canFly);
                                 movementData = SetDirection(movementData, direction, magnitude);
@@ -166,7 +169,7 @@ public class MoveToSystem : JobComponentSystem
         //     rotation = math.mul(rotation, quaternion.RotateZ(math.radians(lookAt.z)));
         //     movementData.rotation = rotation;
         // }
-
+        movementData.rotation = Quaternion.identity;
         return movementData;
     }
 }

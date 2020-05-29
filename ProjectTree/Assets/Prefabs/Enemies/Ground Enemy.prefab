@@ -12,6 +12,16 @@ PrefabInstance:
       propertyPath: canFly
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4018849292851891276, guid: 27f03128817fa2f4ebabd56e0140c8e1,
+        type: 3}
+      propertyPath: m_LinearDamping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4018849292851891276, guid: 27f03128817fa2f4ebabd56e0140c8e1,
+        type: 3}
+      propertyPath: m_AngularDamping
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5090573428315920297, guid: 27f03128817fa2f4ebabd56e0140c8e1,
         type: 3}
       propertyPath: m_LocalPosition.x

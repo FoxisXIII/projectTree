@@ -874,7 +874,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ALPHA
+  m_Text: MULTITUDES!
 --- !u!222 &1848864379
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1082,8 +1082,13 @@ MonoBehaviour:
   flyAnim: []
   groundAnim: []
   nextRoundTimeText: {fileID: 0}
+  nextRoundTimeTextBackground: {fileID: 0}
   roundText: {fileID: 0}
+  roundTextBackground: {fileID: 0}
   currentEnemiesText: {fileID: 0}
+  currentEnemiesTextBackground: {fileID: 0}
+  playingRound: {fileID: 0}
+  nextRound: {fileID: 0}
 --- !u!4 &2510033815701648643
 Transform:
   m_ObjectHideFlags: 0

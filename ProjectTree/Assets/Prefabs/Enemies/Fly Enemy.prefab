@@ -40,7 +40,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 0
   canFly: 1
-  attackDistancePlayer: 2
+  attackDistancePlayer: 3
   attackDistanceBase: 5
   chaseDistance: 25
   attackDamage: 1
@@ -69,13 +69,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ShapeType: 0
   m_PrimitiveCenter:
-    x: 0.00004580617
-    y: 1.2117627
-    z: 0.34333992
+    x: 14.17317
+    y: -0.05665779
+    z: 0.000005722046
   m_PrimitiveSize:
-    x: 0.7930373
-    y: 2.412476
-    z: 3.2824662
+    x: 82.99683
+    y: 39.234062
+    z: 42.491905
   m_PrimitiveOrientation:
     Value:
       x: -0
@@ -83,15 +83,15 @@ MonoBehaviour:
       z: 0
     RotationOrder: 4
   m_Capsule:
-    Height: 3.2824662
-    Radius: 1.206238
-    Axis: 2
+    Height: 82.99683
+    Radius: 21.245953
+    Axis: 0
   m_Cylinder:
-    Height: 0.7930373
-    Radius: 1.6412331
+    Height: 82.99683
+    Radius: 21.245953
     Axis: 0
   m_CylinderSideCount: 20
-  m_SphereRadius: 1.6412331
+  m_SphereRadius: 41.498417
   m_MinimumSkinnedVertexWeight: 0.1
   m_ConvexHullGenerationParameters:
     m_SimplificationTolerance: 0.05
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95910f82d17d14f42bd7784c3b17b9f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  directionX: 1
+  directionX: 0
   directionY: 0
   directionZ: 0
   speed: 500
@@ -167,8 +167,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MotionType: 0
   m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0
+  m_LinearDamping: 1
+  m_AngularDamping: 1
   m_InitialLinearVelocity:
     x: 0
     y: 0
@@ -228,80 +228,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a25b9f72229774c99126d5076c6595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8028866852228993452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4201217719743178848}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b275e5f92732148048d7b77e264ac30e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShapeType: 0
-  m_PrimitiveCenter:
-    x: -0.0037837029
-    y: -0.4823535
-    z: -0.04710141
-  m_PrimitiveSize:
-    x: 1.0129488
-    y: 1.1582397
-    z: 0.2126525
-  m_PrimitiveOrientation:
-    Value:
-      x: -0
-      y: 0
-      z: 0
-    RotationOrder: 4
-  m_Capsule:
-    Height: 1.1582397
-    Radius: 0.5064744
-    Axis: 1
-  m_Cylinder:
-    Height: 0.2126525
-    Radius: 0.57911986
-    Axis: 2
-  m_CylinderSideCount: 20
-  m_SphereRadius: 0.57911986
-  m_MinimumSkinnedVertexWeight: 0.1
-  m_ConvexHullGenerationParameters:
-    m_SimplificationTolerance: 0.031621806
-    m_BevelRadius: 0.05
-    m_MinimumAngle: 2.5000002
-  m_CustomMesh: {fileID: 2403283451262950110, guid: 3f7c516598505af478b0246cd5efe8b5,
-    type: 3}
-  m_ForceUnique: 0
-  m_Material:
-    m_SupportsTemplate: 1
-    m_Template: {fileID: 0}
-    m_IsTrigger:
-      m_Override: 0
-      m_Value: 0
-    m_Friction:
-      m_Override: 0
-      m_Value:
-        Value: 0
-        CombineMode: 2
-    m_Restitution:
-      m_Override: 0
-      m_Value:
-        Value: 0
-        CombineMode: 2
-    m_BelongsTo:
-      m_Override: 0
-      m_Value: 0000000100000000000000000000000000000000000000000000000000000000
-    m_CollidesWith:
-      m_Override: 0
-      m_Value: 0101010101010101010101010101010101010101010101010101010101010101
-    m_RaisesCollisionEvents:
-      m_Override: 0
-      m_Value: 1
-    m_CustomTags:
-      m_Override: 0
-      m_Value: 0000000000000000
-  m_ConvexRadius_Deprecated: -1
 --- !u!114 &420885103388949720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,6 +302,80 @@ MonoBehaviour:
       m_Override: 0
       m_Value: 0000000000000000
   m_ConvexRadius_Deprecated: -1
+--- !u!114 &8028866852228993452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4201217719743178848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b275e5f92732148048d7b77e264ac30e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShapeType: 0
+  m_PrimitiveCenter:
+    x: -0.0037837029
+    y: -0.4823535
+    z: -0.04710141
+  m_PrimitiveSize:
+    x: 1.0129488
+    y: 1.1582397
+    z: 0.2126525
+  m_PrimitiveOrientation:
+    Value:
+      x: -0
+      y: 0
+      z: 0
+    RotationOrder: 4
+  m_Capsule:
+    Height: 1.1582397
+    Radius: 0.5064744
+    Axis: 1
+  m_Cylinder:
+    Height: 0.2126525
+    Radius: 0.57911986
+    Axis: 2
+  m_CylinderSideCount: 20
+  m_SphereRadius: 0.57911986
+  m_MinimumSkinnedVertexWeight: 0.1
+  m_ConvexHullGenerationParameters:
+    m_SimplificationTolerance: 0.031621806
+    m_BevelRadius: 0.05
+    m_MinimumAngle: 2.5000002
+  m_CustomMesh: {fileID: 2403283451262950110, guid: 3f7c516598505af478b0246cd5efe8b5,
+    type: 3}
+  m_ForceUnique: 0
+  m_Material:
+    m_SupportsTemplate: 1
+    m_Template: {fileID: 0}
+    m_IsTrigger:
+      m_Override: 0
+      m_Value: 0
+    m_Friction:
+      m_Override: 0
+      m_Value:
+        Value: 0
+        CombineMode: 2
+    m_Restitution:
+      m_Override: 0
+      m_Value:
+        Value: 0
+        CombineMode: 2
+    m_BelongsTo:
+      m_Override: 0
+      m_Value: 0000000100000000000000000000000000000000000000000000000000000000
+    m_CollidesWith:
+      m_Override: 0
+      m_Value: 0101010101010101010101010101010101010101010101010101010101010101
+    m_RaisesCollisionEvents:
+      m_Override: 0
+      m_Value: 1
+    m_CustomTags:
+      m_Override: 0
+      m_Value: 0000000000000000
+  m_ConvexRadius_Deprecated: -1
 --- !u!1001 &279202566964362419
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -387,11 +387,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 4300002, guid: a85d92b72304a79449904f3b49e3d5ea, type: 3}
+      objectReference: {fileID: 2403283451262950110, guid: 3f7c516598505af478b0246cd5efe8b5,
+        type: 3}
     - target: {fileID: -5074901468145265453, guid: 3f7c516598505af478b0246cd5efe8b5,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 3f7c516598505af478b0246cd5efe8b5,
         type: 3}
@@ -451,17 +452,17 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 3f7c516598505af478b0246cd5efe8b5,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: -0.016002
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 3f7c516598505af478b0246cd5efe8b5,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: -0.016002
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 3f7c516598505af478b0246cd5efe8b5,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: -0.016002
       objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: 3f7c516598505af478b0246cd5efe8b5,
         type: 3}
@@ -471,17 +472,17 @@ PrefabInstance:
     - target: {fileID: 281832884017310840, guid: 3f7c516598505af478b0246cd5efe8b5,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3410079492540764260, guid: 3f7c516598505af478b0246cd5efe8b5,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5923668963045351964, guid: 3f7c516598505af478b0246cd5efe8b5,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f7c516598505af478b0246cd5efe8b5, type: 3}
@@ -491,15 +492,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 279202566964362419}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4201217719743178848 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -5074901468145265453, guid: 3f7c516598505af478b0246cd5efe8b5,
-    type: 3}
-  m_PrefabInstance: {fileID: 279202566964362419}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5902799401807158959 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5923668963045351964, guid: 3f7c516598505af478b0246cd5efe8b5,
+    type: 3}
+  m_PrefabInstance: {fileID: 279202566964362419}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4201217719743178848 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5074901468145265453, guid: 3f7c516598505af478b0246cd5efe8b5,
     type: 3}
   m_PrefabInstance: {fileID: 279202566964362419}
   m_PrefabAsset: {fileID: 0}

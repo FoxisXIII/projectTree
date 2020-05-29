@@ -16,12 +16,10 @@ public class FindTargetSystem : JobComponentSystem
 {
     private BuildPhysicsWorld _buildPhysicsWorld;
     private StepPhysicsWorld _stepPhysicsWorld;
-
-    private EndSimulationEntityCommandBufferSystem ecb;
+    
 
     protected override void OnCreate()
     {
-        ecb = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
         _buildPhysicsWorld = World.GetOrCreateSystem<BuildPhysicsWorld>();
         _stepPhysicsWorld = World.GetOrCreateSystem<StepPhysicsWorld>();
     }

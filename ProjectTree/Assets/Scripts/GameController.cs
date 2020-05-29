@@ -51,8 +51,8 @@ public class GameController
     {
         _waveCounter++;
         if (_waveCounter > 1)
-            _maxWaveEnemies = Mathf.Min(1500, _maxWaveEnemies * 2);
-        _enemiesSpawnRate = Mathf.Max(.01f, _enemiesSpawnRate / 1.1f);
+            _maxWaveEnemies = Mathf.Min(200, _maxWaveEnemies +10);
+        _enemiesSpawnRate = Mathf.Max(1f, _enemiesSpawnRate / 1.1f);
         _waveInProcess = true;
     }
 
