@@ -20,7 +20,7 @@ public class CreatePlayerSystemBuffer : ComponentSystem
         Entities.ForEach((Entity entity, ref PlayerTag playerTag) =>
         {
             if (GameController.GetInstance().Player != null)
-                GameController.GetInstance().Player.life = healthGroup[entity].Value;
+                GameController.GetInstance().Player.life = healthGroup[entity].value;
         });
     }
 }

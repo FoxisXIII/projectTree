@@ -22,11 +22,11 @@ public class ResolveDamageSystem : JobComponentSystem
             {
                 for (int i = 0; i < damageBuffer.Length; i++)
                 {
-                    hp.Value -= damageBuffer[i].Value;
+                    hp.value -= damageBuffer[i].Value;
 
-                    if (hp.Value <= 0)
+                    if (hp.value <= 0)
                     {
-                        hp.Value = 0;
+                        hp.value = 0;
                         ecb.AddComponent<Dead>(e);
                         break;
                     }

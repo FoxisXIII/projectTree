@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1528527964906809843, guid: 27f03128817fa2f4ebabd56e0140c8e1,
+        type: 3}
+      propertyPath: value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1528527964906809843, guid: 27f03128817fa2f4ebabd56e0140c8e1,
+        type: 3}
+      propertyPath: maxValue
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2144424122231066552, guid: 27f03128817fa2f4ebabd56e0140c8e1,
         type: 3}
       propertyPath: canFly

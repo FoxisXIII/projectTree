@@ -242,6 +242,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     void Shoot()
     {
+
         GameObject bulletShot;
         bulletShot = Instantiate(Bullet, LocFire.transform.position, Quaternion.identity);
         bulletShot.GetComponent<Rigidbody>().AddForce(transform.forward * 20);
@@ -251,6 +252,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     void ShootECS(Vector3 position, Quaternion rotation)
     {
+        Debug.Log("Shoot");
         Entity bullet = manager.Instantiate(bulletEntityPrefab);
 
         manager.SetComponentData(bullet, new Translation {Value = position});
