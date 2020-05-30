@@ -44,7 +44,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private float timer;
 
     //ECS
-    public bool useECS = false;
     private EntityManager manager;
     private Entity bulletEntityPrefab;
     private BlobAssetStore blobBullet;
@@ -107,12 +106,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
         blobTrap = new BlobAssetStore();
         trapECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(trap,
             GameObjectConversionSettings.FromWorld(manager.World, blobTrap));
-        if (useECS)
-        {
-            blobBullet = new BlobAssetStore();
-            bulletEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(Bullet,
+        blobBullet = new BlobAssetStore();
+        bulletEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(Bullet,
                 GameObjectConversionSettings.FromWorld(manager.World, blobBullet));
-        }
 
         recValue.text = GameController.GetInstance().RecursosA.ToString();
     }
@@ -137,17 +133,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
             timer += Time.deltaTime;
             if (Input.GetMouseButton(0) && timer >= fireRate)
             {
-                if (useECS)
-                {
-                    if (shotgun)
-                        ShotgunECS(LocFire.transform.position, LocFire.transform.rotation.eulerAngles);
-                    else
-                        ShootECS(LocFire.transform.position, LocFire.transform.rotation);
-                }
+                if (shotgun)
+                    ShotgunECS(LocFire.transform.position, LocFire.transform.rotation.eulerAngles);
                 else
-                {
-                    Shoot();
-                }
+                    ShootECS(LocFire.transform.position, LocFire.transform.rotation);
 
                 timer = 0f;
             }
@@ -237,25 +226,23 @@ public class ThirdPersonCharacterController : MonoBehaviour
         }
     }
 
-    void Shoot()
-    {
-        GameObject bulletShot;
-        bulletShot = Instantiate(Bullet, LocFire.transform.position, Quaternion.identity);
-        bulletShot.GetComponent<Rigidbody>().AddForce(transform.forward * 20);
-        bulletShot.GetComponent<Rigidbody>().velocity = transform.forward * 20;
-        bulletShot.transform.rotation = transform.rotation;
-    }
+    // void Shoot()
+    // {
+    //     GameObject bulletShot;
+    //     bulletShot = Instantiate(Bullet, LocFire.transform.position, Quaternion.identity);
+    //     bulletShot.GetComponent<Rigidbody>().AddForce(transform.forward * 20);
+    //     bulletShot.GetComponent<Rigidbody>().velocity = transform.forward * 20;
+    //     bulletShot.transform.rotation = transform.rotation;
+    // }
 
     void ShootECS(Vector3 position, Quaternion rotation)
     {
         Entity bullet = manager.Instantiate(bulletEntityPrefab);
 
         manager.SetComponentData(bullet, new Translation {Value = position});
-        manager.SetComponentData(bullet, new Rotation {Value = rotation});
-        var damage = manager.GetComponentData<DealsDamage>(bullet);
-        damage.Value = this.damage;
-        manager.SetComponentData(bullet, damage);
-        manager.AddComponent(bullet, typeof(MovesForwardComponent));
+        manager.SetComponentData(bullet, new Rotation{Value = rotation});
+        manager.SetComponentData(bullet, new DealsDamage{Value = damage});
+        manager.AddComponent(bullet,typeof(MovesForwardComponent));
     }
 
     void ShotgunECS(Vector3 position, Vector3 rotation)
@@ -278,10 +265,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 tempRot.y = (rotation.y + 3 * y) % 360;
                 manager.SetComponentData(bullets[index], new Translation {Value = position});
                 manager.SetComponentData(bullets[index], new Rotation {Value = Quaternion.Euler(tempRot)});
-                var damage = manager.GetComponentData<DealsDamage>(bullets[index]);
-                damage.Value = this.damage;
-                manager.SetComponentData(bullets[index], damage);
-                manager.AddComponent(bullets[index], typeof(MovesForwardComponent));
+                manager.SetComponentData(bullets[index], new DealsDamage{Value = damage});
+                manager.AddComponent(bullets[index],typeof(MovesForwardComponent));
                 index++;
             }
         }

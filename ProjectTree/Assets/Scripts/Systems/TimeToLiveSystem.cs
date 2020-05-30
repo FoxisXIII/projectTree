@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Systems;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Transforms;
 using UnityEngine;
 
-[UpdateAfter(typeof(MoveBulletSys))]
+[UpdateAfter(typeof(MovementSystem))]
 public class TimeToLiveSystem : ComponentSystem
 {
     protected override void OnUpdate()

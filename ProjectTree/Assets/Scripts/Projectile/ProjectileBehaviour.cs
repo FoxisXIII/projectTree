@@ -7,14 +7,16 @@ using UnityEngine;
 
 public class ProjectileBehaviour : MonoBehaviour, IConvertGameObjectToEntity
 {
-    public float speed = 50f;
+    public float speed;
 
-    public float lifeTime = 1f;
+    public float lifeTime;
+
+    public int damage;
 
 
     public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {
-        dstManager.AddComponentData(entity, new DealsDamage {Value = 20});
+        dstManager.AddComponentData(entity, new DealsDamage {Value = damage});
         MoveSpeed moveSpeed = new MoveSpeed{Value = speed};
         dstManager.AddComponentData(entity, moveSpeed);
         TimeToLive ttl = new TimeToLive{Value = lifeTime};
