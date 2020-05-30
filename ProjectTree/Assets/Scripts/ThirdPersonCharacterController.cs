@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -52,12 +53,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     //Life
     public float maxLife;
     [HideInInspector] public float life;
-    public Text lifeText;
-    public Image LifeImage;
-
-
-    //
-    public Text recValue;
+    public Image lifeImage;
+    public TextMeshProUGUI ironText;
 
 
     //Turret Spawner
@@ -96,8 +93,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         enemies = new Dictionary<Entity, Vector3>();
         GameController.GetInstance().Player = this;
-        life = maxLife / 2;
-        // lifeText.text = life.ToString();
         StopBuffs();
 
         initialPosition = transform.position;
@@ -117,15 +112,16 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 GameObjectConversionSettings.FromWorld(manager.World, blobBullet));
         }
 
-        recValue.text = GameController.GetInstance().RecursosA.ToString();
+        GameController.GetInstance().UpdateResources(0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        // lifeText.text = life.ToString();
+        lifeImage.fillAmount = (float) life / (float) maxLife;
+
         if (life <= 0)
-            GameController.GetInstance().gameOver("KILLED BY X Æ A-12");
+            GameController.GetInstance().gameOver("KILLED BY X AE A12");
 
         if (Input.GetKeyDown(cameraChange) /*&& !GameController.GetInstance().WaveInProcess*/)
         {
@@ -242,7 +238,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     void Shoot()
     {
-
         GameObject bulletShot;
         bulletShot = Instantiate(Bullet, LocFire.transform.position, Quaternion.identity);
         bulletShot.GetComponent<Rigidbody>().AddForce(transform.forward * 20);
@@ -252,7 +247,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     void ShootECS(Vector3 position, Quaternion rotation)
     {
-        Debug.Log("Shoot");
         Entity bullet = manager.Instantiate(bulletEntityPrefab);
 
         manager.SetComponentData(bullet, new Translation {Value = position});
@@ -295,17 +289,17 @@ public class ThirdPersonCharacterController : MonoBehaviour
     }
 
 
-    public void ReceiveDamage(int damage)
-    {
-        life -= damage;
-        lifeText.text = life.ToString();
-        var color = LifeImage.color;
-        Debug.Log(life / maxLife);
-        color.a = life / maxLife;
-        LifeImage.color = color;
-        if (life <= 0)
-            GameController.GetInstance().gameOver("KILLED BY X Æ A-12!");
-    }
+    // public void ReceiveDamage(int damage)
+    // {
+    //     life -= damage;
+    //     lifeText.text = life.ToString();
+    //     var color = LifeImage.color;
+    //     Debug.Log(life / maxLife);
+    //     color.a = life / maxLife;
+    //     LifeImage.color = color;
+    //     if (life <= 0)
+    //         GameController.GetInstance().gameOver("KILLED BY X Æ A-12!");
+    // }
 
 
     private void CreatePreviewTrap()
@@ -325,7 +319,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         Destroy(_instantiatedPreviewTrap.gameObject);
 
-        if (_turretCanBePlaced && GameController.GetInstance().RecursosA >= 10)
+        if (_turretCanBePlaced && GameController.GetInstance().iron >= 10)
         {
             Entity trap = manager.Instantiate(trapECS);
             var position = instantiateTurrets.position;
@@ -343,12 +337,12 @@ public class ThirdPersonCharacterController : MonoBehaviour
         blobTrap.Dispose();
     }
 
-    public void RecoverHealth(int health)
-    {
-        StopBuffs();
-        life = Mathf.Min(life + health, maxLife);
-        lifeText.text = life.ToString();
-    }
+    // public void RecoverHealth(int health)
+    // {
+    //     StopBuffs();
+    //     life = Mathf.Min(life + health, maxLife);
+    //     lifeText.text = life.ToString();
+    // }
 
     public void IncreaseResources(int resources)
     {

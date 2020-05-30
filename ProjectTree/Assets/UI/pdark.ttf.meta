@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bd779c0a2c7fde04fb2bec12e8e0530a
+guid: 8df77c63bbef43747bc9d7fc4a05da91
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Magic Dreams
+  - Perfect Dark (BRK)
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

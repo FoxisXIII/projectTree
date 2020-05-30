@@ -88,7 +88,7 @@ public class OverviewController : MonoBehaviour
         Destroy(_instantiatedPreviewTurret.gameObject);
         toCreateText.SetActive(false);
 
-        if (_turretCanBePlaced && GameController.GetInstance().RecursosA >= 20)
+        if (_turretCanBePlaced && GameController.GetInstance().iron >= 20)
         {
             Entity turret = _manager.Instantiate(turretsToCreate[index]);
             var position = _instantiatedPreviewTurret.gameObject.transform.position;

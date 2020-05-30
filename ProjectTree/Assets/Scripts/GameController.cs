@@ -19,7 +19,7 @@ public class GameController
     private EntityCommandBuffer ecb;
 
     //Recursos
-    private int _recursosA = 200;
+    private int _iron = 200;
     private Dictionary<string, List<Material>> animationMaterials;
 
     private GameController()
@@ -36,22 +36,22 @@ public class GameController
         return _instance;
     }
 
-    public int RecursosA
+    public int iron
     {
-        get => _recursosA;
+        get => _iron;
     }
 
     public void UpdateResources(int value)
     {
-        _recursosA += value;
-        _player.recValue.text = RecursosA.ToString();
+        _iron += value;
+        _player.ironText.SetText("Iron " + iron);
     }
 
     public void startWave()
     {
         _waveCounter++;
         if (_waveCounter > 1)
-            _maxWaveEnemies = Mathf.Min(200, _maxWaveEnemies +10);
+            _maxWaveEnemies = Mathf.Min(200, _maxWaveEnemies + 10);
         _enemiesSpawnRate = Mathf.Max(1f, _enemiesSpawnRate / 1.1f);
         _waveInProcess = true;
     }
@@ -61,7 +61,6 @@ public class GameController
         _currentEnemies = 0;
         _diedEnemies = 0;
         UpdateResources(100);
-        _player.recValue.text = RecursosA.ToString();
         _waveInProcess = false;
     }
 
@@ -101,7 +100,7 @@ public class GameController
         }
 
         PlayerPrefs.SetString("DIE", text);
-        
+
         SceneManager.LoadScene("Game Over");
     }
 
@@ -176,11 +175,12 @@ public class GameController
         set => _towersPlaced = value;
     }
 
-    public Dictionary<string,List<Material>> getMaterials()
+    public Dictionary<string, List<Material>> getMaterials()
     {
         return animationMaterials;
     }
-    public void setMaterials(Dictionary<string,List<Material>> dictionary)
+
+    public void setMaterials(Dictionary<string, List<Material>> dictionary)
     {
         animationMaterials = dictionary;
     }

@@ -14,7 +14,7 @@ public class ChangeSceneNoButton : MonoBehaviour
     private float time;
     private bool stop;
 
-    public Slider slider;
+    public Image slider;
 
     private void Start()
     {
@@ -33,7 +33,7 @@ public class ChangeSceneNoButton : MonoBehaviour
                 stop = true;
             }
 
-            slider.value = time / maxTime;
+            slider.fillAmount = time / maxTime;
         }
     }
 

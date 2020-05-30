@@ -20,9 +20,9 @@ public class WaveController : MonoBehaviour
     public Material[] flyAnim;
     public Material[] groundAnim;
 
-    [SerializeField] private TextMeshProUGUI nextRoundTimeText, nextRoundTimeTextBackground;
-    [SerializeField] private TextMeshProUGUI roundText, roundTextBackground;
-    [SerializeField] private TextMeshProUGUI currentEnemiesText, currentEnemiesTextBackground;
+    [SerializeField] private TextMeshProUGUI nextRoundTimeText;
+    [SerializeField] private TextMeshProUGUI roundText;
+    [SerializeField] private Image currentEnemiesImage;
     public GameObject playingRound;
     public GameObject nextRound;
 
@@ -56,8 +56,7 @@ public class WaveController : MonoBehaviour
 
         _time += Time.deltaTime;
 
-        nextRoundTimeText.SetText(Math.Round((Decimal) (waveCooldown - _time), 0) + " s");
-        nextRoundTimeTextBackground.SetText(Math.Round((Decimal) (waveCooldown - _time), 0) + " s");
+        nextRoundTimeText.SetText(Math.Round((Decimal) (waveCooldown - _time), 0).ToString());
     }
 
     private void StartWave()
@@ -67,8 +66,7 @@ public class WaveController : MonoBehaviour
             GameController.GetInstance().startWave();
             playingRound.SetActive(true);
             nextRound.SetActive(false);
-            roundText.SetText(GameController.GetInstance().WaveCounter.ToString());
-            roundTextBackground.SetText(GameController.GetInstance().WaveCounter.ToString());
+            roundText.SetText("ROUND " + GameController.GetInstance().WaveCounter);
 
             _canSpawn = true;
             _time = 0;
@@ -99,11 +97,10 @@ public class WaveController : MonoBehaviour
             _time = 0;
         }
 
-        currentEnemiesText.SetText(
-            (GameController.GetInstance().MaxWaveEnemies - GameController.GetInstance().DiedEnemies).ToString());
-        currentEnemiesTextBackground.SetText(
-            (GameController.GetInstance().MaxWaveEnemies - GameController.GetInstance().DiedEnemies).ToString());
-
+        var waveEnemies = GameController.GetInstance().MaxWaveEnemies - GameController.GetInstance().DiedEnemies;
+        
+        currentEnemiesImage.fillAmount =
+            1f - ((float) waveEnemies / (float) GameController.GetInstance().MaxWaveEnemies);
         _canEndWave = GameController.GetInstance().DiedEnemies >= GameController.GetInstance().MaxWaveEnemies;
     }
 
