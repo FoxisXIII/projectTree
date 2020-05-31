@@ -17,12 +17,16 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public CharacterController characterController;
 
     //Movimento BASE
+    private float turnSmoothVelocity;
+    public float turnSmoothTime=0.1f;
     private float hor;
     private float ver;
-    private Vector3 playerinput;
     private Vector3 movPlayer;
+    private Vector3 moveDir;
+    public Transform cam;
     private float WalkSpeed;
     private float RunSpeed;
+    private float speedper;
     public KeyCode RunKey = KeyCode.LeftShift;
 
     //Gravedad
@@ -33,9 +37,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public float jumpForce = 50;
 
     //Movimiento por posicion de camara
-    public Camera cam;
-    private Vector3 camForward;
-    private Vector3 camRight;
 
     //Disparo
     public GameObject Bullet;
@@ -113,6 +114,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
             bulletEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(Bullet,
                 GameObjectConversionSettings.FromWorld(manager.World, blobBullet));
         }
+        
+        
 
         GameController.GetInstance().UpdateResources(0);
     }
@@ -186,25 +189,31 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
             ver = Input.GetAxis("Vertical");
 
-            playerinput = new Vector3(hor, 0, ver);
-            playerinput = Vector3.ClampMagnitude(playerinput, 1);
+            movPlayer= new Vector3(hor, 0, ver).normalized;;
+            
+            float targetAngle = Mathf.Atan2(movPlayer.x, movPlayer.z) * Mathf.Rad2Deg+cam.eulerAngles.y;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity,
+                turnSmoothTime);
+            transform.rotation=Quaternion.Euler(0f,angle,0f);
+            
+            if (movPlayer.magnitude>=0.1f)
+            {
+                moveDir = Quaternion.Euler(0, targetAngle, 0f)*Vector3.forward;
+            
+            }
 
-            CamDir();
-
-
-            movPlayer = playerinput.x * camRight + playerinput.z * camForward;
-            float speed = WalkSpeed;
+            speedper = WalkSpeed;
             if (Input.GetKey(RunKey) && characterController.isGrounded)
             {
-                speed = RunSpeed;
+                speedper = RunSpeed;
             }
 
             if (Input.GetKeyUp(RunKey))
             {
-                speed = WalkSpeed;
+                speedper = WalkSpeed;
             }
 
-            movPlayer = movPlayer * speed;
+            //moveDir = movPlayer * speed;
 
             setGravity();
             Jump();
@@ -214,19 +223,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private void FixedUpdate()
     {
         if (!cameraChanged)
-            characterController.Move(movPlayer * Time.deltaTime);
-    }
-
-
-    void CamDir()
-    {
-        camForward = cam.transform.forward;
-        camRight = cam.transform.right;
-        camForward.y = 0;
-        camRight.y = 0;
-
-        camForward = camForward.normalized;
-        camRight = camRight.normalized;
+        {
+            characterController.Move(moveDir * speedper * Time.deltaTime);
+            moveDir = Vector3.zero;
+        }
     }
 
 
@@ -235,12 +235,13 @@ public class ThirdPersonCharacterController : MonoBehaviour
         if (characterController.isGrounded)
         {
             VelCaida = -gravity * Time.deltaTime;
-            movPlayer.y = VelCaida;
+            moveDir.y = VelCaida;
         }
         else
         {
             VelCaida -= gravity * Time.deltaTime;
-            movPlayer.y = VelCaida;
+            moveDir.y = VelCaida;
+            Debug.Log(moveDir.y);
         }
     }
 
@@ -249,7 +250,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         if (characterController.isGrounded && Input.GetButtonDown("Jump"))
         {
             VelCaida = jumpForce;
-            movPlayer.y = VelCaida;
+            moveDir.y = VelCaida;
         }
     }
 
