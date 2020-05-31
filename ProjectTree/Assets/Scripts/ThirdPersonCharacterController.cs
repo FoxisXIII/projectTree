@@ -85,9 +85,11 @@ public class ThirdPersonCharacterController : MonoBehaviour
     //Change Camera
     public GameObject fpsCamera;
     public GameObject birdCamera;
+    public Animator hud;
     public KeyCode cameraChange;
     public bool cameraChanged;
     private Vector3 initialPosition;
+    [HideInInspector] public string lastAnimatorKey;
 
     private void Awake()
     {
@@ -128,6 +130,19 @@ public class ThirdPersonCharacterController : MonoBehaviour
             birdCamera.SetActive(true);
             characterController.enabled = false;
             fpsCamera.SetActive(false);
+            hud.SetBool("towers", true);
+            
+            if (hud.GetBool("inRound"))
+            {
+                lastAnimatorKey = "inRound";
+                hud.SetBool("inRound", false);
+            }
+            else if (hud.GetBool("nextRound"))
+            {
+                lastAnimatorKey = "nextRound";
+                hud.SetBool("nextRound", false);
+            }
+
             cameraChanged = true;
         }
 

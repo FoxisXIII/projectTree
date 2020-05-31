@@ -23,8 +23,7 @@ public class WaveController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nextRoundTimeText;
     [SerializeField] private TextMeshProUGUI roundText;
     [SerializeField] private Image currentEnemiesImage;
-    public GameObject playingRound;
-    public GameObject nextRound;
+    [SerializeField] private Animator hud;
 
     void Awake()
     {
@@ -64,8 +63,8 @@ public class WaveController : MonoBehaviour
         if (!_canSpawn && _time >= waveCooldown)
         {
             GameController.GetInstance().startWave();
-            playingRound.SetActive(true);
-            nextRound.SetActive(false);
+            hud.SetBool("inRound",true);
+            hud.SetBool("nextRound",false);
             roundText.SetText("ROUND " + GameController.GetInstance().WaveCounter);
 
             _canSpawn = true;
@@ -78,8 +77,8 @@ public class WaveController : MonoBehaviour
         if (_canEndWave)
         {
             GameController.GetInstance().endWave();
-            playingRound.SetActive(false);
-            nextRound.SetActive(true);
+            hud.SetBool("inRound",false);
+            hud.SetBool("nextRound",true);
             _canEndWave = false;
             _canSpawn = false;
             _time = 0;

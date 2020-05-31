@@ -17,7 +17,7 @@ public class Base : MonoBehaviour
     private int energyCreation;
     private int materialCreation;
 
-    public Image lifeUI_1, lifeUI_2;
+    public Image lifeUI_1;
 
 
     private void Awake()

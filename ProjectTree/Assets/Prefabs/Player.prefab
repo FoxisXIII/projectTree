@@ -85,9 +85,8 @@ MonoBehaviour:
   useECS: 1
   maxLife: 100
   life: 20
-  lifeText: {fileID: 0}
-  LifeImage: {fileID: 0}
-  recValue: {fileID: 0}
+  lifeImage: {fileID: 0}
+  ironText: {fileID: 0}
   instantiateTurrets: {fileID: 1271921907971335455}
   previewTrap: {fileID: 947790077566249874, guid: f79829020872d854e8b1a9df9505ddf3,
     type: 3}
@@ -96,6 +95,7 @@ MonoBehaviour:
   initialDamage: 1
   fpsCamera: {fileID: 3605885318740559963}
   birdCamera: {fileID: 0}
+  hud: {fileID: 0}
   cameraChange: 99
   cameraChanged: 0
 --- !u!114 &3766962800411028534

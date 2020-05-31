@@ -52,6 +52,8 @@ public class OverviewController : MonoBehaviour
             GameController.GetInstance().Player.characterController.enabled = true;
             GameController.GetInstance().Player.fpsCamera.SetActive(true);
             GameController.GetInstance().Player.cameraChanged = false;
+            GameController.GetInstance().Player.hud.SetBool("towers", false);
+            GameController.GetInstance().Player.hud.SetBool(GameController.GetInstance().Player.lastAnimatorKey, true);
             Cursor.visible = false;
             if (!ReferenceEquals(_instantiatedPreviewTurret, null))
             {

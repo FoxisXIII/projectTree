@@ -411,9 +411,9 @@ MonoBehaviour:
   - {fileID: 5309293866598826028}
   - {fileID: 5309293865398903642}
   - {fileID: 5309293866072633524}
-  waveCooldown: 1
-  enemySpawnRate: 0.5
-  maxWaveEnemies: 500
+  waveCooldown: 10
+  enemySpawnRate: 2
+  maxWaveEnemies: 10
   flyAnim:
   - {fileID: 2100000, guid: 0994bf7333e04284090af9ddf2887cb0, type: 2}
   - {fileID: 2100000, guid: cb5896119de919c40be5431ef0a97441, type: 2}
@@ -423,13 +423,9 @@ MonoBehaviour:
   - {fileID: 2100000, guid: cb5896119de919c40be5431ef0a97441, type: 2}
   - {fileID: 2100000, guid: 49391950151d9664e867928b456bc9ff, type: 2}
   nextRoundTimeText: {fileID: 0}
-  nextRoundTimeTextBackground: {fileID: 0}
   roundText: {fileID: 0}
-  roundTextBackground: {fileID: 0}
-  currentEnemiesText: {fileID: 0}
-  currentEnemiesTextBackground: {fileID: 0}
-  playingRound: {fileID: 0}
-  nextRound: {fileID: 0}
+  currentEnemiesImage: {fileID: 0}
+  hud: {fileID: 0}
 --- !u!65 &1193764528
 BoxCollider:
   m_ObjectHideFlags: 0
