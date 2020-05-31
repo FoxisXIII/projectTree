@@ -241,7 +241,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
         {
             VelCaida -= gravity * Time.deltaTime;
             moveDir.y = VelCaida;
-            Debug.Log(moveDir.y);
         }
     }
 

@@ -24,7 +24,7 @@ public class WaveController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI roundText;
     [SerializeField] private Image currentEnemiesImage;
     [SerializeField] private Animator hud;
-    [SerializeField] private float spawnEnemyTime;
+    private float spawnEnemyTime;
 
     void Awake()
     {
