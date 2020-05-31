@@ -7,14 +7,12 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-
     public static bool GameIsPaused = false;
-    public GameObject pauseMenu,countime;
-    
+    public Animator hud;
+
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -28,24 +26,21 @@ public class PauseMenu : MonoBehaviour
             }
             else
                 Pause();
-
         }
     }
 
     public void Pause()
     {
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            if(!countime.Equals(transform.GetChild(i).gameObject))
-                transform.GetChild(i).gameObject.SetActive(false);
-        }
-
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-        pauseMenu.SetActive(true);
-        Time.timeScale = 0;
+        hud.SetBool("startPause", true);
+        hud.SetBool("pause", true);
         GameIsPaused = true;
+    }
 
+    public void StopTime()
+    {
+        Time.timeScale = 0;
     }
 
     public void Restart()
@@ -56,16 +51,10 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            if(!countime.Equals(transform.GetChild(i).gameObject))
-                transform.GetChild(i).gameObject.SetActive(true);
-        }
-
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        pauseMenu.SetActive(false);
         Time.timeScale = 1f;
+        hud.SetBool("pause", false);
         GameIsPaused = false;
     }
 }

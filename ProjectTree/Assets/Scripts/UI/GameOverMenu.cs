@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -8,27 +9,26 @@ using UnityEngine.UI;
 public class GameOverMenu : MonoBehaviour
 {
     public string scene;
-    public Text die;
-    public Text killed, rounds, towers;
-    public Text killedBest, roundsBest, towersBest;
+    public TextMeshProUGUI die;
+    public TextMeshProUGUI killed, rounds, towers;
+    public TextMeshProUGUI killedBest, roundsBest, towersBest;
 
 
     private void Start()
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-        
-        
-        Debug.Log(PlayerPrefs.GetString("DIE"));
-        die.text = PlayerPrefs.GetString("DIE");
 
-        killedBest.text = "(" + PlayerPrefs.GetInt("KILLED") + ")";
-        roundsBest.text = "(" + PlayerPrefs.GetInt("ROUNDS") + ")";
-        towersBest.text = "(" + PlayerPrefs.GetInt("TURRETS") + ")";
+        
+        die.SetText(PlayerPrefs.GetString("DIE"));
 
-        killed.text = GameController.GetInstance().EnemiesKilled.ToString();
-        rounds.text = GameController.GetInstance().WaveCounter.ToString();
-        towers.text = GameController.GetInstance().TowersPlaced.ToString();
+        killedBest.SetText(PlayerPrefs.GetInt("KILLED").ToString());
+        roundsBest.SetText(PlayerPrefs.GetInt("ROUNDS").ToString());
+        towersBest.SetText(PlayerPrefs.GetInt("TURRETS").ToString());
+
+        killed.SetText(GameController.GetInstance().EnemiesKilled.ToString());
+        rounds.SetText(GameController.GetInstance().WaveCounter.ToString());
+        towers.SetText(GameController.GetInstance().TowersPlaced.ToString());
     }
 
     public void changeScene()

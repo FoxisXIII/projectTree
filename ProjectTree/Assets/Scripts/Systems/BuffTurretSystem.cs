@@ -35,7 +35,8 @@ public class BuffTurretSystem : JobComponentSystem
                             if (healthGroup.HasComponent(entityPlayer))
                             {
                                 var healthData = healthGroup[entityPlayer];
-                                healthData.Value += buffTurretData.health;
+                                healthData.value = math.min(healthData.value + buffTurretData.health,
+                                    healthData.maxValue);
                                 healthGroup[entityPlayer] = healthData;
                             }
 

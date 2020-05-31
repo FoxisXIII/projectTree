@@ -5,7 +5,6 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 
-[UpdateBefore(typeof(AttackPositionSystem))]
 public class DeathSystem : JobComponentSystem
 {
     private EndSimulationEntityCommandBufferSystem _entityCommandBufferSystem;
@@ -32,7 +31,6 @@ public class DeathSystem : JobComponentSystem
                 ResetCollisionBuffer(collisions[e]);
                 GameController.GetInstance().RemoveEnemyWave();
             }
-
             ecb.DestroyEntity(e);
         }).Run();
 

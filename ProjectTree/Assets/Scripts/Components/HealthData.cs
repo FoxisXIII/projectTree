@@ -7,5 +7,6 @@ using Unity.Mathematics;
 [Serializable]
 public struct HealthData : IComponentData
 {
-    public int Value;
+    public int value;
+    public int maxValue;
 }
