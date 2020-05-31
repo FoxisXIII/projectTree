@@ -13,22 +13,22 @@ public class AnimationSystem : SystemBase
             .WithStructuralChanges()
             .ForEach((ref AnimationData animationData, ref AIData aiData, in Entity entity) =>
         {
-            if (animationData._animationType != animationData._lastAnimationType)
-            {
-                animationData._lastAnimationType = animationData._animationType;
-                if (aiData.canFly)
-                {
-                    var renderMesh = manager.GetSharedComponentData<RenderMesh>(entity);
-                    renderMesh.material = materials["Dron"][animationData._animationType];
-                    manager.SetSharedComponentData<RenderMesh>(entity, renderMesh);
-                }
-                else
-                {
-                    var renderMesh = manager.GetSharedComponentData<RenderMesh>(entity);
-                    renderMesh.material = materials["Tank"][animationData._animationType];
-                    manager.SetSharedComponentData<RenderMesh>(entity, renderMesh);
-                }
-            }
+            // if (animationData._animationType != animationData._lastAnimationType)
+            // {
+            //     animationData._lastAnimationType = animationData._animationType;
+            //     if (aiData.canFly)
+            //     {
+            //         var renderMesh = manager.GetSharedComponentData<RenderMesh>(entity);
+            //         renderMesh.material = materials["Dron"][animationData._animationType];
+            //         manager.SetSharedComponentData<RenderMesh>(entity, renderMesh);
+            //     }
+            //     else
+            //     {
+            //         var renderMesh = manager.GetSharedComponentData<RenderMesh>(entity);
+            //         renderMesh.material = materials["Tank"][animationData._animationType];
+            //         manager.SetSharedComponentData<RenderMesh>(entity, renderMesh);
+            //     }
+            // }
         }).WithoutBurst().Run();
     }
 }

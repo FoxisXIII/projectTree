@@ -153,23 +153,23 @@ public class MoveToSystem : JobComponentSystem
 
     private static MovementData SetRotation(MovementData movementData, float3 direction, bool fly)
     {
-        // if (fly)
-        // {
-        //     float3 lookAt = math.normalize(direction);
-        //     var rotation = quaternion.LookRotation(lookAt, math.up());
-        //     rotation = math.mul(rotation, quaternion.RotateY(math.radians(lookAt.y)));
-        //     rotation = math.mul(rotation, quaternion.RotateZ(math.radians(lookAt.z)));
-        //     movementData.rotation = rotation;
-        // }
-        // else
-        // {
-        //     float3 lookAt = math.normalize(direction);
-        //     var rotation = quaternion.LookRotation(lookAt, math.up());
-        //     rotation = math.mul(rotation, quaternion.RotateY(math.radians(lookAt.y)));
-        //     rotation = math.mul(rotation, quaternion.RotateZ(math.radians(lookAt.z)));
-        //     movementData.rotation = rotation;
-        // }
-        movementData.rotation = Quaternion.identity;
+        if (fly)
+        {
+            float3 lookAt = math.normalize(direction);
+            var rotation = quaternion.LookRotation(lookAt, math.up());
+            rotation = math.mul(rotation, quaternion.RotateY(math.radians(lookAt.y)));
+            rotation = math.mul(rotation, quaternion.RotateX(math.radians(lookAt.z)));
+            movementData.rotation = rotation;
+        }
+        else
+        {
+            float3 lookAt = math.normalize(direction);
+            var rotation = quaternion.LookRotation(lookAt, math.up());
+            rotation = math.mul(rotation, quaternion.RotateY(math.radians(lookAt.y)));
+            rotation = math.mul(rotation, quaternion.RotateX(math.radians(lookAt.z)));
+            movementData.rotation = rotation;
+        }
+        // movementData.rotation = Quaternion.identity;
         return movementData;
     }
 }
