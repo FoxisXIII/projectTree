@@ -989,7 +989,7 @@ RectTransform:
   m_GameObject: {fileID: 386843920}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5613802, y: 0.84908766, z: 0.84908766}
+  m_LocalScale: {x: 0.5613802, y: 0.8490877, z: 0.8490877}
   m_Children:
   - {fileID: 319864179}
   - {fileID: 1032593715}
@@ -1765,7 +1765,7 @@ RectTransform:
   m_GameObject: {fileID: 858494283}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.7813238, y: 1.1777347, z: 1.1777347}
+  m_LocalScale: {x: 1.7813238, y: 1.177735, z: 1.177735}
   m_Children:
   - {fileID: 386843921}
   - {fileID: 1026992043}
@@ -2145,6 +2145,7 @@ GameObject:
   - component: {fileID: 925626561}
   - component: {fileID: 925626560}
   - component: {fileID: 925626564}
+  - component: {fileID: 925626565}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2252,6 +2253,25 @@ MonoBehaviour:
   killedBest: {fileID: 878500955}
   roundsBest: {fileID: 319864180}
   towersBest: {fileID: 184253759}
+--- !u!95 &925626565
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 925626559}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f4fa667e9e5cc3e4e84f6f373b21a954, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &1000103631
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2417,7 +2437,7 @@ RectTransform:
   m_GameObject: {fileID: 1026992042}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5613802, y: 0.84908766, z: 0.84908766}
+  m_LocalScale: {x: 0.5613802, y: 0.8490877, z: 0.8490877}
   m_Children:
   - {fileID: 184253758}
   - {fileID: 371087444}
@@ -2794,7 +2814,7 @@ RectTransform:
   m_GameObject: {fileID: 1288444011}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5613802, y: 0.84908766, z: 0.84908766}
+  m_LocalScale: {x: 0.5613802, y: 0.8490877, z: 0.8490877}
   m_Children:
   - {fileID: 878500954}
   - {fileID: 570360266}
@@ -3871,7 +3891,7 @@ RectTransform:
   m_GameObject: {fileID: 1794828815}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5613802, y: 0.84908766, z: 0.84908766}
+  m_LocalScale: {x: 0.5613802, y: 0.84908766, z: 0.8490877}
   m_Children:
   - {fileID: 1643973938}
   - {fileID: 542795687}
@@ -5112,8 +5132,7 @@ MonoBehaviour:
   nextRoundTimeText: {fileID: 0}
   roundText: {fileID: 0}
   currentEnemiesImage: {fileID: 0}
-  playingRound: {fileID: 0}
-  nextRound: {fileID: 0}
+  hud: {fileID: 0}
 --- !u!33 &4234804702991442280
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -5859,7 +5878,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 1000
   lifeUI_1: {fileID: 0}
-  lifeUI_2: {fileID: 0}
 --- !u!65 &8175183762961541118
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -98,6 +98,7 @@ MonoBehaviour:
   hud: {fileID: 0}
   cameraChange: 99
   cameraChanged: 0
+  lastAnimatorKey: 
 --- !u!114 &3766962800411028534
 MonoBehaviour:
   m_ObjectHideFlags: 0

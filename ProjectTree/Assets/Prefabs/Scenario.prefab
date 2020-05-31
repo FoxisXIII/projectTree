@@ -224,7 +224,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 1000
   lifeUI_1: {fileID: 0}
-  lifeUI_2: {fileID: 0}
 --- !u!114 &1659778404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,6 +425,7 @@ MonoBehaviour:
   roundText: {fileID: 0}
   currentEnemiesImage: {fileID: 0}
   hud: {fileID: 0}
+  spawnEnemyTime: 0
 --- !u!65 &1193764528
 BoxCollider:
   m_ObjectHideFlags: 0

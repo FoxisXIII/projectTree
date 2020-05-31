@@ -125,13 +125,15 @@ public class ThirdPersonCharacterController : MonoBehaviour
         if (life <= 0)
             GameController.GetInstance().gameOver("KILLED BY X AE A12");
 
-        if (Input.GetKeyDown(cameraChange) /*&& !GameController.GetInstance().WaveInProcess*/)
+        if (Input.GetKeyDown(cameraChange) && !cameraChanged && !GameController.GetInstance().WaveInProcess)
         {
+            birdCamera.transform.position = fpsCamera.transform.position;
+            birdCamera.transform.rotation = fpsCamera.transform.rotation;
             birdCamera.SetActive(true);
             characterController.enabled = false;
             fpsCamera.SetActive(false);
             hud.SetBool("towers", true);
-            
+
             if (hud.GetBool("inRound"))
             {
                 lastAnimatorKey = "inRound";

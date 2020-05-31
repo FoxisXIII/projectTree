@@ -12,7 +12,7 @@ public class WaveController : MonoBehaviour
     public EnemySpawner[] spawners;
 
     private bool _canSpawn, _canEndWave;
-    private float _time;
+    private float nextRoundTime;
     public float waveCooldown;
     public float enemySpawnRate;
     public int maxWaveEnemies;
@@ -24,11 +24,13 @@ public class WaveController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI roundText;
     [SerializeField] private Image currentEnemiesImage;
     [SerializeField] private Animator hud;
+    [SerializeField] private float spawnEnemyTime;
 
     void Awake()
     {
         GameController.GetInstance().MaxWaveEnemies = maxWaveEnemies;
         GameController.GetInstance().EnemiesSpawnRate = enemySpawnRate;
+        GameController.GetInstance().EnemiesKilled = 0;
 
         Dictionary<String, List<Material>> dict = new Dictionary<string, List<Material>>();
         dict.Add("Dron", new List<Material>(flyAnim));
@@ -53,22 +55,21 @@ public class WaveController : MonoBehaviour
 
         EndWave();
 
-        _time += Time.deltaTime;
+        nextRoundTime += Time.deltaTime;
+        spawnEnemyTime += Time.deltaTime;
 
-        nextRoundTimeText.SetText(Math.Round((Decimal) (waveCooldown - _time), 0).ToString());
+        nextRoundTimeText.SetText(Math.Max(Math.Round((Decimal) (waveCooldown - nextRoundTime), 0), 0).ToString());
     }
 
     private void StartWave()
     {
-        if (!_canSpawn && _time >= waveCooldown)
+        if (!_canSpawn && nextRoundTime >= waveCooldown)
         {
             GameController.GetInstance().startWave();
-            hud.SetBool("inRound",true);
-            hud.SetBool("nextRound",false);
+            hud.SetBool("inRound", true);
+            hud.SetBool("nextRound", false);
             roundText.SetText("ROUND " + GameController.GetInstance().WaveCounter);
-
             _canSpawn = true;
-            _time = 0;
         }
     }
 
@@ -77,27 +78,27 @@ public class WaveController : MonoBehaviour
         if (_canEndWave)
         {
             GameController.GetInstance().endWave();
-            hud.SetBool("inRound",false);
-            hud.SetBool("nextRound",true);
+            hud.SetBool("inRound", false);
+            hud.SetBool("nextRound", true);
             _canEndWave = false;
             _canSpawn = false;
-            _time = 0;
+            nextRoundTime = 0;
         }
     }
 
     public void SpawnEnemy()
     {
-        if (_canSpawn && !_canEndWave && _time >= GameController.GetInstance().EnemiesSpawnRate &&
+        if (_canSpawn && !_canEndWave && spawnEnemyTime >= GameController.GetInstance().EnemiesSpawnRate &&
             GameController.GetInstance().CurrentEnemies <
             GameController.GetInstance().MaxWaveEnemies)
         {
             spawners[Random.Range(0, spawners.Length)].SpawnEnemy();
 
-            _time = 0;
+            spawnEnemyTime = 0;
         }
 
         var waveEnemies = GameController.GetInstance().MaxWaveEnemies - GameController.GetInstance().DiedEnemies;
-        
+
         currentEnemiesImage.fillAmount =
             1f - ((float) waveEnemies / (float) GameController.GetInstance().MaxWaveEnemies);
         _canEndWave = GameController.GetInstance().DiedEnemies >= GameController.GetInstance().MaxWaveEnemies;
