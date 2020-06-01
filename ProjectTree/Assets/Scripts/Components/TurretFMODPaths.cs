@@ -5,8 +5,9 @@ using Unity.Entities;
 
 public struct TurretFMODPaths : IComponentData
 {
-   public NativeString64 ShotPath;
-   public NativeString64 DestroyPath;
-   public NativeString64 AuraPath;
-   public NativeString64 BuffPath;
+   public NativeString32 ShotPath;
+   public NativeString32 DestroyPath;
+   public NativeString32 AuraPath;
+   public NativeString32 HealPath;
+   public NativeString32 BuffPath;
 }

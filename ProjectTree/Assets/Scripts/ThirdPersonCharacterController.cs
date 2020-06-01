@@ -203,24 +203,24 @@ public class ThirdPersonCharacterController : MonoBehaviour
             }
 
             
-            float stepsVelocity = timeBetweenSteps;
-            if (movPlayer.Equals(Vector3.zero))
-            {
-                if (!SoundManager.GetInstance().IsPlaying(idleSoundEvent))
-                {
-                    idleSoundEvent = SoundManager.GetInstance().PlayEvent(idleSoundPath, transform.position);
-                }
-            }
-            else
-            {
-                idleSoundEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-                // timeBetweenSteps += Time.deltaTime;
-                // if (timeBetweenSteps >= stepsVelocity)
-                // {
-                //     timeBetweenSteps = 0;
-                //     SoundManager.GetInstance().PlayOneShotSound(stepSoundPath, transform);
-                // }
-            }
+            // float stepsVelocity = timeBetweenSteps;
+            // if (movPlayer.Equals(Vector3.zero))
+            // {
+            //     if (!SoundManager.GetInstance().IsPlaying(idleSoundEvent))
+            //     {
+            //         idleSoundEvent = SoundManager.GetInstance().PlayEvent(idleSoundPath, transform.position);
+            //     }
+            // }
+            // else
+            // {
+            //     idleSoundEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            //     // timeBetweenSteps += Time.deltaTime;
+            //     // if (timeBetweenSteps >= stepsVelocity)
+            //     // {
+            //     //     timeBetweenSteps = 0;
+            //     //     SoundManager.GetInstance().PlayOneShotSound(stepSoundPath, transform);
+            //     // }
+            // }
             movPlayer = movPlayer * speed;
 
             setGravity();

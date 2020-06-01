@@ -30,6 +30,7 @@ public class OverviewController : MonoBehaviour
     public string turretBombSoundPath;
     public string turretAuraSoundPath;
     public string turretDestroySoundPath;
+    public string turretHealSoundPath;
     public string turretBuffSoundPath;
 
     // Start is called before the first frame update
@@ -103,11 +104,13 @@ public class OverviewController : MonoBehaviour
             _manager.SetComponentData(turret, new Translation {Value = position});
             _manager.AddBuffer<EnemiesInRange>(turret);
             _manager.AddBuffer<TurretsInRange>(turret);
+            _manager.AddComponent(turret, typeof(TurretFMODPaths));
             _manager.SetComponentData(turret, new TurretFMODPaths
             {
                 ShotPath = turretShotSoundPath,
                 DestroyPath = turretDestroySoundPath,
                 AuraPath = turretAuraSoundPath,
+                HealPath = turretHealSoundPath,
                 BuffPath = turretBuffSoundPath
             });
             GameController.GetInstance().UpdateResources(-20);
