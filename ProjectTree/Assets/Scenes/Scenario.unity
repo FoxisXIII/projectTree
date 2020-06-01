@@ -1002,6 +1002,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 679348850}
   m_CullTransparentMesh: 0
+--- !u!1 &734711384 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3605885318596676744, guid: 571cd4c17273bbc42b936bf5cdb5408f,
+    type: 3}
+  m_PrefabInstance: {fileID: 2073408743}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &734711394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 734711384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Event: event:/FX/Game/Start
+  PlayEvent: 1
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 0
+  OverrideMaxDistance: 0
 --- !u!1 &761057756
 GameObject:
   m_ObjectHideFlags: 0
@@ -1671,6 +1700,7 @@ GameObject:
   - component: {fileID: 1013665881}
   - component: {fileID: 1013665880}
   - component: {fileID: 1013665879}
+  - component: {fileID: 1013665883}
   m_Layer: 0
   m_Name: BirdCamera
   m_TagString: Untagged
@@ -1703,6 +1733,12 @@ MonoBehaviour:
   - {fileID: 6862334628331411265, guid: 5ec080030146b8142b23f0f6721ebeda, type: 3}
   - {fileID: 8050025665890462194, guid: 4723e42de014c764e8efc24ab829d226, type: 3}
   toCreateText: {fileID: 761057756}
+  turretCollocationSoundPath: event:/FX/Turret/Collocation
+  turretShotSoundPath: event:/FX/Turret/Shot
+  turretBombSoundPath: event:/FX/Turret/Bomb
+  turretAuraSoundPath: event:/FX/Turret/Aura
+  turretDestroySoundPath: event:/FX/Turret/Destroy
+  turretBuffSoundPath: event:/FX/Turret/Buff
 --- !u!81 &1013665880
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1710,7 +1746,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1013665878}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1013665881
 Camera:
   m_ObjectHideFlags: 0
@@ -1769,6 +1805,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
+--- !u!114 &1013665883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013665878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ListenerNumber: -1
 --- !u!1 &1078535663
 GameObject:
   m_ObjectHideFlags: 0
@@ -2402,6 +2451,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1619148654}
   m_CullTransparentMesh: 0
+--- !u!1 &1620517069 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3605885318740559963, guid: 571cd4c17273bbc42b936bf5cdb5408f,
+    type: 3}
+  m_PrefabInstance: {fileID: 2073408743}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1620517074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620517069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ListenerNumber: -1
 --- !u!114 &1656677906 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3721518561114567524, guid: 3d11c43aaeeccef4180ba4bd9b2a4170,
@@ -2880,6 +2948,46 @@ PrefabInstance:
       propertyPath: birdCamera
       value: 
       objectReference: {fileID: 1013665878}
+    - target: {fileID: 3605885318596676747, guid: 571cd4c17273bbc42b936bf5cdb5408f,
+        type: 3}
+      propertyPath: jumpSoundPath
+      value: event:/FX/Character/StartJump
+      objectReference: {fileID: 0}
+    - target: {fileID: 3605885318596676747, guid: 571cd4c17273bbc42b936bf5cdb5408f,
+        type: 3}
+      propertyPath: shotSoundPath
+      value: event:/FX/Character/Shot
+      objectReference: {fileID: 0}
+    - target: {fileID: 3605885318596676747, guid: 571cd4c17273bbc42b936bf5cdb5408f,
+        type: 3}
+      propertyPath: endJumpSoundPath
+      value: event:/FX/Character/EndJump
+      objectReference: {fileID: 0}
+    - target: {fileID: 3605885318596676747, guid: 571cd4c17273bbc42b936bf5cdb5408f,
+        type: 3}
+      propertyPath: hitSoundPath
+      value: event:/FX/Character/ReceiveDamage
+      objectReference: {fileID: 0}
+    - target: {fileID: 3605885318596676747, guid: 571cd4c17273bbc42b936bf5cdb5408f,
+        type: 3}
+      propertyPath: idleSoundPath
+      value: event:/FX/Character/Idle
+      objectReference: {fileID: 0}
+    - target: {fileID: 3605885318596676747, guid: 571cd4c17273bbc42b936bf5cdb5408f,
+        type: 3}
+      propertyPath: dieSoundPath
+      value: event:/FX/Character/Die
+      objectReference: {fileID: 0}
+    - target: {fileID: 3605885318596676747, guid: 571cd4c17273bbc42b936bf5cdb5408f,
+        type: 3}
+      propertyPath: healSoundPath
+      value: event:/FX/Character/Heal
+      objectReference: {fileID: 0}
+    - target: {fileID: 3605885318596676747, guid: 571cd4c17273bbc42b936bf5cdb5408f,
+        type: 3}
+      propertyPath: stepSoundPath
+      value: event:/FX/Character/Steps
+      objectReference: {fileID: 0}
     - target: {fileID: 3605885318596676749, guid: 571cd4c17273bbc42b936bf5cdb5408f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3054,6 +3162,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8160316166248286609, guid: 3d11c43aaeeccef4180ba4bd9b2a4170,
+        type: 3}
+      propertyPath: enterMenuSoundPath
+      value: event:/FX/Menu/Open
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160316166248286609, guid: 3d11c43aaeeccef4180ba4bd9b2a4170,
+        type: 3}
+      propertyPath: exitMenuSoundPath
+      value: event:/FX/Menu/Close
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d11c43aaeeccef4180ba4bd9b2a4170, type: 3}
 --- !u!1001 &3235805898378681207
@@ -3090,6 +3208,11 @@ PrefabInstance:
       propertyPath: LifeImage
       value: 
       objectReference: {fileID: 1656677906}
+    - target: {fileID: 2871665260106136060, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
+      propertyPath: baseDestroySoundPath
+      value: event:/FX/Base/Destroy
+      objectReference: {fileID: 0}
     - target: {fileID: 3235805898192389624, guid: 8de2162f7e7e85f46900777feda8c73a,
         type: 3}
       propertyPath: m_LocalPosition.x

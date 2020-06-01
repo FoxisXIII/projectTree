@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMOD.Studio;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -23,6 +24,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private float WalkSpeed;
     private float RunSpeed;
     public KeyCode RunKey = KeyCode.LeftShift;
+    private float timeBetweenSteps;
 
     //Gravedad
     public float gravity = 9.8f;
@@ -36,7 +38,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private Vector3 camForward;
     private Vector3 camRight;
 
-    //Disparo
+    [Header("Shooting")]
     public GameObject Bullet;
     public GameObject LocFire;
     [Range(0, 1)] public float initFireRate;
@@ -49,7 +51,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private Entity bulletEntityPrefab;
     private BlobAssetStore blobBullet;
 
-    //Life
+    [Header("HP")]
     public float maxLife;
     [HideInInspector] public float life;
     public Text lifeText;
@@ -60,12 +62,12 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public Text recValue;
 
 
-    //Turret Spawner
+    [Header("Turrets")]
     public Transform instantiateTurrets;
     private PreviewTurret _instantiatedPreviewTurret;
     private bool _turretCanBePlaced;
 
-    //Trap spawner
+    [Header("Traps")]
     public GameObject previewTrap;
     public GameObject trap;
     private PreviewTurret _instantiatedPreviewTrap;
@@ -85,11 +87,23 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private Dictionary<Entity, Vector3> enemies;
 
 
-    //Change Camera
+    [Header("Change camera")]
     public GameObject fpsCamera;
     public GameObject birdCamera;
     public KeyCode cameraChange;
     public bool cameraChanged;
+
+    [Header("FMOD paths")] 
+    public string jumpSoundPath;
+    public string endJumpSoundPath;
+    public string stepSoundPath;
+    public string shotSoundPath;
+    public string hitSoundPath;
+    public string healSoundPath;
+    public string idleSoundPath;
+    public string dieSoundPath;
+    private EventInstance idleSoundEvent;
+    
 
     private void Awake()
     {
@@ -188,6 +202,25 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 speed = WalkSpeed;
             }
 
+            
+            float stepsVelocity = timeBetweenSteps;
+            if (movPlayer.Equals(Vector3.zero))
+            {
+                if (!SoundManager.GetInstance().IsPlaying(idleSoundEvent))
+                {
+                    idleSoundEvent = SoundManager.GetInstance().PlayEvent(idleSoundPath, transform.position);
+                }
+            }
+            else
+            {
+                idleSoundEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                // timeBetweenSteps += Time.deltaTime;
+                // if (timeBetweenSteps >= stepsVelocity)
+                // {
+                //     timeBetweenSteps = 0;
+                //     SoundManager.GetInstance().PlayOneShotSound(stepSoundPath, transform);
+                // }
+            }
             movPlayer = movPlayer * speed;
 
             setGravity();
@@ -234,6 +267,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         {
             VelCaida = jumpForce;
             movPlayer.y = VelCaida;
+            SoundManager.GetInstance().PlayOneShotSound(jumpSoundPath, transform);
         }
     }
 
@@ -252,6 +286,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
         manager.SetComponentData(bullet, new Translation {Value = position});
         manager.SetComponentData(bullet, new Rotation {Value = rotation});
+        SoundManager.GetInstance().PlayOneShotSound(shotSoundPath, transform);
         var damage = manager.GetComponentData<DealsDamage>(bullet);
         damage.Value = this.damage;
         manager.SetComponentData(bullet, damage);
@@ -299,7 +334,14 @@ public class ThirdPersonCharacterController : MonoBehaviour
         color.a = life / maxLife;
         LifeImage.color = color;
         if (life <= 0)
+        {
+            SoundManager.GetInstance().PlayOneShotSound(dieSoundPath,transform);
             GameController.GetInstance().gameOver();
+        }
+        else
+        {
+            SoundManager.GetInstance().PlayOneShotSound(hitSoundPath, transform);
+        }
     }
 
 
@@ -343,6 +385,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         StopBuffs();
         life = Mathf.Min(life + health, maxLife);
         lifeText.text = life.ToString();
+        SoundManager.GetInstance().PlayOneShotSound(healSoundPath, transform);
     }
 
     public void IncreaseResources(int resources)

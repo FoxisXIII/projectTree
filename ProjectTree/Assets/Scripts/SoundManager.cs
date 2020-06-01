@@ -4,13 +4,18 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using FMOD.Studio;
 using FMODUnity;
+using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 
-public class SoundManager : MonoBehaviour
+public class SoundManager
 {
     private static SoundManager Instance;
-    private List<EventInstance> eventsList;
+    private List<EventInstance> eventsList = new List<EventInstance>();
+    
+    private SoundManager()
+    {
+    }
 
     public static SoundManager GetInstance()
     {
@@ -20,32 +25,6 @@ public class SoundManager : MonoBehaviour
         }
 
         return Instance;
-    }
-
-    private void Start()
-    {
-        eventsList = new List<EventInstance>();
-    }
-
-    private void Update()
-    {
-        // if (positionEvents != null && positionEvents.Count > 0)
-        // {
-        //     for (int i = 0; i < positionEvents.Count; i++)
-        //     {
-        //         PLAYBACK_STATE state;
-        //         EventInstance eventInstance = positionEvents[i].GetEventInstance();
-        //         eventInstance.getPlaybackState(out state);
-        //         if (state == PLAYBACK_STATE.STOPPED)
-        //         {
-        //             positionEvents.RemoveAt(i);
-        //         }
-        //         else
-        //         {
-        //             eventInstance.set3DAttributes(RuntimeUtils.To3DAttributes(positionEvents[i].GetTransform.position));
-        //         }
-        //     }
-        // }
     }
 
     public bool IsPlaying(EventInstance soundEvent)
@@ -62,26 +41,26 @@ public class SoundManager : MonoBehaviour
         {
             soundEvent.set3DAttributes(RuntimeUtils.To3DAttributes(position));
             soundEvent.start();
-            eventsList.Add(soundEvent);
+            //eventsList.Add(soundEvent);
         }
-
         return soundEvent;
     }
 
-    public void PlayEventOnGameObject(string path, Transform transform, Rigidbody r = null)
-    {
-        EventInstance soundEvent = RuntimeManager.CreateInstance(path);
-        if (!soundEvent.Equals(null))
-        {
-            if (r.Equals(null))
-                r = new Rigidbody();
-            RuntimeManager.AttachInstanceToGameObject(soundEvent, transform, r);
-            soundEvent.start();
-            eventsList.Add(soundEvent);
-        }
-    }
-
-    //Para objetos en movimiento que actualizan la posición del sonido
+    // public void PlayEventOnGameObject(string path, Transform transform, Rigidbody r = null)
+    // {
+    //     EventInstance soundEvent = RuntimeManager.CreateInstance(path);
+    //     if (!soundEvent.Equals(null))
+    //     {
+    //         if (r.Equals(null))
+    //             r = new Rigidbody();
+    //         RuntimeManager.AttachInstanceToGameObject(soundEvent, transform, r);
+    //         soundEvent.start();
+    //         eventsList.Add(soundEvent);
+    //     }
+    // }
+    
+    
+    //Para sonidos que no queremos controlar, que cuando acaban, se destruyen solos
     public void PlayOneShotSound(string path, Transform transform)
     {
         EventInstance soundEvent = RuntimeManager.CreateInstance(path);
@@ -89,8 +68,17 @@ public class SoundManager : MonoBehaviour
         {
             soundEvent.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
             soundEvent.start();
-            //SoundManagerMovingSound movingSound = new SoundManagerMovingSound(transform, soundEvent);
-            //positionEvents.Add(movingSound);
+            soundEvent.release();
+        }
+    }
+
+    public void PlayOneShotSound(string path, Vector3 position)
+    {
+        EventInstance soundEvent = RuntimeManager.CreateInstance(path);
+        if (!soundEvent.Equals(null))
+        {
+            soundEvent.set3DAttributes(RuntimeUtils.To3DAttributes(position));
+            soundEvent.start();
             soundEvent.release();
         }
     }

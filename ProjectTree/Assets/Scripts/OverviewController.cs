@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMOD;
 using TMPro;
 using Unity.Entities;
 using Unity.Transforms;
@@ -22,6 +23,14 @@ public class OverviewController : MonoBehaviour
     private List<Entity> turretsToCreate;
     private int _indexToCreate;
     public GameObject toCreateText;
+
+    [Header("FMOD")]
+    public string turretCollocationSoundPath;
+    public string turretShotSoundPath;
+    public string turretBombSoundPath;
+    public string turretAuraSoundPath;
+    public string turretDestroySoundPath;
+    public string turretBuffSoundPath;
 
     // Start is called before the first frame update
     void Start()
@@ -94,7 +103,15 @@ public class OverviewController : MonoBehaviour
             _manager.SetComponentData(turret, new Translation {Value = position});
             _manager.AddBuffer<EnemiesInRange>(turret);
             _manager.AddBuffer<TurretsInRange>(turret);
+            _manager.SetComponentData(turret, new TurretFMODPaths
+            {
+                ShotPath = turretShotSoundPath,
+                DestroyPath = turretDestroySoundPath,
+                AuraPath = turretAuraSoundPath,
+                BuffPath = turretBuffSoundPath
+            });
             GameController.GetInstance().UpdateResources(-20);
+            SoundManager.GetInstance().PlayOneShotSound(turretCollocationSoundPath, transform);
         }
     }
 

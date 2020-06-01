@@ -25,7 +25,7 @@ public class BulletShootingSystem : ComponentSystem
     {
         Entities.WithAll<TowerTag, TowerCurrentTarget>().ForEach((Entity entity, ref AttackSpeedComponent attackSpeed,
             ref BulletPrefabComponent bullet, ref Translation position, ref Rotation rotation,
-            ref TowerCurrentTarget tct) =>
+            ref TowerCurrentTarget tct, ref TurretFMODPaths paths) =>
         {
             timer -= Time.DeltaTime;
             if (timer <= 0)
@@ -37,6 +37,8 @@ public class BulletShootingSystem : ComponentSystem
                 var direction = Direction(position.Value, enemyPos);
 
                 EntityManager.SetComponentData(bulletEntity, new Translation {Value = position.Value});
+                
+                SoundManager.GetInstance().PlayOneShotSound(paths.ShotPath.ToString(), position.Value);
 
                 var movementData = EntityManager.GetComponentData<MovementData>(bulletEntity);
 

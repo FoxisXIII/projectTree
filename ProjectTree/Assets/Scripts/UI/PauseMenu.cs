@@ -10,6 +10,8 @@ public class PauseMenu : MonoBehaviour
 
     public static bool GameIsPaused = false;
     public GameObject pauseMenu,countime;
+    public string enterMenuSoundPath;
+    public string exitMenuSoundPath;
     
     // Start is called before the first frame update
     void Start()
@@ -40,6 +42,7 @@ public class PauseMenu : MonoBehaviour
                 transform.GetChild(i).gameObject.SetActive(false);
         }
 
+        SoundManager.GetInstance().PlayOneShotSound(enterMenuSoundPath, GameController.GetInstance().Player.transform);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         pauseMenu.SetActive(true);
@@ -62,6 +65,7 @@ public class PauseMenu : MonoBehaviour
                 transform.GetChild(i).gameObject.SetActive(true);
         }
 
+        SoundManager.GetInstance().PlayOneShotSound(exitMenuSoundPath, GameController.GetInstance().Player.transform);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         pauseMenu.SetActive(false);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMOD;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +21,8 @@ public class Base : MonoBehaviour
     private int materialCreation;
     
     public Image LifeImage;
+
+    public string baseDestroySoundPath;
 
 
     private void Awake()
@@ -41,8 +44,11 @@ public class Base : MonoBehaviour
         var color=LifeImage.color;
         color.a = life/1000;
         LifeImage.color = color;
-        if(life<=0)
+        if (life <= 0)
+        {
+            SoundManager.GetInstance().PlayOneShotSound(baseDestroySoundPath, transform.position);
             GameController.GetInstance().gameOver();
+        }
 
     }
 }
