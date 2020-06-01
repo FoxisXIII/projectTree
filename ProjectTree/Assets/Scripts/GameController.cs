@@ -66,7 +66,8 @@ public class GameController
         UpdateResources(100);
         _player.recValue.text = RecursosA.ToString();
         _waveInProcess = false;
-        SoundManager.GetInstance().PlayOneShotSound(endRoundSoundPath, _player.transform.position);
+        if (_waveCounter != 0)
+            SoundManager.GetInstance().PlayOneShotSound(endRoundSoundPath, _player.transform.position);
     }
 
     public void AddEnemyWave()
