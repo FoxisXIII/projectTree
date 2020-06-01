@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.Experimental.AI;
 using Random = UnityEngine.Random;
 
-[UpdateAfter(typeof(EnemiesCollisionsSystem))]
+[UpdateBefore(typeof(EnemiesCollisionsSystem))]
 [UpdateBefore(typeof(MovementSystem))]
 [AlwaysSynchronizeSystem]
 public class MoveToSystem : JobComponentSystem
@@ -41,24 +41,24 @@ public class MoveToSystem : JobComponentSystem
 
                         var direction = float3.zero;
                         if (aiData.goToEntity)
-                            direction = aiData.entityPosition - translation.Value;
+                            direction = translations[aiData.entity].Value - translation.Value;
                         else
                             direction = buffers[entity][aiData.counter].position - translation.Value;
-                        // movementData = SetRotation(movementData, direction, aiData.canFly);
+                        movementData = SetRotation(movementData, direction, aiData.canFly);
 
-                        if (aiData.goToEntity)
-                        {
-                            direction = translations[aiData.entity].Value - translation.Value;
-                            var magnitude = Magnitude(direction);
-                            if (magnitude > aiData.attackDistancePlayer)
-                                aiData.stop = false;
-                        }
-                        else
-                        {
-                            direction = translation.Value - buffers[entity][buffers[entity].Length - 1].position;
-                            if (Magnitude(direction) > 1 && aiData.counter < buffers[entity].Length - 1)
-                                aiData.stop = false;
-                        }
+                        // if (aiData.goToEntity)
+                        // {
+                        //     direction = translations[aiData.entity].Value - translation.Value;
+                        //     var magnitude = Magnitude(direction);
+                        //     if (magnitude > aiData.attackDistancePlayer)
+                        //         aiData.stop = false;
+                        // }
+                        // else
+                        // {
+                        //     direction = translation.Value - buffers[entity][buffers[entity].Length - 1].position;
+                        //     if (Magnitude(direction) > 1 && aiData.counter < buffers[entity].Length - 1)
+                        //         aiData.stop = false;
+                        // }
                     }
                     else
                     {
@@ -71,23 +71,27 @@ public class MoveToSystem : JobComponentSystem
                                     translations[aiData.entity].Value.z) - new float3(translation.Value.x,
                                     0, translation.Value.z);
                             else
-                                direction = translations[aiData.entity].Value - translation.Value;
+                            {
+                                var destination = translations[aiData.entity].Value;
+                                destination.y += .5f;
+                                direction = destination - translation.Value;
+                            }
 
                             var magnitude = Magnitude(direction);
                             if (magnitude < aiData.attackDistancePlayer)
                             {
-                                animationData = ChangeAnimation(0, animationData);
-                                movementData = StopMovement(movementData);
+                                aiData.stop = true;
                             }
                             else
                             {
                                 animationData = ChangeAnimation(1, animationData);
                                 movementData = SetDirection(movementData, direction, magnitude);
                             }
-
-                            if (aiData.entity != Entity.Null)
-                                movementData = SetRotation(movementData,
+                            
+                            movementData = SetRotation(movementData,
                                     translations[aiData.entity].Value - translation.Value, aiData.canFly);
+                            movementData.rotation.value.x = 0;
+                            movementData.rotation.value.z = 0;
 
                             if (aiData.counter < buffers[entity].Length)
                             {
@@ -109,9 +113,8 @@ public class MoveToSystem : JobComponentSystem
                                     aiData.counter++;
                                 else
                                 {
-                                    animationData = ChangeAnimation(0, animationData);
                                     aiData.counter = buffers[entity].Length - 1;
-                                    movementData = StopMovement(movementData);
+                                    aiData.stop = true;
                                 }
                             }
                             else
@@ -158,7 +161,7 @@ public class MoveToSystem : JobComponentSystem
             float3 lookAt = math.normalize(direction);
             var rotation = quaternion.LookRotation(lookAt, math.up());
             rotation = math.mul(rotation, quaternion.RotateY(math.radians(lookAt.y)));
-            rotation = math.mul(rotation, quaternion.RotateX(math.radians(lookAt.z)));
+            rotation = math.mul(rotation, quaternion.RotateX(math.radians(lookAt.x)));
             movementData.rotation = rotation;
         }
         else
@@ -166,7 +169,7 @@ public class MoveToSystem : JobComponentSystem
             float3 lookAt = math.normalize(direction);
             var rotation = quaternion.LookRotation(lookAt, math.up());
             rotation = math.mul(rotation, quaternion.RotateY(math.radians(lookAt.y)));
-            rotation = math.mul(rotation, quaternion.RotateX(math.radians(lookAt.z)));
+            rotation = math.mul(rotation, quaternion.RotateX(math.radians(lookAt.x)));
             movementData.rotation = rotation;
         }
         // movementData.rotation = Quaternion.identity;

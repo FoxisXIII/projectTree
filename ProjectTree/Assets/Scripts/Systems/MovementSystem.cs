@@ -31,8 +31,6 @@ namespace Systems
                     velocity.Angular.z = 0;
 
                     rotation.Value = movementData.rotation;
-                    rotation.Value.value.x = 0;
-                    rotation.Value.value.z = 0;
                 }
             }).Run();
             return default;

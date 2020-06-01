@@ -63,7 +63,7 @@ namespace Systems
                                     animationData._animationType = 2;
                                     if (aiData.canFly)
                                     {
-                                        //INSTANTIATE LASER
+                                        aiData.shot = true;
                                     }
                                     else
                                     {

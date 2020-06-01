@@ -403,7 +403,7 @@ MonoBehaviour:
     m_BevelRadius: 0.05
     m_MinimumAngle: 2.5000002
   m_CustomMesh: {fileID: 0}
-  m_ForceUnique: 0
+  m_ForceUnique: 1
   m_Material:
     m_SupportsTemplate: 1
     m_Template: {fileID: 0}
@@ -413,7 +413,7 @@ MonoBehaviour:
     m_Friction:
       m_Override: 0
       m_Value:
-        Value: 0.5
+        Value: 0
         CombineMode: 0
     m_Restitution:
       m_Override: 0
@@ -2779,7 +2779,7 @@ PrefabInstance:
         type: 3}
       propertyPath: enemyFlyPrefab
       value: 
-      objectReference: {fileID: 7367341402242520697, guid: f129b94ba23cb6242be87ea51728af26,
+      objectReference: {fileID: 8141945550234117562, guid: 27f03128817fa2f4ebabd56e0140c8e1,
         type: 3}
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
@@ -4688,7 +4688,7 @@ PrefabInstance:
         type: 3}
       propertyPath: enemyFlyPrefab
       value: 
-      objectReference: {fileID: 7367341402242520697, guid: f129b94ba23cb6242be87ea51728af26,
+      objectReference: {fileID: 8141945550234117562, guid: 27f03128817fa2f4ebabd56e0140c8e1,
         type: 3}
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
@@ -6296,7 +6296,7 @@ PrefabInstance:
         type: 3}
       propertyPath: enemyFlyPrefab
       value: 
-      objectReference: {fileID: 7367341402242520697, guid: f129b94ba23cb6242be87ea51728af26,
+      objectReference: {fileID: 8141945550234117562, guid: 27f03128817fa2f4ebabd56e0140c8e1,
         type: 3}
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}

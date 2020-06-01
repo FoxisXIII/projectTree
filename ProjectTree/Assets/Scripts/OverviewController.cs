@@ -62,53 +62,57 @@ public class OverviewController : MonoBehaviour
                 Destroy(_instantiatedPreviewTurret);
             }
         }
-
-        if (goToPosition)
+        else
         {
-            transform.position =
-                Vector3.MoveTowards(transform.position, position.transform.position, 50 * Time.deltaTime);
-            transform.rotation = Quaternion.Lerp(transform.rotation, position.transform.rotation, Time.deltaTime);
-
-            if (transform.position == position.transform.position)
-                goToPosition = false;
-        }
-
-        if (goToCharacter)
-        {
-            transform.position = Vector3.MoveTowards(transform.position,
-                GameController.GetInstance().Player.fpsCamera.transform.position, 50 * Time.deltaTime);
-            transform.rotation = Quaternion.Lerp(transform.rotation,
-                GameController.GetInstance().Player.fpsCamera.transform.rotation, Time.deltaTime);
-
-            if (transform.position == GameController.GetInstance().Player.fpsCamera.transform.position)
+            if (goToPosition)
             {
-                goToCharacter = false;
-                GameController.GetInstance().Player.characterController.enabled = true;
-                GameController.GetInstance().Player.fpsCamera.SetActive(true);
-                GameController.GetInstance().Player.cameraChanged = false;
-                gameObject.SetActive(false);
-            }
-        }
+                transform.position =
+                    Vector3.MoveTowards(transform.position, position.transform.position, 50 * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation, position.transform.rotation, Time.deltaTime);
 
-        for (int i = 1; i < turretsToCreate.Count + 1; i++)
-        {
-            if (Input.GetKeyDown(i.ToString()))
-            {
-                _indexToCreate = i - 1;
-                CreatePreviewTurret();
-                _creating = true;
-            }
-        }
-
-        if (_creating)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                CreateTurret(_indexToCreate);
-                _creating = false;
+                if (transform.position == position.transform.position)
+                    goToPosition = false;
             }
 
-            UpdatePreviewTurret();
+            if (goToCharacter)
+            {
+                transform.position = Vector3.MoveTowards(transform.position,
+                    GameController.GetInstance().Player.fpsCamera.transform.position, 50 * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation,
+                    GameController.GetInstance().Player.fpsCamera.transform.rotation, Time.deltaTime);
+
+                if (transform.position == GameController.GetInstance().Player.fpsCamera.transform.position)
+                {
+                    goToCharacter = false;
+                    GameController.GetInstance().Player.characterController.enabled = true;
+                    GameController.GetInstance().Player.fpsCamera.SetActive(true);
+                    GameController.GetInstance().Player.cameraChanged = false;
+                    gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                for (int i = 1; i < turretsToCreate.Count + 1; i++)
+                {
+                    if (Input.GetKeyDown(i.ToString()))
+                    {
+                        _indexToCreate = i - 1;
+                        CreatePreviewTurret();
+                        _creating = true;
+                    }
+                }
+
+                if (_creating)
+                {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        CreateTurret(_indexToCreate);
+                        _creating = false;
+                    }
+
+                    UpdatePreviewTurret();
+                }
+            }
         }
     }
 
@@ -140,7 +144,7 @@ public class OverviewController : MonoBehaviour
             var gridPosition = grid.GetNearestpointOnGrid(hit.point);
             if (!gridPosition.Equals(Vector3.zero))
             {
-                gridPosition.y = hit.point.y + 1f;
+                gridPosition.y = hit.point.y;
                 _instantiatedPreviewTurret.gameObject.transform.position = gridPosition;
             }
         }

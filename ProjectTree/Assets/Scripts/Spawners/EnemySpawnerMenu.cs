@@ -65,7 +65,6 @@ public class EnemySpawnerMenu : MonoBehaviour
         if (aiData.canFly)
 
             aiData.state = 0;
-        aiData.me = enemy;
         _entityManager.SetComponentData(enemy, aiData);
 
         _entityManager.AddBuffer<EnemyPosition>(enemy).AddRange(GetAllPositions(random,

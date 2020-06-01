@@ -35,7 +35,6 @@ public class BulletShootingSystem : ComponentSystem
                 var enemyPos = EntityManager.GetComponentData<Translation>(tct.target).Value;
                 enemyPos.y += 1f;
                 var direction = Direction(position.Value, enemyPos);
-
                 EntityManager.SetComponentData(bulletEntity, new Translation {Value = position.Value});
 
                 var movementData = EntityManager.GetComponentData<MovementData>(bulletEntity);
