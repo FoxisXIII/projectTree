@@ -107,7 +107,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public CinemachineFreeLook cine;
     
 
-    private float minRotate = -18f, maxRotate = 1f;
+    private float minRotate = 253f, maxRotate = 275f;
     /*
     public Transform Target;
     public Vector3 Offset;
@@ -221,9 +221,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
             if (dirMouse!=0)
             {
                 if (dirMouse < 0)
-                    speedRotation = -2;
-                else speedRotation = 2;
-                Debug.Log("Valor actual de z: "+chest.rotation.eulerAngles.y);
+                    speedRotation = -1;
+                else speedRotation = 1;
+                Debug.Log("Valor actual de z: "+chest.rotation.eulerAngles.z);
                 if (chest.rotation.eulerAngles.z<maxRotate&&chest.rotation.eulerAngles.z>minRotate)
                 {
                     
@@ -232,6 +232,20 @@ public class ThirdPersonCharacterController : MonoBehaviour
                     
                     chest.Rotate(0,0,speedRotation);
                 }
+                else
+                {
+                    if (chest.rotation.eulerAngles.z>maxRotate)
+                    {
+                        chest.Rotate(0,0,-2);
+                    }
+
+                    if (chest.rotation.eulerAngles.z<minRotate)
+                    {
+                        chest.Rotate(0,0,2);
+                    }
+                }
+
+                
                 
             }
             
