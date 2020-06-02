@@ -108,8 +108,8 @@ MonoBehaviour:
   turnSmoothTime: 0.1
   cam: {fileID: 0}
   RunKey: 304
-  gravity: 29.4
-  jumpForce: 15
+  gravity: 9.8
+  jumpForce: 3
   Bullet: {fileID: 2780486008673328708, guid: 09f192d02fd26fc42ac8893add404947, type: 3}
   LocFire: {fileID: 4171221241117936898}
   initFireRate: 0.5
@@ -131,8 +131,9 @@ MonoBehaviour:
   cameraChange: 99
   cameraChanged: 0
   lastAnimatorKey: 
-  chest: {fileID: 0}
-  speedRotation: 0
+  chest: {fileID: 4442728985794429971}
+  speedRotation: 0.1
+  cine: {fileID: 0}
 --- !u!114 &3766962800411028534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,7 +231,7 @@ MonoBehaviour:
       m_Value: 0
     m_CustomTags:
       m_Override: 0
-      m_Value: 0000000000000000
+      m_Value: 0101010101010101
   m_ConvexRadius_Deprecated: -1
 --- !u!136 &1264852721
 CapsuleCollider:
