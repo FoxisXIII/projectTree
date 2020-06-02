@@ -267,7 +267,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         {
             VelCaida = jumpForce;
             movPlayer.y = VelCaida;
-            SoundManager.GetInstance().PlayOneShotSound(jumpSoundPath, transform);
+            SoundManager.GetInstance().PlayOneShotSound(jumpSoundPath, transform.position);
         }
     }
 
@@ -286,7 +286,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
         manager.SetComponentData(bullet, new Translation {Value = position});
         manager.SetComponentData(bullet, new Rotation {Value = rotation});
-        SoundManager.GetInstance().PlayOneShotSound(shotSoundPath, transform);
+        SoundManager.GetInstance().PlayOneShotSound(shotSoundPath, position);
         var damage = manager.GetComponentData<DealsDamage>(bullet);
         damage.Value = this.damage;
         manager.SetComponentData(bullet, damage);
@@ -325,22 +325,16 @@ public class ThirdPersonCharacterController : MonoBehaviour
     }
 
 
-    public void ReceiveDamage(int damage)
+    public void ReceiveDamage()
     {
-        life -= damage;
-        lifeText.text = life.ToString();
-        var color = LifeImage.color;
-        Debug.Log(life / maxLife);
-        color.a = life / maxLife;
-        LifeImage.color = color;
         if (life <= 0)
         {
-            SoundManager.GetInstance().PlayOneShotSound(dieSoundPath,transform);
+            SoundManager.GetInstance().PlayOneShotSound(dieSoundPath, transform.position);
             GameController.GetInstance().gameOver();
         }
         else
         {
-            SoundManager.GetInstance().PlayOneShotSound(hitSoundPath, transform);
+            SoundManager.GetInstance().PlayOneShotSound(hitSoundPath, transform.position);
         }
     }
 
@@ -385,7 +379,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         StopBuffs();
         life = Mathf.Min(life + health, maxLife);
         lifeText.text = life.ToString();
-        SoundManager.GetInstance().PlayOneShotSound(healSoundPath, transform);
+        SoundManager.GetInstance().PlayOneShotSound(healSoundPath, transform.position);
     }
 
     public void IncreaseResources(int resources)
@@ -424,5 +418,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
         fireRate = initFireRate;
         damage = initialDamage;
         shotgun = false;
+    }
+
+    private void Step()
+    {
+        SoundManager.GetInstance().PlayOneShotSound(stepSoundPath, transform.position);
     }
 }

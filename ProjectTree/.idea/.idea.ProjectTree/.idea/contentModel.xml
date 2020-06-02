@@ -76,6 +76,7 @@
             <e p="CollisionEnemy.cs" t="Include" />
             <e p="DamageComponent.cs" t="Include" />
             <e p="DeadComponent.cs" t="Include" />
+            <e p="EnemyFMODPaths.cs" t="Include" />
             <e p="EnemyPosition.cs" t="Include" />
             <e p="EnemyTag.cs" t="Include" />
             <e p="ExplosionComponent.cs" t="Include" />
@@ -137,7 +138,10 @@
             <e p="Boton.cs" t="Include" />
             <e p="Validador.cs" t="Include" />
           </e>
-          <e p="SoundManager.cs" t="Include" />
+          <e p="Sound" t="Include">
+            <e p="MovingSound.cs" t="Include" />
+            <e p="SoundManager.cs" t="Include" />
+          </e>
           <e p="Spawners" t="Include">
             <e p="EnemySpawner.cs" t="Include" />
             <e p="WaveController.cs" t="Include" />

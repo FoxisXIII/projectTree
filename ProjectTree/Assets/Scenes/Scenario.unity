@@ -1008,29 +1008,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2073408743}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &734711385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 734711384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CollisionTag: 
-  Event: 
-  PlayEvent: 0
-  StopEvent: 0
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: -1
-  OverrideMaxDistance: -1
 --- !u!114 &734711394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1836,7 +1813,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1013665878}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
   m_Name: 
@@ -3067,6 +3044,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3605885318740559962, guid: 571cd4c17273bbc42b936bf5cdb5408f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 571cd4c17273bbc42b936bf5cdb5408f, type: 3}
 --- !u!1001 &450531674813251841
@@ -3302,5 +3284,95 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 719c9539bb610514894a28ceb3dc0b12, type: 2}
+    - target: {fileID: 8714655531306366450, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
+      propertyPath: groundMovementSoundPath
+      value: event:/FX/Enemy/TankMovement
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714655531306366450, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
+      propertyPath: airMovementSoundPath
+      value: event:/FX/Enemy/DroneMovement
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714655531306366450, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
+      propertyPath: attackPlayerSoundPath
+      value: event:/FX/Enemy/AttackPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714655531306366450, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
+      propertyPath: attackBaseSoundPath
+      value: event:/FX/Enemy/AttackBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714655531306366450, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
+      propertyPath: hitSoundPath
+      value: event:/FX/Enemy/ReceiveDamage
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714655531306366450, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
+      propertyPath: dieSoundPath
+      value: event:/FX/Enemy/Die
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714655532376469625, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
+      propertyPath: airMovementSoundPath
+      value: event:/FX/Enemy/DroneMovement
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714655532376469625, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
+      propertyPath: groundMovementSoundPath
+      value: event:/FX/Enemy/TankMovement
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714655532376469625, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
+      propertyPath: attackPlayerSoundPath
+      value: event:/FX/Enemy/AttackPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714655532376469625, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
+      propertyPath: attackBaseSoundPath
+      value: event:/FX/Enemy/AttackBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714655532376469625, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
+      propertyPath: hitSoundPath
+      value: event:/FX/Enemy/ReceiveDamage
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714655532376469625, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
+      propertyPath: dieSoundPath
+      value: event:/FX/Enemy/Die
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714655532654386036, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
+      propertyPath: groundMovementSoundPath
+      value: event:/FX/Enemy/TankMovement
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714655532654386036, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
+      propertyPath: airMovementSoundPath
+      value: event:/FX/Enemy/DroneMovement
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714655532654386036, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
+      propertyPath: attackPlayerSoundPath
+      value: event:/FX/Enemy/AttackPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714655532654386036, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
+      propertyPath: attackBaseSoundPath
+      value: event:/FX/Enemy/AttackBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714655532654386036, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
+      propertyPath: hitSoundPath
+      value: event:/FX/Enemy/ReceiveDamage
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714655532654386036, guid: 8de2162f7e7e85f46900777feda8c73a,
+        type: 3}
+      propertyPath: dieSoundPath
+      value: event:/FX/Enemy/Die
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8de2162f7e7e85f46900777feda8c73a, type: 3}

@@ -55,7 +55,10 @@ namespace Systems
                             if (aiData.attackWait >= aiData.attackRate)
                             {
                                 if (healthGroup.Exists(aiData.entity))
+                                {
                                     healthGroup[aiData.entity].Add(new Damage() {Value = aiData.attackDamage});
+                                    GameController.GetInstance().Player.ReceiveDamage();
+                                }
                                 aiData.attackWait = 0;
                             }
                             

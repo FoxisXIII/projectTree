@@ -163,6 +163,7 @@ GameObject:
   - component: {fileID: 5761566178846623500}
   - component: {fileID: 8171287326174000517}
   - component: {fileID: 4052090944905896833}
+  - component: {fileID: -6334182418261033650}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -285,6 +286,7 @@ MonoBehaviour:
     z: 0
   entity: {fileID: 0}
   stop: 0
+  me: {fileID: 0}
 --- !u!114 &5761566178846623500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,6 +325,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Values: 
+--- !u!114 &-6334182418261033650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4962769595136294854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Event: event:/FX/Enemy/DroneMovement
+  PlayEvent: 0
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 1
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 0
+  OverrideMaxDistance: 0
 --- !u!114 &9115093915190438872
 MonoBehaviour:
   m_ObjectHideFlags: 0

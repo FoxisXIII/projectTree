@@ -20,6 +20,14 @@ public class EnemySpawner : MonoBehaviour
     private BlobAssetStore blobAssetStore;
     public float3[] min, max;
 
+    [Header("FMOD paths")] 
+    public string groundMovementSoundPath;
+    public string airMovementSoundPath;
+    public string attackPlayerSoundPath;
+    public string attackBaseSoundPath;
+    public string hitSoundPath;
+    public string dieSoundPath;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +48,16 @@ public class EnemySpawner : MonoBehaviour
         var aiData = _entityManager.GetComponentData<AIData>(enemy);
         aiData.state = 0;
         aiData.me = enemy;
+        _entityManager.AddComponent(enemy, typeof(EnemyFMODPaths));
+        _entityManager.SetComponentData(enemy, new EnemyFMODPaths
+        {
+            GroundMovementPath = groundMovementSoundPath,
+            AirMovementPath = airMovementSoundPath,
+            AttackBasePath = attackBaseSoundPath,
+            AttackPlayerPath = attackPlayerSoundPath,
+            HitPath = hitSoundPath,
+            DiePath = dieSoundPath
+        });
         _entityManager.SetComponentData(enemy, aiData);
 
         _entityManager.AddBuffer<EnemyPosition>(enemy).AddRange(GetAllPositions(random));
