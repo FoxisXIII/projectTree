@@ -16,9 +16,7 @@ public class WaveController : MonoBehaviour
     public float waveCooldown;
     public float enemySpawnRate;
     public int maxWaveEnemies;
-
-    public Material[] flyAnim;
-    public Material[] groundAnim;
+    
 
     [SerializeField] private TextMeshProUGUI nextRoundTimeText;
     [SerializeField] private TextMeshProUGUI roundText;
@@ -31,11 +29,6 @@ public class WaveController : MonoBehaviour
         GameController.GetInstance().MaxWaveEnemies = maxWaveEnemies;
         GameController.GetInstance().EnemiesSpawnRate = enemySpawnRate;
         GameController.GetInstance().EnemiesKilled = 0;
-
-        Dictionary<String, List<Material>> dict = new Dictionary<string, List<Material>>();
-        dict.Add("Dron", new List<Material>(flyAnim));
-        dict.Add("Tank", new List<Material>(groundAnim));
-        GameController.GetInstance().setMaterials(dict);
 
         _canEndWave = true;
     }

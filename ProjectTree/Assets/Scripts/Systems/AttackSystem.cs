@@ -23,9 +23,8 @@ namespace Systems
 
         protected override JobHandle OnUpdate(JobHandle inputDeps)
         {
-            var deltaTime = Time.DeltaTime;
             var playerBase = GameController.GetInstance().Base;
-
+            var deltaTime = Time.DeltaTime;
             var buffers = GetBufferFromEntity<EnemyPosition>();
             var healthGroup = GetBufferFromEntity<Damage>();
             var translations = GetComponentDataFromEntity<Translation>();
@@ -33,15 +32,15 @@ namespace Systems
             Entities
                 .ForEach(
                     (ref AIData aiData, ref Translation translation, ref MovementData movementData,
-                        ref Entity entity,ref AnimationData animationData) =>
+                        ref Entity entity) =>
                     {
                         if (math.distance(buffers[entity][buffers[entity].Length - 1].position, translation.Value) <
                             aiData.attackDistanceBase)
                         {
                             if (aiData.attackWait >= aiData.attackRate)
                             {
-                                animationData._animationType = 2;
                                 playerBase.ReceiveDamage(aiData.attackDamage);
+                                aiData.shot = true;
                                 aiData.attackWait = 0;
                             }
 
@@ -60,15 +59,10 @@ namespace Systems
                                 aiData.attackDistancePlayer)
                                 if (aiData.attackWait >= aiData.attackRate)
                                 {
-                                    animationData._animationType = 2;
-                                    if (aiData.canFly)
+                                    if (healthGroup.Exists(aiData.entity))
                                     {
+                                        healthGroup[aiData.entity].Add(new Damage() {Value = aiData.attackDamage});
                                         aiData.shot = true;
-                                    }
-                                    else
-                                    {
-                                        if (healthGroup.Exists(aiData.entity))
-                                            healthGroup[aiData.entity].Add(new Damage() {Value = aiData.attackDamage});
                                     }
 
                                     aiData.attackWait = 0;

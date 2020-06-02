@@ -17,6 +17,11 @@ PrefabInstance:
       propertyPath: lifeTime
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: -2083086940199791340, guid: c260176a97a79d14c814ee4055b7f849,
+        type: 3}
+      propertyPath: notDestroying
+      value: Tower
+      objectReference: {fileID: 0}
     - target: {fileID: 2740377096010578199, guid: c260176a97a79d14c814ee4055b7f849,
         type: 3}
       propertyPath: m_LocalPosition.x

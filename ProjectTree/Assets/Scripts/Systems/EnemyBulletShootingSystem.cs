@@ -21,15 +21,22 @@ public class EnemyBulletShootingSystem : ComponentSystem
 
     protected override void OnUpdate()
     {
-        Entities.ForEach((Entity entity, ref AIData aiData,
-            ref BulletPrefabComponent bullet, ref Translation position, ref Rotation rotation) =>
+        var buffers = GetBufferFromEntity<EnemyPosition>();
+        Entities.ForEach((Entity entity, ref AIData aiData, ref BulletPrefabComponent bullet, ref Translation position,
+            ref Rotation rotation) =>
         {
             if (aiData.shot)
             {
                 Entity bulletEntity = EntityManager.Instantiate(bullet.prefab);
+                float3 enemyPos;
+                if (aiData.entity != null)
+                {
+                    enemyPos = EntityManager.GetComponentData<Translation>(aiData.entity).Value;
+                    enemyPos.y += 1f;
+                }
+                else
+                    enemyPos = buffers[entity][aiData.counter].position;
 
-                var enemyPos = EntityManager.GetComponentData<Translation>(aiData.entity).Value;
-                enemyPos.y += 1f;
                 var direction = Direction(position.Value, enemyPos);
 
                 EntityManager.SetComponentData(bulletEntity, new Translation {Value = position.Value});

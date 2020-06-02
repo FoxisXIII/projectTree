@@ -13,6 +13,7 @@ using static Unity.Mathematics.math;
 using float3 = Unity.Mathematics.float3;
 
 [UpdateAfter(typeof(MoveToSystem))]
+[UpdateBefore(typeof(MovementSystem))]
 public class EnemiesCollisionsSystem : JobComponentSystem
 {
     private BuildPhysicsWorld buildPhysicsWorldSystem;

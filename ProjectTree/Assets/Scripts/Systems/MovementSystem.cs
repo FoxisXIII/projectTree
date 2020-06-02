@@ -4,6 +4,7 @@ using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Physics.Systems;
 using Unity.Transforms;
+using UnityEngine;
 using float3 = Unity.Mathematics.float3;
 
 namespace Systems
@@ -30,7 +31,7 @@ namespace Systems
                     velocity.Angular.y = 0;
                     velocity.Angular.z = 0;
 
-                    rotation.Value = movementData.rotation;
+                    rotation.Value = Quaternion.Lerp(rotation.Value, movementData.rotation, 2 * deltaTime);
                 }
             }).Run();
             return default;

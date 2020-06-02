@@ -71,11 +71,11 @@ MonoBehaviour:
   m_PrimitiveCenter:
     x: 0.009870529
     y: 0.0019302368
-    z: -14.148808
+    z: -8.24
   m_PrimitiveSize:
     x: 39.234035
-    y: 42.52172
-    z: 83.013245
+    y: 25.41
+    z: 56.9
   m_PrimitiveOrientation:
     Value:
       x: -0
@@ -83,15 +83,15 @@ MonoBehaviour:
       z: 0
     RotationOrder: 4
   m_Capsule:
-    Height: 83.013245
-    Radius: 21.26086
+    Height: 56.9
+    Radius: 19.617018
     Axis: 2
   m_Cylinder:
-    Height: 83.013245
-    Radius: 21.26086
+    Height: 56.9
+    Radius: 19.617018
     Axis: 2
   m_CylinderSideCount: 20
-  m_SphereRadius: 41.506622
+  m_SphereRadius: 28.45
   m_MinimumSkinnedVertexWeight: 0.1
   m_ConvexHullGenerationParameters:
     m_SimplificationTolerance: 0.05
@@ -215,20 +215,6 @@ MonoBehaviour:
     Tag05: 0
     Tag06: 0
     Tag07: 0
---- !u!114 &5587167660209113239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8141945550234117562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c53c078b44d24b1cb51bf67bbcb97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animationType: 0
-  _lastAnimationType: 0
 --- !u!114 &6952716859881648605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,154 +227,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a25b9f72229774c99126d5076c6595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &420885103388949720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5902799401807158959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b275e5f92732148048d7b77e264ac30e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShapeType: 0
-  m_PrimitiveCenter:
-    x: -0.0066153407
-    y: 0.48633942
-    z: -0.047101766
-  m_PrimitiveSize:
-    x: 1.0129488
-    y: 1.1582396
-    z: 0.2126525
-  m_PrimitiveOrientation:
-    Value:
-      x: -0
-      y: 0
-      z: 0
-    RotationOrder: 4
-  m_Capsule:
-    Height: 1.1582396
-    Radius: 0.5064744
-    Axis: 1
-  m_Cylinder:
-    Height: 0.2126525
-    Radius: 0.5791198
-    Axis: 2
-  m_CylinderSideCount: 20
-  m_SphereRadius: 0.5791198
-  m_MinimumSkinnedVertexWeight: 0.1
-  m_ConvexHullGenerationParameters:
-    m_SimplificationTolerance: 0.031621806
-    m_BevelRadius: 0.05
-    m_MinimumAngle: 2.5000002
-  m_CustomMesh: {fileID: 2403283451262950110, guid: 3f7c516598505af478b0246cd5efe8b5,
-    type: 3}
-  m_ForceUnique: 0
-  m_Material:
-    m_SupportsTemplate: 1
-    m_Template: {fileID: 0}
-    m_IsTrigger:
-      m_Override: 0
-      m_Value: 0
-    m_Friction:
-      m_Override: 0
-      m_Value:
-        Value: 0
-        CombineMode: 2
-    m_Restitution:
-      m_Override: 0
-      m_Value:
-        Value: 0
-        CombineMode: 2
-    m_BelongsTo:
-      m_Override: 0
-      m_Value: 0000000100000000000000000000000000000000000000000000000000000000
-    m_CollidesWith:
-      m_Override: 0
-      m_Value: 0101010101010101010101010101010101010101010101010101010101010101
-    m_RaisesCollisionEvents:
-      m_Override: 0
-      m_Value: 1
-    m_CustomTags:
-      m_Override: 0
-      m_Value: 0000000000000000
-  m_ConvexRadius_Deprecated: -1
---- !u!114 &8028866852228993452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4201217719743178848}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b275e5f92732148048d7b77e264ac30e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShapeType: 0
-  m_PrimitiveCenter:
-    x: -0.0037837029
-    y: -0.4823535
-    z: -0.04710141
-  m_PrimitiveSize:
-    x: 1.0129488
-    y: 1.1582397
-    z: 0.2126525
-  m_PrimitiveOrientation:
-    Value:
-      x: -0
-      y: 0
-      z: 0
-    RotationOrder: 4
-  m_Capsule:
-    Height: 1.1582397
-    Radius: 0.5064744
-    Axis: 1
-  m_Cylinder:
-    Height: 0.2126525
-    Radius: 0.57911986
-    Axis: 2
-  m_CylinderSideCount: 20
-  m_SphereRadius: 0.57911986
-  m_MinimumSkinnedVertexWeight: 0.1
-  m_ConvexHullGenerationParameters:
-    m_SimplificationTolerance: 0.031621806
-    m_BevelRadius: 0.05
-    m_MinimumAngle: 2.5000002
-  m_CustomMesh: {fileID: 2403283451262950110, guid: 3f7c516598505af478b0246cd5efe8b5,
-    type: 3}
-  m_ForceUnique: 0
-  m_Material:
-    m_SupportsTemplate: 1
-    m_Template: {fileID: 0}
-    m_IsTrigger:
-      m_Override: 0
-      m_Value: 0
-    m_Friction:
-      m_Override: 0
-      m_Value:
-        Value: 0
-        CombineMode: 2
-    m_Restitution:
-      m_Override: 0
-      m_Value:
-        Value: 0
-        CombineMode: 2
-    m_BelongsTo:
-      m_Override: 0
-      m_Value: 0000000100000000000000000000000000000000000000000000000000000000
-    m_CollidesWith:
-      m_Override: 0
-      m_Value: 0101010101010101010101010101010101010101010101010101010101010101
-    m_RaisesCollisionEvents:
-      m_Override: 0
-      m_Value: 1
-    m_CustomTags:
-      m_Override: 0
-      m_Value: 0000000000000000
-  m_ConvexRadius_Deprecated: -1
 --- !u!1001 &279202566964362419
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -502,18 +340,6 @@ PrefabInstance:
 --- !u!1 &8141945550234117562 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 3f7c516598505af478b0246cd5efe8b5,
-    type: 3}
-  m_PrefabInstance: {fileID: 279202566964362419}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5902799401807158959 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5923668963045351964, guid: 3f7c516598505af478b0246cd5efe8b5,
-    type: 3}
-  m_PrefabInstance: {fileID: 279202566964362419}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4201217719743178848 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -5074901468145265453, guid: 3f7c516598505af478b0246cd5efe8b5,
     type: 3}
   m_PrefabInstance: {fileID: 279202566964362419}
   m_PrefabAsset: {fileID: 0}
