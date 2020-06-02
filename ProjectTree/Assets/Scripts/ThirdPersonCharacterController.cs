@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using TMPro;
 using Unity.Collections;
 using Unity.Entities;
@@ -17,6 +18,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public CharacterController characterController;
 
     //Movimento BASE
+    [Header("Movimiento")]
     private float turnSmoothVelocity;
     public float turnSmoothTime=0.1f;
     private float hor;
@@ -39,6 +41,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     //Movimiento por posicion de camara
 
     //Disparo
+    [Header("Shoot")]
     public GameObject Bullet;
     public GameObject LocFire;
     [Range(0, 1)] public float initFireRate;
@@ -46,12 +49,14 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private float timer;
 
     //ECS
+    [Header("ECS")]
     public bool useECS = false;
     private EntityManager manager;
     private Entity bulletEntityPrefab;
     private BlobAssetStore blobBullet;
 
     //Life
+    [Header("LIFE")]
     public float maxLife;
     [HideInInspector] public float life;
     public Image lifeImage;
@@ -59,6 +64,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
 
     //Turret Spawner
+    [Header("Spawner")]
     public Transform instantiateTurrets;
     private PreviewTurret _instantiatedPreviewTurret;
     private bool _turretCanBePlaced;
@@ -71,6 +77,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private BlobAssetStore blobTrap;
 
     //Buffs
+    [Header("BUFF")]
     [HideInInspector] public bool hasBuff;
     [HideInInspector] public Entity buffEntity;
     public int initialDamage;
@@ -84,14 +91,30 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
 
     //Change Camera
+    [Header("Camara")]
     public GameObject fpsCamera;
     public GameObject birdCamera;
     public Animator hud;
     public KeyCode cameraChange;
     public bool cameraChanged;
     private Vector3 initialPosition;
+    
     [HideInInspector] public string lastAnimatorKey;
 
+    [Header("Intento de vertical")] 
+    public Transform chest;
+    public float speedRotation;
+    public CinemachineFreeLook cine;
+    
+
+    private float minRotate = 253f, maxRotate = 275f;
+    /*
+    public Transform Target;
+    public Vector3 Offset;
+    private Animator anim;
+    private Transform chest;*/
+
+    
     private void Awake()
     {
         enemies = new Dictionary<Entity, Vector3>();
@@ -104,6 +127,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+       /* anim = GetComponent<Animator>();
+        chest = anim.GetBoneTransform(HumanBodyBones.Chest);*/
+        
+        
         manager = World.DefaultGameObjectInjectionWorld.EntityManager;
         blobTrap = new BlobAssetStore();
         trapECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(trap,
@@ -189,6 +216,42 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
             ver = Input.GetAxis("Vertical");
 
+            float dirMouse = cine.m_YAxis.m_InputAxisValue;
+            //Debug.Log(dirMouse);
+            if (dirMouse!=0)
+            {
+                if (dirMouse < 0)
+                    speedRotation = -1;
+                else speedRotation = 1;
+                Debug.Log("Valor actual de z: "+chest.rotation.eulerAngles.z);
+                if (chest.rotation.eulerAngles.z<maxRotate&&chest.rotation.eulerAngles.z>minRotate)
+                {
+                    
+                    Debug.Log("LALALALA");
+                    //float change = Mathf.Clamp(chest.rotation.eulerAngles.z + speedper, minRotate, maxRotate);
+                    
+                    chest.Rotate(0,0,speedRotation);
+                }
+                else
+                {
+                    if (chest.rotation.eulerAngles.z>maxRotate)
+                    {
+                        chest.Rotate(0,0,-2);
+                    }
+
+                    if (chest.rotation.eulerAngles.z<minRotate)
+                    {
+                        chest.Rotate(0,0,2);
+                    }
+                }
+
+                
+                
+            }
+            
+            
+           // Mathf.Clamp();
+            
             movPlayer= new Vector3(hor, 0, ver).normalized;;
             
             float targetAngle = Mathf.Atan2(movPlayer.x, movPlayer.z) * Mathf.Rad2Deg+cam.eulerAngles.y;
@@ -229,6 +292,11 @@ public class ThirdPersonCharacterController : MonoBehaviour
         }
     }
 
+    private void LateUpdate()
+    {
+       /* chest.LookAt(Target.position);
+        chest.rotation = chest.rotation * Quaternion.Euler(Offset);*/
+    }
 
     void setGravity()
     {
