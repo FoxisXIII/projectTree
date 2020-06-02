@@ -102,6 +102,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public string healSoundPath;
     public string idleSoundPath;
     public string dieSoundPath;
+    public string cameraTransitionSoundPath;
     private EventInstance idleSoundEvent;
     
 
@@ -142,6 +143,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         {
             birdCamera.SetActive(true);
             characterController.enabled = false;
+            //SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, transform.position);
             fpsCamera.SetActive(false);
             cameraChanged = true;
         }

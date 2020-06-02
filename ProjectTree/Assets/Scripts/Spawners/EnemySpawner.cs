@@ -58,6 +58,7 @@ public class EnemySpawner : MonoBehaviour
             HitPath = hitSoundPath,
             DiePath = dieSoundPath
         });
+        SoundManager.GetInstance().PlayOneShotSound(airMovementSoundPath, enemy);
         _entityManager.SetComponentData(enemy, aiData);
 
         _entityManager.AddBuffer<EnemyPosition>(enemy).AddRange(GetAllPositions(random));

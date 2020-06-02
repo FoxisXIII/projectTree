@@ -32,6 +32,7 @@ public class OverviewController : MonoBehaviour
     public string turretDestroySoundPath;
     public string turretHealSoundPath;
     public string turretBuffSoundPath;
+    public string cameraTransitionSoundPath;
 
     // Start is called before the first frame update
     void Start()
@@ -63,6 +64,7 @@ public class OverviewController : MonoBehaviour
             GameController.GetInstance().Player.fpsCamera.SetActive(true);
             GameController.GetInstance().Player.cameraChanged = false;
             Cursor.visible = false;
+            // SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, GameController.GetInstance().Player.transform.position);
             if (!ReferenceEquals(_instantiatedPreviewTurret, null))
             {
                 Destroy(_instantiatedPreviewTurret);

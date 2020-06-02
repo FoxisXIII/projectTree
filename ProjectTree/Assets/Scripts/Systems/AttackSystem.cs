@@ -35,13 +35,14 @@ namespace Systems
             Entities
                 .ForEach(
                     (ref AIData aiData, ref Translation translation, ref MovementData movementData,
-                        ref Entity entity) =>
+                        ref Entity entity, ref EnemyFMODPaths paths) =>
                     {
                         if (math.distance(buffers[entity][buffers[entity].Length - 1].position, translation.Value) <
                             aiData.attackDistanceBase)
                         {
                             if (aiData.attackWait >= aiData.attackRate)
                             {
+                                //SoundManager.GetInstance().PlayOneShotSound(paths.AttackBasePath.ToString(), translation.Value);
                                 playerBase.ReceiveDamage(aiData.attackDamage);
                                 aiData.attackWait = 0;
                             }
@@ -57,6 +58,7 @@ namespace Systems
                                 if (healthGroup.Exists(aiData.entity))
                                 {
                                     healthGroup[aiData.entity].Add(new Damage() {Value = aiData.attackDamage});
+                                    //SoundManager.GetInstance().PlayOneShotSound(paths.AttackPlayerPath.ToString(), translation.Value);
                                     GameController.GetInstance().Player.ReceiveDamage();
                                 }
                                 aiData.attackWait = 0;

@@ -62,13 +62,17 @@ public class SoundManager : MonoBehaviour
                 else
                 {
                     Transform mTransform = movingEvents[i].GetTransform();
-                    if (mTransform.Equals(null))
+                    if (mTransform == null)
                     {
                         Entity entity = movingEvents[i].GetEntity();
                         if (_entityManager.Exists(entity))
                             eventInstance.set3DAttributes(
                                 RuntimeUtils.To3DAttributes(_entityManager.GetComponentData<Translation>(entity)
                                     .Value));
+                        else
+                        {
+                            movingEvents[i].GetSoundEvent().stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                        }
                     }
                     else
                     {
