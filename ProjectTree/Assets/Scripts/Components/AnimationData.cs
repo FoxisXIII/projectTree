@@ -4,5 +4,6 @@
 public struct AnimationData : IComponentData
 {
     public int _animationType;
-    public int _lastAnimationType;
+    public Entity helixL, helixR;
+    public Entity hullHelixL, hullHelixR;
 }

@@ -1,5 +1,7 @@
 ﻿using Unity.Entities;
+using Unity.Mathematics;
 using Unity.Rendering;
+using Unity.Transforms;
 using UnityEngine;
 
 public class AnimationSystem : SystemBase
@@ -8,27 +10,58 @@ public class AnimationSystem : SystemBase
     {
         var materials = GameController.GetInstance().getMaterials();
         EntityManager manager = World.DefaultGameObjectInjectionWorld.EntityManager;
-        
+        var deltaTime = Time.DeltaTime;
+
         Entities
-            .WithStructuralChanges()
             .ForEach((ref AnimationData animationData, ref AIData aiData, in Entity entity) =>
-        {
-            if (animationData._animationType != animationData._lastAnimationType)
             {
-                animationData._lastAnimationType = animationData._animationType;
-                if (aiData.canFly)
+                if (animationData._animationType == 0)
                 {
-                    var renderMesh = manager.GetSharedComponentData<RenderMesh>(entity);
-                    renderMesh.material = materials["Dron"][animationData._animationType];
-                    manager.SetSharedComponentData<RenderMesh>(entity, renderMesh);
+                    if (aiData.canFly)
+                    {
+                        RotateHulls(manager, animationData, deltaTime, 0);
+                        RotateHelixes(manager, animationData, deltaTime);
+                    }
+                    else
+                    {
+                        RotateHulls(manager, animationData, deltaTime, 0);
+                        RotateHelixes(manager, animationData, deltaTime);
+                    }
                 }
-                else
+                else if (animationData._animationType == 1)
                 {
-                    var renderMesh = manager.GetSharedComponentData<RenderMesh>(entity);
-                    renderMesh.material = materials["Tank"][animationData._animationType];
-                    manager.SetSharedComponentData<RenderMesh>(entity, renderMesh);
+                    if (aiData.canFly)
+                    {
+                        RotateHulls(manager, animationData, deltaTime, 45);
+                        RotateHelixes(manager, animationData, deltaTime);
+                    }
+                    else
+                    {
+                        RotateHulls(manager, animationData, deltaTime, 45);
+                        RotateHelixes(manager, animationData, deltaTime);
+                    }
                 }
-            }
-        }).WithoutBurst().Run();
+            }).WithoutBurst().Run();
+    }
+
+    private static void RotateHelixes(EntityManager manager, AnimationData animationData, float deltaTime)
+    {
+        // var rotationHelixL = manager.GetComponentData<Rotation>(animationData.helixL);
+        // Debug.Log(rotationHelixL.Value.value.z);
+        // rotationHelixL.Value.value.z += math.radians(90f) * deltaTime;
+        // manager.SetComponentData(animationData.helixL, rotationHelixL);
+        // var rotationHelixR = manager.GetComponentData<Rotation>(animationData.helixR);
+        // rotationHelixR.Value.value.z += math.radians(90f) * deltaTime;
+        // manager.SetComponentData(animationData.helixR, rotationHelixR);
+    }
+
+    private static void RotateHulls(EntityManager manager, AnimationData animationData, float deltaTime, float rotation)
+    {
+        // var rotationHelixL = manager.GetComponentData<Rotation>(animationData.hullHelixL);
+        // rotationHelixL.Value = Quaternion.Lerp(rotationHelixL.Value, quaternion.RotateX(90 + rotation), 2 * deltaTime);
+        // manager.SetComponentData(animationData.helixL, rotationHelixL);
+        // var rotationHelixR = manager.GetComponentData<Rotation>(animationData.hullHelixR);
+        // rotationHelixR.Value = Quaternion.Lerp(rotationHelixR.Value, quaternion.RotateX(90 + rotation), 2 * deltaTime);
+        // manager.SetComponentData(animationData.helixR, rotationHelixR);
     }
 }

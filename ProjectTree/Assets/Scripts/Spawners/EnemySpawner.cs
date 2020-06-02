@@ -51,7 +51,6 @@ public class EnemySpawner : MonoBehaviour
         if (aiData.canFly)
 
             aiData.state = 0;
-        aiData.me = enemy;
         Vector3 offset = aiData.canFly ? Vector3.up * Random.Range(1f, 5f) : Vector3.zero;
         _entityManager.SetComponentData(enemy, aiData);
 

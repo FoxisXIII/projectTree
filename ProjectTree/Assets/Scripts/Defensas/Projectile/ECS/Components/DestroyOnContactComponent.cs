@@ -8,4 +8,5 @@ using UnityEngine;
 [Serializable]
 public struct DestroyOnContact : IComponentData
 {
+    public int notDestroying;
 }

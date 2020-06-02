@@ -12,7 +12,6 @@ public struct AIData : IComponentData
 
     public float attackDistancePlayer;
     public float attackDistanceBase;
-    public float chaseDistance;
 
     public int attackDamage;
     public float attackRate;
@@ -25,5 +24,5 @@ public struct AIData : IComponentData
     [HideInInspector] public float3 entityPosition;
     [HideInInspector] public Entity entity;
     [HideInInspector] public bool stop;
-    [HideInInspector] public Entity me;
+    [HideInInspector] public bool shot;
 }
