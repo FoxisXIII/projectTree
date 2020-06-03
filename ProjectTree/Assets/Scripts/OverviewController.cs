@@ -64,7 +64,7 @@ public class OverviewController : MonoBehaviour
             GameController.GetInstance().Player.fpsCamera.SetActive(true);
             GameController.GetInstance().Player.cameraChanged = false;
             Cursor.visible = false;
-            // SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, GameController.GetInstance().Player.transform.position);
+            SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, GameController.GetInstance().Player.transform.position);
             if (!ReferenceEquals(_instantiatedPreviewTurret, null))
             {
                 Destroy(_instantiatedPreviewTurret);
