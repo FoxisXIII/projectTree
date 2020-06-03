@@ -143,7 +143,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         {
             birdCamera.SetActive(true);
             characterController.enabled = false;
-            //SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, transform.position);
+            SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, birdCamera.transform.position);
             fpsCamera.SetActive(false);
             cameraChanged = true;
         }
@@ -425,5 +425,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private void Step()
     {
         SoundManager.GetInstance().PlayOneShotSound(stepSoundPath, transform.position);
+    }
+
+    private void EndJump()
+    {
+        SoundManager.GetInstance().PlayOneShotSound(endJumpSoundPath, transform.position);
     }
 }
