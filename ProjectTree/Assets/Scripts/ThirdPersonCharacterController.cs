@@ -99,18 +99,15 @@ public class ThirdPersonCharacterController : MonoBehaviour
     
     [HideInInspector] public string lastAnimatorKey;
 
-    [Header("Intento de vertical")] 
+    [Header("Intento de vertical")]
     public Transform chest;
     public float speedRotation;
     public CinemachineFreeLook cine;
-    private float minRotate = 253f, maxRotate = 275f;
-    /*
-    public Transform Target;
-    public Vector3 Offset;
-    private Animator anim;
-    private Transform chest;*/
+    private float minRotate = -1f, maxRotate = 40f;
+    
     [Header("Animaciones")] 
     public Animator anim;
+    public HumanBodyBones bones;
     
     
     [Header("FMOD paths")] 
@@ -232,7 +229,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
             ver = Input.GetAxis("Vertical");
 
-            float dirMouse = cine.m_YAxis.m_InputAxisValue;
+           /* float dirMouse = cine.m_YAxis.m_InputAxisValue;
             //Debug.Log(dirMouse);
             if (dirMouse!=0)
             {
@@ -256,7 +253,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
                         chest.Rotate(0,0,2);
                     }
                 }
-            }
+            }*/
 
             movPlayer= new Vector3(hor, 0, ver).normalized;;
             
@@ -318,13 +315,45 @@ public class ThirdPersonCharacterController : MonoBehaviour
             characterController.Move( Time.deltaTime * speedper * moveDir);
             //anim.SetBool("onGround",characterController.isGrounded);
             moveDir = Vector3.zero;
+            
+            
         }
     }
 
+
     private void LateUpdate()
     {
-       /* chest.LookAt(Target.position);
-        chest.rotation = chest.rotation * Quaternion.Euler(Offset);*/
+        //chest.forward = Camera.main.transform.forward; /*
+         float dirMouse = cine.m_YAxis.m_InputAxisValue;
+            //Debug.Log(dirMouse);
+            if (dirMouse!=0)
+            {
+                //Debug.Log(dirMouse);
+                if (dirMouse < 0)
+                    speedRotation = -1;
+                else speedRotation = 1;
+                //Debug.Log(chest.rotation.eulerAngles.x);
+                if (chest.rotation.eulerAngles.x<maxRotate&&chest.rotation.eulerAngles.x>minRotate)
+                {
+                    Debug.Log("Funciona?");
+                    Debug.Log("Direcion del la rot: "+speedRotation);
+                    chest.Rotate(speedRotation,0,0);
+                }
+                else
+                {
+                    if (chest.rotation.eulerAngles.x>maxRotate)
+                    {
+                        Debug.Log("ÑA");
+                        chest.Rotate(-2,0,0);
+                    }
+
+                    if (chest.rotation.eulerAngles.x<minRotate)
+                    {
+                        Debug.Log("ÑE");
+                        chest.Rotate(2,0,0);
+                    }
+                }
+            }
     }
 
     void setGravity()
