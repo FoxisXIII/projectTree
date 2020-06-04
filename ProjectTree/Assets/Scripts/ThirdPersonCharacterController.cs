@@ -105,15 +105,14 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public Transform chest;
     public float speedRotation;
     public CinemachineFreeLook cine;
-    
-
     private float minRotate = 253f, maxRotate = 275f;
     /*
     public Transform Target;
     public Vector3 Offset;
     private Animator anim;
     private Transform chest;*/
-
+    [Header("Animaciones")] 
+    public Animator anim;
     
     private void Awake()
     {
@@ -195,8 +194,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
                     Shoot();
                 }
 
+                anim.SetBool("Shoting",true);
                 timer = 0f;
-            }
+            }else anim.SetBool("Shoting",false);
 
             if (Input.GetMouseButton(1))
             {
@@ -223,12 +223,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 if (dirMouse < 0)
                     speedRotation = -1;
                 else speedRotation = 1;
-                Debug.Log("Valor actual de z: "+chest.rotation.eulerAngles.z);
                 if (chest.rotation.eulerAngles.z<maxRotate&&chest.rotation.eulerAngles.z>minRotate)
                 {
-                    
-                    Debug.Log("LALALALA");
-                    //float change = Mathf.Clamp(chest.rotation.eulerAngles.z + speedper, minRotate, maxRotate);
                     
                     chest.Rotate(0,0,speedRotation);
                 }
@@ -277,7 +273,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
             }
 
             //moveDir = movPlayer * speed;
-
+            anim.SetFloat("Speed",characterController.velocity.magnitude);
+            anim.SetBool("onGround",characterController.isGrounded);
             setGravity();
             Jump();
         }
