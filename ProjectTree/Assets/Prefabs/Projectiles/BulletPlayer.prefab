@@ -20,7 +20,7 @@ PrefabInstance:
     - target: {fileID: -2083086940199791340, guid: c260176a97a79d14c814ee4055b7f849,
         type: 3}
       propertyPath: notDestroying
-      value: Tower
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2740377096010578199, guid: c260176a97a79d14c814ee4055b7f849,
         type: 3}
@@ -285,7 +285,7 @@ PrefabInstance:
     - target: {fileID: 7339712148282690036, guid: c260176a97a79d14c814ee4055b7f849,
         type: 3}
       propertyPath: speed
-      value: 100
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c260176a97a79d14c814ee4055b7f849, type: 3}

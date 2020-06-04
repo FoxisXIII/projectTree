@@ -54,6 +54,8 @@ public class MoveToSystem : JobComponentSystem
                     }
                     else
                     {
+                        if (aiData.entity == null)
+                            aiData.goToEntity = false;
                         if (aiData.goToEntity)
                         {
                             float3 direction;

@@ -2,7 +2,7 @@
 using Unity.Collections;
 using Unity.Entities;
 
-
+[GenerateAuthoringComponent]
 public struct TurretFMODPaths : IComponentData
 {
    public NativeString32 ShotPath;

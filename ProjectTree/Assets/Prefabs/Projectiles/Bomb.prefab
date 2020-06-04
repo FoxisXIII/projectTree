@@ -164,7 +164,7 @@ MonoBehaviour:
       m_Value: 0001000000000000000000000000000000000000000000000000000000000000
     m_CollidesWith:
       m_Override: 0
-      m_Value: 0000000101010101010101010101010101010101010101010101010101010101
+      m_Value: 0000000100010101010101010101010101010101010101010101010101010101
     m_RaisesCollisionEvents:
       m_Override: 0
       m_Value: 1
@@ -195,6 +195,7 @@ MonoBehaviour:
       y: 0
       z: 0
       w: 0
+  freezePosY: 0
 --- !u!114 &6253871098390577315
 MonoBehaviour:
   m_ObjectHideFlags: 0

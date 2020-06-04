@@ -37,7 +37,7 @@ public class Base : MonoBehaviour
         if (life <= 0)
         {
             SoundManager.GetInstance().PlayOneShotSound(baseDestroySoundPath, transform.position);
-            GameController.GetInstance().gameOver("THE DRONS ENTERED!");
+            GameController.GetInstance().gameOver("THEY HAVE ENT... BZZZ BZZZ BZZZ");
         }
     }
 }

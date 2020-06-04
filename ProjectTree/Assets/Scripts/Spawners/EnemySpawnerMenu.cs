@@ -51,6 +51,7 @@ public class EnemySpawnerMenu : MonoBehaviour
     public void SpawnEnemy()
     {
         Entity enemy;
+
         if (Random.Range(0f, 1f) > .5f)
             enemy = _entityManager.Instantiate(_flyEnemyEntity);
         else
@@ -59,20 +60,21 @@ public class EnemySpawnerMenu : MonoBehaviour
 
         var random = Random.Range(0f, 1f);
 
-        _entityManager.SetComponentData(enemy, new Translation() {Value = GetPosition(min[0], max[0], random)});
-        _entityManager.SetComponentData(enemy, new Rotation() {Value = Quaternion.identity});
         var aiData = _entityManager.GetComponentData<AIData>(enemy);
         if (aiData.canFly)
 
             aiData.state = 0;
+        Vector3 offset = aiData.canFly ? Vector3.up * Random.Range(1f, 5f) : Vector3.zero;
+        aiData.state = 0;
+        _entityManager.AddComponent(enemy, typeof(EnemyFMODPaths));
         _entityManager.SetComponentData(enemy, aiData);
 
-        _entityManager.AddBuffer<EnemyPosition>(enemy).AddRange(GetAllPositions(random,
-            aiData.canFly ? Vector3.up * Random.Range(0f, 5f) : Vector3.zero));
+        _entityManager.SetComponentData(enemy,
+            new Translation() {Value = GetPosition(min[0], max[0], random) + offset});
+        _entityManager.SetComponentData(enemy, new Rotation() {Value = Quaternion.identity});
+
+        _entityManager.AddBuffer<EnemyPosition>(enemy).AddRange(GetAllPositions(random, offset));
         _entityManager.AddBuffer<CollisionEnemy>(enemy);
-
-
-        GameController.GetInstance().AddEnemyWave();
     }
 
     private NativeArray<EnemyPosition> GetAllPositions(float random, Vector3 offset)

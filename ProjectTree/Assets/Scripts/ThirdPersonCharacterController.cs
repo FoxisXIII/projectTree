@@ -17,10 +17,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
 {
     public float Speed;
     public CharacterController characterController;
-    
-    [Header("Movimiento")]
-    private float turnSmoothVelocity;
-    public float turnSmoothTime=0.1f;
+
+    [Header("Movimiento")] private float turnSmoothVelocity;
+    public float turnSmoothTime = 0.1f;
     private float hor;
     private float ver;
     private Vector3 movPlayer;
@@ -39,44 +38,37 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public float jumpForce = 50;
 
     //Movimiento por posicion de camara
-    
-    [Header("Shoot")]
-    public GameObject Bullet;
+
+    [Header("Shoot")] public GameObject Bullet;
     public GameObject LocFire;
     [Range(0, 1)] public float initFireRate;
     [HideInInspector] public float fireRate;
     private float timer;
-    
-    [Header("ECS")]
-    public bool useECS = false;
+
+    [Header("ECS")] public bool useECS = false;
     private EntityManager manager;
     private Entity bulletEntityPrefab;
     private BlobAssetStore blobBullet;
 
 
-    [Header("LIFE")]
-    public float maxLife;
+    [Header("LIFE")] public float maxLife;
     [HideInInspector] public float life;
     public Image lifeImage;
     public TextMeshProUGUI ironText;
 
 
-
-    [Header("Turrets")]
-    public Transform instantiateTurrets;
+    [Header("Turrets")] public Transform instantiateTurrets;
     private PreviewTurret _instantiatedPreviewTurret;
     private bool _turretCanBePlaced;
 
-    [Header("Traps")]
-    public GameObject previewTrap;
+    [Header("Traps")] public GameObject previewTrap;
     public GameObject trap;
     private PreviewTurret _instantiatedPreviewTrap;
     private Entity trapECS;
     private BlobAssetStore blobTrap;
 
     //Buffs
-    [Header("BUFF")]
-    [HideInInspector] public bool hasBuff;
+    [Header("BUFF")] [HideInInspector] public bool hasBuff;
     [HideInInspector] public Entity buffEntity;
     public int initialDamage;
     private int damage;
@@ -88,30 +80,25 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private Dictionary<Entity, Vector3> enemies;
 
 
-
-    [Header("Change camera")]
-    public GameObject fpsCamera;
+    [Header("Change camera")] public GameObject fpsCamera;
     public GameObject birdCamera;
     public Animator hud;
     public KeyCode cameraChange;
     public bool cameraChanged;
     private Vector3 initialPosition;
-    
+
     [HideInInspector] public string lastAnimatorKey;
 
-    [Header("Intento de vertical")]
-    public Transform chest;
+    [Header("Intento de vertical")] public Transform chest;
     public float speedRotation;
     public CinemachineFreeLook cine;
     private float minRotate = -1f, maxRotate = 40f;
-    
-    [Header("Animaciones")] 
-    public Animator anim;
+
+    [Header("Animaciones")] public Animator anim;
     public HumanBodyBones bones;
-    
-    
-    [Header("FMOD paths")] 
-    public string jumpSoundPath;
+
+
+    [Header("FMOD paths")] public string jumpSoundPath;
     public string endJumpSoundPath;
     public string stepSoundPath;
     public string shotSoundPath;
@@ -121,8 +108,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public string dieSoundPath;
     public string cameraTransitionSoundPath;
     private EventInstance idleSoundEvent;
-    
-    
+
+
     private void Awake()
     {
         enemies = new Dictionary<Entity, Vector3>();
@@ -135,9 +122,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       /* anim = GetComponent<Animator>();
-        chest = anim.GetBoneTransform(HumanBodyBones.Chest);*/
-       
+        /* anim = GetComponent<Animator>();
+         chest = anim.GetBoneTransform(HumanBodyBones.Chest);*/
+
         manager = World.DefaultGameObjectInjectionWorld.EntityManager;
         blobTrap = new BlobAssetStore();
         trapECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(trap,
@@ -148,8 +135,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
             bulletEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(Bullet,
                 GameObjectConversionSettings.FromWorld(manager.World, blobBullet));
         }
-        
-        
+
 
         GameController.GetInstance().UpdateResources(0);
     }
@@ -191,7 +177,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
             timer += Time.deltaTime;
             if (Input.GetMouseButton(0))
             {
-                anim.SetBool("Shoting",true);
+                anim.SetBool("Shoting", true);
+                LocFire.GetComponent<LineRenderer>().enabled = true;
                 if (timer >= fireRate)
                 {
                     if (useECS)
@@ -205,11 +192,15 @@ public class ThirdPersonCharacterController : MonoBehaviour
                     {
                         Shoot();
                     }
+
                     timer = 0f;
                 }
             }
             else if (Input.GetMouseButtonUp(0))
-                anim.SetBool("Shoting",false);
+            {
+                LocFire.GetComponent<LineRenderer>().enabled = false;
+                anim.SetBool("Shoting", false);
+            }
 
             if (Input.GetMouseButton(1))
             {
@@ -229,44 +220,45 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
             ver = Input.GetAxis("Vertical");
 
-           /* float dirMouse = cine.m_YAxis.m_InputAxisValue;
-            //Debug.Log(dirMouse);
-            if (dirMouse!=0)
-            {
-                if (dirMouse < 0)
-                    speedRotation = -1;
-                else speedRotation = 1;
-                if (chest.rotation.eulerAngles.z<maxRotate&&chest.rotation.eulerAngles.z>minRotate)
-                {
-                    
-                    chest.Rotate(0,0,speedRotation);
-                }
-                else
-                {
-                    if (chest.rotation.eulerAngles.z>maxRotate)
-                    {
-                        chest.Rotate(0,0,-2);
-                    }
+            /* float dirMouse = cine.m_YAxis.m_InputAxisValue;
+             //Debug.Log(dirMouse);
+             if (dirMouse!=0)
+             {
+                 if (dirMouse < 0)
+                     speedRotation = -1;
+                 else speedRotation = 1;
+                 if (chest.rotation.eulerAngles.z<maxRotate&&chest.rotation.eulerAngles.z>minRotate)
+                 {
+                     
+                     chest.Rotate(0,0,speedRotation);
+                 }
+                 else
+                 {
+                     if (chest.rotation.eulerAngles.z>maxRotate)
+                     {
+                         chest.Rotate(0,0,-2);
+                     }
+ 
+                     if (chest.rotation.eulerAngles.z<minRotate)
+                     {
+                         chest.Rotate(0,0,2);
+                     }
+                 }
+             }*/
 
-                    if (chest.rotation.eulerAngles.z<minRotate)
-                    {
-                        chest.Rotate(0,0,2);
-                    }
-                }
-            }*/
+            movPlayer = new Vector3(hor, 0, ver).normalized;
+            ;
 
-            movPlayer= new Vector3(hor, 0, ver).normalized;;
-            
-            float targetAngle = Mathf.Atan2(movPlayer.x, movPlayer.z) * Mathf.Rad2Deg+cam.eulerAngles.y;
+            float targetAngle = Mathf.Atan2(movPlayer.x, movPlayer.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity,
                 turnSmoothTime);
-            transform.rotation=Quaternion.Euler(0f,angle,0f);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             if (movPlayer.magnitude >= 0.1f)
             {
                 moveDir = Quaternion.Euler(0, targetAngle, 0f) * Vector3.forward;
             }
-            
+
             speedper = WalkSpeed;
             if (Input.GetKey(RunKey) && characterController.isGrounded)
             {
@@ -277,12 +269,12 @@ public class ThirdPersonCharacterController : MonoBehaviour
             {
                 speedper = WalkSpeed;
             }
-            
-            
+
+
             //anim.SetFloat("Speed",characterController.velocity.magnitude);
             anim.SetFloat("Speed", movPlayer.magnitude >= 0.1f ? speedper : 0f);
-            anim.SetBool("onGround",characterController.isGrounded);
-            
+            anim.SetBool("onGround", characterController.isGrounded);
+
 
             // float stepsVelocity = timeBetweenSteps;
             // if (movPlayer.Equals(Vector3.zero))
@@ -302,7 +294,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
             //     //     SoundManager.GetInstance().PlayOneShotSound(stepSoundPath, transform);
             //     // }
             // }
-            
+
             setGravity();
             Jump();
         }
@@ -312,48 +304,48 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         if (!cameraChanged)
         {
-            characterController.Move( Time.deltaTime * speedper * moveDir);
+            characterController.Move(Time.deltaTime * speedper * moveDir);
             //anim.SetBool("onGround",characterController.isGrounded);
             moveDir = Vector3.zero;
-            
-            
         }
     }
 
 
     private void LateUpdate()
     {
-        //chest.forward = Camera.main.transform.forward; /*
-         float dirMouse = cine.m_YAxis.m_InputAxisValue;
-            //Debug.Log(dirMouse);
-            if (dirMouse!=0)
-            {
-                //Debug.Log(dirMouse);
-                if (dirMouse < 0)
-                    speedRotation = -1;
-                else speedRotation = 1;
-                //Debug.Log(chest.rotation.eulerAngles.x);
-                if (chest.rotation.eulerAngles.x<maxRotate&&chest.rotation.eulerAngles.x>minRotate)
-                {
-                    Debug.Log("Funciona?");
-                    Debug.Log("Direcion del la rot: "+speedRotation);
-                    chest.Rotate(speedRotation,0,0);
-                }
-                else
-                {
-                    if (chest.rotation.eulerAngles.x>maxRotate)
-                    {
-                        Debug.Log("ÑA");
-                        chest.Rotate(-2,0,0);
-                    }
-
-                    if (chest.rotation.eulerAngles.x<minRotate)
-                    {
-                        Debug.Log("ÑE");
-                        chest.Rotate(2,0,0);
-                    }
-                }
-            }
+        LocFire.transform.forward = cam.transform.forward;
+        LocFire.GetComponent<LineRenderer>().SetPosition(0, LocFire.transform.position);
+        LocFire.GetComponent<LineRenderer>().SetPosition(1, LocFire.transform.forward * 50);
+        // float dirMouse = cine.m_YAxis.m_InputAxisValue;
+        //    //Debug.Log(dirMouse);
+        //    if (dirMouse!=0)
+        //    {
+        //        //Debug.Log(dirMouse);
+        //        if (dirMouse < 0)
+        //            speedRotation = -1;
+        //        else speedRotation = 1;
+        //        //Debug.Log(chest.rotation.eulerAngles.x);
+        //        if (chest.rotation.eulerAngles.x<maxRotate&&chest.rotation.eulerAngles.x>minRotate)
+        //        {
+        //            Debug.Log("Funciona?");
+        //            Debug.Log("Direcion del la rot: "+speedRotation);
+        //            chest.Rotate(speedRotation,0,0);
+        //        }
+        //        else
+        //        {
+        //            if (chest.rotation.eulerAngles.x>maxRotate)
+        //            {
+        //                Debug.Log("ÑA");
+        //                chest.Rotate(-2,0,0);
+        //            }
+        //
+        //            if (chest.rotation.eulerAngles.x<minRotate)
+        //            {
+        //                Debug.Log("ÑE");
+        //                chest.Rotate(2,0,0);
+        //            }
+        //        }
+        //    }
     }
 
     void setGravity()
@@ -400,7 +392,11 @@ public class ThirdPersonCharacterController : MonoBehaviour
         var damage = manager.GetComponentData<DealsDamage>(bullet);
         damage.Value = this.damage;
         manager.SetComponentData(bullet, damage);
-        manager.AddComponent(bullet, typeof(MovesForwardComponent));
+        var movement = manager.GetComponentData<MovementData>(bullet);
+        movement.directionX = LocFire.transform.forward.x;
+        movement.directionY = LocFire.transform.forward.y;
+        movement.directionZ = LocFire.transform.forward.z;
+        manager.SetComponentData(bullet, movement);
     }
 
     void ShotgunECS(Vector3 position, Vector3 rotation)
@@ -426,14 +422,17 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 var damage = manager.GetComponentData<DealsDamage>(bullets[index]);
                 damage.Value = this.damage;
                 manager.SetComponentData(bullets[index], damage);
-                manager.AddComponent(bullets[index], typeof(MovesForwardComponent));
+                var movement = manager.GetComponentData<MovementData>(bullets[index]);
+                movement.directionX = LocFire.transform.forward.x;
+                movement.directionY = LocFire.transform.forward.y;
+                movement.directionZ = LocFire.transform.forward.z;
+                manager.SetComponentData(bullets[index], movement);
                 index++;
             }
         }
 
         bullets.Dispose();
     }
-
 
 
     // public void ReceiveDamage(int damage)
@@ -450,16 +449,16 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     public void ReceiveDamage()
     {
-        if (life <= 0)
-        {
-            SoundManager.GetInstance().PlayOneShotSound(dieSoundPath, transform.position);
-        }
-        else
-        {
-            SoundManager.GetInstance().PlayOneShotSound(hitSoundPath, transform.position);
-        }
+        // if (life <= 0)
+        // {
+        //     SoundManager.GetInstance().PlayOneShotSound(dieSoundPath, transform.position);
+        // }
+        // else
+        // {
+        //     SoundManager.GetInstance().PlayOneShotSound(hitSoundPath, transform.position);
+        // }
     }
-    
+
 
     private void CreatePreviewTrap()
     {
