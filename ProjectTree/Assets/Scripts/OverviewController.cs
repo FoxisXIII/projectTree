@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMOD;
 using TMPro;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -24,6 +25,16 @@ public class OverviewController : MonoBehaviour
     private int _indexToCreate;
     public GameObject position;
     private bool goToPosition, goToCharacter;
+
+    [Header("FMOD")]
+    public string turretCollocationSoundPath;
+    public string turretShotSoundPath;
+    public string turretBombSoundPath;
+    public string turretAuraSoundPath;
+    public string turretDestroySoundPath;
+    public string turretHealSoundPath;
+    public string turretBuffSoundPath;
+    public string cameraTransitionSoundPath;
 
     // Start is called before the first frame update
     void Start()
@@ -57,6 +68,8 @@ public class OverviewController : MonoBehaviour
             goToCharacter = true;
             GameController.GetInstance().Player.hud.SetBool("towers", false);
             Cursor.visible = false;
+            SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, transform.position);
+
             if (_instantiatedPreviewTurret != null)
             {
                 Destroy(_instantiatedPreviewTurret);
@@ -122,8 +135,22 @@ public class OverviewController : MonoBehaviour
             Entity turret = _manager.Instantiate(turretsToCreate[index]);
             var position = _instantiatedPreviewTurret.gameObject.transform.position;
             _manager.SetComponentData(turret, new Translation {Value = position});
+
             GameController.GetInstance().UpdateResources(-20);
             GameController.GetInstance().TowersPlaced++;
+
+            _manager.AddBuffer<EnemiesInRange>(turret);
+            _manager.AddBuffer<TurretsInRange>(turret);
+            _manager.AddComponent(turret, typeof(TurretFMODPaths));
+            _manager.SetComponentData(turret, new TurretFMODPaths
+            {
+                ShotPath = turretShotSoundPath,
+                DestroyPath = turretDestroySoundPath,
+                AuraPath = turretAuraSoundPath,
+                HealPath = turretHealSoundPath,
+                BuffPath = turretBuffSoundPath
+            });
+            SoundManager.GetInstance().PlayOneShotSound(turretCollocationSoundPath, transform);
         }
     }
 

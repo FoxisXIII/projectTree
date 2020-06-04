@@ -120,11 +120,11 @@ public class MoveToSystem : JobComponentSystem
         return default;
     }
 
-    private static AnimationData ChangeAnimation(int animation, AnimationData animationData)
-    {
-        animationData._animationType = animation;
-        return animationData;
-    }
+    // private static AnimationData ChangeAnimation(int animation, AnimationData animationData)
+    // {
+    //     animationData._animationType = animation;
+    //     return animationData;
+    // }
 
     private static MovementData StopMovement(MovementData movementData)
     {

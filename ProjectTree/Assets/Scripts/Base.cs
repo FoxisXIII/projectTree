@@ -18,6 +18,9 @@ public class Base : MonoBehaviour
     private int materialCreation;
 
     public Image lifeUI_1;
+    
+    [Header("FMOD paths")]
+    public string baseDestroySoundPath;
 
 
     private void Awake()
@@ -32,6 +35,9 @@ public class Base : MonoBehaviour
         lifeUI_1.fillAmount = life / maxLife;
 
         if (life <= 0)
+        {
+            SoundManager.GetInstance().PlayOneShotSound(baseDestroySoundPath, transform.position);
             GameController.GetInstance().gameOver("THE DRONS ENTERED!");
+        }
     }
 }

@@ -17,6 +17,10 @@ public class GameController
     private Base _base;
     private ThirdPersonCharacterController _player;
     private EntityCommandBuffer ecb;
+    
+    [Header("FMOD paths")] 
+    public string startRoundSoundPath = "event:/FX/Round/Start";
+    public string endRoundSoundPath = "event:/FX/Round/End";
 
     //Recursos
     private int _iron = 200;
@@ -54,6 +58,7 @@ public class GameController
             _maxWaveEnemies = Mathf.Min(200, _maxWaveEnemies + 10);
         _enemiesSpawnRate = Mathf.Max(1f, _enemiesSpawnRate / 1.1f);
         _waveInProcess = true;
+        SoundManager.GetInstance().PlayOneShotSound(startRoundSoundPath, _player.transform.position);
     }
 
     public void endWave()
@@ -62,6 +67,8 @@ public class GameController
         _diedEnemies = 0;
         UpdateResources(100);
         _waveInProcess = false;
+        if (_waveCounter != 0)
+            SoundManager.GetInstance().PlayOneShotSound(endRoundSoundPath, _player.transform.position);
     }
 
     public void AddEnemyWave()

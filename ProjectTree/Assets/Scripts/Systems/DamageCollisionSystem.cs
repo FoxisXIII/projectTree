@@ -6,6 +6,7 @@ using Unity.Entities;
 using Unity.Jobs;
 using Unity.Physics;
 using Unity.Physics.Systems;
+using Unity.Transforms;
 using UnityEngine;
 
 [UpdateBefore(typeof(ResolveDamageSystem))]
@@ -25,7 +26,9 @@ public class DamageCollisionSystem : JobComponentSystem
         var damageCollisionjob = new DamageCollisionJob
         {
             damageGroup = GetBufferFromEntity<Damage>(),
-            dealDamageGroup = GetComponentDataFromEntity<DealsDamage>(true)
+            dealDamageGroup = GetComponentDataFromEntity<DealsDamage>(true),
+            fmodGroup = GetComponentDataFromEntity<EnemyFMODPaths>(true),
+            translationGroup = GetComponentDataFromEntity<Translation>(true)
         };
         
         damageCollisionjob.Schedule(_stepPhysicsWorld.Simulation, ref _buildPhysicsWorld.PhysicsWorld, inputDeps).Complete();
@@ -37,6 +40,8 @@ public class DamageCollisionSystem : JobComponentSystem
     {
         public BufferFromEntity<Damage> damageGroup;
         [ReadOnly] public ComponentDataFromEntity<DealsDamage> dealDamageGroup;
+        [ReadOnly] public ComponentDataFromEntity<EnemyFMODPaths> fmodGroup;
+        [ReadOnly] public ComponentDataFromEntity<Translation> translationGroup;
         
         public void Execute(CollisionEvent collisionEvent)
         {
@@ -48,6 +53,10 @@ public class DamageCollisionSystem : JobComponentSystem
                     {
                         Value = dealDamageGroup[collisionEvent.Entities.EntityA].Value
                     });
+                    if (fmodGroup.Exists(collisionEvent.Entities.EntityB) && translationGroup.Exists(collisionEvent.Entities.EntityB))
+                    {
+                        SoundManager.GetInstance().PlayOneShotSound(fmodGroup[collisionEvent.Entities.EntityB].DiePath.ToString(), translationGroup[collisionEvent.Entities.EntityB].Value);
+                    }
                 }
             }
 
@@ -59,6 +68,10 @@ public class DamageCollisionSystem : JobComponentSystem
                     {
                         Value = dealDamageGroup[collisionEvent.Entities.EntityB].Value
                     });
+                    if (fmodGroup.Exists(collisionEvent.Entities.EntityA) && translationGroup.Exists(collisionEvent.Entities.EntityA))
+                    {
+                        SoundManager.GetInstance().PlayOneShotSound(fmodGroup[collisionEvent.Entities.EntityA].DiePath.ToString(), translationGroup[collisionEvent.Entities.EntityA].Value);
+                    }
                 }
             }
         }

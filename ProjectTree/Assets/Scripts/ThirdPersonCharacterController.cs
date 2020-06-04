@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using TMPro;
+using FMOD.Studio;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -16,8 +17,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 {
     public float Speed;
     public CharacterController characterController;
-
-    //Movimento BASE
+    
     [Header("Movimiento")]
     private float turnSmoothVelocity;
     public float turnSmoothTime=0.1f;
@@ -39,23 +39,21 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public float jumpForce = 50;
 
     //Movimiento por posicion de camara
-
-    //Disparo
+    
     [Header("Shoot")]
     public GameObject Bullet;
     public GameObject LocFire;
     [Range(0, 1)] public float initFireRate;
     [HideInInspector] public float fireRate;
     private float timer;
-
-    //ECS
+    
     [Header("ECS")]
     public bool useECS = false;
     private EntityManager manager;
     private Entity bulletEntityPrefab;
     private BlobAssetStore blobBullet;
 
-    //Life
+
     [Header("LIFE")]
     public float maxLife;
     [HideInInspector] public float life;
@@ -63,13 +61,13 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public TextMeshProUGUI ironText;
 
 
-    //Turret Spawner
-    [Header("Spawner")]
+
+    [Header("Turrets")]
     public Transform instantiateTurrets;
     private PreviewTurret _instantiatedPreviewTurret;
     private bool _turretCanBePlaced;
 
-    //Trap spawner
+    [Header("Traps")]
     public GameObject previewTrap;
     public GameObject trap;
     private PreviewTurret _instantiatedPreviewTrap;
@@ -90,8 +88,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private Dictionary<Entity, Vector3> enemies;
 
 
-    //Change Camera
-    [Header("Camara")]
+
+    [Header("Change camera")]
     public GameObject fpsCamera;
     public GameObject birdCamera;
     public Animator hud;
@@ -114,6 +112,20 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [Header("Animaciones")] 
     public Animator anim;
     
+    
+    [Header("FMOD paths")] 
+    public string jumpSoundPath;
+    public string endJumpSoundPath;
+    public string stepSoundPath;
+    public string shotSoundPath;
+    public string hitSoundPath;
+    public string healSoundPath;
+    public string idleSoundPath;
+    public string dieSoundPath;
+    public string cameraTransitionSoundPath;
+    private EventInstance idleSoundEvent;
+    
+    
     private void Awake()
     {
         enemies = new Dictionary<Entity, Vector3>();
@@ -128,8 +140,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
        /* anim = GetComponent<Animator>();
         chest = anim.GetBoneTransform(HumanBodyBones.Chest);*/
-        
-        
+       
         manager = World.DefaultGameObjectInjectionWorld.EntityManager;
         blobTrap = new BlobAssetStore();
         trapECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(trap,
@@ -160,6 +171,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
             birdCamera.transform.rotation = fpsCamera.transform.rotation;
             birdCamera.SetActive(true);
             characterController.enabled = false;
+            SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, birdCamera.transform.position);
             fpsCamera.SetActive(false);
             hud.SetBool("towers", true);
 
@@ -180,23 +192,27 @@ public class ThirdPersonCharacterController : MonoBehaviour
         if (!cameraChanged)
         {
             timer += Time.deltaTime;
-            if (Input.GetMouseButton(0) && timer >= fireRate)
+            if (Input.GetMouseButton(0))
             {
-                if (useECS)
-                {
-                    if (shotgun)
-                        ShotgunECS(LocFire.transform.position, LocFire.transform.rotation.eulerAngles);
-                    else
-                        ShootECS(LocFire.transform.position, LocFire.transform.rotation);
-                }
-                else
-                {
-                    Shoot();
-                }
-
                 anim.SetBool("Shoting",true);
-                timer = 0f;
-            }else anim.SetBool("Shoting",false);
+                if (timer >= fireRate)
+                {
+                    if (useECS)
+                    {
+                        if (shotgun)
+                            ShotgunECS(LocFire.transform.position, LocFire.transform.rotation.eulerAngles);
+                        else
+                            ShootECS(LocFire.transform.position, LocFire.transform.rotation);
+                    }
+                    else
+                    {
+                        Shoot();
+                    }
+                    timer = 0f;
+                }
+            }
+            else if (Input.GetMouseButtonUp(0))
+                anim.SetBool("Shoting",false);
 
             if (Input.GetMouseButton(1))
             {
@@ -240,27 +256,20 @@ public class ThirdPersonCharacterController : MonoBehaviour
                         chest.Rotate(0,0,2);
                     }
                 }
-
-                
-                
             }
-            
-            
-           // Mathf.Clamp();
-            
+
             movPlayer= new Vector3(hor, 0, ver).normalized;;
             
             float targetAngle = Mathf.Atan2(movPlayer.x, movPlayer.z) * Mathf.Rad2Deg+cam.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity,
                 turnSmoothTime);
             transform.rotation=Quaternion.Euler(0f,angle,0f);
-            
-            if (movPlayer.magnitude>=0.1f)
-            {
-                moveDir = Quaternion.Euler(0, targetAngle, 0f)*Vector3.forward;
-            
-            }
 
+            if (movPlayer.magnitude >= 0.1f)
+            {
+                moveDir = Quaternion.Euler(0, targetAngle, 0f) * Vector3.forward;
+            }
+            
             speedper = WalkSpeed;
             if (Input.GetKey(RunKey) && characterController.isGrounded)
             {
@@ -271,10 +280,32 @@ public class ThirdPersonCharacterController : MonoBehaviour
             {
                 speedper = WalkSpeed;
             }
-
-            //moveDir = movPlayer * speed;
-            anim.SetFloat("Speed",characterController.velocity.magnitude);
+            
+            
+            //anim.SetFloat("Speed",characterController.velocity.magnitude);
+            anim.SetFloat("Speed", movPlayer.magnitude >= 0.1f ? speedper : 0f);
             anim.SetBool("onGround",characterController.isGrounded);
+            
+
+            // float stepsVelocity = timeBetweenSteps;
+            // if (movPlayer.Equals(Vector3.zero))
+            // {
+            //     if (!SoundManager.GetInstance().IsPlaying(idleSoundEvent))
+            //     {
+            //         idleSoundEvent = SoundManager.GetInstance().PlayEvent(idleSoundPath, transform.position);
+            //     }
+            // }
+            // else
+            // {
+            //     idleSoundEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            //     // timeBetweenSteps += Time.deltaTime;
+            //     // if (timeBetweenSteps >= stepsVelocity)
+            //     // {
+            //     //     timeBetweenSteps = 0;
+            //     //     SoundManager.GetInstance().PlayOneShotSound(stepSoundPath, transform);
+            //     // }
+            // }
+            
             setGravity();
             Jump();
         }
@@ -284,7 +315,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         if (!cameraChanged)
         {
-            characterController.Move(moveDir * speedper * Time.deltaTime);
+            characterController.Move( Time.deltaTime * speedper * moveDir);
+            //anim.SetBool("onGround",characterController.isGrounded);
             moveDir = Vector3.zero;
         }
     }
@@ -315,6 +347,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
         {
             VelCaida = jumpForce;
             moveDir.y = VelCaida;
+            SoundManager.GetInstance().PlayOneShotSound(jumpSoundPath, transform.position);
+            anim.SetTrigger("Jump");
         }
     }
 
@@ -333,6 +367,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
         manager.SetComponentData(bullet, new Translation {Value = position});
         manager.SetComponentData(bullet, new Rotation {Value = rotation});
+        SoundManager.GetInstance().PlayOneShotSound(shotSoundPath, position);
         var damage = manager.GetComponentData<DealsDamage>(bullet);
         damage.Value = this.damage;
         manager.SetComponentData(bullet, damage);
@@ -371,6 +406,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     }
 
 
+
     // public void ReceiveDamage(int damage)
     // {
     //     life -= damage;
@@ -383,6 +419,18 @@ public class ThirdPersonCharacterController : MonoBehaviour
     //         GameController.GetInstance().gameOver("KILLED BY X Æ A-12!");
     // }
 
+    public void ReceiveDamage()
+    {
+        if (life <= 0)
+        {
+            SoundManager.GetInstance().PlayOneShotSound(dieSoundPath, transform.position);
+        }
+        else
+        {
+            SoundManager.GetInstance().PlayOneShotSound(hitSoundPath, transform.position);
+        }
+    }
+    
 
     private void CreatePreviewTrap()
     {
@@ -418,13 +466,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
         blobBullet.Dispose();
         blobTrap.Dispose();
     }
-
-    // public void RecoverHealth(int health)
-    // {
-    //     StopBuffs();
-    //     life = Mathf.Min(life + health, maxLife);
-    //     lifeText.text = life.ToString();
-    // }
 
     public void IncreaseResources(int resources)
     {
@@ -469,5 +510,15 @@ public class ThirdPersonCharacterController : MonoBehaviour
         characterController.enabled = false;
         transform.position = initialPosition;
         characterController.enabled = true;
+    }
+
+    public void Step()
+    {
+        SoundManager.GetInstance().PlayOneShotSound(stepSoundPath, transform.position);
+    }
+
+    public void EndJump()
+    {
+        SoundManager.GetInstance().PlayOneShotSound(endJumpSoundPath, transform.position);
     }
 }

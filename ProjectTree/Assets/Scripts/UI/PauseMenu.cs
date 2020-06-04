@@ -8,7 +8,11 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public static bool GameIsPaused = false;
+
     public Animator hud;
+    
+    public string enterMenuSoundPath;
+    public string exitMenuSoundPath;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +35,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Pause()
     {
+        SoundManager.GetInstance().PlayOneShotSound(enterMenuSoundPath, GameController.GetInstance().Player.transform);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         hud.SetBool("startPause", true);
@@ -51,6 +56,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
+        SoundManager.GetInstance().PlayOneShotSound(exitMenuSoundPath, GameController.GetInstance().Player.transform);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         Time.timeScale = 1f;
