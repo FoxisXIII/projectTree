@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Xml.Serialization;
+using Systems;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Jobs;
@@ -10,7 +11,8 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 
-public class EnemyBulletShootingSystem : ComponentSystem
+[UpdateAfter(typeof(AttackSystem))]
+public class EnemyBulletShootingSystem : SystemBase
 {
     private static float3 Direction(float3 v1, float3 v2)
     {
@@ -21,7 +23,6 @@ public class EnemyBulletShootingSystem : ComponentSystem
 
     protected override void OnUpdate()
     {
-        var buffers = GetBufferFromEntity<EnemyPosition>();
         Entities.ForEach((Entity entity, ref AIData aiData, ref BulletPrefabComponent bullet, ref Translation position,
             ref Rotation rotation) =>
         {
@@ -29,13 +30,8 @@ public class EnemyBulletShootingSystem : ComponentSystem
             {
                 Entity bulletEntity = EntityManager.Instantiate(bullet.prefab);
                 float3 enemyPos;
-                if (aiData.entity != null)
-                {
-                    enemyPos = EntityManager.GetComponentData<Translation>(aiData.entity).Value;
-                    enemyPos.y += 1f;
-                }
-                else
-                    enemyPos = buffers[entity][aiData.counter].position;
+                enemyPos = EntityManager.GetComponentData<Translation>(aiData.entity).Value;
+                enemyPos.y += 1f;
 
                 var direction = Direction(position.Value, enemyPos);
 
@@ -50,6 +46,6 @@ public class EnemyBulletShootingSystem : ComponentSystem
                 EntityManager.SetComponentData(bulletEntity, movementData);
                 aiData.shot = false;
             }
-        });
+        }).Run();
     }
 }

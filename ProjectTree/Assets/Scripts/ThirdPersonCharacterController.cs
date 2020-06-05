@@ -315,7 +315,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         LocFire.transform.forward = cam.transform.forward;
         LocFire.GetComponent<LineRenderer>().SetPosition(0, LocFire.transform.position);
-        LocFire.GetComponent<LineRenderer>().SetPosition(1, LocFire.transform.forward * 50);
+        LocFire.GetComponent<LineRenderer>().SetPosition(1, cam.transform.forward * 50);
         // float dirMouse = cine.m_YAxis.m_InputAxisValue;
         //    //Debug.Log(dirMouse);
         //    if (dirMouse!=0)
@@ -423,9 +423,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 damage.Value = this.damage;
                 manager.SetComponentData(bullets[index], damage);
                 var movement = manager.GetComponentData<MovementData>(bullets[index]);
-                movement.directionX = LocFire.transform.forward.x;
-                movement.directionY = LocFire.transform.forward.y;
-                movement.directionZ = LocFire.transform.forward.z;
+                var rot = math.normalize(tempRot);
+                movement.directionX = tempRot.x;
+                movement.directionY = tempRot.y;
+                movement.directionZ = tempRot.z;
                 manager.SetComponentData(bullets[index], movement);
                 index++;
             }

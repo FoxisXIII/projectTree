@@ -68,7 +68,7 @@ public class OverviewController : MonoBehaviour
             goToCharacter = true;
             GameController.GetInstance().Player.hud.SetBool("towers", false);
             Cursor.visible = false;
-            SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, transform.position);
+            // SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, transform.position);
 
             if (_instantiatedPreviewTurret != null)
             {
@@ -139,8 +139,8 @@ public class OverviewController : MonoBehaviour
             GameController.GetInstance().UpdateResources(-20);
             GameController.GetInstance().TowersPlaced++;
 
-            _manager.AddBuffer<EnemiesInRange>(turret);
-            _manager.AddBuffer<TurretsInRange>(turret);
+            // _manager.AddBuffer<EnemiesInRange>(turret);
+            // _manager.AddBuffer<TurretsInRange>(turret);
             _manager.AddComponent(turret, typeof(TurretFMODPaths));
             _manager.SetComponentData(turret, new TurretFMODPaths
             {

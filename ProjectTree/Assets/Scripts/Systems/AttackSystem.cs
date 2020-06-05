@@ -41,7 +41,7 @@ namespace Systems
                             {
                                 //SoundManager.GetInstance().PlayOneShotSound(paths.AttackBasePath.ToString(), translation.Value);
                                 playerBase.ReceiveDamage(aiData.attackDamage);
-                                aiData.shot = true;
+                                // aiData.shot = true;
                                 aiData.attackWait = 0;
                             }
 

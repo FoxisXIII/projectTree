@@ -24,6 +24,7 @@ public class MoveToSystem : JobComponentSystem
     protected override JobHandle OnUpdate(JobHandle inputDependencies)
     {
         var buffers = GetBufferFromEntity<EnemyPosition>();
+        var player = GetComponentDataFromEntity<PlayerTag>();
         var translations = GetComponentDataFromEntity<Translation>();
 
 
@@ -38,6 +39,7 @@ public class MoveToSystem : JobComponentSystem
                         movementData = StopMovement(movementData);
 
                         var direction = float3.zero;
+
                         if (aiData.goToEntity)
                             direction = translations[aiData.entity].Value - translation.Value;
                         else
@@ -49,13 +51,18 @@ public class MoveToSystem : JobComponentSystem
                             direction = translations[aiData.entity].Value - translation.Value;
                             var magnitude = Magnitude(direction);
                             if (magnitude > aiData.attackDistancePlayer)
+                            {
                                 aiData.stop = false;
+                                if (!player.Exists(aiData.entity))
+                                {
+                                    aiData.goToEntity = false;
+                                    aiData.entity = Entity.Null;
+                                }
+                            }
                         }
                     }
                     else
                     {
-                        if (aiData.entity == null)
-                            aiData.goToEntity = false;
                         if (aiData.goToEntity)
                         {
                             float3 direction;
@@ -80,9 +87,9 @@ public class MoveToSystem : JobComponentSystem
                             {
                                 movementData = SetDirection(movementData, direction, magnitude);
                             }
-                            
+
                             movementData = SetRotation(movementData,
-                                    translations[aiData.entity].Value - translation.Value, aiData.canFly);
+                                translations[aiData.entity].Value - translation.Value, aiData.canFly);
                             movementData.rotation.value.x = 0;
                             movementData.rotation.value.z = 0;
 
@@ -164,6 +171,7 @@ public class MoveToSystem : JobComponentSystem
             rotation = math.mul(rotation, quaternion.RotateX(math.radians(lookAt.x)));
             movementData.rotation = rotation;
         }
+
         return movementData;
     }
 }

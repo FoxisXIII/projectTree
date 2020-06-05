@@ -14,7 +14,7 @@ public class SoundManager : MonoBehaviour
     private static SoundManager Instance;
     private List<MovingSound> movingEvents;
     private EntityManager _entityManager;
-    
+
     private SoundManager()
     {
     }
@@ -27,6 +27,7 @@ public class SoundManager : MonoBehaviour
             Instance = go.AddComponent<SoundManager>();
             Instance.name = "SoundManager";
         }
+
         return Instance;
     }
 
@@ -42,6 +43,7 @@ public class SoundManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(this);
         }
+
         _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
         movingEvents = new List<MovingSound>();
     }
@@ -65,7 +67,7 @@ public class SoundManager : MonoBehaviour
                     if (mTransform == null)
                     {
                         Entity entity = movingEvents[i].GetEntity();
-                        if (_entityManager.Exists(entity))
+                        if (_entityManager.Exists(entity) && _entityManager.HasComponent<Translation>(entity))
                             eventInstance.set3DAttributes(
                                 RuntimeUtils.To3DAttributes(_entityManager.GetComponentData<Translation>(entity)
                                     .Value));
@@ -101,11 +103,12 @@ public class SoundManager : MonoBehaviour
             soundEvent.set3DAttributes(RuntimeUtils.To3DAttributes(position));
             soundEvent.start();
         }
+
         return soundEvent;
     }
 
     //Para sonidos que no queremos controlar, que cuando acaban, se destruyen solos
-    
+
     //Sonidos que se mueven con Gameobject
     public void PlayOneShotSound(string path, Transform transform)
     {
@@ -119,7 +122,7 @@ public class SoundManager : MonoBehaviour
             soundEvent.release();
         }
     }
-    
+
     //Sonidos que no se mueven
     public void PlayOneShotSound(string path, Vector3 position)
     {

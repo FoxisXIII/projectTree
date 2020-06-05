@@ -23,8 +23,7 @@ public class EnemySpawner : MonoBehaviour
     private BlobAssetStore _blobAssetGround;
     public float3[] min, max;
 
-    [Header("FMOD paths")] 
-    public string groundMovementSoundPath;
+    [Header("FMOD paths")] public string groundMovementSoundPath;
     public string airMovementSoundPath;
     public string attackPlayerSoundPath;
     public string attackBaseSoundPath;
@@ -59,8 +58,9 @@ public class EnemySpawner : MonoBehaviour
         if (aiData.canFly)
 
             aiData.state = 0;
-        Vector3 offset = aiData.canFly ? Vector3.up * Random.Range(1f, 5f) : Vector3.zero;
+        Vector3 offset = aiData.canFly ? Vector3.up * Random.Range(.5f, 2.5f) : Vector3.zero;
         aiData.state = 0;
+
         _entityManager.AddComponent(enemy, typeof(EnemyFMODPaths));
         _entityManager.SetComponentData(enemy, new EnemyFMODPaths
         {
@@ -71,6 +71,10 @@ public class EnemySpawner : MonoBehaviour
             HitPath = hitSoundPath,
             DiePath = dieSoundPath
         });
+        var health = _entityManager.GetComponentData<HealthData>(enemy);
+        health.value = GameController.GetInstance().WaveCounter;
+        health.maxValue = GameController.GetInstance().WaveCounter;
+        _entityManager.SetComponentData(enemy, health);
         SoundManager.GetInstance().PlayOneShotSound(airMovementSoundPath, enemy);
         _entityManager.SetComponentData(enemy, aiData);
 
@@ -91,6 +95,7 @@ public class EnemySpawner : MonoBehaviour
         {
             list.Add(new EnemyPosition() {position = GetPosition(min[i], max[i], random) + offset});
         }
+
         return list;
     }
 
@@ -103,7 +108,7 @@ public class EnemySpawner : MonoBehaviour
         min.y += distance * randomValue;
         distance = max.z - min.z;
         min.z += distance * randomValue;
-        
+
         // GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         // sphere.transform.position = min;
 
@@ -141,5 +146,6 @@ public class EnemySpawner : MonoBehaviour
     private void OnApplicationQuit()
     {
         _blobAssetFly.Dispose();
+        _blobAssetGround.Dispose();
     }
 }

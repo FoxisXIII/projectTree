@@ -29,6 +29,9 @@ public class WaveController : MonoBehaviour
         GameController.GetInstance().MaxWaveEnemies = maxWaveEnemies;
         GameController.GetInstance().EnemiesSpawnRate = enemySpawnRate;
         GameController.GetInstance().EnemiesKilled = 0;
+        
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
 
         _canEndWave = true;
     }
