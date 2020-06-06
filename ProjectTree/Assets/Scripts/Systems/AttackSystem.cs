@@ -65,7 +65,8 @@ namespace Systems
                                         healthGroup[aiData.entity].Add(new Damage() {Value = aiData.attackDamage});
                                         aiData.shot = true;
                                         //SoundManager.GetInstance().PlayOneShotSound(paths.AttackPlayerPath.ToString(), translation.Value);
-                                        GameController.GetInstance().Player.ReceiveDamage();
+                                        if (GameController.GetInstance().Player != null)
+                                            GameController.GetInstance().Player.ReceiveDamage();
                                     }
 
                                     aiData.attackWait = 0;

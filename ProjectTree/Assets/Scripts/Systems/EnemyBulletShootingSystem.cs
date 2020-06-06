@@ -12,7 +12,7 @@ using Unity.Transforms;
 using UnityEngine;
 
 [UpdateAfter(typeof(AttackSystem))]
-public class EnemyBulletShootingSystem : SystemBase
+public class EnemyBulletShootingSystem : ComponentSystem
 {
     private static float3 Direction(float3 v1, float3 v2)
     {
@@ -46,6 +46,6 @@ public class EnemyBulletShootingSystem : SystemBase
                 EntityManager.SetComponentData(bulletEntity, movementData);
                 aiData.shot = false;
             }
-        }).Run();
+        });
     }
 }
