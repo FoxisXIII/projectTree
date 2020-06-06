@@ -26,8 +26,7 @@ public class OverviewController : MonoBehaviour
     public GameObject position;
     private bool goToPosition, goToCharacter;
 
-    [Header("FMOD")]
-    public string turretCollocationSoundPath;
+    [Header("FMOD")] public string turretCollocationSoundPath;
     public string turretShotSoundPath;
     public string turretBombSoundPath;
     public string turretAuraSoundPath;
@@ -157,9 +156,9 @@ public class OverviewController : MonoBehaviour
     private void UpdatePreviewTurret()
     {
         _turretCanBePlaced = _instantiatedPreviewTurret.isValidPosition();
-        _instantiatedPreviewTurret.material.color = _turretCanBePlaced
+        _instantiatedPreviewTurret.material.SetColor("_main_color", _turretCanBePlaced
             ? _instantiatedPreviewTurret.canBePlaced
-            : _instantiatedPreviewTurret.canNotBePlaced;
+            : _instantiatedPreviewTurret.canNotBePlaced);
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit hit;

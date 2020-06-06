@@ -1,47 +1,9 @@
 fileFormatVersion: 2
-guid: 0c0fdca766d78354d97df92d6b0a7072
+guid: 5023ca571c1337b498d0a6a889d6a1c5
 ModelImporter:
   serializedVersion: 20100
-  internalIDToNameTable:
-  - first:
-      1: 100000
-    second: //RootNode
-  - first:
-      1: 100002
-    second: Object016 1
-  - first:
-      4: 400000
-    second: //RootNode
-  - first:
-      4: 400002
-    second: Object016 1
-  - first:
-      21: 2100000
-    second: No Name
-  - first:
-      23: 2300000
-    second: //RootNode
-  - first:
-      23: 2300002
-    second: Object016 1
-  - first:
-      33: 3300000
-    second: //RootNode
-  - first:
-      33: 3300002
-    second: Object016 1
-  - first:
-      43: 4300000
-    second: Object016
-  - first:
-      43: 4300002
-    second: Object016
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: No Name
-    second: {fileID: 2100000, guid: 5637f1efa9b35b64b822592f40f0915b, type: 2}
+  internalIDToNameTable: []
+  externalObjects: {}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -69,7 +31,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 1
+    isReadable: 0
   meshes:
     lODScreenPercentages: []
     globalScale: 1
@@ -96,7 +58,7 @@ ModelImporter:
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
-    secondaryUVMarginMethod: 0
+    secondaryUVMarginMethod: 1
     secondaryUVMinLightmapResolution: 40
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
@@ -129,7 +91,7 @@ ModelImporter:
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   avatarSetup: 0
   additionalBone: 0
