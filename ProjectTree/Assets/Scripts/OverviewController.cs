@@ -152,7 +152,8 @@ public class OverviewController : MonoBehaviour
                 DestroyPath = turretDestroySoundPath,
                 AuraPath = turretAuraSoundPath,
                 HealPath = turretHealSoundPath,
-                BuffPath = turretBuffSoundPath
+                BuffPath = turretBuffSoundPath,
+                BombPath = turretBombSoundPath
             });
             SoundManager.GetInstance().PlayOneShotSound(turretCollocationSoundPath, transform);
         }
