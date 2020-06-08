@@ -276,6 +276,7 @@
         </e>
         <e p="Shaders" t="Include">
           <e p="CustomLighting.hlsl" t="Include" />
+          <e p="WaterShader.shader" t="Include" />
         </e>
         <e p="Sound" t="Include">
           <e p="DELETE.txt" t="Include" />
