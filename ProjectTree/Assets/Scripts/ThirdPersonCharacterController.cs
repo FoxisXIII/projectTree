@@ -98,9 +98,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public HumanBodyBones bones;
 
 
-    [Header("FMOD paths")] public string jumpSoundPath;
-    public string endJumpSoundPath;
-    public string stepSoundPath;
+    [Header("FMOD paths")] 
+    public string jumpSoundPath;
     public string shotSoundPath;
     public string hitSoundPath;
     public string healSoundPath;
@@ -539,15 +538,5 @@ public class ThirdPersonCharacterController : MonoBehaviour
         characterController.enabled = false;
         transform.position = initialPosition;
         characterController.enabled = true;
-    }
-
-    public void Step()
-    {
-        SoundManager.GetInstance().PlayOneShotSound(stepSoundPath, transform.position);
-    }
-
-    public void EndJump()
-    {
-        SoundManager.GetInstance().PlayOneShotSound(endJumpSoundPath, transform.position);
     }
 }
