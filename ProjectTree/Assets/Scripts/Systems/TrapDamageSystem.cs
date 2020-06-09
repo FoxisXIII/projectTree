@@ -43,28 +43,31 @@ public class TrapDamageSystem : JobComponentSystem
         {
             if (dealDamageGroup.HasComponent(triggerEvent.Entities.EntityA))
             {
-                if (damageGroup.Exists(triggerEvent.Entities.EntityB))
+                var trapComponent = dealDamageGroup[triggerEvent.Entities.EntityA];
+                if (damageGroup.Exists(triggerEvent.Entities.EntityB)&&!trapComponent.cankill)
                 {
                     damageGroup[triggerEvent.Entities.EntityB].Add(new Damage
                     {
                         Value = dealDamageGroup[triggerEvent.Entities.EntityA].Damage
                     });
-                    var trapComponent = dealDamageGroup[triggerEvent.Entities.EntityA];
-                    trapComponent.Deaths++;
+                    //trapComponent.Deaths++;
+                    trapComponent.cankill = true;
                     dealDamageGroup[triggerEvent.Entities.EntityA] = trapComponent;
                 }
             }
 
             if (dealDamageGroup.HasComponent(triggerEvent.Entities.EntityB))
             {
-                if (damageGroup.Exists(triggerEvent.Entities.EntityA))
+                var trapComponent = dealDamageGroup[triggerEvent.Entities.EntityB];
+                if (damageGroup.Exists(triggerEvent.Entities.EntityA)&&!trapComponent.cankill)
                 {
                     damageGroup[triggerEvent.Entities.EntityA].Add(new Damage
                     {
                         Value = dealDamageGroup[triggerEvent.Entities.EntityB].Damage
                     });
-                    var trapComponent = dealDamageGroup[triggerEvent.Entities.EntityB];
-                    trapComponent.Deaths++;
+                    
+                    //trapComponent.Deaths++;
+                    trapComponent.cankill = true;
                     dealDamageGroup[triggerEvent.Entities.EntityB] = trapComponent;
                 }
             }
