@@ -34,8 +34,8 @@ public class DeathSystem : JobComponentSystem
             {
                 ResetCollisionBuffer(collisions[e]);
                 GameController.GetInstance().RemoveEnemyWave();
-                ecb.DestroyEntity(e);
             }
+            ecb.DestroyEntity(e);
         }).Run();
 
         return default;

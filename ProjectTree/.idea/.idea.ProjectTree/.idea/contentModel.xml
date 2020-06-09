@@ -161,7 +161,7 @@
           <e p="Base.cs" t="Include" />
           <e p="CanvasTP.cs" t="Include" />
           <e p="Components" t="Include">
-            <e p="AIData.cs" t="Include" />
+            <e p="AiData.cs" t="Include" />
             <e p="AnimationData.cs" t="Include" />
             <e p="BaseTag.cs" t="Include" />
             <e p="BuffTurretData.cs" t="Include" />

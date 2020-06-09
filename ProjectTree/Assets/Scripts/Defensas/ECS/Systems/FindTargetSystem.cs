@@ -16,7 +16,7 @@ public class FindTargetSystem : JobComponentSystem
 {
     private BuildPhysicsWorld _buildPhysicsWorld;
     private StepPhysicsWorld _stepPhysicsWorld;
-    
+
 
     protected override void OnCreate()
     {
@@ -69,7 +69,7 @@ public class FindTargetSystem : JobComponentSystem
 
         private void AddEnemyInRange(Entity turret, Entity enemy)
         {
-            if (!enemyGroup[enemy].goToEntity)
+            if (!enemyGroup[enemy].goToEntity && !enemyGroup[enemy].boss)
             {
                 var aiData = enemyGroup[enemy];
                 aiData.entity = turret;

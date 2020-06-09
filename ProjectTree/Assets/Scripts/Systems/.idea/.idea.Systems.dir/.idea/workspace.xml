@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="419a34df-b8a3-4663-ae4e-8bdc3fde9f89" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../../.idea/.idea.ProjectTree/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../.idea/.idea.ProjectTree/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Scenes/Scenario.unity" beforeDir="false" afterPath="$PROJECT_DIR$/../../Scenes/Scenario.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Components/AIData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Components/SimpleEnemyData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Components/AIData.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/../Components/SimpleEnemyData.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Components/CollisionEnemy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Components/CollisionEnemy.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Defensas/ECS/Systems/FindTargetSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Defensas/ECS/Systems/FindTargetSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Defensas/ECS/Systems/GetClosestEnemySystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Defensas/ECS/Systems/GetClosestEnemySystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Defensas/Projectile/ECS/Systems/DestroyOnContactSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Defensas/Projectile/ECS/Systems/DestroyOnContactSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Spawners/EnemySpawner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Spawners/EnemySpawner.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Spawners/EnemySpawnerMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Spawners/EnemySpawnerMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AnimationSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AnimationSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AttackSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AttackSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DeathSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DeathSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EnemiesCollisionsSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/EnemiesCollisionsSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EnemyBulletShootingSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/EnemyBulletShootingSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExplosionCollisionSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExplosionCollisionSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExplosionTriggerSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExplosionTriggerSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MoveToSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MoveToSystem.cs" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
+  </component>
+  <component name="ProjectId" id="1d5Z2Bn6aYJGfByCRx5c8Q1pY7z" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="419a34df-b8a3-4663-ae4e-8bdc3fde9f89" name="Default Changelist" comment="" />
+      <created>1591716705126</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1591716705126</updated>
+      <workItem from="1591716710563" duration="4000" />
+    </task>
+    <servers />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="null" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+</project>

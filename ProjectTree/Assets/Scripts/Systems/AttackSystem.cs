@@ -34,6 +34,8 @@ namespace Systems
                     (ref AIData aiData, ref Translation translation, ref MovementData movementData,
                         ref Entity entity, ref EnemyFMODPaths paths) =>
                     {
+                        Debug.Log(math.distance(buffers[entity][buffers[entity].Length - 1].position, translation.Value));
+                        
                         if (math.distance(buffers[entity][buffers[entity].Length - 1].position, translation.Value) <
                             aiData.attackDistanceBase)
                         {
