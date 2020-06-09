@@ -61,25 +61,15 @@ public class OverviewController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(cameraChange) && GameController.GetInstance().Player.cameraChanged ||
-            GameController.GetInstance().WaveInProcess)
+        if (Input.GetKeyDown(cameraChange) && GameController.GetInstance().Player.cameraChanged)
         {
-            goToPosition = false;
-            goToCharacter = true;
-            GameController.GetInstance().Player.hud.SetBool("towers", false);
-            Cursor.visible = false;
-            // SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, transform.position);
-
-            if (_instantiatedPreviewTurret != null)
-            {
-                Destroy(_instantiatedPreviewTurret);
-            }
+            ChangeCamera();
         }
 
         if (goToPosition)
         {
             transform.position =
-                Vector3.MoveTowards(transform.position, position.transform.position, 50 * Time.deltaTime);
+                Vector3.MoveTowards(transform.position, position.transform.position, 15 * Time.deltaTime);
             transform.rotation = Quaternion.Lerp(transform.rotation, position.transform.rotation, Time.deltaTime);
 
             if (transform.position == position.transform.position)
@@ -89,7 +79,7 @@ public class OverviewController : MonoBehaviour
         if (goToCharacter)
         {
             transform.position = Vector3.MoveTowards(transform.position,
-                GameController.GetInstance().Player.fpsCamera.transform.position, 50 * Time.deltaTime);
+                GameController.GetInstance().Player.fpsCamera.transform.position, 100 * Time.deltaTime);
             transform.rotation = Quaternion.Lerp(transform.rotation,
                 GameController.GetInstance().Player.fpsCamera.transform.rotation, Time.deltaTime);
 
@@ -111,6 +101,7 @@ public class OverviewController : MonoBehaviour
                     _indexToCreate = i - 1;
                     CreatePreviewTurret();
                     _creating = true;
+                    break;
                 }
             }
 
@@ -125,6 +116,16 @@ public class OverviewController : MonoBehaviour
                 UpdatePreviewTurret();
             }
         }
+    }
+
+    public void ChangeCamera()
+    {
+        Destroy(_instantiatedPreviewTurret.gameObject);
+        goToPosition = false;
+        goToCharacter = true;
+        GameController.GetInstance().Player.hud.SetBool("towers", false);
+        Cursor.visible = false;
+        SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, transform.position);
     }
 
     private void CreateTurret(int index)
@@ -148,7 +149,8 @@ public class OverviewController : MonoBehaviour
                 DestroyPath = turretDestroySoundPath,
                 AuraPath = turretAuraSoundPath,
                 HealPath = turretHealSoundPath,
-                BuffPath = turretBuffSoundPath
+                BuffPath = turretBuffSoundPath,
+                BombPath = turretBombSoundPath
             });
             SoundManager.GetInstance().PlayOneShotSound(turretCollocationSoundPath, transform);
         }
