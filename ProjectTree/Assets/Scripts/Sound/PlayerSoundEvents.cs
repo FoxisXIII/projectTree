@@ -15,5 +15,6 @@ public class PlayerSoundEvents : MonoBehaviour
     public void EndJump()
     {
         SoundManager.GetInstance().PlayOneShotSound(endJumpSoundPath, transform.position);
+        Debug.Log("landing");
     }
 }

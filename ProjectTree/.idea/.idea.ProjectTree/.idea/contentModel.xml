@@ -224,6 +224,7 @@
               <e p="ProjectileBehaviour.cs" t="Include" />
             </e>
             <e p="TurretMonoBehaviour.cs" t="Include" />
+            <e p="TurretSpots.cs" t="Include" />
           </e>
           <e p="GameController.cs" t="Include" />
           <e p="OverviewController.cs" t="Include" />

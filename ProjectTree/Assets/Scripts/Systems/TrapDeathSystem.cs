@@ -21,8 +21,8 @@ public class TrapDeathSystem : JobComponentSystem
         
         Entities.ForEach(( ref TrapComponent trapComponent, ref Entity entity) =>
         {
-            Debug.Log("tiempo :"+trapComponent.Recover);
-            Debug.Log("Puede matar: "+trapComponent.cankill);
+            // Debug.Log("tiempo :"+trapComponent.Recover);
+            // Debug.Log("Puede matar: "+trapComponent.cankill);
             if (trapComponent.cankill)
             {
                 trapComponent.Recover = trapComponent.Recover+realTime; 
