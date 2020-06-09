@@ -101,6 +101,7 @@ public class OverviewController : MonoBehaviour
                     _indexToCreate = i - 1;
                     CreatePreviewTurret();
                     _creating = true;
+                    break;
                 }
             }
 
@@ -119,16 +120,12 @@ public class OverviewController : MonoBehaviour
 
     public void ChangeCamera()
     {
+        Destroy(_instantiatedPreviewTurret.gameObject);
         goToPosition = false;
         goToCharacter = true;
         GameController.GetInstance().Player.hud.SetBool("towers", false);
         Cursor.visible = false;
         SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, transform.position);
-
-        if (_instantiatedPreviewTurret != null)
-        {
-            Destroy(_instantiatedPreviewTurret);
-        }
     }
 
     private void CreateTurret(int index)
