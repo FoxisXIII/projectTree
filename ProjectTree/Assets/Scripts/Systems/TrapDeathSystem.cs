@@ -16,14 +16,23 @@ public class TrapDeathSystem : JobComponentSystem
     
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        
+        float realTime=Time.DeltaTime;
         EntityCommandBuffer ecb = _entityCommandBufferSystem.CreateCommandBuffer();
         
-        Entities.ForEach((TrapComponent trapComponent,Entity entity) =>
+        Entities.ForEach(( ref TrapComponent trapComponent, ref Entity entity) =>
         {
-            if (trapComponent.Deaths>10)
+            Debug.Log("tiempo :"+trapComponent.Recover);
+            Debug.Log("Puede matar: "+trapComponent.cankill);
+            if (trapComponent.cankill)
             {
-                ecb.DestroyEntity(entity);
+                trapComponent.Recover = trapComponent.Recover+realTime; 
+                //ecb.DestroyEntity(entity);
+            }
+
+            if (trapComponent.cankill&& trapComponent.Recover>2)
+            {
+                trapComponent.cankill = false;
+                trapComponent.Recover = 0f;
             }
         }).Run();
         
