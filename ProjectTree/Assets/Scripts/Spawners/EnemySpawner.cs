@@ -121,6 +121,7 @@ public class EnemySpawner : MonoBehaviour
         var aiData = _entityManager.GetComponentData<AIData>(enemy);
         aiData.yOffset = aiData.canFly ? Random.Range(1f, 3f) : 0;
         aiData.state = 0;
+        aiData.attackDamage = 20;
         aiData.attackRate = Random.Range(.5f, 1f);
         _entityManager.SetComponentData(enemy, aiData);
 

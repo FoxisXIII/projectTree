@@ -65,6 +65,8 @@ public class GameController
                 _beforeBossMaxWaveEnemies = _maxWaveEnemies;
                 _numberOfBoses = Mathf.Min(3, 1 + (1 * (_waveCounter / 15)));
                 _maxWaveEnemies = _numberOfBoses + Mathf.Min(250, 25 * ((_waveCounter / 5) - 1));
+                _player.initialDamage *= 2;
+                _player.damage = _player.initialDamage;
                 _bossWave = true;
             }
             else if (_waveCounter > 1)

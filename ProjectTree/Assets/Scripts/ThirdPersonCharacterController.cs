@@ -71,13 +71,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [Header("BUFF")] [HideInInspector] public bool hasBuff;
     [HideInInspector] public Entity buffEntity;
     public int initialDamage;
-    private int damage;
+    [HideInInspector] public int damage;
     private bool shotgun;
     private int shotgunRange;
-
-
-    //Enemies Attacking
-    private Dictionary<Entity, Vector3> enemies;
 
 
     [Header("Change camera")] public GameObject fpsCamera;
@@ -112,7 +108,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     private void Awake()
     {
-        enemies = new Dictionary<Entity, Vector3>();
         GameController.GetInstance().Player = this;
         StopBuffs();
 
