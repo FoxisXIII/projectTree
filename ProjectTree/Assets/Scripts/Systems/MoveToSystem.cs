@@ -85,6 +85,9 @@ public class MoveToSystem : JobComponentSystem
                             }
                             else
                             {
+                                if (aiData.canFly)
+                                    direction.y += aiData.yOffset;
+                                
                                 movementData = SetDirection(movementData, direction, magnitude);
                             }
 
@@ -102,6 +105,7 @@ public class MoveToSystem : JobComponentSystem
                         else
                         {
                             var position = buffers[entity][aiData.counter].position;
+                            position.y += aiData.yOffset;
                             var direction = position - translation.Value;
                             var directionY = direction.y;
                             direction.y = 0;
@@ -128,12 +132,6 @@ public class MoveToSystem : JobComponentSystem
                 }).Run();
         return default;
     }
-
-    // private static AnimationData ChangeAnimation(int animation, AnimationData animationData)
-    // {
-    //     animationData._animationType = animation;
-    //     return animationData;
-    // }
 
     private static MovementData StopMovement(MovementData movementData)
     {

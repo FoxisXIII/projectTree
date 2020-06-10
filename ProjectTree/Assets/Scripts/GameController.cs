@@ -12,19 +12,21 @@ public class GameController
 
     private int _currentEnemies, _diedEnemies, _maxWaveEnemies, _waveCounter, _enemiesKilled, _towersPlaced;
     private float _enemiesSpawnRate;
-    private bool _waveInProcess;
+    private bool _waveInProcess, _normalWave, _bossWave;
 
     private Base _base;
     private ThirdPersonCharacterController _player;
     private EntityCommandBuffer ecb;
-    
-    [Header("FMOD paths")] 
-    public string startRoundSoundPath = "event:/FX/Round/Start";
+
+    [Header("FMOD paths")] public string startRoundSoundPath = "event:/FX/Round/Start";
     public string endRoundSoundPath = "event:/FX/Round/End";
 
     //Recursos
     private int _iron = 200;
     private Dictionary<string, List<Material>> animationMaterials;
+    private int _beforeBossMaxWaveEnemies;
+    private int _numberOfBoses;
+    private bool _noBaseDamage;
 
     private GameController()
     {
@@ -54,9 +56,28 @@ public class GameController
     public void startWave()
     {
         _waveCounter++;
-        if (_waveCounter > 1)
-            _maxWaveEnemies = Mathf.Min(200, _maxWaveEnemies + 10);
-        _enemiesSpawnRate = Mathf.Max(1f, _enemiesSpawnRate / 1.1f);
+
+
+        if (_waveCounter >= 1)
+        {
+            if (_waveCounter % 5 == 0)
+            {
+                _beforeBossMaxWaveEnemies = _maxWaveEnemies;
+                _numberOfBoses = Mathf.Min(3, 1 + (1 * (_waveCounter / 15)));
+                _maxWaveEnemies = _numberOfBoses + Mathf.Min(250, 25 * ((_waveCounter / 5) - 1));
+                _bossWave = true;
+            }
+            else if (_waveCounter > 1)
+            {
+                _maxWaveEnemies = Mathf.Min(250, _maxWaveEnemies + 10);
+                _normalWave = true;
+            }
+            else
+                _normalWave = true;
+        }
+
+        _noBaseDamage = true;
+        _enemiesSpawnRate = Mathf.Max(.5f, _enemiesSpawnRate / 1.1f);
         _waveInProcess = true;
         SoundManager.GetInstance().PlayOneShotSound(startRoundSoundPath, _player.transform.position);
     }
@@ -66,7 +87,14 @@ public class GameController
         _currentEnemies = 0;
         _diedEnemies = 0;
         UpdateResources(100);
+        if (_noBaseDamage)
+            _base.Heal(100);
+        if (_bossWave)
+            _maxWaveEnemies = _beforeBossMaxWaveEnemies;
+
         _waveInProcess = false;
+        _normalWave = false;
+        _bossWave = false;
         if (_waveCounter != 0)
             SoundManager.GetInstance().PlayOneShotSound(endRoundSoundPath, _player.transform.position);
     }
@@ -81,8 +109,6 @@ public class GameController
         _diedEnemies++;
         _enemiesKilled++;
     }
-
-    public bool WaveInProcess => _waveInProcess;
 
     public void pauseGame()
     {
@@ -127,6 +153,8 @@ public class GameController
 
         DefaultWorldInitialization.Initialize("Default World", false);
     }
+
+    #region Getters and Setters
 
     public int CurrentEnemies
     {
@@ -182,13 +210,19 @@ public class GameController
         set => _towersPlaced = value;
     }
 
-    public Dictionary<string, List<Material>> getMaterials()
+    public bool NoBaseDamage
     {
-        return animationMaterials;
+        get => _noBaseDamage;
+        set => _noBaseDamage = value;
     }
 
-    public void setMaterials(Dictionary<string, List<Material>> dictionary)
-    {
-        animationMaterials = dictionary;
-    }
+    public bool NormalWave => _normalWave;
+
+    public bool BossWave => _bossWave;
+
+    public bool WaveInProcess => _waveInProcess;
+
+    public int NumberOfBoses => _numberOfBoses;
+
+    #endregion
 }

@@ -11,6 +11,7 @@ public struct AIData : IComponentData
     public bool canFly;
     public bool boss;
     [HideInInspector] public bool horde;
+    [HideInInspector] public float yOffset;
 
     public float attackDistancePlayer;
     public float attackDistanceBase;

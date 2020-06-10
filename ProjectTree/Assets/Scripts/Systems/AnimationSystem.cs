@@ -8,7 +8,6 @@ public class AnimationSystem : SystemBase
 {
     protected override void OnUpdate()
     {
-        var materials = GameController.GetInstance().getMaterials();
         EntityManager manager = World.DefaultGameObjectInjectionWorld.EntityManager;
         var deltaTime = Time.DeltaTime;
 
@@ -46,22 +45,22 @@ public class AnimationSystem : SystemBase
 
     private static void RotateHelixes(EntityManager manager, AnimationData animationData, float deltaTime)
     {
-        // var rotationHelixL = manager.GetComponentData<Rotation>(animationData.helixL);
-        // Debug.Log(rotationHelixL.Value.value.z);
-        // rotationHelixL.Value.value.z += math.radians(90f) * deltaTime;
-        // manager.SetComponentData(animationData.helixL, rotationHelixL);
-        // var rotationHelixR = manager.GetComponentData<Rotation>(animationData.helixR);
-        // rotationHelixR.Value.value.z += math.radians(90f) * deltaTime;
-        // manager.SetComponentData(animationData.helixR, rotationHelixR);
+        var rotationHelixL = manager.GetComponentData<Rotation>(animationData.helixL);
+        Debug.Log(rotationHelixL.Value.value.z);
+        rotationHelixL.Value = math.mul(rotationHelixL.Value, quaternion.RotateZ(90f * deltaTime));
+        manager.SetComponentData(animationData.helixL, rotationHelixL);
+        var rotationHelixR = manager.GetComponentData<Rotation>(animationData.helixR);
+        rotationHelixR.Value = math.mul(rotationHelixR.Value, quaternion.RotateZ(90f * deltaTime));
+        manager.SetComponentData(animationData.helixR, rotationHelixR);
     }
 
     private static void RotateHulls(EntityManager manager, AnimationData animationData, float deltaTime, float rotation)
     {
         // var rotationHelixL = manager.GetComponentData<Rotation>(animationData.hullHelixL);
-        // rotationHelixL.Value = Quaternion.Lerp(rotationHelixL.Value, quaternion.RotateX(90 + rotation), 2 * deltaTime);
+        // rotationHelixL.Value = quaternion.RotateX(rotation * deltaTime);
         // manager.SetComponentData(animationData.helixL, rotationHelixL);
         // var rotationHelixR = manager.GetComponentData<Rotation>(animationData.hullHelixR);
-        // rotationHelixR.Value = Quaternion.Lerp(rotationHelixR.Value, quaternion.RotateX(90 + rotation), 2 * deltaTime);
+        // rotationHelixR.Value = quaternion.RotateX(rotation * deltaTime);
         // manager.SetComponentData(animationData.helixR, rotationHelixR);
     }
 }

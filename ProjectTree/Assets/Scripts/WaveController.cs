@@ -16,7 +16,9 @@ public class WaveController : MonoBehaviour
     public float waveCooldown;
     public float enemySpawnRate;
     public int maxWaveEnemies;
-    
+
+    private int bossInScenario;
+
 
     [SerializeField] private TextMeshProUGUI nextRoundTimeText;
     [SerializeField] private TextMeshProUGUI roundText;
@@ -29,7 +31,7 @@ public class WaveController : MonoBehaviour
         GameController.GetInstance().MaxWaveEnemies = maxWaveEnemies;
         GameController.GetInstance().EnemiesSpawnRate = enemySpawnRate;
         GameController.GetInstance().EnemiesKilled = 0;
-        
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -47,7 +49,10 @@ public class WaveController : MonoBehaviour
     {
         StartWave();
 
-        SpawnEnemy();
+        if (GameController.GetInstance().NormalWave)
+            SpawnEnemy();
+        else if (GameController.GetInstance().BossWave)
+            SpawnBoss();
 
         EndWave();
 
@@ -65,6 +70,7 @@ public class WaveController : MonoBehaviour
             hud.SetBool("inRound", true);
             hud.SetBool("nextRound", false);
             roundText.SetText("ROUND " + GameController.GetInstance().WaveCounter);
+            bossInScenario = 0;
             _canSpawn = true;
         }
     }
@@ -93,8 +99,30 @@ public class WaveController : MonoBehaviour
             spawnEnemyTime = 0;
         }
 
-        var waveEnemies = GameController.GetInstance().MaxWaveEnemies - GameController.GetInstance().DiedEnemies;
+        ChangeUiValues();
+    }
 
+    public void SpawnBoss()
+    {
+        if (_canSpawn && !_canEndWave && spawnEnemyTime >= GameController.GetInstance().EnemiesSpawnRate)
+        {
+            if (bossInScenario < GameController.GetInstance().NumberOfBoses)
+            {
+                spawners[Random.Range(0, spawners.Length)].SpawnBoss();
+                bossInScenario++;
+            }
+            else if (GameController.GetInstance().CurrentEnemies < GameController.GetInstance().MaxWaveEnemies)
+                spawners[Random.Range(0, spawners.Length)].SpawnEnemy();
+
+            spawnEnemyTime = 0;
+        }
+
+        ChangeUiValues();
+    }
+
+    private void ChangeUiValues()
+    {
+        var waveEnemies = GameController.GetInstance().MaxWaveEnemies - GameController.GetInstance().DiedEnemies;
         currentEnemiesImage.fillAmount =
             1f - ((float) waveEnemies / (float) GameController.GetInstance().MaxWaveEnemies);
         _canEndWave = GameController.GetInstance().DiedEnemies >= GameController.GetInstance().MaxWaveEnemies;
