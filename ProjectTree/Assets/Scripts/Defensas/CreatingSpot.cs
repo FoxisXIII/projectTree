@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
+using UnityEngine.Rendering;
+using Debug = FMOD.Debug;
 
 public class CreatingSpot : MonoBehaviour
 {
@@ -23,7 +25,9 @@ public class CreatingSpot : MonoBehaviour
         {
             if (!_manager.Exists(_associatedTurret))
             {
+                print("yay");
                 _hasTurret = false;
+                _particleSystem.Play();
             }
         }
     }
@@ -37,6 +41,8 @@ public class CreatingSpot : MonoBehaviour
             _particleSystem.Stop();
         }
     }
+
+    public bool HasTurret => _hasTurret;
 
     public void ActivateParticles()
     {

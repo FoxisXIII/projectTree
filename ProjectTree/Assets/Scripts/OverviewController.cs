@@ -130,7 +130,6 @@ public class OverviewController : MonoBehaviour
                         _indexToCreate = i - 1;
                         CreateTurret(_indexToCreate);
                         _creating = false;
-                        
                         break;
                     }
                 }
@@ -147,7 +146,6 @@ public class OverviewController : MonoBehaviour
                         _placeToCreate = hit.collider.gameObject;
                         //GameController.GetInstance().Player.hud.SetBool("towers", true);
                         TurretHUD.SetActive(true);
-                        print("yay");
                     }
                 }
             }
@@ -195,12 +193,13 @@ public class OverviewController : MonoBehaviour
         // }
         
         GameController.GetInstance().Player.hud.SetBool("towers", false);
-        if (GameController.GetInstance().iron >= 20)
+        CreatingSpot spot = _placeToCreate.GetComponent<CreatingSpot>();
+        if (GameController.GetInstance().iron >= 20 && !spot.HasTurret)
         {
             Entity turret = _manager.Instantiate(turretsToCreate[index]);
             //var position = _instantiatedPreviewTurret.gameObject.transform.position;
             _manager.SetComponentData(turret, new Translation {Value = _placeToCreate.transform.position});
-            _placeToCreate.GetComponent<CreatingSpot>().AddTurret(turret);
+            spot.AddTurret(turret);
             GameController.GetInstance().UpdateResources(-20);
             GameController.GetInstance().TowersPlaced++;
             _manager.AddComponent(turret, typeof(TurretFMODPaths));
