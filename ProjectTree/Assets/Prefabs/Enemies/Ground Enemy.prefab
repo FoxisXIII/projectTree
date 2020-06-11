@@ -22,6 +22,11 @@ PrefabInstance:
       propertyPath: canFly
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2144424122231066552, guid: 27f03128817fa2f4ebabd56e0140c8e1,
+        type: 3}
+      propertyPath: horde
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2603842012713884646, guid: 27f03128817fa2f4ebabd56e0140c8e1,
         type: 3}
       propertyPath: m_Material.m_CollidesWith.m_Value.Array.data[4]

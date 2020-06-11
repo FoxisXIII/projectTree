@@ -41,6 +41,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 0
   canFly: 1
+  boss: 0
+  horde: 1
+  yOffset: 0
   attackDistancePlayer: 3
   attackDistanceBase: 5
   attackDamage: 1

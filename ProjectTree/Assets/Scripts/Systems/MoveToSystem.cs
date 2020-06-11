@@ -87,7 +87,7 @@ public class MoveToSystem : JobComponentSystem
                             {
                                 if (aiData.canFly)
                                     direction.y += aiData.yOffset;
-                                
+
                                 movementData = SetDirection(movementData, direction, magnitude);
                             }
 
@@ -114,7 +114,12 @@ public class MoveToSystem : JobComponentSystem
                             {
                                 direction = translation.Value - buffers[entity][buffers[entity].Length - 1].position;
                                 if (Magnitude(direction) > 1 && aiData.counter < buffers[entity].Length - 1)
-                                    aiData.counter++;
+                                {
+                                    if (aiData.horde && aiData.counter == 0)
+                                        aiData.stop = true;
+                                    else
+                                        aiData.counter++;
+                                }
                                 else
                                 {
                                     aiData.counter = buffers[entity].Length - 1;
