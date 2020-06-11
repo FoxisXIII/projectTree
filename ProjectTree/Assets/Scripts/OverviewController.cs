@@ -24,9 +24,10 @@ public class OverviewController : MonoBehaviour
     private EntityManager _manager;
     private List<Entity> turretsToCreate;
     private int _indexToCreate;
-    private float3 _placeToCreate;
+    private GameObject _placeToCreate;
     public GameObject position;
     private bool goToPosition, goToCharacter;
+    public TurretSpots spotManager;
 
     [Header("FMOD")]
     public string turretCollocationSoundPath;
@@ -57,6 +58,7 @@ public class OverviewController : MonoBehaviour
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
+        spotManager.EnableParticles();
         goToPosition = true;
     }
 
@@ -127,7 +129,7 @@ public class OverviewController : MonoBehaviour
                         _indexToCreate = i - 1;
                         CreateTurret(_indexToCreate);
                         _creating = false;
-                        GameController.GetInstance().Player.hud.SetBool("towers", false);
+                        
                         break;
                     }
                 }
@@ -141,8 +143,8 @@ public class OverviewController : MonoBehaviour
                     if (hit.collider.CompareTag("TurretSpot") && Input.GetMouseButtonDown(0))
                     {
                         _creating = true;
-                        _placeToCreate = hit.collider.gameObject.transform.position;
-                        GameController.GetInstance().Player.hud.SetBool("towers", true);
+                        _placeToCreate = hit.collider.gameObject;
+                        GameController.GetInstance().Player.hud.SetTrigger("turretCreation");
                         print("yay");
                     }
                 }
@@ -154,6 +156,7 @@ public class OverviewController : MonoBehaviour
     {
         //Destroy(_instantiatedPreviewTurret.gameObject);
         _creating = false;
+        spotManager.DisableParticles();
         goToPosition = false;
         goToCharacter = true;
         GameController.GetInstance().Player.hud.SetBool("towers", false);
@@ -187,13 +190,14 @@ public class OverviewController : MonoBehaviour
         //     });
         //     SoundManager.GetInstance().PlayOneShotSound(turretCollocationSoundPath, transform);
         // }
-
+        
+        GameController.GetInstance().Player.hud.SetBool("towers", false);
         if (GameController.GetInstance().iron >= 20)
         {
             Entity turret = _manager.Instantiate(turretsToCreate[index]);
             //var position = _instantiatedPreviewTurret.gameObject.transform.position;
-            _manager.SetComponentData(turret, new Translation {Value = _placeToCreate});
-
+            _manager.SetComponentData(turret, new Translation {Value = _placeToCreate.transform.position});
+            _placeToCreate.GetComponent<CreatingSpot>().AddTurret();
             GameController.GetInstance().UpdateResources(-20);
             GameController.GetInstance().TowersPlaced++;
             _manager.AddComponent(turret, typeof(TurretFMODPaths));
