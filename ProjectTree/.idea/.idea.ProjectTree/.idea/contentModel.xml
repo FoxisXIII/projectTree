@@ -62,6 +62,26 @@
               </e>
             </e>
           </e>
+          <e p="EffectExamples" t="Include">
+            <e p="Magic Effects" t="Include">
+              <e p="Shaders" t="Include">
+                <e p="Ice.shader" t="Include" />
+              </e>
+            </e>
+            <e p="Misc Effects" t="Include">
+              <e p="Prefabs" t="Include">
+                <e p="Readme_Dissolve_Respawn_.txt" t="Include" />
+              </e>
+              <e p="Scripts" t="Include">
+                <e p="SpawnEffect.cs" t="Include" />
+              </e>
+              <e p="Shaders" t="Include">
+                <e p="Dissolve.shader" t="Include" />
+                <e p="FireFly.shader" t="Include" />
+                <e p="Respawn.shader" t="Include" />
+              </e>
+            </e>
+          </e>
           <e p="FMOD" t="Include">
             <e p="src" t="Include">
               <e p="Editor" t="Include">
