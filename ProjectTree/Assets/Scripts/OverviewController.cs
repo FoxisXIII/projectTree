@@ -28,6 +28,7 @@ public class OverviewController : MonoBehaviour
     public GameObject position;
     private bool goToPosition, goToCharacter;
     public TurretSpots spotManager;
+    public GameObject TurretHUD;
 
     [Header("FMOD")]
     public string turretCollocationSoundPath;
@@ -144,7 +145,8 @@ public class OverviewController : MonoBehaviour
                     {
                         _creating = true;
                         _placeToCreate = hit.collider.gameObject;
-                        GameController.GetInstance().Player.hud.SetTrigger("turretCreation");
+                        //GameController.GetInstance().Player.hud.SetBool("towers", true);
+                        TurretHUD.SetActive(true);
                         print("yay");
                     }
                 }
@@ -159,7 +161,8 @@ public class OverviewController : MonoBehaviour
         spotManager.DisableParticles();
         goToPosition = false;
         goToCharacter = true;
-        GameController.GetInstance().Player.hud.SetBool("towers", false);
+        //GameController.GetInstance().Player.hud.SetBool("towers", false);
+        TurretHUD.GetComponent<Animator>().SetTrigger("StopCreation");
         Cursor.visible = false;
         SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, transform.position);
     }
@@ -197,7 +200,7 @@ public class OverviewController : MonoBehaviour
             Entity turret = _manager.Instantiate(turretsToCreate[index]);
             //var position = _instantiatedPreviewTurret.gameObject.transform.position;
             _manager.SetComponentData(turret, new Translation {Value = _placeToCreate.transform.position});
-            _placeToCreate.GetComponent<CreatingSpot>().AddTurret();
+            _placeToCreate.GetComponent<CreatingSpot>().AddTurret(turret);
             GameController.GetInstance().UpdateResources(-20);
             GameController.GetInstance().TowersPlaced++;
             _manager.AddComponent(turret, typeof(TurretFMODPaths));
