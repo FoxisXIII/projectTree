@@ -5,17 +5,8 @@ using UnityEngine;
 
 public class TurretSpots : MonoBehaviour
 {
-    private Transform[] spots;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            spots[i] = transform.GetChild(i);
-        }
-    }
-    
+    public Transform[] spots;
+
     public Vector3 GetNearestpointOnGrid(float3 position)
     {
         float3 closestPoint = float3.zero;

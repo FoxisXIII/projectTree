@@ -526,7 +526,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         characterController.enabled = false;
         SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, birdCamera.transform.position);
         fpsCamera.SetActive(false);
-        hud.SetBool("towers", true);
+        //hud.SetBool("towers", true);
 
         if (hud.GetBool("inRound"))
         {
