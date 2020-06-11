@@ -153,7 +153,7 @@ Material:
     m_Floats:
     - Vector1_17380FEC: 0.6
     - Vector1_1E6DA895: 1
-    - Vector1_25A1D448: 1
+    - Vector1_25A1D448: 0.5
     - Vector1_63B2A60D: -0.1
     - Vector1_86C9C8BE: -0.92
     - Vector1_A0107DEB: 100
@@ -319,7 +319,7 @@ Material:
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
-    - _main_color: {r: 0, g: 1, b: 0, a: 0}
+    - _main_color: {r: 0, g: 0.5882353, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &182513178374121152
 MonoBehaviour:
