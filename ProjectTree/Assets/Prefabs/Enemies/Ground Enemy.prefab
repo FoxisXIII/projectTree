@@ -25,7 +25,7 @@ PrefabInstance:
     - target: {fileID: 2144424122231066552, guid: 27f03128817fa2f4ebabd56e0140c8e1,
         type: 3}
       propertyPath: horde
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2603842012713884646, guid: 27f03128817fa2f4ebabd56e0140c8e1,
         type: 3}

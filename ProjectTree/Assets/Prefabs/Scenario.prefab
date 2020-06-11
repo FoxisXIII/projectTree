@@ -812,8 +812,8 @@ MonoBehaviour:
   - {fileID: 5309293865398903642}
   - {fileID: 5309293866072633524}
   waveCooldown: 1
-  enemySpawnRate: 2
-  maxWaveEnemies: 1
+  enemySpawnRate: 1
+  maxWaveEnemies: 50
   nextRoundTimeText: {fileID: 0}
   roundText: {fileID: 0}
   currentEnemiesImage: {fileID: 0}

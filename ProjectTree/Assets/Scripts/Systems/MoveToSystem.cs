@@ -46,6 +46,11 @@ public class MoveToSystem : JobComponentSystem
                             direction = buffers[entity][aiData.counter].position - translation.Value;
                         movementData = SetRotation(movementData, direction, aiData.canFly);
 
+                        if(aiData.hordeMove&&aiData.counter==0)
+                        {
+                            aiData.stop = false;
+                            aiData.counter++;
+                        }
                         if (aiData.goToEntity)
                         {
                             direction = translations[aiData.entity].Value - translation.Value;
@@ -115,7 +120,7 @@ public class MoveToSystem : JobComponentSystem
                                 direction = translation.Value - buffers[entity][buffers[entity].Length - 1].position;
                                 if (Magnitude(direction) > 1 && aiData.counter < buffers[entity].Length - 1)
                                 {
-                                    if (aiData.horde && aiData.counter == 0)
+                                    if (aiData.horde && !aiData.hordeMove)
                                         aiData.stop = true;
                                     else
                                         aiData.counter++;

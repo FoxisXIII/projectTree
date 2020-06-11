@@ -55,89 +55,22 @@ public class EnemiesCollisionsSystem : JobComponentSystem
         private void StopEntity(float3 directionB, float3 calculateHitPoint, float3 directionA, Entity entityA,
             Entity entityB)
         {
-            if (directionB.Equals(float3.zero))
+            var aiDataB = enemiesGroup[entityB];
+            if (aiDataB.stop)
             {
                 var aiData = enemiesGroup[entityA];
                 if (aiData.state == 1)
                 {
                     aiData.stop = true;
                     enemiesGroup[entityA] = aiData;
-                    CheckAndAdd(CollisionBuffers[entityA], entityB);
-                }
-            }
-            else
-            {
-                var aiData = enemiesGroup[entityA];
-                if (aiData.stop && CollisionBuffers.Exists(entityA) && !Contains(CollisionBuffers[entityA], entityB))
-                {
-                    aiData.stop = false;
-                    enemiesGroup[entityA] = aiData;
-                    CheckAndRemove(CollisionBuffers[entityA], entityB);
                 }
             }
         }
-
-        private DynamicBuffer<CollisionEnemy> CheckAndRemove(DynamicBuffer<CollisionEnemy> buffer, Entity entity)
-        {
-            for (int i = 0; i < buffer.Length; i++)
-            {
-                if (buffer[i].Entity.Equals(entity))
-                {
-                    buffer.RemoveAt(i);
-                    return buffer;
-                }
-            }
-
-            return buffer;
-        }
-
-        private DynamicBuffer<CollisionEnemy> CheckAndAdd(DynamicBuffer<CollisionEnemy> buffer, Entity entity)
-        {
-            if (!Contains(buffer, entity))
-                buffer.Add(new CollisionEnemy() {Entity = entity});
-            return buffer;
-        }
-
-        private bool Contains(DynamicBuffer<CollisionEnemy> buffer, Entity entity)
-        {
-            for (int i = 0; i < buffer.Length; i++)
-            {
-                if (buffer[i].Entity.Equals(entity))
-                    return true;
-            }
-
-            return false;
-        }
-
-        private bool ForwardCollsion(float3 calculateHitPoint, float3 direction, Entity entity)
-        {
-            if (direction.Equals(float3.zero))
-            {
-                if (enemiesGroup[entity].goToEntity)
-                    direction = enemiesGroup[entity].entityPosition - TranslationGroup[entity].Value;
-                else
-                    direction = enemiesPositions[entity][enemiesGroup[entity].counter].position -
-                                TranslationGroup[entity].Value;
-            }
-
-            var dot = calculateHitPoint.x * direction.x + calculateHitPoint.y * direction.y +
-                      calculateHitPoint.z * direction.z;
-            var magnitude = (Magnitude(calculateHitPoint) * Magnitude(direction));
-            float angle = acos(dot / magnitude) * 180 / PI;
-            return angle <= 15 && angle >= 0;
-        }
-
 
         private float3 CalculateHitPoint(Translation translation, Translation translation1)
         {
             return normalize(translation1.Value - translation.Value);
         }
-    }
-
-    private static float Magnitude(float3 vector)
-    {
-        var magnitude = math.sqrt(math.pow(vector.x, 2) + math.sqrt(math.pow(vector.y, 2)) + math.pow(vector.z, 2));
-        return magnitude;
     }
 
     protected override void OnCreate()

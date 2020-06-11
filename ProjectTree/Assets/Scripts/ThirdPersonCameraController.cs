@@ -18,8 +18,6 @@ public class ThirdPersonCameraController : MonoBehaviour
     void Start()
     {
         Obst = Target;
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
 

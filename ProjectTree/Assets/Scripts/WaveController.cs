@@ -25,6 +25,7 @@ public class WaveController : MonoBehaviour
     [SerializeField] private Image currentEnemiesImage;
     [SerializeField] private Animator hud;
     private float spawnEnemyTime;
+    private bool[] hordes;
 
     void Awake()
     {
@@ -32,10 +33,19 @@ public class WaveController : MonoBehaviour
         GameController.GetInstance().EnemiesSpawnRate = enemySpawnRate;
         GameController.GetInstance().EnemiesKilled = 0;
 
+        hordes = new bool[spawners.Length];
+        resetHordes();
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
         _canEndWave = true;
+    }
+
+    private void resetHordes()
+    {
+        for (int i = 0; i < hordes.Length; i++)
+            hordes[i] = false;
     }
 
     private void Start()
@@ -69,7 +79,29 @@ public class WaveController : MonoBehaviour
             GameController.GetInstance().startWave();
             hud.SetBool("inRound", true);
             hud.SetBool("nextRound", false);
+
             roundText.SetText("ROUND " + GameController.GetInstance().WaveCounter);
+            resetHordes();
+            if (GameController.GetInstance().WaveCounter > 2)
+            {
+                var maxHorde = Mathf.Min(hordes.Length, 1 + (1 * (GameController.GetInstance().WaveCounter / 15)));
+                var currentHorde = 0;
+                for (int i = 0; i < hordes.Length; i++)
+                {
+                    if (Random.Range(0f, 1f) < .25f)
+                    {
+                        Debug.Log("HORDE WILL COME IN :" + i);
+                        hordes[i] = true;
+                        currentHorde++;
+                    }
+                    else
+                        hordes[i] = false;
+
+                    if (currentHorde == maxHorde)
+                        break;
+                }
+            }
+
             bossInScenario = 0;
             _canSpawn = true;
         }
@@ -94,7 +126,8 @@ public class WaveController : MonoBehaviour
             GameController.GetInstance().CurrentEnemies <
             GameController.GetInstance().MaxWaveEnemies)
         {
-            spawners[Random.Range(0, spawners.Length)].SpawnEnemy();
+            var random = Random.Range(0, spawners.Length);
+            spawners[random].SpawnEnemy(hordes[random]);
 
             spawnEnemyTime = 0;
         }
@@ -112,7 +145,10 @@ public class WaveController : MonoBehaviour
                 bossInScenario++;
             }
             else if (GameController.GetInstance().CurrentEnemies < GameController.GetInstance().MaxWaveEnemies)
-                spawners[Random.Range(0, spawners.Length)].SpawnEnemy();
+            {
+                var random = Random.Range(0, spawners.Length);
+                spawners[random].SpawnEnemy(hordes[random]);
+            }
 
             spawnEnemyTime = 0;
         }

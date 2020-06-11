@@ -54,7 +54,7 @@ public class EnemySpawner : MonoBehaviour
             GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, _blobAssetGroundBoss));
     }
 
-    public void SpawnEnemy()
+    public void SpawnEnemy(bool horde)
     {
         Entity enemy;
 
@@ -70,6 +70,7 @@ public class EnemySpawner : MonoBehaviour
         aiData.yOffset = aiData.canFly ? Random.Range(.25f, 2.5f) : 0;
         aiData.state = 0;
         aiData.attackRate = Random.Range(.5f, 1f);
+        aiData.horde = horde;
         _entityManager.SetComponentData(enemy, aiData);
 
         var movementData = _entityManager.GetComponentData<MovementData>(enemy);
@@ -204,6 +205,8 @@ public class EnemySpawner : MonoBehaviour
         {
             _blobAssetFly.Dispose();
             _blobAssetGround.Dispose();
+            _blobAssetFlyBoss.Dispose();
+            _blobAssetGroundBoss.Dispose();
         }
     }
 

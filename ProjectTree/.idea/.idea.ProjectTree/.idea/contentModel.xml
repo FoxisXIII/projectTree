@@ -253,6 +253,7 @@
             <e p="ExplosionCollisionSystem.cs" t="Include" />
             <e p="ExplosionSystem.cs" t="Include" />
             <e p="ExplosionTriggerSystem.cs" t="Include" />
+            <e p="HordeSystem.cs" t="Include" />
             <e p="MoveBulletSys.cs" t="Include" />
             <e p="MovementSystem.cs" t="Include" />
             <e p="MovePlayerSystem.cs" t="Include" />
