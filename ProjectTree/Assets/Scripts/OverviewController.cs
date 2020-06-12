@@ -130,6 +130,7 @@ public class OverviewController : MonoBehaviour
                         _indexToCreate = i - 1;
                         CreateTurret(_indexToCreate);
                         _creating = false;
+                        TurretHUD.SetActive(false);
                         break;
                     }
                 }
@@ -159,7 +160,7 @@ public class OverviewController : MonoBehaviour
         goToPosition = false;
         goToCharacter = true;
         //GameController.GetInstance().Player.hud.SetBool("towers", false);
-        TurretHUD.GetComponent<Animator>().SetTrigger("StopCreation");
+        TurretHUD.SetActive(false);
         Cursor.visible = false;
         SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, transform.position);
     }
@@ -247,7 +248,7 @@ public class OverviewController : MonoBehaviour
 
     public void OnClick(int index)
     {
-        CreatePreviewTurret();
+        CreateTurret(index);
         _creating = true;
         _indexToCreate = index;
     }

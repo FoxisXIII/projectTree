@@ -271,6 +271,8 @@
           <e p="UI" t="Include">
             <e p="ChangeScene.cs" t="Include" />
             <e p="ChangeSceneNoButton.cs" t="Include" />
+            <e p="DamageIndicator.cs" t="Include" />
+            <e p="DI_System.cs" t="Include" />
             <e p="GameOverMenu.cs" t="Include" />
             <e p="MainMenuTowerSpawner.cs" t="Include" />
             <e p="PauseMenu.cs" t="Include" />
