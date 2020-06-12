@@ -134,21 +134,20 @@ public class OverviewController : MonoBehaviour
                     }
                 }
             }
-            else
+            
+            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
             {
-                Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit))
+                if (hit.collider.CompareTag("TurretSpot") && Input.GetMouseButtonDown(0))
                 {
-                    if (hit.collider.CompareTag("TurretSpot") && Input.GetMouseButtonDown(0))
-                    {
-                        _creating = true;
-                        _placeToCreate = hit.collider.gameObject;
-                        //GameController.GetInstance().Player.hud.SetBool("towers", true);
-                        TurretHUD.SetActive(true);
-                    }
+                    _creating = true;
+                    _placeToCreate = hit.collider.gameObject;
+                    //GameController.GetInstance().Player.hud.SetBool("towers", true);
+                    TurretHUD.SetActive(true);
                 }
             }
+            
         }
     }
 
