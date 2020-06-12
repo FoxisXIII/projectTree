@@ -7,6 +7,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
+using Debug = FMOD.Debug;
 
 public class OverviewController : MonoBehaviour
 {
@@ -23,8 +24,11 @@ public class OverviewController : MonoBehaviour
     private EntityManager _manager;
     private List<Entity> turretsToCreate;
     private int _indexToCreate;
+    private GameObject _placeToCreate;
     public GameObject position;
     private bool goToPosition, goToCharacter;
+    public TurretSpots spotManager;
+    public GameObject TurretHUD;
 
     [Header("FMOD")]
     public string turretCollocationSoundPath;
@@ -55,6 +59,7 @@ public class OverviewController : MonoBehaviour
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
+        spotManager.EnableParticles();
         goToPosition = true;
     }
 
@@ -94,54 +99,108 @@ public class OverviewController : MonoBehaviour
         }
         else
         {
-            for (int i = 1; i < turretsToCreate.Count + 1; i++)
-            {
-                if (Input.GetKeyDown(i.ToString()))
-                {
-                    _indexToCreate = i - 1;
-                    CreatePreviewTurret();
-                    _creating = true;
-                    break;
-                }
-            }
+            // for (int i = 1; i < turretsToCreate.Count + 1; i++)
+            // {
+            //     if (Input.GetKeyDown(i.ToString()))
+            //     {
+            //         _indexToCreate = i - 1;
+            //         CreatePreviewTurret();
+            //         _creating = true;
+            //         break;
+            //     }
+            // }
+            //
+            // if (_creating)
+            // {
+            //     if (Input.GetMouseButtonDown(0))
+            //     {
+            //         CreateTurret(_indexToCreate);
+            //         _creating = false;
+            //     }
+            //
+            //     UpdatePreviewTurret();
+            // }
 
             if (_creating)
             {
-                if (Input.GetMouseButtonDown(0))
+                for (int i = 1; i < turretsToCreate.Count + 1; i++)
                 {
-                    CreateTurret(_indexToCreate);
-                    _creating = false;
+                    if (Input.GetKeyDown(i.ToString()))
+                    {
+                        _indexToCreate = i - 1;
+                        CreateTurret(_indexToCreate);
+                        _creating = false;
+                        break;
+                    }
                 }
-
-                UpdatePreviewTurret();
             }
+            
+            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider.CompareTag("TurretSpot") && Input.GetMouseButtonDown(0))
+                {
+                    _creating = true;
+                    _placeToCreate = hit.collider.gameObject;
+                    //GameController.GetInstance().Player.hud.SetBool("towers", true);
+                    TurretHUD.SetActive(true);
+                }
+            }
+            
         }
     }
 
     public void ChangeCamera()
     {
-        Destroy(_instantiatedPreviewTurret.gameObject);
+        //Destroy(_instantiatedPreviewTurret.gameObject);
+        _creating = false;
+        spotManager.DisableParticles();
         goToPosition = false;
         goToCharacter = true;
-        GameController.GetInstance().Player.hud.SetBool("towers", false);
+        //GameController.GetInstance().Player.hud.SetBool("towers", false);
+        TurretHUD.GetComponent<Animator>().SetTrigger("StopCreation");
         Cursor.visible = false;
         SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, transform.position);
     }
 
     private void CreateTurret(int index)
     {
-        Destroy(_instantiatedPreviewTurret.gameObject);
-        if (_turretCanBePlaced && GameController.GetInstance().iron >= 20)
+        // Destroy(_instantiatedPreviewTurret.gameObject);
+        // if (_turretCanBePlaced && GameController.GetInstance().iron >= 20)
+        // {
+        //     Entity turret = _manager.Instantiate(turretsToCreate[index]);
+        //     var position = _instantiatedPreviewTurret.gameObject.transform.position;
+        //     _manager.SetComponentData(turret, new Translation {Value = position});
+        //
+        //     GameController.GetInstance().UpdateResources(-20);
+        //     GameController.GetInstance().TowersPlaced++;
+        //
+        //     // _manager.AddBuffer<EnemiesInRange>(turret);
+        //     // _manager.AddBuffer<TurretsInRange>(turret);
+        //     _manager.AddComponent(turret, typeof(TurretFMODPaths));
+        //     _manager.SetComponentData(turret, new TurretFMODPaths
+        //     {
+        //         ShotPath = turretShotSoundPath,
+        //         DestroyPath = turretDestroySoundPath,
+        //         AuraPath = turretAuraSoundPath,
+        //         HealPath = turretHealSoundPath,
+        //         BuffPath = turretBuffSoundPath,
+        //         BombPath = turretBombSoundPath
+        //     });
+        //     SoundManager.GetInstance().PlayOneShotSound(turretCollocationSoundPath, transform);
+        // }
+        
+        GameController.GetInstance().Player.hud.SetBool("towers", false);
+        CreatingSpot spot = _placeToCreate.GetComponent<CreatingSpot>();
+        if (GameController.GetInstance().iron >= 20 && !spot.HasTurret)
         {
             Entity turret = _manager.Instantiate(turretsToCreate[index]);
-            var position = _instantiatedPreviewTurret.gameObject.transform.position;
-            _manager.SetComponentData(turret, new Translation {Value = position});
-
+            //var position = _instantiatedPreviewTurret.gameObject.transform.position;
+            _manager.SetComponentData(turret, new Translation {Value = _placeToCreate.transform.position});
+            spot.AddTurret(turret);
             GameController.GetInstance().UpdateResources(-20);
             GameController.GetInstance().TowersPlaced++;
-
-            // _manager.AddBuffer<EnemiesInRange>(turret);
-            // _manager.AddBuffer<TurretsInRange>(turret);
             _manager.AddComponent(turret, typeof(TurretFMODPaths));
             _manager.SetComponentData(turret, new TurretFMODPaths
             {

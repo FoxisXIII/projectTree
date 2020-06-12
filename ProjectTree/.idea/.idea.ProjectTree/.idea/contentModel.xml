@@ -184,6 +184,7 @@
           <e p="Crosshair.cs" t="Include" />
           <e p="Defensas" t="Include">
             <e p="ConvertTurret.cs" t="Include" />
+            <e p="CreatingSpot.cs" t="Include" />
             <e p="ECS" t="Include">
               <e p="Components" t="Include">
                 <e p="AttackSpeedComponent.cs" t="Include" />
@@ -224,6 +225,7 @@
               <e p="ProjectileBehaviour.cs" t="Include" />
             </e>
             <e p="TurretMonoBehaviour.cs" t="Include" />
+            <e p="TurretSpots.cs" t="Include" />
           </e>
           <e p="GameController.cs" t="Include" />
           <e p="OverviewController.cs" t="Include" />

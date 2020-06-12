@@ -9,6 +9,7 @@ TagManager:
   - Colocable
   - Base
   - Preview Turret
+  - TurretSpot
   layers:
   - Default
   - TransparentFX
