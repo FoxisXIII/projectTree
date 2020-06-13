@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using FMOD;
+using FMOD.Studio;
 using TMPro;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -212,7 +213,11 @@ public class OverviewController : MonoBehaviour
                 BuffPath = turretBuffSoundPath,
                 BombPath = turretBombSoundPath
             });
-            SoundManager.GetInstance().PlayOneShotSound(turretCollocationSoundPath, transform);
+            SoundManager.GetInstance().PlayOneShotSound(turretCollocationSoundPath, transform.position);
+            if (_indexToCreate >= 3)
+            {
+                SoundManager.GetInstance().PlayOneShotSound(turretAuraSoundPath, _placeToCreate.transform.position);
+            }
         }
     }
 

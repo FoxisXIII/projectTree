@@ -45,7 +45,7 @@ public class BuffTurretSystem : JobComponentSystem
                                 healthData.value = math.min(healthData.value + buffTurretData.health,
                                     healthData.maxValue);
                                 healthGroup[entityPlayer] = healthData;
-                                SoundManager.GetInstance().PlayOneShotSound(paths.BuffPath.ToString(), playerPosition);
+                                SoundManager.GetInstance().PlayOneShotSound(paths.HealPath.ToString(), playerPosition);
                             }
 
                             buffTurretData.buffTimer = 0;

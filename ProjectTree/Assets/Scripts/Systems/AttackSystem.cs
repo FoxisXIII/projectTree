@@ -39,7 +39,7 @@ namespace Systems
                         {
                             if (aiData.attackWait >= aiData.attackRate)
                             {
-                                //SoundManager.GetInstance().PlayOneShotSound(paths.AttackBasePath.ToString(), translation.Value);
+                                SoundManager.GetInstance().PlayOneShotSound(paths.AttackBasePath.ToString(), translation.Value);
                                 playerBase.ReceiveDamage(aiData.attackDamage);
                                 // aiData.shot = true;
                                 aiData.attackWait = 0;

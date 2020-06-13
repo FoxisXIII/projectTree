@@ -255,25 +255,18 @@ public class ThirdPersonCharacterController : MonoBehaviour
             anim.SetFloat("Speed", movPlayer.magnitude >= 0.1f ? speedper : 0f);
             anim.SetBool("onGround", characterController.isGrounded);
 
-
-            // float stepsVelocity = timeBetweenSteps;
-            // if (movPlayer.Equals(Vector3.zero))
-            // {
-            //     if (!SoundManager.GetInstance().IsPlaying(idleSoundEvent))
-            //     {
-            //         idleSoundEvent = SoundManager.GetInstance().PlayEvent(idleSoundPath, transform.position);
-            //     }
-            // }
-            // else
-            // {
-            //     idleSoundEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            //     // timeBetweenSteps += Time.deltaTime;
-            //     // if (timeBetweenSteps >= stepsVelocity)
-            //     // {
-            //     //     timeBetweenSteps = 0;
-            //     //     SoundManager.GetInstance().PlayOneShotSound(stepSoundPath, transform);
-            //     // }
-            // }
+            
+            if (movPlayer.Equals(Vector3.zero))
+            {
+                if (!SoundManager.GetInstance().IsPlaying(idleSoundEvent))
+                {
+                    idleSoundEvent = SoundManager.GetInstance().PlayEvent(idleSoundPath, transform.position);
+                }
+            }
+            else
+            {
+                idleSoundEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            }
 
             setGravity();
             Jump();

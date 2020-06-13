@@ -81,7 +81,6 @@ public class SoundManager : MonoBehaviour
                         eventInstance.set3DAttributes(
                             RuntimeUtils.To3DAttributes(movingEvents[i].GetTransform().position));
                     }
-                    Debug.Log("yay");
                 }
             }
         }
