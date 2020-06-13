@@ -9,7 +9,7 @@ using Debug = FMOD.Debug;
 public class CreatingSpot : MonoBehaviour
 {
     public ParticleSystem _particleSystem;
-    private bool _hasTurret;
+    private bool _hasTurret, _topView;
     private EntityManager _manager;
     private Entity _associatedTurret;
 
@@ -27,7 +27,8 @@ public class CreatingSpot : MonoBehaviour
             {
                 print("yay");
                 _hasTurret = false;
-                _particleSystem.Play();
+                if (_topView)
+                    _particleSystem.Play();
             }
         }
     }
@@ -48,10 +49,12 @@ public class CreatingSpot : MonoBehaviour
     {
         if (!_hasTurret)
             _particleSystem.Play();
+        _topView = true;
     }
 
     public void StopParticles()
     {
         _particleSystem.Stop();
+        _topView = false;
     }
 }
