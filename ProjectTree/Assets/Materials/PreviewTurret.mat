@@ -310,8 +310,12 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 0
     m_Colors:
+<<<<<<< HEAD
     - Color_D0409D15: {r: 0, g: 0, b: 1, a: 0}
     - _BaseColor: {r: 0, g: 0, b: 1, a: 0.5882353}
+=======
+    - _BaseColor: {r: 1, g: 0, b: 0, a: 0.5882353}
+>>>>>>> toMerge
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 0, b: 0, a: 0.5882353}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}

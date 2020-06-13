@@ -1,5 +1,7 @@
-﻿using Unity.Entities;
+﻿using FMOD;
+using Unity.Entities;
 using Unity.Jobs;
+using Unity.Transforms;
 using UnityEngine;
 using UnityEngine.Video;
 
@@ -30,6 +32,7 @@ public class ExplosionSystem : JobComponentSystem
             else
             {
                 explosionComponent.explode = true;
+                //SoundManager.GetInstance().PlayOneShotSound(paths.BombPath.ToString(), position.Value);
             }
         }).Run();
         return default;

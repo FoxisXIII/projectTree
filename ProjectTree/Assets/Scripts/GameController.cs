@@ -23,7 +23,7 @@ public class GameController
     public string endRoundSoundPath = "event:/FX/Round/End";
 
     //Recursos
-    private int _iron = 200;
+    private int _iron = 50;
     private Dictionary<string, List<Material>> animationMaterials;
 
     private GameController()
