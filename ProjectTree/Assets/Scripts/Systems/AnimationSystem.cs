@@ -21,11 +21,6 @@ public class AnimationSystem : SystemBase
                         RotateHulls(manager, animationData, deltaTime, 0);
                         RotateHelixes(manager, animationData, deltaTime);
                     }
-                    else
-                    {
-                        RotateHulls(manager, animationData, deltaTime, 0);
-                        RotateHelixes(manager, animationData, deltaTime);
-                    }
                 }
                 else if (animationData._animationType == 1)
                 {
@@ -36,11 +31,27 @@ public class AnimationSystem : SystemBase
                     }
                     else
                     {
-                        RotateHulls(manager, animationData, deltaTime, 45);
-                        RotateHelixes(manager, animationData, deltaTime);
+                        RotateTyres(manager, animationData, deltaTime,animationData.rotationSpeed);
                     }
                 }
             }).WithoutBurst().Run();
+    }
+
+    private void RotateTyres(EntityManager manager, AnimationData animationData, float deltaTime, float rotationSpeed)
+    {
+        var rotationHelixL = manager.GetComponentData<Rotation>(animationData.helixL);
+        rotationHelixL.Value = math.mul(rotationHelixL.Value, quaternion.RotateX(rotationSpeed * deltaTime));
+        manager.SetComponentData(animationData.helixL, rotationHelixL);
+        var rotationHelixR = manager.GetComponentData<Rotation>(animationData.helixR);
+        rotationHelixR.Value = math.mul(rotationHelixR.Value, quaternion.RotateX(rotationSpeed * deltaTime));
+        manager.SetComponentData(animationData.helixR, rotationHelixR);
+        
+        var rotationHullHelixL = manager.GetComponentData<Rotation>(animationData.hullHelixL);
+        rotationHullHelixL.Value = math.mul(rotationHullHelixL.Value, quaternion.RotateX(rotationSpeed * deltaTime));
+        manager.SetComponentData(animationData.hullHelixL, rotationHullHelixL);
+        var rotationHullHelixR = manager.GetComponentData<Rotation>(animationData.hullHelixR);
+        rotationHullHelixR.Value = math.mul(rotationHullHelixR.Value, quaternion.RotateX(rotationSpeed * deltaTime));
+        manager.SetComponentData(animationData.hullHelixR, rotationHullHelixR);
     }
 
     private static void RotateHelixes(EntityManager manager, AnimationData animationData, float deltaTime)

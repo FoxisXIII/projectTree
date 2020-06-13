@@ -5,6 +5,7 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
+using Unity.Physics;
 using Unity.Transforms;
 using UnityEngine;
 using UnityEngine.Experimental.AI;
@@ -31,12 +32,17 @@ public class MoveToSystem : JobComponentSystem
         Entities
             .ForEach(
                 (ref AIData aiData, ref Translation translation, ref MovementData movementData,
-                    ref Entity entity, ref DynamicBuffer<CollisionEnemy> collisionEnemies) =>
+                    ref Entity entity, ref DynamicBuffer<CollisionEnemy> collisionEnemies,
+                    ref AnimationData animationData, ref PhysicsGravityFactor gravityFactor) =>
                 {
                     aiData.state = 1;
+                    animationData._animationType = 1;
+                    animationData.rotationSpeed = movementData.speed / 10;
                     if (aiData.stop)
                     {
                         movementData = StopMovement(movementData);
+                        animationData._animationType = 0;
+                        gravityFactor.Value = 0;
 
                         var direction = float3.zero;
 
@@ -46,11 +52,12 @@ public class MoveToSystem : JobComponentSystem
                             direction = buffers[entity][aiData.counter].position - translation.Value;
                         movementData = SetRotation(movementData, direction, aiData.canFly);
 
-                        if(aiData.hordeMove&&aiData.counter==0)
+                        if (aiData.hordeMove && aiData.counter == 0)
                         {
                             aiData.stop = false;
                             aiData.counter++;
                         }
+
                         if (aiData.goToEntity)
                         {
                             direction = translations[aiData.entity].Value - translation.Value;
@@ -58,6 +65,7 @@ public class MoveToSystem : JobComponentSystem
                             if (magnitude > aiData.attackDistancePlayer)
                             {
                                 aiData.stop = false;
+                                aiData.state = 0;
                                 if (!player.Exists(aiData.entity))
                                 {
                                     aiData.goToEntity = false;
@@ -92,6 +100,9 @@ public class MoveToSystem : JobComponentSystem
                             {
                                 if (aiData.canFly)
                                     direction.y += aiData.yOffset;
+                                else
+                                    gravityFactor.Value = 10;
+
 
                                 movementData = SetDirection(movementData, direction, magnitude);
                             }
@@ -136,6 +147,8 @@ public class MoveToSystem : JobComponentSystem
                                 direction.y = directionY;
                                 movementData = SetRotation(movementData, direction, aiData.canFly);
                                 movementData = SetDirection(movementData, direction, magnitude);
+                                if (!aiData.canFly)
+                                    gravityFactor.Value = 10;
                             }
                         }
                     }

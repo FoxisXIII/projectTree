@@ -812,8 +812,8 @@ MonoBehaviour:
   - {fileID: 5309293865398903642}
   - {fileID: 5309293866072633524}
   waveCooldown: 1
-  enemySpawnRate: 1
-  maxWaveEnemies: 50
+  enemySpawnRate: 0.01
+  maxWaveEnemies: 500
   nextRoundTimeText: {fileID: 0}
   roundText: {fileID: 0}
   currentEnemiesImage: {fileID: 0}
@@ -3801,12 +3801,12 @@ PrefabInstance:
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
       propertyPath: min.Array.data[0].y
-      value: 11
+      value: 11.75
       objectReference: {fileID: 0}
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
       propertyPath: min.Array.data[1].y
-      value: 11
+      value: 11.25
       objectReference: {fileID: 0}
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
@@ -3856,12 +3856,12 @@ PrefabInstance:
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
       propertyPath: max.Array.data[0].y
-      value: 11
+      value: 11.75
       objectReference: {fileID: 0}
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
       propertyPath: max.Array.data[1].y
-      value: 11
+      value: 11.25
       objectReference: {fileID: 0}
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
@@ -3918,7 +3918,7 @@ PrefabInstance:
         type: 3}
       propertyPath: enemyGroundPrefab
       value: 
-      objectReference: {fileID: 7367341402242520697, guid: f129b94ba23cb6242be87ea51728af26,
+      objectReference: {fileID: 3625905232861900828, guid: e64d6cd73cf1dcc4db2b9db1ef64aeaa,
         type: 3}
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
@@ -3990,7 +3990,7 @@ PrefabInstance:
         type: 3}
       propertyPath: enemyGroundBossPrefab
       value: 
-      objectReference: {fileID: 8445162031962423207, guid: ae73704d784e22441b477fadb7928de6,
+      objectReference: {fileID: 2329071289749533844, guid: 83ffc9975001e8143ab288f04bb6f5e5,
         type: 3}
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
@@ -6541,7 +6541,7 @@ PrefabInstance:
         type: 3}
       propertyPath: enemyGroundPrefab
       value: 
-      objectReference: {fileID: 7367341402242520697, guid: f129b94ba23cb6242be87ea51728af26,
+      objectReference: {fileID: 3625905232861900828, guid: e64d6cd73cf1dcc4db2b9db1ef64aeaa,
         type: 3}
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
@@ -6613,7 +6613,7 @@ PrefabInstance:
         type: 3}
       propertyPath: enemyGroundBossPrefab
       value: 
-      objectReference: {fileID: 8445162031962423207, guid: ae73704d784e22441b477fadb7928de6,
+      objectReference: {fileID: 2329071289749533844, guid: 83ffc9975001e8143ab288f04bb6f5e5,
         type: 3}
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
@@ -9258,7 +9258,7 @@ PrefabInstance:
         type: 3}
       propertyPath: enemyGroundPrefab
       value: 
-      objectReference: {fileID: 7367341402242520697, guid: f129b94ba23cb6242be87ea51728af26,
+      objectReference: {fileID: 3625905232861900828, guid: e64d6cd73cf1dcc4db2b9db1ef64aeaa,
         type: 3}
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
@@ -9360,7 +9360,7 @@ PrefabInstance:
         type: 3}
       propertyPath: enemyGroundBossPrefab
       value: 
-      objectReference: {fileID: 8445162031962423207, guid: ae73704d784e22441b477fadb7928de6,
+      objectReference: {fileID: 2329071289749533844, guid: 83ffc9975001e8143ab288f04bb6f5e5,
         type: 3}
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}

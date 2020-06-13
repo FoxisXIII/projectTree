@@ -43,6 +43,8 @@ MonoBehaviour:
   canFly: 1
   boss: 1
   horde: 0
+  hordeMove: 0
+  yOffset: 0
   attackDistancePlayer: 3
   attackDistanceBase: 5
   attackDamage: 1
@@ -96,7 +98,7 @@ MonoBehaviour:
   m_SphereRadius: 28.45
   m_MinimumSkinnedVertexWeight: 0.1
   m_ConvexHullGenerationParameters:
-    m_SimplificationTolerance: 0.05
+    m_SimplificationTolerance: 0.15
     m_BevelRadius: 1
     m_MinimumAngle: 2.5000002
   m_CustomMesh: {fileID: 2403283451262950110, guid: 3f7c516598505af478b0246cd5efe8b5,
@@ -234,6 +236,7 @@ MonoBehaviour:
   helixR: {fileID: 2972897141335242442}
   hullHelixL: {fileID: 6064038077383312562}
   hullHelixR: {fileID: 4575805696123400829}
+  rotationSpeed: 0
 --- !u!114 &6952716860330582666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,6 +249,154 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a25b9f72229774c99126d5076c6595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3124843305969168297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6064038077383312562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b275e5f92732148048d7b77e264ac30e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShapeType: 0
+  m_PrimitiveCenter:
+    x: 0.2603836
+    y: 19.147217
+    z: 1.8543801
+  m_PrimitiveSize:
+    x: 39.879852
+    y: 45.599976
+    z: 8.372145
+  m_PrimitiveOrientation:
+    Value:
+      x: -0
+      y: 0
+      z: 0
+    RotationOrder: 4
+  m_Capsule:
+    Height: 45.599976
+    Radius: 19.939926
+    Axis: 1
+  m_Cylinder:
+    Height: 8.372145
+    Radius: 22.799988
+    Axis: 2
+  m_CylinderSideCount: 20
+  m_SphereRadius: 22.799988
+  m_MinimumSkinnedVertexWeight: 0.1
+  m_ConvexHullGenerationParameters:
+    m_SimplificationTolerance: 0.15
+    m_BevelRadius: 1
+    m_MinimumAngle: 2.5000002
+  m_CustomMesh: {fileID: 4499598194076963317, guid: 3f7c516598505af478b0246cd5efe8b5,
+    type: 3}
+  m_ForceUnique: 0
+  m_Material:
+    m_SupportsTemplate: 1
+    m_Template: {fileID: 0}
+    m_IsTrigger:
+      m_Override: 0
+      m_Value: 0
+    m_Friction:
+      m_Override: 0
+      m_Value:
+        Value: 0.5
+        CombineMode: 0
+    m_Restitution:
+      m_Override: 0
+      m_Value:
+        Value: 0
+        CombineMode: 2
+    m_BelongsTo:
+      m_Override: 0
+      m_Value: 0101010101010101010101010101010101010101010101010101010101010101
+    m_CollidesWith:
+      m_Override: 0
+      m_Value: 0101010101010101010101010101010101010101010101010101010101010101
+    m_RaisesCollisionEvents:
+      m_Override: 0
+      m_Value: 0
+    m_CustomTags:
+      m_Override: 0
+      m_Value: 0000000000000000
+  m_ConvexRadius_Deprecated: -1
+--- !u!114 &7223866059336520816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4575805696123400829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b275e5f92732148048d7b77e264ac30e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShapeType: 0
+  m_PrimitiveCenter:
+    x: 0.14896393
+    y: -18.990292
+    z: 1.8543906
+  m_PrimitiveSize:
+    x: 39.879852
+    y: 45.599976
+    z: 8.372144
+  m_PrimitiveOrientation:
+    Value:
+      x: -0
+      y: 0
+      z: 0
+    RotationOrder: 4
+  m_Capsule:
+    Height: 45.599976
+    Radius: 19.939926
+    Axis: 1
+  m_Cylinder:
+    Height: 8.372144
+    Radius: 22.799988
+    Axis: 2
+  m_CylinderSideCount: 20
+  m_SphereRadius: 22.799988
+  m_MinimumSkinnedVertexWeight: 0.1
+  m_ConvexHullGenerationParameters:
+    m_SimplificationTolerance: 0.15
+    m_BevelRadius: 1
+    m_MinimumAngle: 2.5000002
+  m_CustomMesh: {fileID: 4553657594838216545, guid: 3f7c516598505af478b0246cd5efe8b5,
+    type: 3}
+  m_ForceUnique: 0
+  m_Material:
+    m_SupportsTemplate: 1
+    m_Template: {fileID: 0}
+    m_IsTrigger:
+      m_Override: 0
+      m_Value: 0
+    m_Friction:
+      m_Override: 0
+      m_Value:
+        Value: 0.5
+        CombineMode: 0
+    m_Restitution:
+      m_Override: 0
+      m_Value:
+        Value: 0
+        CombineMode: 2
+    m_BelongsTo:
+      m_Override: 0
+      m_Value: 0101010101010101010101010101010101010101010101010101010101010101
+    m_CollidesWith:
+      m_Override: 0
+      m_Value: 0101010101010101010101010101010101010101010101010101010101010101
+    m_RaisesCollisionEvents:
+      m_Override: 0
+      m_Value: 0
+    m_CustomTags:
+      m_Override: 0
+      m_Value: 0000000000000000
+  m_ConvexRadius_Deprecated: -1
 --- !u!1001 &437644152766932654
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -79,7 +79,7 @@ public class GameController
         }
 
         _noBaseDamage = true;
-        _enemiesSpawnRate = Mathf.Max(.1f, _enemiesSpawnRate / 1.1f);
+        // _enemiesSpawnRate = Mathf.Max(.1f, _enemiesSpawnRate / 1.1f);
         _waveInProcess = true;
         SoundManager.GetInstance().PlayOneShotSound(startRoundSoundPath, _player.transform.position);
     }
