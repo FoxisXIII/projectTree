@@ -139,7 +139,7 @@ public class SoundManager : MonoBehaviour
     public void PlayOneShotSound(string path, Entity entity)
     {
         EventInstance soundEvent = RuntimeManager.CreateInstance(path);
-        float3 position = _entityManager.GetComponentData<Translation>(entity).Value;
+        Vector3 position = _entityManager.GetComponentData<Translation>(entity).Value;
         if (!soundEvent.Equals(null))
         {
             soundEvent.set3DAttributes(RuntimeUtils.To3DAttributes(position));

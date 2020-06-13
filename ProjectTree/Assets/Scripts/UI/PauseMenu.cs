@@ -35,7 +35,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Pause()
     {
-        SoundManager.GetInstance().PlayOneShotSound(enterMenuSoundPath, GameController.GetInstance().Player.transform);
+        SoundManager.GetInstance().PlayOneShotSound(enterMenuSoundPath, GameController.GetInstance().Player.transform.position);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         hud.SetBool("startPause", true);
@@ -56,7 +56,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
-        SoundManager.GetInstance().PlayOneShotSound(exitMenuSoundPath, GameController.GetInstance().Player.transform);
+        SoundManager.GetInstance().PlayOneShotSound(exitMenuSoundPath, GameController.GetInstance().Player.transform.position);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         Time.timeScale = 1f;
