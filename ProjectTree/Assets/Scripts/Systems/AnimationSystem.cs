@@ -18,7 +18,6 @@ public class AnimationSystem : SystemBase
                 {
                     if (aiData.canFly)
                     {
-                        RotateHulls(manager, animationData, deltaTime, 0);
                         RotateHelixes(manager, animationData, deltaTime);
                     }
                 }
@@ -26,7 +25,6 @@ public class AnimationSystem : SystemBase
                 {
                     if (aiData.canFly)
                     {
-                        RotateHulls(manager, animationData, deltaTime, 45);
                         RotateHelixes(manager, animationData, deltaTime);
                     }
                     else
@@ -57,21 +55,10 @@ public class AnimationSystem : SystemBase
     private static void RotateHelixes(EntityManager manager, AnimationData animationData, float deltaTime)
     {
         var rotationHelixL = manager.GetComponentData<Rotation>(animationData.helixL);
-        Debug.Log(rotationHelixL.Value.value.z);
         rotationHelixL.Value = math.mul(rotationHelixL.Value, quaternion.RotateZ(90f * deltaTime));
         manager.SetComponentData(animationData.helixL, rotationHelixL);
         var rotationHelixR = manager.GetComponentData<Rotation>(animationData.helixR);
         rotationHelixR.Value = math.mul(rotationHelixR.Value, quaternion.RotateZ(90f * deltaTime));
         manager.SetComponentData(animationData.helixR, rotationHelixR);
-    }
-
-    private static void RotateHulls(EntityManager manager, AnimationData animationData, float deltaTime, float rotation)
-    {
-        // var rotationHelixL = manager.GetComponentData<Rotation>(animationData.hullHelixL);
-        // rotationHelixL.Value = quaternion.RotateX(rotation * deltaTime);
-        // manager.SetComponentData(animationData.helixL, rotationHelixL);
-        // var rotationHelixR = manager.GetComponentData<Rotation>(animationData.hullHelixR);
-        // rotationHelixR.Value = quaternion.RotateX(rotation * deltaTime);
-        // manager.SetComponentData(animationData.helixR, rotationHelixR);
     }
 }

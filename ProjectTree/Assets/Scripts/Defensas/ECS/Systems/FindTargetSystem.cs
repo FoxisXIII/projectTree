@@ -27,11 +27,13 @@ public class FindTargetSystem : JobComponentSystem
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         var towerGroup = GetComponentDataFromEntity<TowerTag>();
+        var buffTowerGroup = GetComponentDataFromEntity<BuffTurretData>();
         var enemyGroup = GetComponentDataFromEntity<AIData>();
 
         var findTargetJob = new FindTargetTriggerJob()
         {
             towerGroup = towerGroup,
+            buffTowerGroup = buffTowerGroup,
             enemyGroup = enemyGroup
         };
 
@@ -43,6 +45,7 @@ public class FindTargetSystem : JobComponentSystem
     private struct FindTargetTriggerJob : ITriggerEventsJob
     {
         public ComponentDataFromEntity<TowerTag> towerGroup;
+        public ComponentDataFromEntity<BuffTurretData> buffTowerGroup;
         public ComponentDataFromEntity<AIData> enemyGroup;
 
 
@@ -52,7 +55,7 @@ public class FindTargetSystem : JobComponentSystem
             Entity entityB = triggerEvent.Entities.EntityB;
             if (enemyGroup.HasComponent(entityA))
             {
-                if (towerGroup.Exists(entityB))
+                if (towerGroup.Exists(entityB) || buffTowerGroup.Exists(entityB))
                 {
                     AddEnemyInRange(entityB, entityA);
                 }
@@ -60,7 +63,7 @@ public class FindTargetSystem : JobComponentSystem
 
             if (enemyGroup.HasComponent(entityB))
             {
-                if (towerGroup.Exists(entityA))
+                if (towerGroup.Exists(entityA) || buffTowerGroup.Exists(entityA))
                 {
                     AddEnemyInRange(entityA, entityB);
                 }
@@ -69,7 +72,8 @@ public class FindTargetSystem : JobComponentSystem
 
         private void AddEnemyInRange(Entity turret, Entity enemy)
         {
-            if (!enemyGroup[enemy].goToEntity && !enemyGroup[enemy].boss&& !enemyGroup[enemy].horde)
+            if (!enemyGroup[enemy].goToEntity && !enemyGroup[enemy].boss && enemyGroup[enemy].horde &&
+                enemyGroup[enemy].hordeMove)
             {
                 var aiData = enemyGroup[enemy];
                 aiData.entity = turret;

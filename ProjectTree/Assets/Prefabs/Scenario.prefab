@@ -224,6 +224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 1000
   lifeUI_1: {fileID: 0}
+  lastDamageWave: 0
   baseDestroySoundPath: event:/FX/Base/Destroy
 --- !u!114 &1659778404
 MonoBehaviour:
@@ -4114,7 +4115,7 @@ PrefabInstance:
         type: 3}
       propertyPath: enemyFlyPrefab
       value: 
-      objectReference: {fileID: 760072146957862339, guid: 97c1c42aa90908142a08a4f32ba76a82,
+      objectReference: {fileID: 4862868572645236998, guid: 97c1c42aa90908142a08a4f32ba76a82,
         type: 3}
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
@@ -4212,6 +4213,18 @@ PrefabInstance:
       propertyPath: dieSoundPath
       value: event:/FX/Enemy/Die
       objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: enemyFlyBossPrefab
+      value: 
+      objectReference: {fileID: 5669303927565928414, guid: 00b22a567b7ece44489c71399cb09888,
+        type: 3}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: enemyGroundBossPrefab
+      value: 
+      objectReference: {fileID: 2329071289749533844, guid: 83ffc9975001e8143ab288f04bb6f5e5,
+        type: 3}
     - target: {fileID: 388499504665842041, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6385,7 +6398,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2100000, guid: 5637f1efa9b35b64b822592f40f0915b, type: 2}
     - target: {fileID: -927199367670048503, guid: 1483cb29bc07d6d4786a5b28be52e2c8,
         type: 3}
       propertyPath: m_Name
@@ -6910,13 +6923,13 @@ PrefabInstance:
         type: 3}
       propertyPath: enemyFlyPrefab
       value: 
-      objectReference: {fileID: 760072146957862339, guid: 97c1c42aa90908142a08a4f32ba76a82,
+      objectReference: {fileID: 4862868572645236998, guid: 97c1c42aa90908142a08a4f32ba76a82,
         type: 3}
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
       propertyPath: enemyGroundPrefab
       value: 
-      objectReference: {fileID: 760072146957862339, guid: 97c1c42aa90908142a08a4f32ba76a82,
+      objectReference: {fileID: 3625905232861900828, guid: e64d6cd73cf1dcc4db2b9db1ef64aeaa,
         type: 3}
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
@@ -7008,6 +7021,18 @@ PrefabInstance:
       propertyPath: dieSoundPath
       value: event:/FX/Enemy/Die
       objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: enemyFlyBossPrefab
+      value: 
+      objectReference: {fileID: 5669303927565928414, guid: 00b22a567b7ece44489c71399cb09888,
+        type: 3}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: enemyGroundBossPrefab
+      value: 
+      objectReference: {fileID: 2329071289749533844, guid: 83ffc9975001e8143ab288f04bb6f5e5,
+        type: 3}
     - target: {fileID: 388499504665842041, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9550,13 +9575,13 @@ PrefabInstance:
         type: 3}
       propertyPath: enemyFlyPrefab
       value: 
-      objectReference: {fileID: 760072146957862339, guid: 97c1c42aa90908142a08a4f32ba76a82,
+      objectReference: {fileID: 4862868572645236998, guid: 97c1c42aa90908142a08a4f32ba76a82,
         type: 3}
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
       propertyPath: enemyGroundPrefab
       value: 
-      objectReference: {fileID: 760072146957862339, guid: 97c1c42aa90908142a08a4f32ba76a82,
+      objectReference: {fileID: 3625905232861900828, guid: e64d6cd73cf1dcc4db2b9db1ef64aeaa,
         type: 3}
     - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
@@ -9678,6 +9703,18 @@ PrefabInstance:
       propertyPath: dieSoundPath
       value: event:/FX/Enemy/Die
       objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: enemyFlyBossPrefab
+      value: 
+      objectReference: {fileID: 5669303927565928414, guid: 00b22a567b7ece44489c71399cb09888,
+        type: 3}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: enemyGroundBossPrefab
+      value: 
+      objectReference: {fileID: 2329071289749533844, guid: 83ffc9975001e8143ab288f04bb6f5e5,
+        type: 3}
     - target: {fileID: 388499504665842041, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -28,6 +28,9 @@ public class EnemySpawner : MonoBehaviour
     private BlobAssetStore _blobAssetFlyBoss;
     private BlobAssetStore _blobAssetGroundBoss;
     public float3[] min, max;
+    public ParticleSystem fog;
+    private bool horde;
+    private float timer;
 
     [Header("FMOD paths")] public string groundMovementSoundPath;
     public string airMovementSoundPath;
@@ -48,14 +51,32 @@ public class EnemySpawner : MonoBehaviour
             GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, _blobAssetFly));
         _groundEnemyEntity = GameObjectConversionUtility.ConvertGameObjectHierarchy(enemyGroundPrefab,
             GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, _blobAssetGround));
-        _flyBossEnemyEntity = GameObjectConversionUtility.ConvertGameObjectHierarchy(enemyFlyPrefab,
+        _flyBossEnemyEntity = GameObjectConversionUtility.ConvertGameObjectHierarchy(enemyFlyBossPrefab,
             GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, _blobAssetFlyBoss));
-        _groundBossEnemyEntity = GameObjectConversionUtility.ConvertGameObjectHierarchy(enemyGroundPrefab,
+        _groundBossEnemyEntity = GameObjectConversionUtility.ConvertGameObjectHierarchy(enemyGroundBossPrefab,
             GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, _blobAssetGroundBoss));
+    }
+
+    private void Update()
+    {
+        if (horde && GameController.GetInstance().CurrentEnemies == GameController.GetInstance().MaxWaveEnemies)
+        {
+            horde = false;
+            var particle = fog.main;
+            particle.startColor = new ParticleSystem.MinMaxGradient(Color.white);
+        }
     }
 
     public void SpawnEnemy(bool horde)
     {
+        if (horde && !this.horde)
+        {
+            this.horde = true;
+            timer = 0;
+            var particle = fog.main;
+            particle.startColor = new ParticleSystem.MinMaxGradient(Color.red);
+        }
+
         Entity enemy;
 
         if (Random.Range(0f, 1f) > .5f)
@@ -69,6 +90,7 @@ public class EnemySpawner : MonoBehaviour
         var aiData = _entityManager.GetComponentData<AIData>(enemy);
         aiData.yOffset = aiData.canFly ? Random.Range(.25f, 2.5f) : 0;
         aiData.state = 0;
+        aiData.attackDamage = horde ? 2 : 1;
         aiData.attackRate = Random.Range(.5f, 1f);
         aiData.horde = horde;
         _entityManager.SetComponentData(enemy, aiData);
@@ -112,9 +134,9 @@ public class EnemySpawner : MonoBehaviour
         Entity enemy;
 
         if (Random.Range(0f, 1f) > .5f)
-            enemy = _entityManager.Instantiate(_flyEnemyEntity);
+            enemy = _entityManager.Instantiate(_flyBossEnemyEntity);
         else
-            enemy = _entityManager.Instantiate(_groundEnemyEntity);
+            enemy = _entityManager.Instantiate(_groundBossEnemyEntity);
 
 
         var random = Random.Range(0f, 1f);

@@ -82,24 +82,24 @@ public class WaveController : MonoBehaviour
 
             roundText.SetText("ROUND " + GameController.GetInstance().WaveCounter);
             resetHordes();
-            if (GameController.GetInstance().WaveCounter > 2)
+            // if (GameController.GetInstance().WaveCounter > 2)
+            // {
+            var maxHorde = Mathf.Min(hordes.Length, 1 + (1 * (GameController.GetInstance().WaveCounter / 15)));
+            var currentHorde = 0;
+            for (int i = 0; i < hordes.Length; i++)
             {
-                var maxHorde = Mathf.Min(hordes.Length, 1 + (1 * (GameController.GetInstance().WaveCounter / 15)));
-                var currentHorde = 0;
-                for (int i = 0; i < hordes.Length; i++)
+                if (Random.Range(0f, 1f) < .25f)
                 {
-                    if (Random.Range(0f, 1f) < .25f)
-                    {
-                        Debug.Log("HORDE WILL COME IN :" + i);
-                        hordes[i] = true;
-                        currentHorde++;
-                    }
-                    else
-                        hordes[i] = false;
-
-                    if (currentHorde == maxHorde)
-                        break;
+                    Debug.Log("HORDE WILL COME IN :" + i);
+                    hordes[i] = true;
+                    currentHorde++;
                 }
+                else
+                    hordes[i] = true;
+
+                // if (currentHorde == maxHorde)
+                //     break;
+                // }
             }
 
             bossInScenario = 0;
@@ -168,5 +168,13 @@ public class WaveController : MonoBehaviour
     {
         get => _canSpawn;
         set => _canSpawn = value;
+    }
+
+    public void Dispose()
+    {
+        foreach (var spawner in spawners)
+        {
+            spawner.Dispose();
+        }
     }
 }

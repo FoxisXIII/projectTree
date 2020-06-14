@@ -32,11 +32,16 @@ public class DeathSystem : JobComponentSystem
                 ecb.DestroyEntity(parent);
             }
 
-            if (enemies.Exists(e))
+            else if (enemies.Exists(e))
             {
                 GameController.GetInstance().InstantiateParticles("EnemyDie", translations[e].Value);
                 GameController.GetInstance().RemoveEnemyWave();
             }
+            else
+            {
+                GameController.GetInstance().InstantiateParticles("TowerDie", translations[e].Value);
+            }
+
             ecb.DestroyEntity(e);
         }).Run();
 

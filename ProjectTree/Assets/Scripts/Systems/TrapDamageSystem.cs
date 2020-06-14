@@ -26,6 +26,7 @@ public class TrapDamageSystem : JobComponentSystem
         var damageCollisionjob = new DamageCollisionJob
         {
             damageGroup = GetBufferFromEntity<Damage>(),
+            aiDataGroup = GetComponentDataFromEntity<AIData>(),
             trapGroup = GetComponentDataFromEntity<TrapComponent>()
         };
         damageCollisionjob.Schedule(_stepPhysicsWorld.Simulation, ref _buildPhysicsWorld.PhysicsWorld, inputDeps)
@@ -38,6 +39,7 @@ public class TrapDamageSystem : JobComponentSystem
     private struct DamageCollisionJob : ITriggerEventsJob
     {
         public BufferFromEntity<Damage> damageGroup;
+        public ComponentDataFromEntity<AIData> aiDataGroup;
         public ComponentDataFromEntity<TrapComponent> trapGroup;
 
         public void Execute(TriggerEvent triggerEvent)
@@ -58,13 +60,17 @@ public class TrapDamageSystem : JobComponentSystem
             var trapComponent = trapGroup[trap];
             if (damageGroup.Exists(enemy) && trapComponent.cankill)
             {
-                damageGroup[enemy].Add(new Damage
+                if (aiDataGroup.Exists(enemy) && !aiDataGroup[enemy].boss)
                 {
-                    Value = trapComponent.Damage
-                });
-                trapComponent.cankill = false;
-                trapComponent.Recover = 0;
-                trapGroup[trap] = trapComponent;
+                    damageGroup[enemy].Add(new Damage
+                    {
+                        Value = trapComponent.Damage
+                    });
+                    trapComponent.cankill = false;
+                    trapComponent.Recover = 0;
+                    trapComponent.times--;
+                    trapGroup[trap] = trapComponent;
+                }
             }
         }
     }
