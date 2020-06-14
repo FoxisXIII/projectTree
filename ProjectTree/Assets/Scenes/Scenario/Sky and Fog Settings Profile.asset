@@ -35,10 +35,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
   m_Name: Sky and Fog Settings Profile
   m_EditorClassIdentifier: 
-  components:
-  - {fileID: -8311276245921172937}
-  - {fileID: 8487096378268422972}
-  - {fileID: 238622401295264927}
+  components: []
 --- !u!114 &238622401295264927
 MonoBehaviour:
   m_ObjectHideFlags: 3

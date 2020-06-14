@@ -29,9 +29,10 @@ public class OverviewController : MonoBehaviour
     private bool goToPosition, goToCharacter;
     public TurretSpots spotManager;
     public GameObject TurretHUD;
+    public int camMovSpeed;
+    public int camRotSpeed;
 
-    [Header("FMOD")]
-    public string turretCollocationSoundPath;
+    [Header("FMOD")] public string turretCollocationSoundPath;
     public string turretShotSoundPath;
     public string turretBombSoundPath;
     public string turretAuraSoundPath;
@@ -71,11 +72,13 @@ public class OverviewController : MonoBehaviour
             ChangeCamera();
         }
 
+        camMovSpeed = 100;
         if (goToPosition)
         {
             transform.position =
-                Vector3.MoveTowards(transform.position, position.transform.position, 15 * Time.deltaTime);
-            transform.rotation = Quaternion.Lerp(transform.rotation, position.transform.rotation, Time.deltaTime);
+                Vector3.MoveTowards(transform.position, position.transform.position, camMovSpeed * Time.deltaTime);
+            camRotSpeed = 5;
+            transform.rotation = Quaternion.Lerp(transform.rotation, position.transform.rotation, camRotSpeed*Time.deltaTime);
 
             if (transform.position == position.transform.position)
                 goToPosition = false;
@@ -84,9 +87,9 @@ public class OverviewController : MonoBehaviour
         if (goToCharacter)
         {
             transform.position = Vector3.MoveTowards(transform.position,
-                GameController.GetInstance().Player.fpsCamera.transform.position, 100 * Time.deltaTime);
+                GameController.GetInstance().Player.fpsCamera.transform.position, camMovSpeed * Time.deltaTime);
             transform.rotation = Quaternion.Lerp(transform.rotation,
-                GameController.GetInstance().Player.fpsCamera.transform.rotation, Time.deltaTime);
+                GameController.GetInstance().Player.fpsCamera.transform.rotation, camRotSpeed*Time.deltaTime);
 
             if (transform.position == GameController.GetInstance().Player.fpsCamera.transform.position)
             {
@@ -219,9 +222,9 @@ public class OverviewController : MonoBehaviour
     private void UpdatePreviewTurret()
     {
         _turretCanBePlaced = _instantiatedPreviewTurret.isValidPosition();
-        _instantiatedPreviewTurret.material.color = _turretCanBePlaced
+        _instantiatedPreviewTurret.material.SetColor("_main_color", _turretCanBePlaced
             ? _instantiatedPreviewTurret.canBePlaced
-            : _instantiatedPreviewTurret.canNotBePlaced;
+            : _instantiatedPreviewTurret.canNotBePlaced);
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit hit;

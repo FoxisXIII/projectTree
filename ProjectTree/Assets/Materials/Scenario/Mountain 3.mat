@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6088220762355848304
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
 --- !u!21 &2100000
 Material:
   serializedVersion: 6
@@ -21,14 +8,14 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Mountain 3
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 06b59530670f03d4794a62ecdb95e7b5,
+    type: 3}
   m_ShaderKeywords: _ENVIRONMENTREFLECTIONS_OFF _SPECULAR_SETUP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: 2050
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses:
   - DistortionVectors
   - MOTIONVECTORS
@@ -39,6 +26,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_241EEC5D:
+        m_Texture: {fileID: 2800000, guid: 0e04b49001e20ca489c818b4c8a436c7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _AnisotropyMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -48,7 +39,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: bac7a89806afbea4cb07ec5118baf622, type: 3}
+        m_Texture: {fileID: 2800000, guid: 45ed225d5a20e1a4ba7b92568ecd3d3a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BentNormalMap:
@@ -96,7 +87,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: bac7a89806afbea4cb07ec5118baf622, type: 3}
+        m_Texture: {fileID: 2800000, guid: af7e9c364da3bb941ab0acfa4adbe45b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
@@ -115,7 +106,19 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NormalTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SmoothnessTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -139,6 +142,30 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_4DCC884C_Out_0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_AB30CA9E_Out_0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_B56E893F_Out_0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_B7C289F5_Out_0:
+        m_Texture: {fileID: 2800000, guid: dbafb1a0536c12d45bdbe6f630bd41b1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_BA2355C8_Out_0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_E8C87502_Out_0:
+        m_Texture: {fileID: 2800000, guid: dbafb1a0536c12d45bdbe6f630bd41b1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ThicknessMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -148,6 +175,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Boolean_DEED7DAA: 0
+    - HARD_SHADING: 0
+    - Vector1_17312649: 0
+    - Vector1_8030119: 0
+    - Vector1_962926F1: 1.1
+    - Vector1_DF98F214: 0
+    - Vector1_E5F77F77: 0
     - _AORemapMax: 1
     - _AORemapMin: 0
     - _ATDistance: 1
@@ -163,6 +197,7 @@ Material:
     - _AlphaSrcBlend: 1
     - _AlphaToMask: 0
     - _Anisotropy: 0
+    - _BacklightAmount: 0
     - _Blend: 0
     - _BlendMode: 0
     - _BumpScale: 1
@@ -171,6 +206,8 @@ Material:
     - _CullMode: 0
     - _CullModeForward: 0
     - _Cutoff: 0.5
+    - _DabsRotation: 15
+    - _DabsTiling: 125
     - _DepthOffsetEnable: 0
     - _DetailAlbedoScale: 1
     - _DetailNormalScale: 1
@@ -226,7 +263,9 @@ Material:
     - _MaterialID: 1
     - _Metallic: 0
     - _NormalMapSpace: 0
+    - _NormalMult: 1
     - _NormalScale: 1
+    - _OcclusionMult: 1
     - _OcclusionStrength: 1
     - _PPDLodThreshold: 5
     - _PPDMaxSamples: 15
@@ -240,7 +279,7 @@ Material:
     - _ReceivesSSRTransparent: 0
     - _RefractionModel: 0
     - _SSRefractionProjectionModel: 0
-    - _Smoothness: 0
+    - _Smoothness: 0.012
     - _SmoothnessRemapMax: 1
     - _SmoothnessRemapMin: 0
     - _SmoothnessTextureChannel: 0
@@ -286,6 +325,7 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
+    - Color_D92CDFB8: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
@@ -296,11 +336,28 @@ Material:
     - _EmissiveColorLDR: {r: 0, g: 0, b: 0, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _L1_color: {r: 0, g: 0, b: 0, a: 0}
+    - _L1_dir: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Specular: {r: 0.16078432, g: 0.12941177, b: 0.09803922, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TextureTiling: {r: 1, g: 1, b: 0, a: 0}
     - _ThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
     - _TransmittanceColor: {r: 1, g: 1, b: 1, a: 1}
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
+--- !u!114 &7371244997519213336
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
