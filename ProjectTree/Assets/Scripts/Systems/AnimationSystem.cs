@@ -8,7 +8,6 @@ public class AnimationSystem : SystemBase
 {
     protected override void OnUpdate()
     {
-        var materials = GameController.GetInstance().getMaterials();
         EntityManager manager = World.DefaultGameObjectInjectionWorld.EntityManager;
         var deltaTime = Time.DeltaTime;
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\miki_\AppData\Local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\miki_\AppData\Local\JetBrains\Rider2020.1\resharper-host\Local\Transient\ReSharperHost\v201\SolutionCaches\_ProjectTree.-1035324771.00" t="ExcludeRecursive" />
-    <e p="D:\Documents\ProjectTree\ProjectTree" t="IncludeRecursive">
+    <e p="C:\Users\erike\AppData\Local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\erike\AppData\Local\JetBrains\Rider2020.1\resharper-host\Local\Transient\ReSharperHost\v201\SolutionCaches\_ProjectTree.1444738749.00" t="ExcludeRecursive" />
+    <e p="E:\Github Projects\Universitat\ProjectTree\ProjectTree" t="IncludeRecursive">
       <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
@@ -59,6 +59,26 @@
             <e p="ShaderGraph" t="Include">
               <e p="Scripts" t="Include">
                 <e p="VertIdxToUv.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="EffectExamples" t="Include">
+            <e p="Magic Effects" t="Include">
+              <e p="Shaders" t="Include">
+                <e p="Ice.shader" t="Include" />
+              </e>
+            </e>
+            <e p="Misc Effects" t="Include">
+              <e p="Prefabs" t="Include">
+                <e p="Readme_Dissolve_Respawn_.txt" t="Include" />
+              </e>
+              <e p="Scripts" t="Include">
+                <e p="SpawnEffect.cs" t="Include" />
+              </e>
+              <e p="Shaders" t="Include">
+                <e p="Dissolve.shader" t="Include" />
+                <e p="FireFly.shader" t="Include" />
+                <e p="Respawn.shader" t="Include" />
               </e>
             </e>
           </e>
@@ -159,7 +179,6 @@
         </e>
         <e p="Scripts" t="Include">
           <e p="Base.cs" t="Include" />
-          <e p="CanvasTP.cs" t="Include" />
           <e p="Components" t="Include">
             <e p="AIData.cs" t="Include" />
             <e p="AnimationData.cs" t="Include" />
@@ -181,7 +200,6 @@
             <e p="TrapComponent.cs" t="Include" />
             <e p="TurretFMODPaths.cs" t="Include" />
           </e>
-          <e p="Crosshair.cs" t="Include" />
           <e p="Defensas" t="Include">
             <e p="ConvertTurret.cs" t="Include" />
             <e p="CreatingSpot.cs" t="Include" />
@@ -227,12 +245,9 @@
             <e p="TurretMonoBehaviour.cs" t="Include" />
             <e p="TurretSpots.cs" t="Include" />
           </e>
+          <e p="DestroyParticles.cs" t="Include" />
           <e p="GameController.cs" t="Include" />
           <e p="OverviewController.cs" t="Include" />
-          <e p="Puzzles" t="Include">
-            <e p="Boton.cs" t="Include" />
-            <e p="Validador.cs" t="Include" />
-          </e>
           <e p="Sound" t="Include">
             <e p="MovingSound.cs" t="Include" />
             <e p="PlayerSoundEvents.cs" t="Include" />
@@ -264,18 +279,22 @@
             <e p="TrapDamageSystem.cs" t="Include" />
             <e p="TrapDeathSystem.cs" t="Include" />
           </e>
-          <e p="Teleporter.cs" t="Include" />
-          <e p="TeleportManager.cs" t="Include" />
           <e p="ThirdPersonCameraController.cs" t="Include" />
           <e p="ThirdPersonCharacterController.cs" t="Include" />
           <e p="UI" t="Include">
             <e p="ChangeScene.cs" t="Include" />
             <e p="ChangeSceneNoButton.cs" t="Include" />
+            <e p="DamageIndicator.cs" t="Include" />
+            <e p="DI_System.cs" t="Include" />
             <e p="GameOverMenu.cs" t="Include" />
             <e p="MainMenuTowerSpawner.cs" t="Include" />
             <e p="PauseMenu.cs" t="Include" />
           </e>
           <e p="WaveController.cs" t="Include" />
+        </e>
+        <e p="Shaders" t="Include">
+          <e p="CustomLighting.hlsl" t="Include" />
+          <e p="WaterShader.shader" t="Include" />
         </e>
         <e p="Sound" t="Include">
           <e p="DELETE.txt" t="Include" />

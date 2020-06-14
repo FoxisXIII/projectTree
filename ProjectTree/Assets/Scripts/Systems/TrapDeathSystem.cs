@@ -2,41 +2,74 @@
 using System.Collections.Generic;
 using Unity.Entities;
 using Unity.Jobs;
+using Unity.Mathematics;
+using Unity.Transforms;
 using UnityEngine;
 
 [UpdateAfter(typeof(TrapDamageSystem))]
 public class TrapDeathSystem : JobComponentSystem
 {
-    private EndSimulationEntityCommandBufferSystem _entityCommandBufferSystem;
+    private static quaternion openedRot;
+    private static quaternion leftClosedRot;
+    private static quaternion rightClosedRot;
+    private static float lerpTime;
+    private static double startTime;
 
     protected override void OnCreate()
     {
-        _entityCommandBufferSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+        openedRot = new quaternion(-0.5f, -0.5f, -0.5f, 0.5f);
+        leftClosedRot = new quaternion(-0.7071068f, -0.7071068f, 0, 0);
+        rightClosedRot = new quaternion(0, 0, -0.7071068f, 0.7071068f);
+        lerpTime = 25;
     }
-    
+
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        float realTime=Time.DeltaTime;
-        EntityCommandBuffer ecb = _entityCommandBufferSystem.CreateCommandBuffer();
-        
-        Entities.ForEach(( ref TrapComponent trapComponent, ref Entity entity) =>
-        {
-            // Debug.Log("tiempo :"+trapComponent.Recover);
-            // Debug.Log("Puede matar: "+trapComponent.cankill);
-            if (trapComponent.cankill)
-            {
-                trapComponent.Recover = trapComponent.Recover+realTime; 
-                //ecb.DestroyEntity(entity);
-            }
+        EntityManager manager = World.DefaultGameObjectInjectionWorld.EntityManager;
+        float deltaTime = Time.DeltaTime;
+        double time = Time.ElapsedTime;
 
-            if (trapComponent.cankill&& trapComponent.Recover>2)
+        Entities.ForEach((ref TrapComponent trapComponent, ref Entity entity, in AnimationData animationData) =>
+        {
+            if (!trapComponent.cankill)
             {
-                trapComponent.cankill = false;
-                trapComponent.Recover = 0f;
+                if (trapComponent.Recover == 0)
+                    CloseTrap(manager, animationData, time);
+                if (trapComponent.Recover >= 2)
+                {
+                    trapComponent.cankill = true;
+                }
+                else
+                {
+                    trapComponent.Recover += deltaTime;
+                    OpenTrap(manager, animationData, time);
+                }
             }
         }).Run();
-        
-        
+
+
         return default;
+    }
+
+    private static void CloseTrap(EntityManager manager, in AnimationData animationData, double time)
+    {
+        var rotationHelixL = manager.GetComponentData<Rotation>(animationData.helixL);
+        rotationHelixL.Value = leftClosedRot;
+        manager.SetComponentData(animationData.helixL, rotationHelixL);
+        var rotationHelixR = manager.GetComponentData<Rotation>(animationData.helixR);
+        rotationHelixR.Value = rightClosedRot;
+        manager.SetComponentData(animationData.helixR, rotationHelixR);
+        startTime = time;
+    }
+
+    private static void OpenTrap(EntityManager manager, in AnimationData animationData, double time)
+    {
+        float timeProgressed = (float) (time - startTime) / lerpTime;
+        var rotationHelixL = manager.GetComponentData<Rotation>(animationData.helixL);
+        rotationHelixL.Value = Quaternion.Lerp(rotationHelixL.Value, openedRot, timeProgressed);
+        manager.SetComponentData(animationData.helixL, rotationHelixL);
+        var rotationHelixR = manager.GetComponentData<Rotation>(animationData.helixR);
+        rotationHelixR.Value = Quaternion.Lerp(rotationHelixR.Value, openedRot, timeProgressed);
+        manager.SetComponentData(animationData.helixR, rotationHelixR);
     }
 }
