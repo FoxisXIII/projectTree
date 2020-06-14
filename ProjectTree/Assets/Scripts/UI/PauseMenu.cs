@@ -14,10 +14,13 @@ public class PauseMenu : MonoBehaviour
     public string enterMenuSoundPath;
     public string exitMenuSoundPath;
 
+    public float userVolume = 1;
+
     // Start is called before the first frame update
     void Start()
     {
         Resume();
+        SoundManager.GetInstance().ChangeVolume(1);
     }
 
     // Update is called once per frame
@@ -31,19 +34,23 @@ public class PauseMenu : MonoBehaviour
                 SoundManager.GetInstance().PlayOneShotSound(exitMenuSoundPath, GameController.GetInstance().Player.transform.position);
             }
             else
+            {
                 Pause();
+                
+            }
         }
     }
 
     public void Pause()
     {
-        SoundManager.GetInstance().PlayOneShotSound(enterMenuSoundPath, GameController.GetInstance().Player.transform.position);
+        GameIsPaused = true;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         hud.SetBool("startPause", true);
         hud.SetBool("pause", true);
-        GameIsPaused = true;
         GameController.GetInstance().pauseGame(true);
+        SoundManager.GetInstance().PlayOneShotSound(enterMenuSoundPath, GameController.GetInstance().Player.transform.position);
+        SoundManager.GetInstance().ChangeVolume(0.2f);
     }
 
     public void StopTime()
@@ -54,6 +61,7 @@ public class PauseMenu : MonoBehaviour
     public void Restart()
     {
         Time.timeScale = 1;
+        SoundManager.GetInstance().ChangeVolume(userVolume);
         GameController.GetInstance().gameOver("AT LEAST YOU TRIED...");
     }
 
@@ -65,13 +73,15 @@ public class PauseMenu : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         }
         Time.timeScale = 1;
-        hud.SetBool("pause", false);
         GameIsPaused = false;
         GameController.GetInstance().pauseGame(false);
+        hud.SetBool("pause", false);
+        ChangeVolume(userVolume);
     }
 
     public void ChangeVolume(float volume)
     {
         SoundManager.GetInstance().ChangeVolume(volume);
+        userVolume = volume;
     }
 }

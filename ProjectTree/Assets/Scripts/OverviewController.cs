@@ -165,7 +165,7 @@ public class OverviewController : MonoBehaviour
                 BuffPath = turretBuffSoundPath
             });
             SoundManager.GetInstance().PlayOneShotSound(turretCollocationSoundPath, transform.position);
-            if (_indexToCreate >= 3)
+            if (_indexToCreate >= 2)
             {
                 SoundManager.GetInstance().PlayOneShotSound(turretAuraSoundPath, turret);
             }
@@ -175,7 +175,7 @@ public class OverviewController : MonoBehaviour
     public void OnClick(int index)
     {
         print("clicked");
-        _indexToCreate = index;
+        _indexToCreate = index-1;
         _creating = false;
         CreateTurret();
     }

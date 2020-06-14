@@ -89,6 +89,15 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public void StopAllSounds()
+    {
+        for (int i=0; i<movingEvents.Count; i++)
+        {
+            movingEvents[i].GetSoundEvent().stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            movingEvents.RemoveAt(i);
+        }
+    }
+
     //Saber si se está reproduciendo
     public bool IsPlaying(EventInstance soundEvent)
     {

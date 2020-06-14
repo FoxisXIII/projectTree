@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Transforms;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -91,6 +92,7 @@ public class GameController
 
     public void gameOver(string text)
     {
+        SoundManager.GetInstance().PlayOneShotSound("event:/FX/Game/Lose", _player.transform.position);
         DestroyEntities();
         if (PlayerPrefs.GetInt("KILLED") < _enemiesKilled)
         {
@@ -108,6 +110,8 @@ public class GameController
         }
 
         PlayerPrefs.SetString("DIE", text);
+        
+        SoundManager.GetInstance().StopAllSounds();
 
         SceneManager.LoadScene("Game Over");
     }
