@@ -74,6 +74,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [HideInInspector] public int damage;
     private bool shotgun;
     private int shotgunRange;
+    public GameObject attackBuffPrefab, shotgunBuffPrefab, speedBuffPrefab;
+    private GameObject currentBuff;
 
 
     [Header("Change camera")] public GameObject fpsCamera;
@@ -203,7 +205,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
             hor = Input.GetAxis("Horizontal");
 
             ver = Input.GetAxis("Vertical");
-            
+
             movPlayer = new Vector3(hor, 0, ver).normalized;
 
             float targetAngle = Mathf.Atan2(movPlayer.x, movPlayer.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
@@ -226,7 +228,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
             {
                 speedper = WalkSpeed;
             }
-            
+
             anim.SetFloat("Speed", movPlayer.magnitude >= 0.1f ? speedper : 0f);
             anim.SetBool("onGround", characterController.isGrounded);
 
@@ -331,7 +333,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 index++;
             }
         }
-        
+
         bullets.Dispose();
     }
 
@@ -410,6 +412,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         StopBuffs();
         damage = initialDamage * Attack;
+        currentBuff = Instantiate(attackBuffPrefab, transform);
     }
 
     public void IncreaseSpeed(int Speed)
@@ -418,7 +421,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         WalkSpeed = this.Speed * Speed;
         RunSpeed = WalkSpeed * 2;
         fireRate = initFireRate / Speed;
-        // Debug.Log("Speed");
+        currentBuff = Instantiate(speedBuffPrefab, transform);
     }
 
     public void Shotgun(int shotgun)
@@ -426,7 +429,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         StopBuffs();
         this.shotgun = true;
         shotgunRange = shotgun;
-        // Debug.Log("Shot");
+        currentBuff = Instantiate(shotgunBuffPrefab, transform);
     }
 
     public void StopBuffs()
@@ -436,6 +439,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         fireRate = initFireRate;
         damage = initialDamage;
         shotgun = false;
+        Destroy(currentBuff);
     }
 
     void ChangeCamera()

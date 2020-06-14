@@ -82,8 +82,8 @@ public class WaveController : MonoBehaviour
 
             roundText.SetText("ROUND " + GameController.GetInstance().WaveCounter);
             resetHordes();
-            // if (GameController.GetInstance().WaveCounter > 2)
-            // {
+            if (GameController.GetInstance().WaveCounter > 2)
+            {
             var maxHorde = Mathf.Min(hordes.Length, 1 + (1 * (GameController.GetInstance().WaveCounter / 15)));
             var currentHorde = 0;
             for (int i = 0; i < hordes.Length; i++)
@@ -94,11 +94,11 @@ public class WaveController : MonoBehaviour
                     currentHorde++;
                 }
                 else
-                    hordes[i] = true;
+                    hordes[i] = false;
 
-                // if (currentHorde == maxHorde)
-                //     break;
-                // }
+                if (currentHorde == maxHorde)
+                    break;
+                }
             }
 
             bossInScenario = 0;

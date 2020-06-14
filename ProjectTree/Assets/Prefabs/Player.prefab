@@ -255,6 +255,13 @@ MonoBehaviour:
   trap: {fileID: 1998125748691647744, guid: bd7492baaa3e6d74b8c99a8e461252d7, type: 3}
   hasBuff: 0
   initialDamage: 1
+  damage: 0
+  attackBuffPrefab: {fileID: 2388608797831609999, guid: b10e5f8f008de2d4fba995f28a40072c,
+    type: 3}
+  shotgunBuffPrefab: {fileID: 3461482860227940004, guid: 4a5f00457e0bbf64981dc2a95ca8971d,
+    type: 3}
+  speedBuffPrefab: {fileID: 8551893967836430622, guid: 77ff053e8947e534b948160395ee4294,
+    type: 3}
   fpsCamera: {fileID: 0}
   birdCamera: {fileID: 0}
   hud: {fileID: 0}
