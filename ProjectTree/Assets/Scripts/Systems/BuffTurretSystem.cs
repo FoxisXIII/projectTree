@@ -18,7 +18,6 @@ public class BuffTurretSystem : JobComponentSystem
         var deltaTime = Time.DeltaTime;
         var player = GameController.GetInstance().Player;
         var playerPosition = player.transform.position;
-        EventInstance auraSound = new EventInstance();
 
         Entity entityPlayer = default;
 
@@ -30,11 +29,6 @@ public class BuffTurretSystem : JobComponentSystem
             .ForEach(
                 (ref BuffTurretData buffTurretData, ref Translation translation, ref Entity entity, ref TurretFMODPaths paths) =>
                 {
-                    // if (!SoundManager.GetInstance().IsPlaying(auraSound))
-                    // {
-                    //     auraSound = SoundManager.GetInstance().PlayEvent(paths.AuraPath.ToString(), translation.Value);
-                    // }
-
                     if (math.distance(playerPosition, translation.Value) <= buffTurretData.range)
                     {
                         if (buffTurretData.health != 0 && buffTurretData.buffTimer >= buffTurretData.buffRate)
@@ -45,7 +39,7 @@ public class BuffTurretSystem : JobComponentSystem
                                 healthData.value = math.min(healthData.value + buffTurretData.health,
                                     healthData.maxValue);
                                 healthGroup[entityPlayer] = healthData;
-                                SoundManager.GetInstance().PlayOneShotSound(paths.BuffPath.ToString(), playerPosition);
+                                SoundManager.GetInstance().PlayOneShotSound(paths.HealPath.ToString(), playerPosition);
                             }
 
                             buffTurretData.buffTimer = 0;

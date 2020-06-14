@@ -14,6 +14,7 @@ public class SoundManager : MonoBehaviour
     private static SoundManager Instance;
     private List<MovingSound> movingEvents;
     private EntityManager _entityManager;
+    public float volume = 1.0f;
 
     private SoundManager()
     {
@@ -59,7 +60,8 @@ public class SoundManager : MonoBehaviour
                 eventInstance.getPlaybackState(out state);
                 if (state == PLAYBACK_STATE.STOPPED)
                 {
-                    movingEvents.RemoveAt(i);
+                    eventInstance.start();
+                    eventInstance.release();
                 }
                 else
                 {
@@ -73,7 +75,8 @@ public class SoundManager : MonoBehaviour
                                     .Value));
                         else
                         {
-                            movingEvents[i].GetSoundEvent().stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                            eventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                            movingEvents.RemoveAt(i);
                         }
                     }
                     else
@@ -86,6 +89,16 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public void StopAllSounds()
+    {
+        for (int i=0; i<movingEvents.Count; i++)
+        {
+            movingEvents[i].GetSoundEvent().stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            movingEvents.RemoveAt(i);
+        }
+        //RuntimeManager.PauseAllEvents(true);
+    }
+
     //Saber si se está reproduciendo
     public bool IsPlaying(EventInstance soundEvent)
     {
@@ -95,12 +108,13 @@ public class SoundManager : MonoBehaviour
     }
 
     //Sonidos que queramos controlar des de fuera
-    public EventInstance PlayEvent(string path, Vector3 position)
+    public EventInstance PlayEvent(string path, Vector3 position, float volume)
     {
         EventInstance soundEvent = RuntimeManager.CreateInstance(path);
         if (!soundEvent.Equals(null))
         {
             soundEvent.set3DAttributes(RuntimeUtils.To3DAttributes(position));
+            soundEvent.setVolume(volume);
             soundEvent.start();
         }
 
@@ -139,7 +153,7 @@ public class SoundManager : MonoBehaviour
     public void PlayOneShotSound(string path, Entity entity)
     {
         EventInstance soundEvent = RuntimeManager.CreateInstance(path);
-        float3 position = _entityManager.GetComponentData<Translation>(entity).Value;
+        Vector3 position = _entityManager.GetComponentData<Translation>(entity).Value;
         if (!soundEvent.Equals(null))
         {
             soundEvent.set3DAttributes(RuntimeUtils.To3DAttributes(position));
@@ -148,5 +162,14 @@ public class SoundManager : MonoBehaviour
             movingEvents.Add(movingSound);
             soundEvent.release();
         }
+    }
+    
+    public void ChangeVolume(float volume)
+    {
+        string masterBusString = "Bus:/";
+        FMOD.Studio.Bus masterBus;
+
+        masterBus = FMODUnity.RuntimeManager.GetBus(masterBusString);
+        masterBus.setVolume(volume);
     }
 }

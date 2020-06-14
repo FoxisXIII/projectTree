@@ -32,7 +32,6 @@ public class BulletShootingSystem : ComponentSystem
             timer -= Time.DeltaTime;
             if (timer <= 0)
             {
-               
                 Entity bulletEntity = EntityManager.Instantiate(bullet.prefab);
 
                 var enemyPos = EntityManager.GetComponentData<Translation>(tct.target).Value;
@@ -40,8 +39,11 @@ public class BulletShootingSystem : ComponentSystem
                 var direction = Direction(position.Value, enemyPos);
 
                 EntityManager.SetComponentData(bulletEntity, new Translation {Value = position.Value});
+
+                TurretFMODPaths paths = EntityManager.GetComponentData<TurretFMODPaths>(parent.parent);
                 
-                // SoundManager.GetInstance().PlayOneShotSound(paths[parent.parent].ShotPath.ToString(), position.Value);
+                if (!paths.Equals(null))
+                    SoundManager.GetInstance().PlayOneShotSound(paths.ShotPath.ToString(), position.Value);
 
                 var movementData = EntityManager.GetComponentData<MovementData>(bulletEntity);
 

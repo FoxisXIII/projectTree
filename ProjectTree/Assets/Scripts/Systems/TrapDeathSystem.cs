@@ -53,8 +53,7 @@ public class TrapDeathSystem : JobComponentSystem
                     OpenTrap(manager, animationData, time);
                 }
             }
-        }).Run();
-
+        }).WithoutBurst().Run();
 
         return default;
     }

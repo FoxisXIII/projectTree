@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\erike\AppData\Local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\erike\AppData\Local\JetBrains\Rider2020.1\resharper-host\Local\Transient\ReSharperHost\v201\SolutionCaches\_ProjectTree.1444738749.00" t="ExcludeRecursive" />
-    <e p="E:\Github Projects\Universitat\ProjectTree\ProjectTree" t="IncludeRecursive">
+    <e p="C:\Users\miki_\AppData\Local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\miki_\AppData\Local\JetBrains\Rider2020.1\resharper-host\Local\Transient\ReSharperHost\v201\SolutionCaches\_ProjectTree.-1035324771.00" t="ExcludeRecursive" />
+    <e p="D:\Documents\ProjectTree\ProjectTree" t="IncludeRecursive">
       <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
@@ -271,7 +271,7 @@
             <e p="ExplosionCollisionSystem.cs" t="Include" />
             <e p="ExplosionSystem.cs" t="Include" />
             <e p="ExplosionTriggerSystem.cs" t="Include" />
-            <e p="HordeSystem.cs" t="Include" />
+            <e p="LowLifeSoundSystem.cs" t="Include" />
             <e p="MoveBulletSys.cs" t="Include" />
             <e p="MovementSystem.cs" t="Include" />
             <e p="MovePlayerSystem.cs" t="Include" />

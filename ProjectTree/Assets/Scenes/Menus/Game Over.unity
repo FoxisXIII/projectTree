@@ -635,8 +635,8 @@ GameObject:
   m_Component:
   - component: {fileID: 354343124}
   - component: {fileID: 354343123}
-  - component: {fileID: 354343122}
   - component: {fileID: 354343125}
+  - component: {fileID: 354343122}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -644,14 +644,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &354343122
-AudioListener:
+--- !u!114 &354343122
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 354343121}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ListenerNumber: -1
 --- !u!20 &354343123
 Camera:
   m_ObjectHideFlags: 0
@@ -3864,6 +3869,60 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 307ccf4de90c7ca4597c1f1c29a00549, type: 3}
+--- !u!1 &1777585589
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1777585591}
+  - component: {fileID: 1777585590}
+  m_Layer: 0
+  m_Name: LoseSound
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1777585590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777585589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Event: event:/FX/Game/Lose
+  PlayEvent: 1
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 1
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 0
+  OverrideMaxDistance: 0
+--- !u!4 &1777585591
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777585589}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -76.4799, y: 172.26268, z: 71.40053}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 25
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1794828815
 GameObject:
   m_ObjectHideFlags: 0
@@ -5127,8 +5186,6 @@ MonoBehaviour:
   waveCooldown: 1
   enemySpawnRate: 0.01
   maxWaveEnemies: 1500
-  flyAnim: []
-  groundAnim: []
   nextRoundTimeText: {fileID: 0}
   roundText: {fileID: 0}
   currentEnemiesImage: {fileID: 0}
@@ -5878,6 +5935,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 1000
   lifeUI_1: {fileID: 0}
+  baseDestroySoundPath: 
+  lowLifeSoundPath: 
 --- !u!65 &8175183762961541118
 BoxCollider:
   m_ObjectHideFlags: 0
