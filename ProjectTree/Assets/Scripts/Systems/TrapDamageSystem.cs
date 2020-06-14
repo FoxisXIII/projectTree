@@ -62,7 +62,6 @@ public class TrapDamageSystem : JobComponentSystem
             {
                 if (aiDataGroup.Exists(enemy) && !aiDataGroup[enemy].boss)
                 {
-<<<<<<< HEAD
                     damageGroup[enemy].Add(new Damage
                     {
                         Value = trapComponent.Damage
@@ -71,15 +70,8 @@ public class TrapDamageSystem : JobComponentSystem
                     trapComponent.Recover = 0;
                     trapComponent.times--;
                     trapGroup[trap] = trapComponent;
+                    SoundManager.GetInstance().PlayOneShotSound("event:/FX/Menu/Select", Vector3.zero);
                 }
-=======
-                    Value = trapComponent.Damage
-                });
-                trapComponent.cankill = false;
-                trapComponent.Recover = 0;
-                trapGroup[trap] = trapComponent;
-                SoundManager.GetInstance().PlayOneShotSound("event:/FX/Menu/Select", Vector3.zero);
->>>>>>> develop
             }
         }
     }

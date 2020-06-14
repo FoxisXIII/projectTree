@@ -19,18 +19,12 @@ public class Base : MonoBehaviour
     private int materialCreation;
 
     public Image lifeUI_1;
-<<<<<<< HEAD
     public int lastDamageWave;
 
-    [Header("FMOD paths")] public string baseDestroySoundPath;
-
-=======
-    
     [Header("FMOD paths")]
     public string baseDestroySoundPath;
     public string lowLifeSoundPath;
     private EventInstance lowLifeSoundEvent = new EventInstance();
->>>>>>> develop
 
     private void Awake()
     {

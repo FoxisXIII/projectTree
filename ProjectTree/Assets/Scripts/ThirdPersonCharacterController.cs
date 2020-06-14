@@ -170,30 +170,15 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 timer += Time.deltaTime;
                 if (Input.GetMouseButton(0))
                 {
-<<<<<<< HEAD
-                    lineRenderer.enabled = true;
-                    GameController.GetInstance().InstantiateParticles("Shot", LocFire.transform.position);
-                    if (shotgun)
-                        ShotgunECS(LocFire.transform.position, LocFire.transform.forward);
-                    else
-                        ShootECS(LocFire.transform.position, LocFire.transform.rotation);
-=======
-                    anim.SetBool("Shoting", true);
                     if (timer >= fireRate)
                     {
                         lineRenderer.enabled = true;
-                        if (useECS)
-                        {
-                            GameController.GetInstance().InstantiateParticles("Shot", LocFire.transform.position);
-                            if (shotgun)
-                                ShotgunECS(LocFire.transform.position, LocFire.transform.rotation.eulerAngles);
-                            else
-                                ShootECS(LocFire.transform.position, LocFire.transform.rotation);
-                        }
+                        GameController.GetInstance().InstantiateParticles("Shot", LocFire.transform.position);
+                        if (shotgun)
+                            ShotgunECS(LocFire.transform.position, LocFire.transform.forward);
                         else
-                        {
-                            Shoot();
-                        }
+                            ShootECS(LocFire.transform.position, LocFire.transform.rotation);
+                        anim.SetBool("Shoting", true);
 
                         timer = 0f;
                     }
@@ -211,7 +196,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
                     {
                         CreatePreviewTrap();
                     }
->>>>>>> develop
 
                     UpdatePreviewTrap();
                 }
@@ -222,42 +206,19 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
                 hor = Input.GetAxis("Horizontal");
 
-<<<<<<< HEAD
-            hor = Input.GetAxis("Horizontal");
-
-            ver = Input.GetAxis("Vertical");
-
-            movPlayer = new Vector3(hor, 0, ver).normalized;
-
-            float targetAngle = Mathf.Atan2(movPlayer.x, movPlayer.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity,
-                turnSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
-            if (movPlayer.magnitude >= 0.1f)
-            {
-                moveDir = Quaternion.Euler(0, targetAngle, 0f) * Vector3.forward;
-            }
-=======
-                ver = Input.GetAxis("Vertical");
->>>>>>> develop
-
-
                 ver = Input.GetAxis("Vertical");
 
                 movPlayer = new Vector3(hor, 0, ver).normalized;
-                ;
-
-                float targetAngle = Mathf.Atan2(movPlayer.x, movPlayer.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity,
-                    turnSmoothTime);  //targetAngle por cam.eulerAngles.y
-                transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
 
                 float targetAngle = Mathf.Atan2(movPlayer.x, movPlayer.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity,
                     turnSmoothTime);
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+                if (movPlayer.magnitude >= 0.1f)
+                {
+                    moveDir = Quaternion.Euler(0, targetAngle, 0f) * Vector3.forward;
+                }
 
                 if (movPlayer.magnitude >= 0.1f)
                 {
@@ -275,17 +236,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
                     speedper = WalkSpeed;
                 }
 
-<<<<<<< HEAD
-            anim.SetFloat("Speed", movPlayer.magnitude >= 0.1f ? speedper : 0f);
-            anim.SetBool("onGround", characterController.isGrounded);
 
-            setGravity();
-            Jump();
-=======
+                anim.SetFloat("Speed", movPlayer.magnitude >= 0.1f ? speedper : 0f);
+                anim.SetBool("onGround", characterController.isGrounded);
 
-               anim.SetFloat("Speed", movPlayer.magnitude >= 0.1f ? speedper : 0f);
-               anim.SetBool("onGround", characterController.isGrounded);
-                
                 if (movPlayer.Equals(Vector3.zero))
                 {
                     if (!SoundManager.GetInstance().IsPlaying(idleSoundEvent))
@@ -305,7 +259,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
         else
         {
             idleSoundEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
->>>>>>> develop
         }
     }
 

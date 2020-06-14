@@ -15,13 +15,10 @@ public class GameController
 
     private int _currentEnemies, _diedEnemies, _maxWaveEnemies, _waveCounter, _enemiesKilled, _towersPlaced;
     private float _enemiesSpawnRate;
-<<<<<<< HEAD
+
     private bool _waveInProcess, _normalWave, _bossWave;
-=======
-    private bool _waveInProcess;
     public bool GamePaused;
     private EventInstance lowLifeSoundEvent;
->>>>>>> develop
 
     private Base _base;
     private ThirdPersonCharacterController _player;
@@ -121,13 +118,7 @@ public class GameController
         _enemiesKilled++;
     }
 
-<<<<<<< HEAD
-    public void pauseGame()
-=======
-    public bool WaveInProcess => _waveInProcess;
-
     public void pauseGame(bool pause)
->>>>>>> develop
     {
         GamePaused = pause;
     }
