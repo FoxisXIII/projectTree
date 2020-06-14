@@ -17,6 +17,7 @@ public class PauseMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Resume();
     }
 
     // Update is called once per frame
@@ -27,6 +28,7 @@ public class PauseMenu : MonoBehaviour
             if (GameIsPaused)
             {
                 Resume();
+                SoundManager.GetInstance().PlayOneShotSound(exitMenuSoundPath, GameController.GetInstance().Player.transform.position);
             }
             else
                 Pause();
@@ -41,7 +43,7 @@ public class PauseMenu : MonoBehaviour
         hud.SetBool("startPause", true);
         hud.SetBool("pause", true);
         GameIsPaused = true;
-        GameController.GetInstance().pauseGame();
+        GameController.GetInstance().pauseGame(true);
     }
 
     public void StopTime()
@@ -57,7 +59,6 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
-        SoundManager.GetInstance().PlayOneShotSound(exitMenuSoundPath, GameController.GetInstance().Player.transform.position);
         if (!GameController.GetInstance().Player.cameraChanged)
         {
             Cursor.visible = false;
@@ -66,15 +67,11 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1;
         hud.SetBool("pause", false);
         GameIsPaused = false;
-        GameController.GetInstance().pauseGame();
+        GameController.GetInstance().pauseGame(false);
     }
 
     public void ChangeVolume(float volume)
     {
-        string masterBusString = "Bus:/";
-        FMOD.Studio.Bus masterBus;
-
-        masterBus = FMODUnity.RuntimeManager.GetBus(masterBusString);
-        masterBus.setVolume(volume);
+        SoundManager.GetInstance().ChangeVolume(volume);
     }
 }

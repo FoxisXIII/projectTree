@@ -635,8 +635,8 @@ GameObject:
   m_Component:
   - component: {fileID: 354343124}
   - component: {fileID: 354343123}
-  - component: {fileID: 354343122}
   - component: {fileID: 354343125}
+  - component: {fileID: 354343122}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -644,14 +644,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &354343122
-AudioListener:
+--- !u!114 &354343122
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 354343121}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ListenerNumber: -1
 --- !u!20 &354343123
 Camera:
   m_ObjectHideFlags: 0
@@ -5127,8 +5132,6 @@ MonoBehaviour:
   waveCooldown: 1
   enemySpawnRate: 0.01
   maxWaveEnemies: 1500
-  flyAnim: []
-  groundAnim: []
   nextRoundTimeText: {fileID: 0}
   roundText: {fileID: 0}
   currentEnemiesImage: {fileID: 0}
@@ -5878,6 +5881,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 1000
   lifeUI_1: {fileID: 0}
+  baseDestroySoundPath: 
+  lowLifeSoundPath: 
 --- !u!65 &8175183762961541118
 BoxCollider:
   m_ObjectHideFlags: 0

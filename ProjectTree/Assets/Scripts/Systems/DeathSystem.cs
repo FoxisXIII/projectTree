@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using FMOD;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
@@ -28,6 +29,7 @@ public class DeathSystem : JobComponentSystem
             {
                 var parent = parents[e].parent;
                 GameController.GetInstance().InstantiateParticles("TowerDie", translations[e].Value);
+                SoundManager.GetInstance().PlayOneShotSound("event:/FX/Turret/Destroy", translations[e].Value);
                 ecb.DestroyEntity(e);
                 ecb.DestroyEntity(parent);
             }

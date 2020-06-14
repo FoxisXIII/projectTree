@@ -152,4 +152,13 @@ public class SoundManager : MonoBehaviour
             soundEvent.release();
         }
     }
+    
+    public void ChangeVolume(float volume)
+    {
+        string masterBusString = "Bus:/";
+        FMOD.Studio.Bus masterBus;
+
+        masterBus = FMODUnity.RuntimeManager.GetBus(masterBusString);
+        masterBus.setVolume(volume);
+    }
 }

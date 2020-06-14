@@ -84,9 +84,9 @@ public class GameController
 
     public bool WaveInProcess => _waveInProcess;
 
-    public void pauseGame()
+    public void pauseGame(bool pause)
     {
-        GamePaused = !GamePaused;
+        GamePaused = pause;
     }
 
     public void gameOver(string text)
