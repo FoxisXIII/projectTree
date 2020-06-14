@@ -218,34 +218,17 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
                 ver = Input.GetAxis("Vertical");
 
-                /* float dirMouse = cine.m_YAxis.m_InputAxisValue;
-                 //Debug.Log(dirMouse);
-                 if (dirMouse!=0)
-                 {
-                     if (dirMouse < 0)
-                         speedRotation = -1;
-                     else speedRotation = 1;
-                     if (chest.rotation.eulerAngles.z<maxRotate&&chest.rotation.eulerAngles.z>minRotate)
-                     {
-                         
-                         chest.Rotate(0,0,speedRotation);
-                     }
-                     else
-                     {
-                         if (chest.rotation.eulerAngles.z>maxRotate)
-                         {
-                             chest.Rotate(0,0,-2);
-                         }
-     
-                         if (chest.rotation.eulerAngles.z<minRotate)
-                         {
-                             chest.Rotate(0,0,2);
-                         }
-                     }
-                 }*/
+
+                ver = Input.GetAxis("Vertical");
 
                 movPlayer = new Vector3(hor, 0, ver).normalized;
                 ;
+
+                float targetAngle = Mathf.Atan2(movPlayer.x, movPlayer.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity,
+                    turnSmoothTime);  //targetAngle por cam.eulerAngles.y
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
 
                 float targetAngle = Mathf.Atan2(movPlayer.x, movPlayer.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity,
@@ -269,10 +252,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 }
 
 
-                //anim.SetFloat("Speed",characterController.velocity.magnitude);
-                anim.SetFloat("Speed", movPlayer.magnitude >= 0.1f ? speedper : 0f);
-                anim.SetBool("onGround", characterController.isGrounded);
-
+               anim.SetFloat("Speed", movPlayer.magnitude >= 0.1f ? speedper : 0f);
+               anim.SetBool("onGround", characterController.isGrounded);
                 
                 if (movPlayer.Equals(Vector3.zero))
                 {
@@ -313,36 +294,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
         lineRenderer.SetPosition(0, LocFire.transform.position);
         lineRenderer.SetPosition(1, LocFire.transform.forward * 100 + LocFire.transform.position);
-        // float dirMouse = cine.m_YAxis.m_InputAxisValue;
-        //    //Debug.Log(dirMouse);
-        //    if (dirMouse!=0)
-        //    {
-        //        //Debug.Log(dirMouse);
-        //        if (dirMouse < 0)
-        //            speedRotation = -1;
-        //        else speedRotation = 1;
-        //        //Debug.Log(chest.rotation.eulerAngles.x);
-        //        if (chest.rotation.eulerAngles.x<maxRotate&&chest.rotation.eulerAngles.x>minRotate)
-        //        {
-        //            Debug.Log("Funciona?");
-        //            Debug.Log("Direcion del la rot: "+speedRotation);
-        //            chest.Rotate(speedRotation,0,0);
-        //        }
-        //        else
-        //        {
-        //            if (chest.rotation.eulerAngles.x>maxRotate)
-        //            {
-        //                Debug.Log("ÑA");
-        //                chest.Rotate(-2,0,0);
-        //            }
-        //
-        //            if (chest.rotation.eulerAngles.x<minRotate)
-        //            {
-        //                Debug.Log("ÑE");
-        //                chest.Rotate(2,0,0);
-        //            }
-        //        }
-        //    }
     }
 
     void setGravity()
