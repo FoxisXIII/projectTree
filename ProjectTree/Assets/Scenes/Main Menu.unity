@@ -717,114 +717,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1311108833}
   m_CullTransparentMesh: 0
---- !u!1 &1385311887
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1385311889}
-  - component: {fileID: 1385311888}
-  m_Layer: 0
-  m_Name: Spawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1385311888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1385311887}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1c73caf60db8fa4683924f3c9a03c72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyFlyPrefab: {fileID: 8141945550234117562, guid: 27f03128817fa2f4ebabd56e0140c8e1,
-    type: 3}
-  enemyGroundPrefab: {fileID: 1639325312820409332, guid: f129b94ba23cb6242be87ea51728af26,
-    type: 3}
-  spawnRate: 2
-  min:
-  - x: -45
-    y: 0.5
-    z: 7
-  - x: -4
-    y: 2
-    z: 13.7
-  max:
-  - x: -45
-    y: 0.5
-    z: 14
-  - x: -4
-    y: 2
-    z: 0
---- !u!4 &1385311889
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1385311887}
-  m_LocalRotation: {x: -0, y: -0.12505049, z: -0, w: 0.99215037}
-  m_LocalPosition: {x: -42.5, y: 0.66, z: 19}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: -14.367, z: 0}
---- !u!1 &1404121905
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1404121907}
-  - component: {fileID: 1404121906}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1404121906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1404121905}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9720cddbf4564f4a85fe9c9f6085aea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tower: {fileID: 5080478677394002923, guid: f1b305ab0bff68743860a2e92cac6fd1, type: 3}
-  position: {x: -29, y: 0, z: 2.5}
-  turretShotSoundPath: event:/FX/Turret/Shot
---- !u!4 &1404121907
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1404121905}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1585318496
 GameObject:
   m_ObjectHideFlags: 0
@@ -878,6 +770,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scene: Loading
+  dispose: {fileID: 0}
 --- !u!114 &1585318499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1060,7 +953,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 133.701, y: 90, z: 90}
 --- !u!1 &57663575138571401
 GameObject:

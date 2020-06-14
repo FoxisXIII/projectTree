@@ -255,7 +255,6 @@
           </e>
           <e p="Spawners" t="Include">
             <e p="EnemySpawner.cs" t="Include" />
-            <e p="EnemySpawnerMenu.cs" t="Include" />
           </e>
           <e p="Systems" t="Include">
             <e p="AnimationSystem.cs" t="Include" />
@@ -289,7 +288,6 @@
             <e p="DamageIndicator.cs" t="Include" />
             <e p="DI_System.cs" t="Include" />
             <e p="GameOverMenu.cs" t="Include" />
-            <e p="MainMenuTowerSpawner.cs" t="Include" />
             <e p="PauseMenu.cs" t="Include" />
           </e>
           <e p="WaveController.cs" t="Include" />

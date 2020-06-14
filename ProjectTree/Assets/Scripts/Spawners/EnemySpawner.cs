@@ -83,7 +83,6 @@ public class EnemySpawner : MonoBehaviour
         {
             enemy = _entityManager.Instantiate(_flyEnemyEntity);
             SoundManager.GetInstance().PlayOneShotSound(airMovementSoundPath, enemy);
-            
         }
         else
         {
@@ -100,6 +99,7 @@ public class EnemySpawner : MonoBehaviour
         aiData.attackDamage = horde ? 2 : 1;
         aiData.attackRate = Random.Range(.5f, 1f);
         aiData.horde = horde;
+        aiData.canAttackPlayer = Random.Range(0f, 1f) < .25f;
         _entityManager.SetComponentData(enemy, aiData);
 
         var movementData = _entityManager.GetComponentData<MovementData>(enemy);
@@ -200,9 +200,6 @@ public class EnemySpawner : MonoBehaviour
         min.y += distance * randomValue;
         distance = max.z - min.z;
         min.z += distance * randomValue;
-
-        // GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        // sphere.transform.position = min;
 
         return min;
     }

@@ -7,7 +7,6 @@ using TMPro;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
-using UnityEditor.Rendering;
 using UnityEngine;
 using Debug = FMOD.Debug;
 

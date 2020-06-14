@@ -31,8 +31,6 @@ public class WaveController : MonoBehaviour
     {
         GameController.GetInstance().MaxWaveEnemies = maxWaveEnemies;
         GameController.GetInstance().EnemiesSpawnRate = enemySpawnRate;
-        GameController.GetInstance().EnemiesKilled = 0;
-
         hordes = new bool[spawners.Length];
         resetHordes();
 
@@ -84,20 +82,20 @@ public class WaveController : MonoBehaviour
             resetHordes();
             if (GameController.GetInstance().WaveCounter > 2)
             {
-            var maxHorde = Mathf.Min(hordes.Length, 1 + (1 * (GameController.GetInstance().WaveCounter / 15)));
-            var currentHorde = 0;
-            for (int i = 0; i < hordes.Length; i++)
-            {
-                if (Random.Range(0f, 1f) < .25f)
+                var maxHorde = Mathf.Min(hordes.Length, 1 + (1 * (GameController.GetInstance().WaveCounter / 15)));
+                var currentHorde = 0;
+                for (int i = 0; i < hordes.Length; i++)
                 {
-                    hordes[i] = true;
-                    currentHorde++;
-                }
-                else
-                    hordes[i] = false;
+                    if (Random.Range(0f, 1f) < .25f)
+                    {
+                        hordes[i] = true;
+                        currentHorde++;
+                    }
+                    else
+                        hordes[i] = true;
 
-                if (currentHorde == maxHorde)
-                    break;
+                    if (currentHorde == maxHorde)
+                        break;
                 }
             }
 

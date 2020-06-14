@@ -29,12 +29,14 @@ public class FindTargetSystem : JobComponentSystem
         var towerGroup = GetComponentDataFromEntity<TowerTag>();
         var buffTowerGroup = GetComponentDataFromEntity<BuffTurretData>();
         var enemyGroup = GetComponentDataFromEntity<AIData>();
+        var playerGroup = GetComponentDataFromEntity<PlayerTag>();
 
         var findTargetJob = new FindTargetTriggerJob()
         {
             towerGroup = towerGroup,
             buffTowerGroup = buffTowerGroup,
-            enemyGroup = enemyGroup
+            enemyGroup = enemyGroup,
+            playerGroup = playerGroup
         };
 
         findTargetJob.Schedule(_stepPhysicsWorld.Simulation, ref _buildPhysicsWorld.PhysicsWorld, inputDeps).Complete();
@@ -47,6 +49,7 @@ public class FindTargetSystem : JobComponentSystem
         public ComponentDataFromEntity<TowerTag> towerGroup;
         public ComponentDataFromEntity<BuffTurretData> buffTowerGroup;
         public ComponentDataFromEntity<AIData> enemyGroup;
+        public ComponentDataFromEntity<PlayerTag> playerGroup;
 
 
         public void Execute(TriggerEvent triggerEvent)
@@ -72,10 +75,11 @@ public class FindTargetSystem : JobComponentSystem
 
         private void AddEnemyInRange(Entity turret, Entity enemy)
         {
-            if (!enemyGroup[enemy].goToEntity && !enemyGroup[enemy].boss && enemyGroup[enemy].horde &&
-                enemyGroup[enemy].hordeMove)
+            var aiData = enemyGroup[enemy];
+            if (!aiData.goToEntity && !aiData.boss && (!playerGroup.Exists(turret) ||
+                                                       playerGroup.Exists(turret) && aiData.canAttackPlayer) ||
+                aiData.horde && aiData.hordeMove)
             {
-                var aiData = enemyGroup[enemy];
                 aiData.entity = turret;
                 aiData.goToEntity = true;
                 enemyGroup[enemy] = aiData;

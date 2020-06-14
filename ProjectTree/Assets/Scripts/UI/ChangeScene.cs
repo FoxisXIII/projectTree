@@ -13,7 +13,6 @@ public class ChangeScene : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
-
     public void changeScene()
     {
         GameController.GetInstance().DestroyEntities();

@@ -25,9 +25,9 @@ public struct AIData : IComponentData
     [HideInInspector] public int counter;
 
     [HideInInspector] public bool goToEntity;
-    [HideInInspector] public float3 entityPosition;
     [HideInInspector] public Entity entity;
     [HideInInspector] public bool stop;
     [HideInInspector] public bool shot;
-    public bool stopByCollision;
+    [HideInInspector] public bool stopByCollision;
+    [HideInInspector] public bool canAttackPlayer;
 }

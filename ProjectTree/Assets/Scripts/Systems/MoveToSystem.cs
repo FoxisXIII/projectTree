@@ -58,11 +58,10 @@ public class MoveToSystem : JobComponentSystem
                                 if (aiData.canFly)
                                     position.y += aiData.yOffset;
                                 direction = position - translation.Value;
-
+                            
                                 var magnitude = Magnitude(direction);
                                 if (magnitude > 1 && !aiData.stopByCollision)
                                 {
-                                    // Debug.LogError(entity + " - " + aiData.stopByCollision);
                                     aiData.stop = false;
                                 }
                             }
@@ -96,7 +95,7 @@ public class MoveToSystem : JobComponentSystem
                                 }
                             }
                         }
-                        else
+                        else if(aiData.goToEntity)
                         {
                             aiData.goToEntity = false;
                             aiData.entity = Entity.Null;
@@ -191,7 +190,7 @@ public class MoveToSystem : JobComponentSystem
                         }
                     }
 
-                    // aiData.stopByCollision = false;
+                    aiData.stopByCollision = false;
                 }).Run();
         return default;
     }

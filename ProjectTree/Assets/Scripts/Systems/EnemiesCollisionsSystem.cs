@@ -48,7 +48,6 @@ public class EnemiesCollisionsSystem : JobComponentSystem
                     aiData.stop = true;
                     aiData.stopByCollision = true;
                     enemiesGroup[entityA] = aiData;
-                    // Debug.LogError(entityA + " : " + aiData.stopByCollision + " - " + entityB);
                 }
             }
         }

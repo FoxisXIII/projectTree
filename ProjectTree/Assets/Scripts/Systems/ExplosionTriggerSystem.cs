@@ -42,7 +42,6 @@ public class ExplosionTriggerSystem : JobComponentSystem
         {
             if (explosionComponent[entityA].explode)
             {
-                Debug.Log("Explosion");
                 if (damageGroup.Exists(entityB) &&
                     enemiesGroup.Exists(entityB))
                 {

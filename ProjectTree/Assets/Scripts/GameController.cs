@@ -36,6 +36,8 @@ public class GameController
 
     private GameController()
     {
+        _enemiesKilled = 0;
+        _towersPlaced = 0;
     }
 
     public static GameController GetInstance()
@@ -55,8 +57,11 @@ public class GameController
 
     public void UpdateResources(int value)
     {
-        _iron += value;
-        _player.ironText.SetText("Iron " + iron);
+        if (_player != null)
+        {
+            _iron += value;
+            _player.ironText.SetText("Iron " + iron);
+        }
     }
 
     public void startWave()
@@ -128,7 +133,7 @@ public class GameController
         SoundManager.GetInstance().PlayOneShotSound("event:/FX/Game/Lose", _player.transform.position);
         DestroyEntities();
         _base.transform.parent.GetComponent<WaveController>().Dispose();
-        
+
         if (PlayerPrefs.GetInt("KILLED") < _enemiesKilled)
         {
             PlayerPrefs.SetInt("KILLED", _enemiesKilled);
