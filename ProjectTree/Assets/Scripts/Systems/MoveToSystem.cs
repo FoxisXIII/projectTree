@@ -62,7 +62,7 @@ public class MoveToSystem : JobComponentSystem
                                 var magnitude = Magnitude(direction);
                                 if (magnitude > 1 && !aiData.stopByCollision)
                                 {
-                                    Debug.LogError(entity + " - " + aiData.stopByCollision);
+                                    // Debug.LogError(entity + " - " + aiData.stopByCollision);
                                     aiData.stop = false;
                                 }
                             }

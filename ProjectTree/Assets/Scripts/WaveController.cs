@@ -90,7 +90,6 @@ public class WaveController : MonoBehaviour
             {
                 if (Random.Range(0f, 1f) < .25f)
                 {
-                    Debug.Log("HORDE WILL COME IN :" + i);
                     hordes[i] = true;
                     currentHorde++;
                 }

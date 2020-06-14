@@ -170,18 +170,11 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 if (timer >= fireRate)
                 {
                     lineRenderer.enabled = true;
-                    if (useECS)
-                    {
-                        GameController.GetInstance().InstantiateParticles("Shot", LocFire.transform.position);
-                        if (shotgun)
-                            ShotgunECS(LocFire.transform.position, LocFire.transform.rotation.eulerAngles);
-                        else
-                            ShootECS(LocFire.transform.position, LocFire.transform.rotation);
-                    }
+                    GameController.GetInstance().InstantiateParticles("Shot", LocFire.transform.position);
+                    if (shotgun)
+                        ShotgunECS(LocFire.transform.position, LocFire.transform.forward);
                     else
-                    {
-                        Shoot();
-                    }
+                        ShootECS(LocFire.transform.position, LocFire.transform.rotation);
 
                     timer = 0f;
                 }
@@ -210,35 +203,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
             hor = Input.GetAxis("Horizontal");
 
             ver = Input.GetAxis("Vertical");
-
-            /* float dirMouse = cine.m_YAxis.m_InputAxisValue;
-             //Debug.Log(dirMouse);
-             if (dirMouse!=0)
-             {
-                 if (dirMouse < 0)
-                     speedRotation = -1;
-                 else speedRotation = 1;
-                 if (chest.rotation.eulerAngles.z<maxRotate&&chest.rotation.eulerAngles.z>minRotate)
-                 {
-                     
-                     chest.Rotate(0,0,speedRotation);
-                 }
-                 else
-                 {
-                     if (chest.rotation.eulerAngles.z>maxRotate)
-                     {
-                         chest.Rotate(0,0,-2);
-                     }
- 
-                     if (chest.rotation.eulerAngles.z<minRotate)
-                     {
-                         chest.Rotate(0,0,2);
-                     }
-                 }
-             }*/
-
+            
             movPlayer = new Vector3(hor, 0, ver).normalized;
-            ;
 
             float targetAngle = Mathf.Atan2(movPlayer.x, movPlayer.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity,
@@ -260,31 +226,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
             {
                 speedper = WalkSpeed;
             }
-
-
-            //anim.SetFloat("Speed",characterController.velocity.magnitude);
+            
             anim.SetFloat("Speed", movPlayer.magnitude >= 0.1f ? speedper : 0f);
             anim.SetBool("onGround", characterController.isGrounded);
-
-
-            // float stepsVelocity = timeBetweenSteps;
-            // if (movPlayer.Equals(Vector3.zero))
-            // {
-            //     if (!SoundManager.GetInstance().IsPlaying(idleSoundEvent))
-            //     {
-            //         idleSoundEvent = SoundManager.GetInstance().PlayEvent(idleSoundPath, transform.position);
-            //     }
-            // }
-            // else
-            // {
-            //     idleSoundEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            //     // timeBetweenSteps += Time.deltaTime;
-            //     // if (timeBetweenSteps >= stepsVelocity)
-            //     // {
-            //     //     timeBetweenSteps = 0;
-            //     //     SoundManager.GetInstance().PlayOneShotSound(stepSoundPath, transform);
-            //     // }
-            // }
 
             setGravity();
             Jump();
@@ -308,36 +252,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
         lineRenderer.SetPosition(0, LocFire.transform.position);
         lineRenderer.SetPosition(1, LocFire.transform.forward * 100 + LocFire.transform.position);
-        // float dirMouse = cine.m_YAxis.m_InputAxisValue;
-        //    //Debug.Log(dirMouse);
-        //    if (dirMouse!=0)
-        //    {
-        //        //Debug.Log(dirMouse);
-        //        if (dirMouse < 0)
-        //            speedRotation = -1;
-        //        else speedRotation = 1;
-        //        //Debug.Log(chest.rotation.eulerAngles.x);
-        //        if (chest.rotation.eulerAngles.x<maxRotate&&chest.rotation.eulerAngles.x>minRotate)
-        //        {
-        //            Debug.Log("Funciona?");
-        //            Debug.Log("Direcion del la rot: "+speedRotation);
-        //            chest.Rotate(speedRotation,0,0);
-        //        }
-        //        else
-        //        {
-        //            if (chest.rotation.eulerAngles.x>maxRotate)
-        //            {
-        //                Debug.Log("ÑA");
-        //                chest.Rotate(-2,0,0);
-        //            }
-        //
-        //            if (chest.rotation.eulerAngles.x<minRotate)
-        //            {
-        //                Debug.Log("ÑE");
-        //                chest.Rotate(2,0,0);
-        //            }
-        //        }
-        //    }
     }
 
     void setGravity()
@@ -363,15 +277,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
             SoundManager.GetInstance().PlayOneShotSound(jumpSoundPath, transform.position);
             anim.SetTrigger("Jump");
         }
-    }
-
-    void Shoot()
-    {
-        GameObject bulletShot;
-        bulletShot = Instantiate(Bullet, LocFire.transform.position, Quaternion.identity);
-        bulletShot.GetComponent<Rigidbody>().AddForce(transform.forward * 20);
-        bulletShot.GetComponent<Rigidbody>().velocity = transform.forward * 20;
-        bulletShot.transform.rotation = transform.rotation;
     }
 
     void ShootECS(Vector3 position, Quaternion rotation)
@@ -405,25 +310,28 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
         for (int x = min; x < max; x++)
         {
-            tempRot.x = (rotation.x + 3 * x) % 360;
+            tempRot.x = (rotation.x + .05f * x) % 360;
             for (int y = min; y < max; y++)
             {
-                tempRot.y = (rotation.y + 3 * y) % 360;
+                tempRot.y = (rotation.y + .05f * y) % 360;
                 manager.SetComponentData(bullets[index], new Translation {Value = position});
                 manager.SetComponentData(bullets[index], new Rotation {Value = Quaternion.Euler(tempRot)});
                 var damage = manager.GetComponentData<DealsDamage>(bullets[index]);
                 damage.Value = this.damage;
                 manager.SetComponentData(bullets[index], damage);
+                var ttl = manager.GetComponentData<TimeToLive>(bullets[index]);
+                ttl.Value = 2;
+                manager.SetComponentData(bullets[index], ttl);
                 var movement = manager.GetComponentData<MovementData>(bullets[index]);
                 var rot = math.normalize(tempRot);
-                movement.directionX = tempRot.x;
-                movement.directionY = tempRot.y;
-                movement.directionZ = tempRot.z;
+                movement.directionX = rot.x;
+                movement.directionY = rot.y;
+                movement.directionZ = rot.z;
                 manager.SetComponentData(bullets[index], movement);
                 index++;
             }
         }
-
+        
         bullets.Dispose();
     }
 
