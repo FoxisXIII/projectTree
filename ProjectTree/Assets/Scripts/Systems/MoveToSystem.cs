@@ -5,12 +5,13 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
+using Unity.Physics;
 using Unity.Transforms;
 using UnityEngine;
 using UnityEngine.Experimental.AI;
 using Random = UnityEngine.Random;
 
-[UpdateBefore(typeof(EnemiesCollisionsSystem))]
+[UpdateAfter(typeof(EnemiesCollisionsSystem))]
 [UpdateBefore(typeof(MovementSystem))]
 [AlwaysSynchronizeSystem]
 public class MoveToSystem : JobComponentSystem
@@ -31,80 +32,133 @@ public class MoveToSystem : JobComponentSystem
         Entities
             .ForEach(
                 (ref AIData aiData, ref Translation translation, ref MovementData movementData,
-                    ref Entity entity, ref DynamicBuffer<CollisionEnemy> collisionEnemies) =>
+                    ref Entity entity, ref DynamicBuffer<CollisionEnemy> collisionEnemies,
+                    ref AnimationData animationData, ref PhysicsGravityFactor gravityFactor) =>
                 {
                     aiData.state = 1;
+                    animationData._animationType = 1;
+                    animationData.rotationSpeed = movementData.speed / 20;
                     if (aiData.stop)
                     {
                         movementData = StopMovement(movementData);
+                        animationData._animationType = 0;
+                        gravityFactor.Value = 0;
 
                         var direction = float3.zero;
-
-                        if (aiData.goToEntity)
-                            direction = translations[aiData.entity].Value - translation.Value;
-                        else
-                            direction = buffers[entity][aiData.counter].position - translation.Value;
-
-                        if (!aiData.canFly)
-                            direction.y = 0;
-                        movementData = SetRotation(movementData, direction, aiData.canFly);
-
-                        if (aiData.goToEntity)
+                        if (aiData.counter == 0)
                         {
-                            direction = translations[aiData.entity].Value - translation.Value;
-                            var magnitude = Magnitude(direction);
-                            if (magnitude > aiData.attackDistancePlayer)
+                            if (aiData.hordeMove)
                             {
                                 aiData.stop = false;
-                                if (!player.Exists(aiData.entity))
+                                aiData.counter++;
+                            }
+                            else
+                            {
+                                var position = buffers[entity][aiData.counter].position;
+                                if (aiData.canFly)
+                                    position.y += aiData.yOffset;
+                                direction = position - translation.Value;
+                            
+                                var magnitude = Magnitude(direction);
+                                if (magnitude > 1 && !aiData.stopByCollision)
                                 {
-                                    aiData.goToEntity = false;
-                                    aiData.entity = Entity.Null;
+                                    aiData.stop = false;
                                 }
                             }
+                        }
+
+                        if (aiData.goToEntity && translations.Exists(aiData.entity))
+                        {
+                            if (aiData.goToEntity)
+                                direction = translations[aiData.entity].Value - translation.Value;
+                            else
+                                direction = buffers[entity][aiData.counter].position - translation.Value;
+
+                            if (!aiData.canFly)
+                                direction.y = 0;
+
+                            movementData = SetRotation(movementData, direction, aiData.canFly);
+
+                            if (aiData.goToEntity)
+                            {
+                                direction = translations[aiData.entity].Value - translation.Value;
+                                var magnitude = Magnitude(direction);
+                                if (magnitude > aiData.attackDistancePlayer)
+                                {
+                                    aiData.stop = false;
+                                    aiData.state = 0;
+                                    if (!player.Exists(aiData.entity))
+                                    {
+                                        aiData.goToEntity = false;
+                                        aiData.entity = Entity.Null;
+                                    }
+                                }
+                            }
+                        }
+                        else if(aiData.goToEntity)
+                        {
+                            aiData.goToEntity = false;
+                            aiData.entity = Entity.Null;
+                            aiData.stop = false;
                         }
                     }
                     else
                     {
                         if (aiData.goToEntity)
                         {
-                            float3 direction;
+                            if (translations.Exists(aiData.entity))
+                            {
+                                float3 direction;
 
-                            if (aiData.canFly)
-                                direction = new float3(translations[aiData.entity].Value.x, 0,
-                                    translations[aiData.entity].Value.z) - new float3(translation.Value.x,
-                                    0, translation.Value.z);
+                                if (aiData.canFly)
+                                    direction = new float3(translations[aiData.entity].Value.x, 0,
+                                        translations[aiData.entity].Value.z) - new float3(
+                                        translation.Value.x,
+                                        0, translation.Value.z);
+                                else
+                                {
+                                    var destination = translations[aiData.entity].Value;
+                                    destination.y += .5f;
+                                    direction = destination - translation.Value;
+                                }
+
+                                var magnitude = Magnitude(direction);
+                                if (magnitude < aiData.attackDistancePlayer)
+                                {
+                                    aiData.stop = true;
+                                }
+                                else
+                                {
+                                    if (aiData.canFly)
+                                        direction.y += aiData.yOffset;
+                                    else
+                                        gravityFactor.Value = 10;
+
+
+                                    movementData = SetDirection(movementData, direction, magnitude);
+                                }
+
+                                movementData = SetRotation(movementData,
+                                    translations[aiData.entity].Value - translation.Value, aiData.canFly);
+                                movementData.rotation.value.x = 0;
+                                movementData.rotation.value.z = 0;
+
+                                if (aiData.counter < buffers[entity].Length)
+                                {
+                                    direction = buffers[entity][aiData.counter].position - translation.Value;
+                                    if (Magnitude(direction) < 1) aiData.counter++;
+                                }
+                            }
                             else
                             {
-                                var destination = translations[aiData.entity].Value;
-                                destination.y += .5f;
-                                direction = destination - translation.Value;
-                            }
-
-                            var magnitude = Magnitude(direction);
-                            if (magnitude < aiData.attackDistancePlayer)
-                            {
-                                aiData.stop = true;
-                            }
-                            else
-                            {
-                                movementData = SetDirection(movementData, direction, magnitude);
-                            }
-
-                            movementData = SetRotation(movementData,
-                                translations[aiData.entity].Value - translation.Value, aiData.canFly);
-                            movementData.rotation.value.x = 0;
-                            movementData.rotation.value.z = 0;
-
-                            if (aiData.counter < buffers[entity].Length)
-                            {
-                                direction = buffers[entity][aiData.counter].position - translation.Value;
-                                if (Magnitude(direction) < 1) aiData.counter++;
+                                aiData.goToEntity = false;
+                                aiData.entity = Entity.Null;
                             }
                         }
                         else
                         {
                             var position = buffers[entity][aiData.counter].position;
+                            position.y += aiData.yOffset;
                             var direction = position - translation.Value;
                             var directionY = direction.y;
                             direction.y = 0;
@@ -112,8 +166,13 @@ public class MoveToSystem : JobComponentSystem
                             if (magnitude < 1)
                             {
                                 direction = translation.Value - buffers[entity][buffers[entity].Length - 1].position;
-                                if (Magnitude(direction) > 1 && aiData.counter < buffers[entity].Length - 1)
-                                    aiData.counter++;
+                                if (Magnitude(direction) > .5f && aiData.counter < buffers[entity].Length - 1)
+                                {
+                                    if (aiData.horde && !aiData.hordeMove)
+                                        aiData.stop = true;
+                                    else
+                                        aiData.counter++;
+                                }
                                 else
                                 {
                                     aiData.counter = buffers[entity].Length - 1;
@@ -125,18 +184,16 @@ public class MoveToSystem : JobComponentSystem
                                 direction.y = directionY;
                                 movementData = SetRotation(movementData, direction, aiData.canFly);
                                 movementData = SetDirection(movementData, direction, magnitude);
+                                if (!aiData.canFly)
+                                    gravityFactor.Value = 10;
                             }
                         }
                     }
+
+                    aiData.stopByCollision = false;
                 }).Run();
         return default;
     }
-
-    // private static AnimationData ChangeAnimation(int animation, AnimationData animationData)
-    // {
-    //     animationData._animationType = animation;
-    //     return animationData;
-    // }
 
     private static MovementData StopMovement(MovementData movementData)
     {

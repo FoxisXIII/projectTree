@@ -9,6 +9,10 @@ public struct AIData : IComponentData
 {
     [HideInInspector] public int state;
     public bool canFly;
+    public bool boss;
+    [HideInInspector] public bool horde;
+    [HideInInspector] public bool hordeMove;
+    [HideInInspector] public float yOffset;
 
     public float attackDistancePlayer;
     public float attackDistanceBase;
@@ -21,8 +25,9 @@ public struct AIData : IComponentData
     [HideInInspector] public int counter;
 
     [HideInInspector] public bool goToEntity;
-    [HideInInspector] public float3 entityPosition;
     [HideInInspector] public Entity entity;
     [HideInInspector] public bool stop;
     [HideInInspector] public bool shot;
+    [HideInInspector] public bool stopByCollision;
+    [HideInInspector] public bool canAttackPlayer;
 }

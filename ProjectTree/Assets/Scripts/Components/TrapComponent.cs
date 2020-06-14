@@ -10,5 +10,5 @@ public struct TrapComponent :IComponentData
         public int Damage;
         public float Recover;
         public bool cankill;
-
+        public int times;
 }

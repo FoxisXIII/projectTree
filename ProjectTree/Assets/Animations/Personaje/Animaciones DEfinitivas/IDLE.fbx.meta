@@ -6,7 +6,67 @@ ModelImporter:
   - first:
       74: 1827226128182048838
     second: Take 001
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 01___Default
+    second: {fileID: 2100000, guid: 365179bd06b075f408173d97122a897b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 02 - Default
+    second: {fileID: 2100000, guid: bb2cb06b5b43d1843816470cc8d6b332, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 02___Default
+    second: {fileID: 2100000, guid: d4d5ad7c991f98a4fb4cb265ae69415c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 03___Default
+    second: {fileID: 2100000, guid: fc704fabd1a242442989e0803db24826, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 13___Brushed_Metal__2
+    second: {fileID: 2100000, guid: a88596990126c784f88857e84982fd28, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 15___Glossy_Plastic
+    second: {fileID: 2100000, guid: 6ce34bbbcdde8a940a182fa92d2d22d1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 19___Glass__Thin_wall_
+    second: {fileID: 2100000, guid: 9869989e229835342b641dac9fd82c14, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 20___Polished_Aluminum
+    second: {fileID: 2100000, guid: 9811c3f7e3eeb2e4bb9ea1cd641ae667, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 21___Default
+    second: {fileID: 2100000, guid: 2f26b99fb64267e46bec8e7addcd2bd2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Ceramic
+    second: {fileID: 2100000, guid: 1e03ce84cb9e8e745bde1a7b73723b76, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Solid_Glass
+    second: {fileID: 2100000, guid: c26de15dbba4eb645905bec1fb2a4ba9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wall_Paint
+    second: {fileID: 2100000, guid: 06bc2c25ac61f7c49be7e73f71a9583e, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

@@ -145,6 +145,7 @@ MonoBehaviour:
   Damage: 2147483647
   Recover: 0
   cankill: 0
+  times: 10
 --- !u!114 &564839453855340414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,6 +163,7 @@ MonoBehaviour:
   helixR: {fileID: 4084763374133331471}
   hullHelixL: {fileID: 0}
   hullHelixR: {fileID: 0}
+  rotationSpeed: 0
 --- !u!1 &2645929435571659778
 GameObject:
   m_ObjectHideFlags: 0

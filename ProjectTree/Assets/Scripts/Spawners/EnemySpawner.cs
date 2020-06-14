@@ -15,13 +15,22 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject enemyFlyPrefab;
     [SerializeField] private GameObject enemyGroundPrefab;
+    [SerializeField] private GameObject enemyFlyBossPrefab;
+    [SerializeField] private GameObject enemyGroundBossPrefab;
     private EntityManager _entityManager;
     private Entity _flyEnemyEntity;
     private Entity _groundEnemyEntity;
+    private Entity _flyBossEnemyEntity;
+    private Entity _groundBossEnemyEntity;
     private float time;
     private BlobAssetStore _blobAssetFly;
     private BlobAssetStore _blobAssetGround;
+    private BlobAssetStore _blobAssetFlyBoss;
+    private BlobAssetStore _blobAssetGroundBoss;
     public float3[] min, max;
+    public ParticleSystem fog;
+    private bool horde;
+    private float timer;
 
     [Header("FMOD paths")] public string groundMovementSoundPath;
     public string airMovementSoundPath;
@@ -35,22 +44,45 @@ public class EnemySpawner : MonoBehaviour
     {
         _blobAssetFly = new BlobAssetStore();
         _blobAssetGround = new BlobAssetStore();
+        _blobAssetFlyBoss = new BlobAssetStore();
+        _blobAssetGroundBoss = new BlobAssetStore();
         _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
         _flyEnemyEntity = GameObjectConversionUtility.ConvertGameObjectHierarchy(enemyFlyPrefab,
             GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, _blobAssetFly));
         _groundEnemyEntity = GameObjectConversionUtility.ConvertGameObjectHierarchy(enemyGroundPrefab,
-            GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, _blobAssetFly));
+            GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, _blobAssetGround));
+        _flyBossEnemyEntity = GameObjectConversionUtility.ConvertGameObjectHierarchy(enemyFlyBossPrefab,
+            GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, _blobAssetFlyBoss));
+        _groundBossEnemyEntity = GameObjectConversionUtility.ConvertGameObjectHierarchy(enemyGroundBossPrefab,
+            GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, _blobAssetGroundBoss));
     }
 
-    public void SpawnEnemy()
+    private void Update()
     {
+        if (horde && GameController.GetInstance().CurrentEnemies == GameController.GetInstance().MaxWaveEnemies)
+        {
+            horde = false;
+            var particle = fog.main;
+            particle.startColor = new ParticleSystem.MinMaxGradient(Color.white);
+        }
+    }
+
+    public void SpawnEnemy(bool horde)
+    {
+        if (horde && !this.horde)
+        {
+            this.horde = true;
+            timer = 0;
+            var particle = fog.main;
+            particle.startColor = new ParticleSystem.MinMaxGradient(Color.red);
+        }
+
         Entity enemy;
 
         if (Random.Range(0f, 1f) > .5f)
         {
             enemy = _entityManager.Instantiate(_flyEnemyEntity);
             SoundManager.GetInstance().PlayOneShotSound(airMovementSoundPath, enemy);
-            
         }
         else
         {
@@ -62,11 +94,31 @@ public class EnemySpawner : MonoBehaviour
         var random = Random.Range(0f, 1f);
 
         var aiData = _entityManager.GetComponentData<AIData>(enemy);
-        if (aiData.canFly)
-
-            aiData.state = 0;
-        Vector3 offset = aiData.canFly ? Vector3.up * Random.Range(.5f, 2.5f) : Vector3.zero;
+        aiData.yOffset = aiData.canFly ? Random.Range(.25f, 2.5f) : 0;
         aiData.state = 0;
+        aiData.attackDamage = horde ? 2 : 1;
+        aiData.attackRate = Random.Range(.5f, 1f);
+        aiData.horde = horde;
+        aiData.canAttackPlayer = Random.Range(0f, 1f) < .25f;
+        _entityManager.SetComponentData(enemy, aiData);
+
+        var movementData = _entityManager.GetComponentData<MovementData>(enemy);
+        var maxSpeed = 5 * (GameController.GetInstance().WaveCounter + 1);
+        movementData.speed = Random.Range(125 + maxSpeed, math.min(250 + maxSpeed, 500));
+        _entityManager.SetComponentData(enemy, movementData);
+
+
+        var health = _entityManager.GetComponentData<HealthData>(enemy);
+        health.value = GameController.GetInstance().WaveCounter;
+        health.maxValue = GameController.GetInstance().WaveCounter;
+        _entityManager.SetComponentData(enemy, health);
+
+        _entityManager.SetComponentData(enemy,
+            new Translation() {Value = GetPosition(min[0], max[0], random) + aiData.yOffset * Vector3.up});
+        _entityManager.SetComponentData(enemy, new Rotation() {Value = Quaternion.identity});
+
+        _entityManager.AddBuffer<EnemyPosition>(enemy).AddRange(GetAllPositions(random));
+        _entityManager.AddBuffer<CollisionEnemy>(enemy);
 
         _entityManager.AddComponent(enemy, typeof(EnemyFMODPaths));
         _entityManager.SetComponentData(enemy, new EnemyFMODPaths
@@ -76,28 +128,64 @@ public class EnemySpawner : MonoBehaviour
             HitPath = hitSoundPath,
             DiePath = dieSoundPath
         });
-        var health = _entityManager.GetComponentData<HealthData>(enemy);
-        health.value = GameController.GetInstance().WaveCounter;
-        health.maxValue = GameController.GetInstance().WaveCounter;
-        _entityManager.SetComponentData(enemy, health);
-        _entityManager.SetComponentData(enemy, aiData);
-
-        _entityManager.SetComponentData(enemy,
-            new Translation() {Value = GetPosition(min[0], max[0], random) + offset});
-        _entityManager.SetComponentData(enemy, new Rotation() {Value = Quaternion.identity});
-
-        _entityManager.AddBuffer<EnemyPosition>(enemy).AddRange(GetAllPositions(random, offset));
-        _entityManager.AddBuffer<CollisionEnemy>(enemy);
 
         GameController.GetInstance().AddEnemyWave();
     }
 
-    private NativeArray<EnemyPosition> GetAllPositions(float random, Vector3 offset)
+    public void SpawnBoss()
+    {
+        Entity enemy;
+
+        if (Random.Range(0f, 1f) > .5f)
+        {
+            enemy = _entityManager.Instantiate(_flyBossEnemyEntity);
+            SoundManager.GetInstance().PlayOneShotSound(airMovementSoundPath, enemy);
+        }
+        else
+        {
+            enemy = _entityManager.Instantiate(_groundBossEnemyEntity);
+            SoundManager.GetInstance().PlayOneShotSound(groundMovementSoundPath, enemy);
+        }
+
+
+        var random = Random.Range(0f, 1f);
+
+        var aiData = _entityManager.GetComponentData<AIData>(enemy);
+        aiData.yOffset = aiData.canFly ? Random.Range(1f, 3f) : 0;
+        aiData.state = 0;
+        aiData.attackDamage = 20;
+        aiData.attackRate = Random.Range(.5f, 1f);
+        _entityManager.SetComponentData(enemy, aiData);
+
+        var health = _entityManager.GetComponentData<HealthData>(enemy);
+        health.value = GameController.GetInstance().WaveCounter * 20;
+        health.maxValue = GameController.GetInstance().WaveCounter * 20;
+        _entityManager.SetComponentData(enemy, health);
+
+        _entityManager.SetComponentData(enemy,
+            new Translation() {Value = GetPosition(min[0], max[0], random) + aiData.yOffset * Vector3.up});
+        _entityManager.SetComponentData(enemy, new Rotation() {Value = Quaternion.identity});
+
+        _entityManager.AddBuffer<EnemyPosition>(enemy).AddRange(GetAllPositions(random));
+
+        _entityManager.AddComponent(enemy, typeof(EnemyFMODPaths));
+        _entityManager.SetComponentData(enemy, new EnemyFMODPaths
+        {
+            AttackBasePath = attackBaseSoundPath,
+            AttackPlayerPath = attackPlayerSoundPath,
+            HitPath = hitSoundPath,
+            DiePath = dieSoundPath
+        });
+
+        GameController.GetInstance().AddEnemyWave();
+    }
+
+    private NativeArray<EnemyPosition> GetAllPositions(float random)
     {
         var list = new NativeList<EnemyPosition>(Allocator.Temp);
         for (int i = 1; i < min.Length; i++)
         {
-            list.Add(new EnemyPosition() {position = GetPosition(min[i], max[i], random) + offset});
+            list.Add(new EnemyPosition() {position = GetPosition(min[i], max[i], random)});
         }
 
         return list;
@@ -112,9 +200,6 @@ public class EnemySpawner : MonoBehaviour
         min.y += distance * randomValue;
         distance = max.z - min.z;
         min.z += distance * randomValue;
-
-        // GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        // sphere.transform.position = min;
 
         return min;
     }
@@ -144,6 +229,8 @@ public class EnemySpawner : MonoBehaviour
         {
             _blobAssetFly.Dispose();
             _blobAssetGround.Dispose();
+            _blobAssetFlyBoss.Dispose();
+            _blobAssetGroundBoss.Dispose();
         }
     }
 
@@ -151,5 +238,7 @@ public class EnemySpawner : MonoBehaviour
     {
         _blobAssetFly.Dispose();
         _blobAssetGround.Dispose();
+        _blobAssetFlyBoss.Dispose();
+        _blobAssetGroundBoss.Dispose();
     }
 }

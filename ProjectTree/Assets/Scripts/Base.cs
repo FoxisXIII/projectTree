@@ -19,7 +19,8 @@ public class Base : MonoBehaviour
     private int materialCreation;
 
     public Image lifeUI_1;
-    
+    public int lastDamageWave;
+
     [Header("FMOD paths")]
     public string baseDestroySoundPath;
     public string lowLifeSoundPath;
@@ -34,6 +35,23 @@ public class Base : MonoBehaviour
     public void ReceiveDamage(int damage)
     {
         life -= damage;
+        lifeUI_1.fillAmount = life / maxLife;
+        if (lastDamageWave != GameController.GetInstance().WaveCounter)
+        {
+            lastDamageWave = GameController.GetInstance().WaveCounter;
+            GameController.GetInstance().NoBaseDamage = false;
+        }
+
+        if (life <= 0)
+        {
+            SoundManager.GetInstance().PlayOneShotSound(baseDestroySoundPath, transform.position);
+            GameController.GetInstance().gameOver("THEY HAVE ENT... BZZZ BZZZ BZZZ");
+        }
+    }
+
+    public void Heal(int heal)
+    {
+        life = Mathf.Min(maxLife, life + heal);
         lifeUI_1.fillAmount = life / maxLife;
 
         if (life <= 0.1f)

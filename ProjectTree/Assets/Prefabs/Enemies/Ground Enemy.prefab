@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2478633299368877701}
   - component: {fileID: 3502243436250571802}
   - component: {fileID: 5540176475791217739}
-  - component: {fileID: 1359546215917344722}
   m_Layer: 0
   m_Name: LeftFrontTyre
   m_TagString: Untagged
@@ -82,80 +81,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1359546215917344722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 937431327624896923}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b275e5f92732148048d7b77e264ac30e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShapeType: 3
-  m_PrimitiveCenter:
-    x: -0.000000007450581
-    y: -0.000000029802322
-    z: 0.000000029802322
-  m_PrimitiveSize:
-    x: 0.79278606
-    y: 0.79278606
-    z: 0.28
-  m_PrimitiveOrientation:
-    Value:
-      x: -0
-      y: 90
-      z: 0
-    RotationOrder: 4
-  m_Capsule:
-    Height: 0.28
-    Radius: 0.39639303
-    Axis: 2
-  m_Cylinder:
-    Height: 0.28
-    Radius: 0.39639303
-    Axis: 2
-  m_CylinderSideCount: 6
-  m_SphereRadius: 0.39639303
-  m_MinimumSkinnedVertexWeight: 0
-  m_ConvexHullGenerationParameters:
-    m_SimplificationTolerance: 0.1
-    m_BevelRadius: 0.05
-    m_MinimumAngle: 2.5000002
-  m_CustomMesh: {fileID: 3694714178042797413, guid: 823d7a6be05a16448af531b521930fcc,
-    type: 3}
-  m_ForceUnique: 0
-  m_Material:
-    m_SupportsTemplate: 1
-    m_Template: {fileID: 0}
-    m_IsTrigger:
-      m_Override: 0
-      m_Value: 0
-    m_Friction:
-      m_Override: 0
-      m_Value:
-        Value: 0.5
-        CombineMode: 0
-    m_Restitution:
-      m_Override: 0
-      m_Value:
-        Value: 0
-        CombineMode: 2
-    m_BelongsTo:
-      m_Override: 0
-      m_Value: 0101010101010101010101010101010101010101010101010101010101010101
-    m_CollidesWith:
-      m_Override: 0
-      m_Value: 0101010101010101010101010101010101010101010101010101010101010101
-    m_RaisesCollisionEvents:
-      m_Override: 0
-      m_Value: 0
-    m_CustomTags:
-      m_Override: 0
-      m_Value: 0000000000000000
-  m_ConvexRadius_Deprecated: -1
 --- !u!1 &2038037717877136710
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,7 +92,6 @@ GameObject:
   - component: {fileID: 7890701365643079473}
   - component: {fileID: 5312228023578708655}
   - component: {fileID: 2195171906670571892}
-  - component: {fileID: 5222362651165778044}
   m_Layer: 0
   m_Name: RightRearTyre
   m_TagString: Untagged
@@ -238,80 +162,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5222362651165778044
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2038037717877136710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b275e5f92732148048d7b77e264ac30e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShapeType: 3
-  m_PrimitiveCenter:
-    x: 0.000000029802322
-    y: -0.000000059604645
-    z: -0.00000011920929
-  m_PrimitiveSize:
-    x: 0.79278606
-    y: 0.79278606
-    z: 0.28
-  m_PrimitiveOrientation:
-    Value:
-      x: -0
-      y: 90
-      z: 0
-    RotationOrder: 4
-  m_Capsule:
-    Height: 0.28
-    Radius: 0.39639303
-    Axis: 2
-  m_Cylinder:
-    Height: 0.28
-    Radius: 0.39639303
-    Axis: 2
-  m_CylinderSideCount: 6
-  m_SphereRadius: 0.39639303
-  m_MinimumSkinnedVertexWeight: 0
-  m_ConvexHullGenerationParameters:
-    m_SimplificationTolerance: 0.1
-    m_BevelRadius: 0.05
-    m_MinimumAngle: 2.5000002
-  m_CustomMesh: {fileID: -3206061403888330468, guid: 823d7a6be05a16448af531b521930fcc,
-    type: 3}
-  m_ForceUnique: 0
-  m_Material:
-    m_SupportsTemplate: 1
-    m_Template: {fileID: 0}
-    m_IsTrigger:
-      m_Override: 0
-      m_Value: 0
-    m_Friction:
-      m_Override: 0
-      m_Value:
-        Value: 0.5
-        CombineMode: 0
-    m_Restitution:
-      m_Override: 0
-      m_Value:
-        Value: 0
-        CombineMode: 2
-    m_BelongsTo:
-      m_Override: 0
-      m_Value: 0101010101010101010101010101010101010101010101010101010101010101
-    m_CollidesWith:
-      m_Override: 0
-      m_Value: 0101010101010101010101010101010101010101010101010101010101010101
-    m_RaisesCollisionEvents:
-      m_Override: 0
-      m_Value: 0
-    m_CustomTags:
-      m_Override: 0
-      m_Value: 0000000000000000
-  m_ConvexRadius_Deprecated: -1
 --- !u!1 &3625905232861900828
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,6 +181,7 @@ GameObject:
   - component: {fileID: 3179986401857538201}
   - component: {fileID: 2506631039948915186}
   - component: {fileID: 5708557776140339251}
+  - component: {fileID: 8839729124091177526}
   m_Layer: 0
   m_Name: Ground Enemy
   m_TagString: Untagged
@@ -446,6 +297,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 0
   canFly: 0
+  boss: 0
+  horde: 0
+  hordeMove: 0
+  yOffset: 0
   attackDistancePlayer: 3
   attackDistanceBase: 5
   attackDamage: 1
@@ -472,7 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b275e5f92732148048d7b77e264ac30e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ShapeType: 30
+  m_ShapeType: 0
   m_PrimitiveCenter:
     x: -0.014146745
     y: 0.18549597
@@ -523,10 +378,10 @@ MonoBehaviour:
         CombineMode: 2
     m_BelongsTo:
       m_Override: 0
-      m_Value: 0000000001000000000000000000000000000000000000000000000000000000
+      m_Value: 0000000100000000000000000000000000000000000000000000000000000000
     m_CollidesWith:
       m_Override: 0
-      m_Value: 0101010000010101010101010101010101010101010101010101010101010101
+      m_Value: 0101010100010101010101010101010101010101010101010101010101010101
     m_RaisesCollisionEvents:
       m_Override: 0
       m_Value: 1
@@ -632,6 +487,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a25b9f72229774c99126d5076c6595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8839729124091177526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3625905232861900828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c53c078b44d24b1cb51bf67bbcb97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animationType: 0
+  helixL: {fileID: 7095671093999839403}
+  helixR: {fileID: 2038037717877136710}
+  hullHelixL: {fileID: 937431327624896923}
+  hullHelixR: {fileID: 3626123250011157688}
+  rotationSpeed: 0
 --- !u!1 &3626123250011157688
 GameObject:
   m_ObjectHideFlags: 0
@@ -643,7 +516,6 @@ GameObject:
   - component: {fileID: 1402057093043434535}
   - component: {fileID: 8633698650981508223}
   - component: {fileID: 3106717796133905702}
-  - component: {fileID: 3218229444580907117}
   m_Layer: 0
   m_Name: RightFrontTyre
   m_TagString: Untagged
@@ -714,80 +586,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3218229444580907117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3626123250011157688}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b275e5f92732148048d7b77e264ac30e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShapeType: 3
-  m_PrimitiveCenter:
-    x: 0.000000014901161
-    y: -0.000000029802322
-    z: 0.000000059604645
-  m_PrimitiveSize:
-    x: 0.79278606
-    y: 0.79278606
-    z: 0.28
-  m_PrimitiveOrientation:
-    Value:
-      x: -0
-      y: 90
-      z: 0
-    RotationOrder: 4
-  m_Capsule:
-    Height: 0.28
-    Radius: 0.39639303
-    Axis: 2
-  m_Cylinder:
-    Height: 0.28
-    Radius: 0.39639303
-    Axis: 2
-  m_CylinderSideCount: 6
-  m_SphereRadius: 0.39639303
-  m_MinimumSkinnedVertexWeight: 0
-  m_ConvexHullGenerationParameters:
-    m_SimplificationTolerance: 0.1
-    m_BevelRadius: 0.05
-    m_MinimumAngle: 2.5000002
-  m_CustomMesh: {fileID: -5284045903102238435, guid: 823d7a6be05a16448af531b521930fcc,
-    type: 3}
-  m_ForceUnique: 0
-  m_Material:
-    m_SupportsTemplate: 1
-    m_Template: {fileID: 0}
-    m_IsTrigger:
-      m_Override: 0
-      m_Value: 0
-    m_Friction:
-      m_Override: 0
-      m_Value:
-        Value: 0.5
-        CombineMode: 0
-    m_Restitution:
-      m_Override: 0
-      m_Value:
-        Value: 0
-        CombineMode: 2
-    m_BelongsTo:
-      m_Override: 0
-      m_Value: 0101010101010101010101010101010101010101010101010101010101010101
-    m_CollidesWith:
-      m_Override: 0
-      m_Value: 0101010101010101010101010101010101010101010101010101010101010101
-    m_RaisesCollisionEvents:
-      m_Override: 0
-      m_Value: 0
-    m_CustomTags:
-      m_Override: 0
-      m_Value: 0000000000000000
-  m_ConvexRadius_Deprecated: -1
 --- !u!1 &7095671093999839403
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,7 +597,6 @@ GameObject:
   - component: {fileID: 794966721529297265}
   - component: {fileID: 4274399308440058327}
   - component: {fileID: 5156623037769057227}
-  - component: {fileID: 429636081785592959}
   m_Layer: 0
   m_Name: LeftRearTyre
   m_TagString: Untagged
@@ -870,77 +667,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &429636081785592959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7095671093999839403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b275e5f92732148048d7b77e264ac30e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShapeType: 3
-  m_PrimitiveCenter:
-    x: 0.000000007450581
-    y: -0.000000059604645
-    z: -0.00000008940697
-  m_PrimitiveSize:
-    x: 0.79278606
-    y: 0.79278606
-    z: 0.28
-  m_PrimitiveOrientation:
-    Value:
-      x: -0
-      y: 90
-      z: 0
-    RotationOrder: 4
-  m_Capsule:
-    Height: 0.28
-    Radius: 0.39639303
-    Axis: 2
-  m_Cylinder:
-    Height: 0.28
-    Radius: 0.39639303
-    Axis: 2
-  m_CylinderSideCount: 6
-  m_SphereRadius: 0.39639303
-  m_MinimumSkinnedVertexWeight: 0
-  m_ConvexHullGenerationParameters:
-    m_SimplificationTolerance: 0.1
-    m_BevelRadius: 0.05
-    m_MinimumAngle: 2.5000002
-  m_CustomMesh: {fileID: -5319276097930846314, guid: 823d7a6be05a16448af531b521930fcc,
-    type: 3}
-  m_ForceUnique: 0
-  m_Material:
-    m_SupportsTemplate: 1
-    m_Template: {fileID: 0}
-    m_IsTrigger:
-      m_Override: 0
-      m_Value: 0
-    m_Friction:
-      m_Override: 0
-      m_Value:
-        Value: 0.5
-        CombineMode: 0
-    m_Restitution:
-      m_Override: 0
-      m_Value:
-        Value: 0
-        CombineMode: 2
-    m_BelongsTo:
-      m_Override: 0
-      m_Value: 0101010101010101010101010101010101010101010101010101010101010101
-    m_CollidesWith:
-      m_Override: 0
-      m_Value: 0101010101010101010101010101010101010101010101010101010101010101
-    m_RaisesCollisionEvents:
-      m_Override: 0
-      m_Value: 0
-    m_CustomTags:
-      m_Override: 0
-      m_Value: 0000000000000000
-  m_ConvexRadius_Deprecated: -1

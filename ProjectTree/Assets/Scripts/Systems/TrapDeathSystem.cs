@@ -15,8 +15,11 @@ public class TrapDeathSystem : JobComponentSystem
     private static float lerpTime;
     private static double startTime;
 
+    private EndSimulationEntityCommandBufferSystem ecb;
+
     protected override void OnCreate()
     {
+        ecb = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
         openedRot = new quaternion(-0.5f, -0.5f, -0.5f, 0.5f);
         leftClosedRot = new quaternion(-0.7071068f, -0.7071068f, 0, 0);
         rightClosedRot = new quaternion(0, 0, -0.7071068f, 0.7071068f);
@@ -26,11 +29,16 @@ public class TrapDeathSystem : JobComponentSystem
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         EntityManager manager = World.DefaultGameObjectInjectionWorld.EntityManager;
+        EntityCommandBuffer ecb = this.ecb.CreateCommandBuffer();
         float deltaTime = Time.DeltaTime;
         double time = Time.ElapsedTime;
 
         Entities.ForEach((ref TrapComponent trapComponent, ref Entity entity, in AnimationData animationData) =>
         {
+            if(trapComponent.times==0)
+            {
+                ecb.AddComponent<Dead>(entity);
+            }
             if (!trapComponent.cankill)
             {
                 if (trapComponent.Recover == 0)

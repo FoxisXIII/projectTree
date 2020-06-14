@@ -29,6 +29,11 @@ public class GameOverMenu : MonoBehaviour
         killed.SetText(GameController.GetInstance().EnemiesKilled.ToString());
         rounds.SetText(GameController.GetInstance().WaveCounter.ToString());
         towers.SetText(GameController.GetInstance().TowersPlaced.ToString());
+        
+        GameController.GetInstance().EnemiesKilled = 0;
+        GameController.GetInstance().TowersPlaced = 0;
+        GameController.GetInstance().WaveCounter = 0;
+        
     }
 
     public void changeScene()

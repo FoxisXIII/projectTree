@@ -16,24 +16,34 @@ public class WaveController : MonoBehaviour
     public float waveCooldown;
     public float enemySpawnRate;
     public int maxWaveEnemies;
-    
+
+    private int bossInScenario;
+
 
     [SerializeField] private TextMeshProUGUI nextRoundTimeText;
     [SerializeField] private TextMeshProUGUI roundText;
     [SerializeField] private Image currentEnemiesImage;
     [SerializeField] private Animator hud;
     private float spawnEnemyTime;
+    private bool[] hordes;
 
     void Awake()
     {
         GameController.GetInstance().MaxWaveEnemies = maxWaveEnemies;
         GameController.GetInstance().EnemiesSpawnRate = enemySpawnRate;
-        GameController.GetInstance().EnemiesKilled = 0;
-        
+        hordes = new bool[spawners.Length];
+        resetHordes();
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
         _canEndWave = true;
+    }
+
+    private void resetHordes()
+    {
+        for (int i = 0; i < hordes.Length; i++)
+            hordes[i] = false;
     }
 
     private void Start()
@@ -47,7 +57,10 @@ public class WaveController : MonoBehaviour
     {
         StartWave();
 
-        SpawnEnemy();
+        if (GameController.GetInstance().NormalWave)
+            SpawnEnemy();
+        else if (GameController.GetInstance().BossWave)
+            SpawnBoss();
 
         EndWave();
 
@@ -64,7 +77,29 @@ public class WaveController : MonoBehaviour
             GameController.GetInstance().startWave();
             hud.SetBool("inRound", true);
             hud.SetBool("nextRound", false);
+
             roundText.SetText("ROUND " + GameController.GetInstance().WaveCounter);
+            resetHordes();
+            if (GameController.GetInstance().WaveCounter > 2)
+            {
+                var maxHorde = Mathf.Min(hordes.Length, 1 + (1 * (GameController.GetInstance().WaveCounter / 15)));
+                var currentHorde = 0;
+                for (int i = 0; i < hordes.Length; i++)
+                {
+                    if (Random.Range(0f, 1f) < .25f)
+                    {
+                        hordes[i] = true;
+                        currentHorde++;
+                    }
+                    else
+                        hordes[i] = true;
+
+                    if (currentHorde == maxHorde)
+                        break;
+                }
+            }
+
+            bossInScenario = 0;
             _canSpawn = true;
         }
     }
@@ -88,13 +123,39 @@ public class WaveController : MonoBehaviour
             GameController.GetInstance().CurrentEnemies <
             GameController.GetInstance().MaxWaveEnemies)
         {
-            spawners[Random.Range(0, spawners.Length)].SpawnEnemy();
+            var random = Random.Range(0, spawners.Length);
+            spawners[random].SpawnEnemy(hordes[random]);
 
             spawnEnemyTime = 0;
         }
 
-        var waveEnemies = GameController.GetInstance().MaxWaveEnemies - GameController.GetInstance().DiedEnemies;
+        ChangeUiValues();
+    }
 
+    public void SpawnBoss()
+    {
+        if (_canSpawn && !_canEndWave && spawnEnemyTime >= GameController.GetInstance().EnemiesSpawnRate)
+        {
+            if (bossInScenario < GameController.GetInstance().NumberOfBoses)
+            {
+                spawners[Random.Range(0, spawners.Length)].SpawnBoss();
+                bossInScenario++;
+            }
+            else if (GameController.GetInstance().CurrentEnemies < GameController.GetInstance().MaxWaveEnemies)
+            {
+                var random = Random.Range(0, spawners.Length);
+                spawners[random].SpawnEnemy(hordes[random]);
+            }
+
+            spawnEnemyTime = 0;
+        }
+
+        ChangeUiValues();
+    }
+
+    private void ChangeUiValues()
+    {
+        var waveEnemies = GameController.GetInstance().MaxWaveEnemies - GameController.GetInstance().DiedEnemies;
         currentEnemiesImage.fillAmount =
             1f - ((float) waveEnemies / (float) GameController.GetInstance().MaxWaveEnemies);
         _canEndWave = GameController.GetInstance().DiedEnemies >= GameController.GetInstance().MaxWaveEnemies;
@@ -104,5 +165,13 @@ public class WaveController : MonoBehaviour
     {
         get => _canSpawn;
         set => _canSpawn = value;
+    }
+
+    public void Dispose()
+    {
+        foreach (var spawner in spawners)
+        {
+            spawner.Dispose();
+        }
     }
 }

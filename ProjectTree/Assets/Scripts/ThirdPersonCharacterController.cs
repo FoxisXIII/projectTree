@@ -71,13 +71,11 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [Header("BUFF")] [HideInInspector] public bool hasBuff;
     [HideInInspector] public Entity buffEntity;
     public int initialDamage;
-    private int damage;
+    [HideInInspector] public int damage;
     private bool shotgun;
     private int shotgunRange;
-
-
-    //Enemies Attacking
-    private Dictionary<Entity, Vector3> enemies;
+    public GameObject attackBuffPrefab, shotgunBuffPrefab, speedBuffPrefab;
+    private GameObject currentBuff;
 
 
     [Header("Change camera")] public GameObject fpsCamera;
@@ -116,7 +114,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     private void Awake()
     {
-        enemies = new Dictionary<Entity, Vector3>();
         GameController.GetInstance().Player = this;
         StopBuffs();
 
@@ -158,6 +155,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         if (!GameController.GetInstance().GamePaused)
         {
+            Debug.Log((float) life / (float) maxLife);
             lifeImage.fillAmount = (float) life / (float) maxLife;
 
             if (life <= 0)
@@ -173,22 +171,15 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 timer += Time.deltaTime;
                 if (Input.GetMouseButton(0))
                 {
-                    anim.SetBool("Shoting", true);
                     if (timer >= fireRate)
                     {
                         lineRenderer.enabled = true;
-                        if (useECS)
-                        {
-                            GameController.GetInstance().InstantiateParticles("Shot", LocFire.transform.position);
-                            if (shotgun)
-                                ShotgunECS(LocFire.transform.position, LocFire.transform.rotation.eulerAngles);
-                            else
-                                ShootECS(LocFire.transform.position, LocFire.transform.rotation);
-                        }
+                        GameController.GetInstance().InstantiateParticles("Shot", LocFire.transform.position);
+                        if (shotgun)
+                            ShotgunECS(LocFire.transform.position, LocFire.transform.forward);
                         else
-                        {
-                            Shoot();
-                        }
+                            ShootECS(LocFire.transform.position, LocFire.transform.rotation);
+                        anim.SetBool("Shoting", true);
 
                         timer = 0f;
                     }
@@ -218,22 +209,17 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
                 ver = Input.GetAxis("Vertical");
 
-
-                ver = Input.GetAxis("Vertical");
-
                 movPlayer = new Vector3(hor, 0, ver).normalized;
-                ;
-
-                float targetAngle = Mathf.Atan2(movPlayer.x, movPlayer.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity,
-                    turnSmoothTime);  //targetAngle por cam.eulerAngles.y
-                transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
 
                 float targetAngle = Mathf.Atan2(movPlayer.x, movPlayer.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity,
                     turnSmoothTime);
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+                if (movPlayer.magnitude >= 0.1f)
+                {
+                    moveDir = Quaternion.Euler(0, targetAngle, 0f) * Vector3.forward;
+                }
 
                 if (movPlayer.magnitude >= 0.1f)
                 {
@@ -252,9 +238,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 }
 
 
-               anim.SetFloat("Speed", movPlayer.magnitude >= 0.1f ? speedper : 0f);
-               anim.SetBool("onGround", characterController.isGrounded);
-                
+                anim.SetFloat("Speed", movPlayer.magnitude >= 0.1f ? speedper : 0f);
+                anim.SetBool("onGround", characterController.isGrounded);
+
                 if (movPlayer.Equals(Vector3.zero))
                 {
                     if (!SoundManager.GetInstance().IsPlaying(idleSoundEvent))
@@ -321,15 +307,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
         }
     }
 
-    void Shoot()
-    {
-        GameObject bulletShot;
-        bulletShot = Instantiate(Bullet, LocFire.transform.position, Quaternion.identity);
-        bulletShot.GetComponent<Rigidbody>().AddForce(transform.forward * 20);
-        bulletShot.GetComponent<Rigidbody>().velocity = transform.forward * 20;
-        bulletShot.transform.rotation = transform.rotation;
-    }
-
     void ShootECS(Vector3 position, Quaternion rotation)
     {
         Entity bullet = manager.Instantiate(bulletEntityPrefab);
@@ -361,20 +338,23 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
         for (int x = min; x < max; x++)
         {
-            tempRot.x = (rotation.x + 3 * x) % 360;
+            tempRot.x = (rotation.x + .05f * x) % 360;
             for (int y = min; y < max; y++)
             {
-                tempRot.y = (rotation.y + 3 * y) % 360;
+                tempRot.y = (rotation.y + .05f * y) % 360;
                 manager.SetComponentData(bullets[index], new Translation {Value = position});
                 manager.SetComponentData(bullets[index], new Rotation {Value = Quaternion.Euler(tempRot)});
                 var damage = manager.GetComponentData<DealsDamage>(bullets[index]);
                 damage.Value = this.damage;
                 manager.SetComponentData(bullets[index], damage);
+                var ttl = manager.GetComponentData<TimeToLive>(bullets[index]);
+                ttl.Value = 2;
+                manager.SetComponentData(bullets[index], ttl);
                 var movement = manager.GetComponentData<MovementData>(bullets[index]);
                 var rot = math.normalize(tempRot);
-                movement.directionX = tempRot.x;
-                movement.directionY = tempRot.y;
-                movement.directionZ = tempRot.z;
+                movement.directionX = rot.x;
+                movement.directionY = rot.y;
+                movement.directionZ = rot.z;
                 manager.SetComponentData(bullets[index], movement);
                 index++;
             }
@@ -458,6 +438,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         StopBuffs();
         damage = initialDamage * Attack;
+        currentBuff = Instantiate(attackBuffPrefab, transform);
     }
 
     public void IncreaseSpeed(int Speed)
@@ -466,7 +447,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         WalkSpeed = this.Speed * Speed;
         RunSpeed = WalkSpeed * 2;
         fireRate = initFireRate / Speed;
-        // Debug.Log("Speed");
+        currentBuff = Instantiate(speedBuffPrefab, transform);
     }
 
     public void Shotgun(int shotgun)
@@ -474,7 +455,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         StopBuffs();
         this.shotgun = true;
         shotgunRange = shotgun;
-        // Debug.Log("Shot");
+        currentBuff = Instantiate(shotgunBuffPrefab, transform);
     }
 
     public void StopBuffs()
@@ -484,6 +465,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         fireRate = initFireRate;
         damage = initialDamage;
         shotgun = false;
+        Destroy(currentBuff);
     }
 
     void ChangeCamera()
