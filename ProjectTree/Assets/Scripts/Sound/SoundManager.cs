@@ -107,12 +107,13 @@ public class SoundManager : MonoBehaviour
     }
 
     //Sonidos que queramos controlar des de fuera
-    public EventInstance PlayEvent(string path, Vector3 position)
+    public EventInstance PlayEvent(string path, Vector3 position, float volume)
     {
         EventInstance soundEvent = RuntimeManager.CreateInstance(path);
         if (!soundEvent.Equals(null))
         {
             soundEvent.set3DAttributes(RuntimeUtils.To3DAttributes(position));
+            soundEvent.setVolume(volume);
             soundEvent.start();
         }
 

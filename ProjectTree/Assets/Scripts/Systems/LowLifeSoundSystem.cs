@@ -13,13 +13,13 @@ public class LowLifeSoundSystem : ComponentSystem
     {
         Entities.WithAll<PlayerTag, HealthData>().ForEach((Entity e, ref HealthData hp) =>
         {
-            if (hp.value <= hp.maxValue * 0.2 && !SoundManager.GetInstance().IsPlaying(lowLifeSound))
+            if (hp.value <= hp.maxValue * 0.2)
             {
-                lowLifeSound = SoundManager.GetInstance().PlayEvent("event:/FX/Character/LowLife", float3.zero);
-            }
-            else if (hp.value <= 0)
-            {
-                lowLifeSound.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                if (!SoundManager.GetInstance().IsPlaying(lowLifeSound))
+                {
+                    lowLifeSound = SoundManager.GetInstance().PlayEvent("event:/FX/Character/LowLife", float3.zero, 7f);
+                    GameController.GetInstance().GetLowLifeSoundEvent(lowLifeSound);
+                }
             }
         });
     }

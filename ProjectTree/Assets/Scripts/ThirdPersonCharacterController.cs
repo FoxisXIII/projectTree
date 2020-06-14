@@ -105,7 +105,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public string idleSoundPath;
     public string dieSoundPath;
     public string cameraTransitionSoundPath;
-    private EventInstance idleSoundEvent;
+    public EventInstance idleSoundEvent;
 
     [Header("Particles")] public GameObject bomb;
     public GameObject shot;
@@ -278,7 +278,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 {
                     if (!SoundManager.GetInstance().IsPlaying(idleSoundEvent))
                     {
-                        idleSoundEvent = SoundManager.GetInstance().PlayEvent(idleSoundPath, transform.position);
+                        idleSoundEvent = SoundManager.GetInstance().PlayEvent(idleSoundPath, transform.position, 0.7f);
                     }
                 }
                 else

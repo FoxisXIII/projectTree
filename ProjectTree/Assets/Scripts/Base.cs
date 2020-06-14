@@ -36,14 +36,15 @@ public class Base : MonoBehaviour
         life -= damage;
         lifeUI_1.fillAmount = life / maxLife;
 
-        if (life <= 0)
+        if (life <= 0.1f)
         {
             SoundManager.GetInstance().PlayOneShotSound(baseDestroySoundPath, transform.position);
             GameController.GetInstance().gameOver("THEY HAVE ENT... BZZZ BZZZ BZZZ");
         }
         else if (life <= maxLife * 0.2f && !SoundManager.GetInstance().IsPlaying(lowLifeSoundEvent))
         {
-           lowLifeSoundEvent = SoundManager.GetInstance().PlayEvent(lowLifeSoundPath, transform.position); 
+           lowLifeSoundEvent = SoundManager.GetInstance().PlayEvent(lowLifeSoundPath, transform.position, 1f); 
+           GameController.GetInstance().GetLowLifeSoundEvent(lowLifeSoundEvent);
         }
     }
 }
