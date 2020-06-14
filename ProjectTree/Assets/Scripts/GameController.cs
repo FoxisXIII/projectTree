@@ -17,14 +17,13 @@ public class GameController
     private Base _base;
     private ThirdPersonCharacterController _player;
     private EntityCommandBuffer ecb;
-    
-    [Header("FMOD paths")] 
-    public string startRoundSoundPath = "event:/FX/Round/Start";
+
+    [Header("FMOD paths")] public string startRoundSoundPath = "event:/FX/Round/Start";
     public string endRoundSoundPath = "event:/FX/Round/End";
 
     //Recursos
     private int _iron = 50;
-    private Dictionary<string, List<Material>> animationMaterials;
+    private Dictionary<string, GameObject> _particles;
 
     private GameController()
     {
@@ -182,13 +181,15 @@ public class GameController
         set => _towersPlaced = value;
     }
 
-    public Dictionary<string, List<Material>> getMaterials()
+    public Dictionary<string, GameObject> Particles
     {
-        return animationMaterials;
+        get => _particles;
+        set => _particles = value;
     }
 
-    public void setMaterials(Dictionary<string, List<Material>> dictionary)
+
+    public void InstantiateParticles(String particle, float3 translationValue)
     {
-        animationMaterials = dictionary;
+        GameObject.Instantiate(_particles[particle], translationValue, Quaternion.identity);
     }
 }

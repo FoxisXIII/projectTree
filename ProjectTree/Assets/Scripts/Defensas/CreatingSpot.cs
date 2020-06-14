@@ -25,7 +25,6 @@ public class CreatingSpot : MonoBehaviour
         {
             if (!_manager.Exists(_associatedTurret))
             {
-                print("yay");
                 _hasTurret = false;
                 if (_topView)
                     _particleSystem.Play();

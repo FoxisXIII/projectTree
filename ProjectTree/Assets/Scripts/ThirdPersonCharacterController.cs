@@ -98,8 +98,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public HumanBodyBones bones;
 
 
-    [Header("FMOD paths")] 
-    public string jumpSoundPath;
+    [Header("FMOD paths")] public string jumpSoundPath;
     public string shotSoundPath;
     public string hitSoundPath;
     public string healSoundPath;
@@ -108,6 +107,12 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public string cameraTransitionSoundPath;
     private EventInstance idleSoundEvent;
 
+    [Header("Particles")] public GameObject bomb;
+    public GameObject shot;
+    public GameObject enemyDie;
+    public GameObject towerDie;
+    private LineRenderer lineRenderer;
+
 
     private void Awake()
     {
@@ -115,7 +120,16 @@ public class ThirdPersonCharacterController : MonoBehaviour
         GameController.GetInstance().Player = this;
         StopBuffs();
 
+        GameController.GetInstance().Particles = new Dictionary<string, GameObject>()
+        {
+            {"Bomb", bomb},
+            {"Shot", shot},
+            {"EnemyDie", enemyDie},
+            {"TowerDie", towerDie}
+        };
         initialPosition = transform.position;
+        lineRenderer = LocFire.GetComponent<LineRenderer>();
+        lineRenderer.enabled = false;
     }
 
     // Start is called before the first frame update
@@ -158,11 +172,12 @@ public class ThirdPersonCharacterController : MonoBehaviour
             if (Input.GetMouseButton(0))
             {
                 anim.SetBool("Shoting", true);
-                LocFire.GetComponent<LineRenderer>().enabled = true;
                 if (timer >= fireRate)
                 {
+                    lineRenderer.enabled = true;
                     if (useECS)
                     {
+                        GameController.GetInstance().InstantiateParticles("Shot", LocFire.transform.position);
                         if (shotgun)
                             ShotgunECS(LocFire.transform.position, LocFire.transform.rotation.eulerAngles);
                         else
@@ -178,7 +193,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
             }
             else if (Input.GetMouseButtonUp(0))
             {
-                LocFire.GetComponent<LineRenderer>().enabled = false;
+                lineRenderer = LocFire.GetComponent<LineRenderer>();
+                lineRenderer.enabled = false;
                 anim.SetBool("Shoting", false);
             }
 
@@ -287,8 +303,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private void LateUpdate()
     {
         LocFire.transform.forward = cam.transform.forward;
-        LocFire.GetComponent<LineRenderer>().SetPosition(0, LocFire.transform.position);
-        LocFire.GetComponent<LineRenderer>().SetPosition(1, cam.transform.forward * 50);
+
+        lineRenderer.SetPosition(0, LocFire.transform.position);
+        lineRenderer.SetPosition(1, LocFire.transform.forward * 100 + LocFire.transform.position);
         // float dirMouse = cine.m_YAxis.m_InputAxisValue;
         //    //Debug.Log(dirMouse);
         //    if (dirMouse!=0)
@@ -446,9 +463,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private void UpdatePreviewTrap()
     {
         _turretCanBePlaced = _instantiatedPreviewTrap.isValidPosition();
-        _instantiatedPreviewTrap.material.color = _turretCanBePlaced
+        _instantiatedPreviewTrap.material.SetColor("_main_color", _turretCanBePlaced
             ? _instantiatedPreviewTrap.canBePlaced
-            : _instantiatedPreviewTrap.canNotBePlaced;
+            : _instantiatedPreviewTrap.canNotBePlaced);
     }
 
     private void CreateTrap()
@@ -491,7 +508,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         WalkSpeed = this.Speed * Speed;
         RunSpeed = WalkSpeed * 2;
         fireRate = initFireRate / Speed;
-        Debug.Log("Speed");
+        // Debug.Log("Speed");
     }
 
     public void Shotgun(int shotgun)
@@ -499,7 +516,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         StopBuffs();
         this.shotgun = true;
         shotgunRange = shotgun;
-        Debug.Log("Shot");
+        // Debug.Log("Shot");
     }
 
     public void StopBuffs()
@@ -521,16 +538,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
         fpsCamera.SetActive(false);
         //hud.SetBool("towers", true);
 
-        if (hud.GetBool("inRound"))
-        {
-            lastAnimatorKey = "inRound";
-            hud.SetBool("inRound", false);
-        }
-        else if (hud.GetBool("nextRound"))
-        {
-            lastAnimatorKey = "nextRound";
-            hud.SetBool("nextRound", false);
-        }
         cameraChanged = true;
     }
 

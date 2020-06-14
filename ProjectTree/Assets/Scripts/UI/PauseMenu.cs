@@ -59,7 +59,7 @@ public class PauseMenu : MonoBehaviour
         SoundManager.GetInstance().PlayOneShotSound(exitMenuSoundPath, GameController.GetInstance().Player.transform.position);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        Time.timeScale = 1f;
+        Time.timeScale = 1;
         hud.SetBool("pause", false);
         GameIsPaused = false;
     }
