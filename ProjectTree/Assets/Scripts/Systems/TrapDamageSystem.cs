@@ -65,6 +65,7 @@ public class TrapDamageSystem : JobComponentSystem
                 trapComponent.cankill = false;
                 trapComponent.Recover = 0;
                 trapGroup[trap] = trapComponent;
+                SoundManager.GetInstance().PlayOneShotSound("event:/FX/Menu/Select", Vector3.zero);
             }
         }
     }

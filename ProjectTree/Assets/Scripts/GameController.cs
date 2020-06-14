@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMOD.Studio;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Transforms;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Debug = FMOD.Debug;
 
 public class GameController
 {
@@ -13,6 +16,8 @@ public class GameController
     private int _currentEnemies, _diedEnemies, _maxWaveEnemies, _waveCounter, _enemiesKilled, _towersPlaced;
     private float _enemiesSpawnRate;
     private bool _waveInProcess;
+    public bool GamePaused;
+    private EventInstance lowLifeSoundEvent;
 
     private Base _base;
     private ThirdPersonCharacterController _player;
@@ -83,12 +88,14 @@ public class GameController
 
     public bool WaveInProcess => _waveInProcess;
 
-    public void pauseGame()
+    public void pauseGame(bool pause)
     {
+        GamePaused = pause;
     }
 
     public void gameOver(string text)
     {
+        SoundManager.GetInstance().PlayOneShotSound("event:/FX/Game/Lose", _player.transform.position);
         DestroyEntities();
         if (PlayerPrefs.GetInt("KILLED") < _enemiesKilled)
         {
@@ -107,7 +114,22 @@ public class GameController
 
         PlayerPrefs.SetString("DIE", text);
 
+        _player.idleSoundEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        if (!lowLifeSoundEvent.Equals(null))
+            lowLifeSoundEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        SoundManager.GetInstance().StopAllSounds();
+
         SceneManager.LoadScene("Game Over");
+    }
+
+    public void GetLowLifeSoundEvent(EventInstance lowLifeEvent)
+    {
+        if (!SoundManager.GetInstance().IsPlaying(lowLifeSoundEvent))
+            lowLifeSoundEvent = lowLifeEvent;
+        else
+        {
+            lowLifeEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        }
     }
 
     public void DestroyEntities()

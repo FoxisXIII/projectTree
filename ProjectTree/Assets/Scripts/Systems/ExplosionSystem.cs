@@ -33,7 +33,7 @@ public class ExplosionSystem : JobComponentSystem
             {
                 explosionComponent.explode = true;
                 GameController.GetInstance().InstantiateParticles("Bomb", translation.Value);
-                //SoundManager.GetInstance().PlayOneShotSound(paths.BombPath.ToString(), position.Value);
+                SoundManager.GetInstance().PlayOneShotSound("event:/FX/Turret/Bomb", translation.Value);
             }
         }).WithoutBurst().Run();
         return default;
