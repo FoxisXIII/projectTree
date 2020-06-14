@@ -7,6 +7,7 @@ using TMPro;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEditor.Rendering;
 using UnityEngine;
 using Debug = FMOD.Debug;
 
@@ -110,7 +111,7 @@ public class OverviewController : MonoBehaviour
                     if (Input.GetKeyDown(i.ToString()))
                     {
                         _indexToCreate = i - 1;
-                        CreateTurret(_indexToCreate);
+                        CreateTurret();
                         _creating = false;
                         TurretHUD.SetActive(false);
                         break;
@@ -126,7 +127,6 @@ public class OverviewController : MonoBehaviour
                 {
                     _creating = true;
                     _placeToCreate = hit.collider.gameObject;
-                    //GameController.GetInstance().Player.hud.SetBool("towers", true);
                     TurretHUD.SetActive(true);
                 }
             }
@@ -145,14 +145,13 @@ public class OverviewController : MonoBehaviour
         SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, transform.position);
     }
 
-    private void CreateTurret(int index)
+    private void CreateTurret()
     {
         GameController.GetInstance().Player.hud.SetBool("towers", false);
         CreatingSpot spot = _placeToCreate.GetComponent<CreatingSpot>();
         if (GameController.GetInstance().iron >= 20 && !spot.HasTurret)
         {
-            Entity turret = _manager.Instantiate(turretsToCreate[index]);
-            //var position = _instantiatedPreviewTurret.gameObject.transform.position;
+            Entity turret = _manager.Instantiate(turretsToCreate[_indexToCreate]);
             _manager.SetComponentData(turret, new Translation {Value = _placeToCreate.transform.position});
             spot.AddTurret(turret);
             GameController.GetInstance().UpdateResources(-20);
@@ -174,41 +173,12 @@ public class OverviewController : MonoBehaviour
         }
     }
 
-    private void UpdatePreviewTurret()
-    {
-        _turretCanBePlaced = _instantiatedPreviewTurret.isValidPosition();
-        _instantiatedPreviewTurret.material.SetColor("_main_color", _turretCanBePlaced
-            ? _instantiatedPreviewTurret.canBePlaced
-            : _instantiatedPreviewTurret.canNotBePlaced);
-        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
-        {
-            var gridPosition = grid.GetNearestpointOnGrid(hit.point);
-            if (!gridPosition.Equals(Vector3.zero))
-            {
-                gridPosition.y = hit.point.y;
-                _instantiatedPreviewTurret.gameObject.transform.position = gridPosition;
-            }
-        }
-    }
-
-    private void CreatePreviewTurret()
-    {
-        if (_instantiatedPreviewTurret != null)
-            Destroy(_instantiatedPreviewTurret.gameObject);
-
-        _instantiatedPreviewTurret = Instantiate(previewTurret).GetComponent<PreviewTurret>();
-        if (_indexToCreate == 0 || _indexToCreate == 1)
-            _instantiatedPreviewTurret.transform.GetChild(0).localScale *= 2;
-    }
-
     public void OnClick(int index)
     {
-        CreateTurret(index);
-        _creating = true;
+        print("clicked");
         _indexToCreate = index;
+        _creating = false;
+        CreateTurret();
     }
 
     private void OnDestroy()

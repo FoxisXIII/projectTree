@@ -156,136 +156,143 @@ public class ThirdPersonCharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        lifeImage.fillAmount = (float) life / (float) maxLife;
-
-        if (life <= 0)
-            GameController.GetInstance().gameOver("KILLED BY X AE A12");
-
-        if (Input.GetKeyDown(cameraChange) && !cameraChanged)
+        if (!GameController.GetInstance().GamePaused)
         {
-            ChangeCamera();
-        }
+            lifeImage.fillAmount = (float) life / (float) maxLife;
 
-        if (!cameraChanged)
-        {
-            timer += Time.deltaTime;
-            if (Input.GetMouseButton(0))
+            if (life <= 0)
+                GameController.GetInstance().gameOver("KILLED BY X AE A12");
+
+            if (Input.GetKeyDown(cameraChange) && !cameraChanged)
             {
-                anim.SetBool("Shoting", true);
-                if (timer >= fireRate)
+                ChangeCamera();
+            }
+
+            if (!cameraChanged)
+            {
+                timer += Time.deltaTime;
+                if (Input.GetMouseButton(0))
                 {
-                    lineRenderer.enabled = true;
-                    if (useECS)
+                    anim.SetBool("Shoting", true);
+                    if (timer >= fireRate)
                     {
-                        GameController.GetInstance().InstantiateParticles("Shot", LocFire.transform.position);
-                        if (shotgun)
-                            ShotgunECS(LocFire.transform.position, LocFire.transform.rotation.eulerAngles);
+                        lineRenderer.enabled = true;
+                        if (useECS)
+                        {
+                            GameController.GetInstance().InstantiateParticles("Shot", LocFire.transform.position);
+                            if (shotgun)
+                                ShotgunECS(LocFire.transform.position, LocFire.transform.rotation.eulerAngles);
+                            else
+                                ShootECS(LocFire.transform.position, LocFire.transform.rotation);
+                        }
                         else
-                            ShootECS(LocFire.transform.position, LocFire.transform.rotation);
+                        {
+                            Shoot();
+                        }
+
+                        timer = 0f;
                     }
-                    else
+                }
+                else if (Input.GetMouseButtonUp(0))
+                {
+                    lineRenderer = LocFire.GetComponent<LineRenderer>();
+                    lineRenderer.enabled = false;
+                    anim.SetBool("Shoting", false);
+                }
+
+                if (Input.GetMouseButton(1))
+                {
+                    if (Input.GetMouseButtonDown(1))
                     {
-                        Shoot();
+                        CreatePreviewTrap();
                     }
 
-                    timer = 0f;
+                    UpdatePreviewTrap();
                 }
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                lineRenderer = LocFire.GetComponent<LineRenderer>();
-                lineRenderer.enabled = false;
-                anim.SetBool("Shoting", false);
-            }
-
-            if (Input.GetMouseButton(1))
-            {
-                if (Input.GetMouseButtonDown(1))
+                else if (Input.GetMouseButtonUp(1))
                 {
-                    CreatePreviewTrap();
+                    CreateTrap();
                 }
 
-                UpdatePreviewTrap();
-            }
-            else if (Input.GetMouseButtonUp(1))
-            {
-                CreateTrap();
-            }
+                hor = Input.GetAxis("Horizontal");
 
-            hor = Input.GetAxis("Horizontal");
+                ver = Input.GetAxis("Vertical");
 
-            ver = Input.GetAxis("Vertical");
-
-            /* float dirMouse = cine.m_YAxis.m_InputAxisValue;
-             //Debug.Log(dirMouse);
-             if (dirMouse!=0)
-             {
-                 if (dirMouse < 0)
-                     speedRotation = -1;
-                 else speedRotation = 1;
-                 if (chest.rotation.eulerAngles.z<maxRotate&&chest.rotation.eulerAngles.z>minRotate)
+                /* float dirMouse = cine.m_YAxis.m_InputAxisValue;
+                 //Debug.Log(dirMouse);
+                 if (dirMouse!=0)
                  {
-                     
-                     chest.Rotate(0,0,speedRotation);
-                 }
-                 else
-                 {
-                     if (chest.rotation.eulerAngles.z>maxRotate)
+                     if (dirMouse < 0)
+                         speedRotation = -1;
+                     else speedRotation = 1;
+                     if (chest.rotation.eulerAngles.z<maxRotate&&chest.rotation.eulerAngles.z>minRotate)
                      {
-                         chest.Rotate(0,0,-2);
+                         
+                         chest.Rotate(0,0,speedRotation);
                      }
- 
-                     if (chest.rotation.eulerAngles.z<minRotate)
+                     else
                      {
-                         chest.Rotate(0,0,2);
+                         if (chest.rotation.eulerAngles.z>maxRotate)
+                         {
+                             chest.Rotate(0,0,-2);
+                         }
+     
+                         if (chest.rotation.eulerAngles.z<minRotate)
+                         {
+                             chest.Rotate(0,0,2);
+                         }
                      }
-                 }
-             }*/
+                 }*/
 
-            movPlayer = new Vector3(hor, 0, ver).normalized;
-            ;
+                movPlayer = new Vector3(hor, 0, ver).normalized;
+                ;
 
-            float targetAngle = Mathf.Atan2(movPlayer.x, movPlayer.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity,
-                turnSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+                float targetAngle = Mathf.Atan2(movPlayer.x, movPlayer.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity,
+                    turnSmoothTime);
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-            if (movPlayer.magnitude >= 0.1f)
-            {
-                moveDir = Quaternion.Euler(0, targetAngle, 0f) * Vector3.forward;
-            }
+                if (movPlayer.magnitude >= 0.1f)
+                {
+                    moveDir = Quaternion.Euler(0, targetAngle, 0f) * Vector3.forward;
+                }
 
-            speedper = WalkSpeed;
-            if (Input.GetKey(RunKey) && characterController.isGrounded)
-            {
-                speedper = RunSpeed;
-            }
-
-            if (Input.GetKeyUp(RunKey))
-            {
                 speedper = WalkSpeed;
-            }
-
-
-            //anim.SetFloat("Speed",characterController.velocity.magnitude);
-            anim.SetFloat("Speed", movPlayer.magnitude >= 0.1f ? speedper : 0f);
-            anim.SetBool("onGround", characterController.isGrounded);
-
-            
-            if (movPlayer.Equals(Vector3.zero))
-            {
-                if (!SoundManager.GetInstance().IsPlaying(idleSoundEvent))
+                if (Input.GetKey(RunKey) && characterController.isGrounded)
                 {
-                    idleSoundEvent = SoundManager.GetInstance().PlayEvent(idleSoundPath, transform.position);
+                    speedper = RunSpeed;
                 }
-            }
-            else
-            {
-                idleSoundEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            }
 
-            setGravity();
-            Jump();
+                if (Input.GetKeyUp(RunKey))
+                {
+                    speedper = WalkSpeed;
+                }
+
+
+                //anim.SetFloat("Speed",characterController.velocity.magnitude);
+                anim.SetFloat("Speed", movPlayer.magnitude >= 0.1f ? speedper : 0f);
+                anim.SetBool("onGround", characterController.isGrounded);
+
+                
+                if (movPlayer.Equals(Vector3.zero))
+                {
+                    if (!SoundManager.GetInstance().IsPlaying(idleSoundEvent))
+                    {
+                        idleSoundEvent = SoundManager.GetInstance().PlayEvent(idleSoundPath, transform.position);
+                    }
+                }
+                else
+                {
+                    idleSoundEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                }
+
+                setGravity();
+                Jump();
+            }
+        }
+        else
+        {
+            idleSoundEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         }
     }
 

@@ -41,6 +41,7 @@ public class PauseMenu : MonoBehaviour
         hud.SetBool("startPause", true);
         hud.SetBool("pause", true);
         GameIsPaused = true;
+        GameController.GetInstance().pauseGame();
     }
 
     public void StopTime()
@@ -57,10 +58,23 @@ public class PauseMenu : MonoBehaviour
     public void Resume()
     {
         SoundManager.GetInstance().PlayOneShotSound(exitMenuSoundPath, GameController.GetInstance().Player.transform.position);
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        if (!GameController.GetInstance().Player.cameraChanged)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
         Time.timeScale = 1;
         hud.SetBool("pause", false);
         GameIsPaused = false;
+        GameController.GetInstance().pauseGame();
+    }
+
+    public void ChangeVolume(float volume)
+    {
+        string masterBusString = "Bus:/";
+        FMOD.Studio.Bus masterBus;
+
+        masterBus = FMODUnity.RuntimeManager.GetBus(masterBusString);
+        masterBus.setVolume(volume);
     }
 }

@@ -47,9 +47,16 @@ public class EnemySpawner : MonoBehaviour
         Entity enemy;
 
         if (Random.Range(0f, 1f) > .5f)
+        {
             enemy = _entityManager.Instantiate(_flyEnemyEntity);
+            SoundManager.GetInstance().PlayOneShotSound(airMovementSoundPath, enemy);
+            
+        }
         else
+        {
             enemy = _entityManager.Instantiate(_groundEnemyEntity);
+            SoundManager.GetInstance().PlayOneShotSound(groundMovementSoundPath, enemy);
+        }
 
 
         var random = Random.Range(0f, 1f);
@@ -64,8 +71,6 @@ public class EnemySpawner : MonoBehaviour
         _entityManager.AddComponent(enemy, typeof(EnemyFMODPaths));
         _entityManager.SetComponentData(enemy, new EnemyFMODPaths
         {
-            GroundMovementPath = groundMovementSoundPath,
-            AirMovementPath = airMovementSoundPath,
             AttackBasePath = attackBaseSoundPath,
             AttackPlayerPath = attackPlayerSoundPath,
             HitPath = hitSoundPath,
@@ -75,7 +80,6 @@ public class EnemySpawner : MonoBehaviour
         health.value = GameController.GetInstance().WaveCounter;
         health.maxValue = GameController.GetInstance().WaveCounter;
         _entityManager.SetComponentData(enemy, health);
-        SoundManager.GetInstance().PlayOneShotSound(airMovementSoundPath, enemy);
         _entityManager.SetComponentData(enemy, aiData);
 
         _entityManager.SetComponentData(enemy,

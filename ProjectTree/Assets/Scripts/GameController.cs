@@ -13,6 +13,7 @@ public class GameController
     private int _currentEnemies, _diedEnemies, _maxWaveEnemies, _waveCounter, _enemiesKilled, _towersPlaced;
     private float _enemiesSpawnRate;
     private bool _waveInProcess;
+    public bool GamePaused;
 
     private Base _base;
     private ThirdPersonCharacterController _player;
@@ -85,6 +86,7 @@ public class GameController
 
     public void pauseGame()
     {
+        GamePaused = !GamePaused;
     }
 
     public void gameOver(string text)

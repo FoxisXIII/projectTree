@@ -14,6 +14,7 @@ public class SoundManager : MonoBehaviour
     private static SoundManager Instance;
     private List<MovingSound> movingEvents;
     private EntityManager _entityManager;
+    public float volume = 1.0f;
 
     private SoundManager()
     {
@@ -59,7 +60,8 @@ public class SoundManager : MonoBehaviour
                 eventInstance.getPlaybackState(out state);
                 if (state == PLAYBACK_STATE.STOPPED)
                 {
-                    movingEvents.RemoveAt(i);
+                    eventInstance.start();
+                    eventInstance.release();
                 }
                 else
                 {
@@ -73,7 +75,8 @@ public class SoundManager : MonoBehaviour
                                     .Value));
                         else
                         {
-                            movingEvents[i].GetSoundEvent().stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                            eventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                            movingEvents.RemoveAt(i);
                         }
                     }
                     else
