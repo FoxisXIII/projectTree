@@ -16,11 +16,11 @@ public class PreviewTurret : MonoBehaviour
         for (int i = 0; i < length; i++)
         {
             Ray groundRay = new Ray(validPoints[i].position, Vector3.down);
-            if (Physics.Raycast(groundRay, distanceToGround, groundLayerMask.value))
+            if (!Physics.Raycast(groundRay, distanceToGround, groundLayerMask.value))
             {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 }
