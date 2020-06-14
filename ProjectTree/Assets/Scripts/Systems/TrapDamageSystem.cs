@@ -11,9 +11,9 @@ using UnityEngine;
 [UpdateBefore(typeof(ResolveDamageSystem))]
 public class TrapDamageSystem : JobComponentSystem
 {
-    
     private BuildPhysicsWorld _buildPhysicsWorld;
     private StepPhysicsWorld _stepPhysicsWorld;
+
     protected override void OnCreate()
     {
         _buildPhysicsWorld = World.GetOrCreateSystem<BuildPhysicsWorld>();
@@ -26,47 +26,45 @@ public class TrapDamageSystem : JobComponentSystem
         var damageCollisionjob = new DamageCollisionJob
         {
             damageGroup = GetBufferFromEntity<Damage>(),
-            dealDamageGroup = GetComponentDataFromEntity<TrapComponent>()
+            trapGroup = GetComponentDataFromEntity<TrapComponent>()
         };
-        damageCollisionjob.Schedule(_stepPhysicsWorld.Simulation, ref _buildPhysicsWorld.PhysicsWorld, inputDeps).Complete();
+        damageCollisionjob.Schedule(_stepPhysicsWorld.Simulation, ref _buildPhysicsWorld.PhysicsWorld, inputDeps)
+            .Complete();
 
         return inputDeps;
     }
-    
-    
+
+
     private struct DamageCollisionJob : ITriggerEventsJob
     {
         public BufferFromEntity<Damage> damageGroup;
-        public ComponentDataFromEntity<TrapComponent> dealDamageGroup;
+        public ComponentDataFromEntity<TrapComponent> trapGroup;
 
         public void Execute(TriggerEvent triggerEvent)
         {
-            if (dealDamageGroup.HasComponent(triggerEvent.Entities.EntityA))
+            if (trapGroup.HasComponent(triggerEvent.Entities.EntityA))
             {
-                if (damageGroup.Exists(triggerEvent.Entities.EntityB))
-                {
-                    damageGroup[triggerEvent.Entities.EntityB].Add(new Damage
-                    {
-                        Value = dealDamageGroup[triggerEvent.Entities.EntityA].Damage
-                    });
-                    var trapComponent = dealDamageGroup[triggerEvent.Entities.EntityA];
-                    trapComponent.Deaths++;
-                    dealDamageGroup[triggerEvent.Entities.EntityA] = trapComponent;
-                }
+                UseTrap(triggerEvent.Entities.EntityA, triggerEvent.Entities.EntityB);
             }
 
-            if (dealDamageGroup.HasComponent(triggerEvent.Entities.EntityB))
+            if (trapGroup.HasComponent(triggerEvent.Entities.EntityB))
             {
-                if (damageGroup.Exists(triggerEvent.Entities.EntityA))
+                UseTrap(triggerEvent.Entities.EntityB, triggerEvent.Entities.EntityA);
+            }
+        }
+
+        private void UseTrap(Entity trap, Entity enemy)
+        {
+            var trapComponent = trapGroup[trap];
+            if (damageGroup.Exists(enemy) && trapComponent.cankill)
+            {
+                damageGroup[enemy].Add(new Damage
                 {
-                    damageGroup[triggerEvent.Entities.EntityA].Add(new Damage
-                    {
-                        Value = dealDamageGroup[triggerEvent.Entities.EntityB].Damage
-                    });
-                    var trapComponent = dealDamageGroup[triggerEvent.Entities.EntityB];
-                    trapComponent.Deaths++;
-                    dealDamageGroup[triggerEvent.Entities.EntityB] = trapComponent;
-                }
+                    Value = trapComponent.Damage
+                });
+                trapComponent.cankill = false;
+                trapComponent.Recover = 0;
+                trapGroup[trap] = trapComponent;
             }
         }
     }

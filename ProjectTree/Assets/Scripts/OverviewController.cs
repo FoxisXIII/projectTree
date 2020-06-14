@@ -7,6 +7,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
+using Debug = FMOD.Debug;
 
 public class OverviewController : MonoBehaviour
 {
@@ -23,11 +24,15 @@ public class OverviewController : MonoBehaviour
     private EntityManager _manager;
     private List<Entity> turretsToCreate;
     private int _indexToCreate;
+    private GameObject _placeToCreate;
     public GameObject position;
     private bool goToPosition, goToCharacter;
+    public TurretSpots spotManager;
+    public GameObject TurretHUD;
+    public int camMovSpeed;
+    public int camRotSpeed;
 
-    [Header("FMOD")]
-    public string turretCollocationSoundPath;
+    [Header("FMOD")] public string turretCollocationSoundPath;
     public string turretShotSoundPath;
     public string turretBombSoundPath;
     public string turretAuraSoundPath;
@@ -55,32 +60,25 @@ public class OverviewController : MonoBehaviour
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
+        spotManager.EnableParticles();
         goToPosition = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(cameraChange) && GameController.GetInstance().Player.cameraChanged ||
-            GameController.GetInstance().WaveInProcess)
+        if (Input.GetKeyDown(cameraChange) && GameController.GetInstance().Player.cameraChanged)
         {
-            goToPosition = false;
-            goToCharacter = true;
-            GameController.GetInstance().Player.hud.SetBool("towers", false);
-            Cursor.visible = false;
-            // SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, transform.position);
-
-            if (_instantiatedPreviewTurret != null)
-            {
-                Destroy(_instantiatedPreviewTurret);
-            }
+            ChangeCamera();
         }
 
+        camMovSpeed = 100;
         if (goToPosition)
         {
             transform.position =
-                Vector3.MoveTowards(transform.position, position.transform.position, 50 * Time.deltaTime);
-            transform.rotation = Quaternion.Lerp(transform.rotation, position.transform.rotation, Time.deltaTime);
+                Vector3.MoveTowards(transform.position, position.transform.position, camMovSpeed * Time.deltaTime);
+            camRotSpeed = 5;
+            transform.rotation = Quaternion.Lerp(transform.rotation, position.transform.rotation, camRotSpeed*Time.deltaTime);
 
             if (transform.position == position.transform.position)
                 goToPosition = false;
@@ -89,9 +87,9 @@ public class OverviewController : MonoBehaviour
         if (goToCharacter)
         {
             transform.position = Vector3.MoveTowards(transform.position,
-                GameController.GetInstance().Player.fpsCamera.transform.position, 50 * Time.deltaTime);
+                GameController.GetInstance().Player.fpsCamera.transform.position, camMovSpeed * Time.deltaTime);
             transform.rotation = Quaternion.Lerp(transform.rotation,
-                GameController.GetInstance().Player.fpsCamera.transform.rotation, Time.deltaTime);
+                GameController.GetInstance().Player.fpsCamera.transform.rotation, camRotSpeed*Time.deltaTime);
 
             if (transform.position == GameController.GetInstance().Player.fpsCamera.transform.position)
             {
@@ -104,43 +102,109 @@ public class OverviewController : MonoBehaviour
         }
         else
         {
-            for (int i = 1; i < turretsToCreate.Count + 1; i++)
-            {
-                if (Input.GetKeyDown(i.ToString()))
-                {
-                    _indexToCreate = i - 1;
-                    CreatePreviewTurret();
-                    _creating = true;
-                }
-            }
+            // for (int i = 1; i < turretsToCreate.Count + 1; i++)
+            // {
+            //     if (Input.GetKeyDown(i.ToString()))
+            //     {
+            //         _indexToCreate = i - 1;
+            //         CreatePreviewTurret();
+            //         _creating = true;
+            //         break;
+            //     }
+            // }
+            //
+            // if (_creating)
+            // {
+            //     if (Input.GetMouseButtonDown(0))
+            //     {
+            //         CreateTurret(_indexToCreate);
+            //         _creating = false;
+            //     }
+            //
+            //     UpdatePreviewTurret();
+            // }
 
             if (_creating)
             {
-                if (Input.GetMouseButtonDown(0))
+                for (int i = 1; i < turretsToCreate.Count + 1; i++)
                 {
-                    CreateTurret(_indexToCreate);
-                    _creating = false;
+                    if (Input.GetKeyDown(i.ToString()))
+                    {
+                        _indexToCreate = i - 1;
+                        CreateTurret(_indexToCreate);
+                        _creating = false;
+                        TurretHUD.SetActive(false);
+                        break;
+                    }
                 }
-
-                UpdatePreviewTurret();
             }
+            
+            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider.CompareTag("TurretSpot") && Input.GetMouseButtonDown(0))
+                {
+                    _creating = true;
+                    _placeToCreate = hit.collider.gameObject;
+                    //GameController.GetInstance().Player.hud.SetBool("towers", true);
+                    TurretHUD.SetActive(true);
+                }
+            }
+            
         }
+    }
+
+    public void ChangeCamera()
+    {
+        //Destroy(_instantiatedPreviewTurret.gameObject);
+        _creating = false;
+        spotManager.DisableParticles();
+        goToPosition = false;
+        goToCharacter = true;
+        //GameController.GetInstance().Player.hud.SetBool("towers", false);
+        TurretHUD.SetActive(false);
+        Cursor.visible = false;
+        SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, transform.position);
     }
 
     private void CreateTurret(int index)
     {
-        Destroy(_instantiatedPreviewTurret.gameObject);
-        if (_turretCanBePlaced && GameController.GetInstance().iron >= 20)
+        // Destroy(_instantiatedPreviewTurret.gameObject);
+        // if (_turretCanBePlaced && GameController.GetInstance().iron >= 20)
+        // {
+        //     Entity turret = _manager.Instantiate(turretsToCreate[index]);
+        //     var position = _instantiatedPreviewTurret.gameObject.transform.position;
+        //     _manager.SetComponentData(turret, new Translation {Value = position});
+        //
+        //     GameController.GetInstance().UpdateResources(-20);
+        //     GameController.GetInstance().TowersPlaced++;
+        //
+        //     // _manager.AddBuffer<EnemiesInRange>(turret);
+        //     // _manager.AddBuffer<TurretsInRange>(turret);
+        //     _manager.AddComponent(turret, typeof(TurretFMODPaths));
+        //     _manager.SetComponentData(turret, new TurretFMODPaths
+        //     {
+        //         ShotPath = turretShotSoundPath,
+        //         DestroyPath = turretDestroySoundPath,
+        //         AuraPath = turretAuraSoundPath,
+        //         HealPath = turretHealSoundPath,
+        //         BuffPath = turretBuffSoundPath,
+        //         BombPath = turretBombSoundPath
+        //     });
+        //     SoundManager.GetInstance().PlayOneShotSound(turretCollocationSoundPath, transform);
+        // }
+        
+        GameController.GetInstance().Player.hud.SetBool("towers", false);
+        CreatingSpot spot = _placeToCreate.GetComponent<CreatingSpot>();
+        if (GameController.GetInstance().iron >= 20 && !spot.HasTurret)
         {
             Entity turret = _manager.Instantiate(turretsToCreate[index]);
-            var position = _instantiatedPreviewTurret.gameObject.transform.position;
-            _manager.SetComponentData(turret, new Translation {Value = position});
-
+            //var position = _instantiatedPreviewTurret.gameObject.transform.position;
+            _manager.SetComponentData(turret, new Translation {Value = _placeToCreate.transform.position});
+            spot.AddTurret(turret);
             GameController.GetInstance().UpdateResources(-20);
             GameController.GetInstance().TowersPlaced++;
-
-            // _manager.AddBuffer<EnemiesInRange>(turret);
-            // _manager.AddBuffer<TurretsInRange>(turret);
             _manager.AddComponent(turret, typeof(TurretFMODPaths));
             _manager.SetComponentData(turret, new TurretFMODPaths
             {
@@ -148,7 +212,8 @@ public class OverviewController : MonoBehaviour
                 DestroyPath = turretDestroySoundPath,
                 AuraPath = turretAuraSoundPath,
                 HealPath = turretHealSoundPath,
-                BuffPath = turretBuffSoundPath
+                BuffPath = turretBuffSoundPath,
+                BombPath = turretBombSoundPath
             });
             SoundManager.GetInstance().PlayOneShotSound(turretCollocationSoundPath, transform);
         }
@@ -157,9 +222,9 @@ public class OverviewController : MonoBehaviour
     private void UpdatePreviewTurret()
     {
         _turretCanBePlaced = _instantiatedPreviewTurret.isValidPosition();
-        _instantiatedPreviewTurret.material.color = _turretCanBePlaced
+        _instantiatedPreviewTurret.material.SetColor("_main_color", _turretCanBePlaced
             ? _instantiatedPreviewTurret.canBePlaced
-            : _instantiatedPreviewTurret.canNotBePlaced;
+            : _instantiatedPreviewTurret.canNotBePlaced);
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit hit;
@@ -186,7 +251,7 @@ public class OverviewController : MonoBehaviour
 
     public void OnClick(int index)
     {
-        CreatePreviewTurret();
+        CreateTurret(index);
         _creating = true;
         _indexToCreate = index;
     }

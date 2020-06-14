@@ -50,6 +50,9 @@ public class MoveToSystem : JobComponentSystem
                             direction = translations[aiData.entity].Value - translation.Value;
                         else
                             direction = buffers[entity][aiData.counter].position - translation.Value;
+
+                        if (!aiData.canFly)
+                            direction.y = 0;
                         movementData = SetRotation(movementData, direction, aiData.canFly);
 
                         if (aiData.hordeMove && aiData.counter == 0)

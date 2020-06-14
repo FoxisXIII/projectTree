@@ -95,8 +95,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
 
     [Header("FMOD paths")] public string jumpSoundPath;
-    public string endJumpSoundPath;
-    public string stepSoundPath;
     public string shotSoundPath;
     public string hitSoundPath;
     public string healSoundPath;
@@ -105,13 +103,28 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public string cameraTransitionSoundPath;
     private EventInstance idleSoundEvent;
 
+    [Header("Particles")] public GameObject bomb;
+    public GameObject shot;
+    public GameObject enemyDie;
+    public GameObject towerDie;
+    private LineRenderer lineRenderer;
+
 
     private void Awake()
     {
         GameController.GetInstance().Player = this;
         StopBuffs();
 
+        GameController.GetInstance().Particles = new Dictionary<string, GameObject>()
+        {
+            {"Bomb", bomb},
+            {"Shot", shot},
+            {"EnemyDie", enemyDie},
+            {"TowerDie", towerDie}
+        };
         initialPosition = transform.position;
+        lineRenderer = LocFire.GetComponent<LineRenderer>();
+        lineRenderer.enabled = false;
     }
 
     // Start is called before the first frame update
@@ -143,28 +156,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
         if (life <= 0)
             GameController.GetInstance().gameOver("KILLED BY X AE A12");
 
-        if (Input.GetKeyDown(cameraChange) && !cameraChanged && !GameController.GetInstance().WaveInProcess)
+        if (Input.GetKeyDown(cameraChange) && !cameraChanged)
         {
-            birdCamera.transform.position = fpsCamera.transform.position;
-            birdCamera.transform.rotation = fpsCamera.transform.rotation;
-            birdCamera.SetActive(true);
-            characterController.enabled = false;
-            SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, birdCamera.transform.position);
-            fpsCamera.SetActive(false);
-            hud.SetBool("towers", true);
-
-            if (hud.GetBool("inRound"))
-            {
-                lastAnimatorKey = "inRound";
-                hud.SetBool("inRound", false);
-            }
-            else if (hud.GetBool("nextRound"))
-            {
-                lastAnimatorKey = "nextRound";
-                hud.SetBool("nextRound", false);
-            }
-
-            cameraChanged = true;
+            ChangeCamera();
         }
 
         if (!cameraChanged)
@@ -173,11 +167,12 @@ public class ThirdPersonCharacterController : MonoBehaviour
             if (Input.GetMouseButton(0))
             {
                 anim.SetBool("Shoting", true);
-                LocFire.GetComponent<LineRenderer>().enabled = true;
                 if (timer >= fireRate)
                 {
+                    lineRenderer.enabled = true;
                     if (useECS)
                     {
+                        GameController.GetInstance().InstantiateParticles("Shot", LocFire.transform.position);
                         if (shotgun)
                             ShotgunECS(LocFire.transform.position, LocFire.transform.rotation.eulerAngles);
                         else
@@ -193,7 +188,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
             }
             else if (Input.GetMouseButtonUp(0))
             {
-                LocFire.GetComponent<LineRenderer>().enabled = false;
+                lineRenderer = LocFire.GetComponent<LineRenderer>();
+                lineRenderer.enabled = false;
                 anim.SetBool("Shoting", false);
             }
 
@@ -309,8 +305,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private void LateUpdate()
     {
         LocFire.transform.forward = cam.transform.forward;
-        LocFire.GetComponent<LineRenderer>().SetPosition(0, LocFire.transform.position);
-        LocFire.GetComponent<LineRenderer>().SetPosition(1, cam.transform.forward * 50);
+
+        lineRenderer.SetPosition(0, LocFire.transform.position);
+        lineRenderer.SetPosition(1, LocFire.transform.forward * 100 + LocFire.transform.position);
         // float dirMouse = cine.m_YAxis.m_InputAxisValue;
         //    //Debug.Log(dirMouse);
         //    if (dirMouse!=0)
@@ -445,14 +442,18 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     public void ReceiveDamage()
     {
-        // if (life <= 0)
-        // {
-        //     SoundManager.GetInstance().PlayOneShotSound(dieSoundPath, transform.position);
-        // }
-        // else
-        // {
-        //     SoundManager.GetInstance().PlayOneShotSound(hitSoundPath, transform.position);
-        // }
+        if (life <= 0)
+        {
+            SoundManager.GetInstance().PlayOneShotSound(dieSoundPath, transform.position);
+        }
+        else
+        {
+            SoundManager.GetInstance().PlayOneShotSound(hitSoundPath, transform.position);
+            if (cameraChanged)
+            {
+                birdCamera.GetComponent<OverviewController>().ChangeCamera();
+            }
+        }
     }
 
 
@@ -464,9 +465,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private void UpdatePreviewTrap()
     {
         _turretCanBePlaced = _instantiatedPreviewTrap.isValidPosition();
-        _instantiatedPreviewTrap.material.color = _turretCanBePlaced
+        _instantiatedPreviewTrap.material.SetColor("_main_color", _turretCanBePlaced
             ? _instantiatedPreviewTrap.canBePlaced
-            : _instantiatedPreviewTrap.canNotBePlaced;
+            : _instantiatedPreviewTrap.canNotBePlaced);
     }
 
     private void CreateTrap()
@@ -509,7 +510,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         WalkSpeed = this.Speed * Speed;
         RunSpeed = WalkSpeed * 2;
         fireRate = initFireRate / Speed;
-        Debug.Log("Speed");
+        // Debug.Log("Speed");
     }
 
     public void Shotgun(int shotgun)
@@ -517,7 +518,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         StopBuffs();
         this.shotgun = true;
         shotgunRange = shotgun;
-        Debug.Log("Shot");
+        // Debug.Log("Shot");
     }
 
     public void StopBuffs()
@@ -529,20 +530,23 @@ public class ThirdPersonCharacterController : MonoBehaviour
         shotgun = false;
     }
 
+    void ChangeCamera()
+    {
+        birdCamera.transform.position = fpsCamera.transform.position;
+        birdCamera.transform.rotation = fpsCamera.transform.rotation;
+        birdCamera.SetActive(true);
+        characterController.enabled = false;
+        SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, birdCamera.transform.position);
+        fpsCamera.SetActive(false);
+        //hud.SetBool("towers", true);
+
+        cameraChanged = true;
+    }
+
     public void ResetToBase()
     {
         characterController.enabled = false;
         transform.position = initialPosition;
         characterController.enabled = true;
-    }
-
-    public void Step()
-    {
-        SoundManager.GetInstance().PlayOneShotSound(stepSoundPath, transform.position);
-    }
-
-    public void EndJump()
-    {
-        SoundManager.GetInstance().PlayOneShotSound(endJumpSoundPath, transform.position);
     }
 }

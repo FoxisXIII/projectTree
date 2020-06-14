@@ -22,11 +22,16 @@ public class GameController
     public string endRoundSoundPath = "event:/FX/Round/End";
 
     //Recursos
+<<<<<<< HEAD
     private int _iron = 200;
     private Dictionary<string, List<Material>> animationMaterials;
     private int _beforeBossMaxWaveEnemies;
     private int _numberOfBoses;
     private bool _noBaseDamage;
+=======
+    private int _iron = 50;
+    private Dictionary<string, GameObject> _particles;
+>>>>>>> feature/shaders
 
     private GameController()
     {
@@ -212,6 +217,7 @@ public class GameController
         set => _towersPlaced = value;
     }
 
+<<<<<<< HEAD
     public bool NoBaseDamage
     {
         get => _noBaseDamage;
@@ -227,4 +233,17 @@ public class GameController
     public int NumberOfBoses => _numberOfBoses;
 
     #endregion
+=======
+    public Dictionary<string, GameObject> Particles
+    {
+        get => _particles;
+        set => _particles = value;
+    }
+
+
+    public void InstantiateParticles(String particle, float3 translationValue)
+    {
+        GameObject.Instantiate(_particles[particle], translationValue, Quaternion.identity);
+    }
+>>>>>>> feature/shaders
 }

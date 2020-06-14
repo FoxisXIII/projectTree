@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
+using Unity.Transforms;
 using UnityEngine;
 
 public class DeathSystem : JobComponentSystem
@@ -18,7 +19,7 @@ public class DeathSystem : JobComponentSystem
     {
         EntityCommandBuffer ecb = _entityCommandBufferSystem.CreateCommandBuffer();
         var enemies = GetComponentDataFromEntity<AIData>();
-        var collisions = GetBufferFromEntity<CollisionEnemy>();
+        var translations = GetComponentDataFromEntity<Translation>();
         var parents = GetComponentDataFromEntity<ParentComponent>();
 
         Entities.WithoutBurst().WithAll<Dead>().ForEach((Entity e) =>
@@ -26,36 +27,19 @@ public class DeathSystem : JobComponentSystem
             if (parents.Exists(e))
             {
                 var parent = parents[e].parent;
+                GameController.GetInstance().InstantiateParticles("TowerDie", translations[e].Value);
                 ecb.DestroyEntity(e);
                 ecb.DestroyEntity(parent);
             }
 
             if (enemies.Exists(e))
             {
-                ResetCollisionBuffer(collisions[e]);
+                GameController.GetInstance().InstantiateParticles("EnemyDie", translations[e].Value);
                 GameController.GetInstance().RemoveEnemyWave();
             }
             ecb.DestroyEntity(e);
         }).Run();
 
         return default;
-    }
-
-    private void ResetCollisionBuffer(DynamicBuffer<CollisionEnemy> buffer)
-    {
-        EntityManager manager = World.DefaultGameObjectInjectionWorld.EntityManager;
-        for (int i = 0; i < buffer.Length; i++)
-        {
-            var enemy = buffer[i].Entity;
-
-            if (manager.Exists(enemy) && manager.HasComponent<AIData>(enemy))
-            {
-                var aiData = manager.GetComponentData<AIData>(enemy);
-                aiData.stop = false;
-                manager.SetComponentData(enemy, aiData);
-            }
-        }
-
-        buffer.Clear();
     }
 }

@@ -1,5 +1,7 @@
-﻿using Unity.Entities;
+﻿using FMOD;
+using Unity.Entities;
 using Unity.Jobs;
+using Unity.Transforms;
 using UnityEngine;
 using UnityEngine.Video;
 
@@ -18,11 +20,11 @@ public class ExplosionSystem : JobComponentSystem
         var deltaTime = Time.DeltaTime;
         var ecb = ecbSystem.CreateCommandBuffer();
 
-        Entities.ForEach((ref ExplosionComponent explosionComponent, ref Entity entity) =>
+        Entities.ForEach((ref ExplosionComponent explosionComponent, ref Translation translation, ref Entity entity) =>
         {
             if (explosionComponent.explode)
                 ecb.DestroyEntity(entity);
-            
+
             if (explosionComponent.timer < explosionComponent.ttl)
             {
                 explosionComponent.timer += deltaTime;
@@ -30,8 +32,10 @@ public class ExplosionSystem : JobComponentSystem
             else
             {
                 explosionComponent.explode = true;
+                GameController.GetInstance().InstantiateParticles("Bomb", translation.Value);
+                //SoundManager.GetInstance().PlayOneShotSound(paths.BombPath.ToString(), position.Value);
             }
-        }).Run();
+        }).WithoutBurst().Run();
         return default;
     }
 }
