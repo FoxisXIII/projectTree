@@ -160,7 +160,6 @@ public class OverviewController : MonoBehaviour
             _manager.SetComponentData(turret, new TurretFMODPaths
             {
                 ShotPath = turretShotSoundPath,
-                DestroyPath = turretDestroySoundPath,
                 HealPath = turretHealSoundPath,
                 BuffPath = turretBuffSoundPath
             });
