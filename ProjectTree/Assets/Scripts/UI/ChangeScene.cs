@@ -17,6 +17,15 @@ public class ChangeScene : MonoBehaviour
     {
         GameController.GetInstance().DestroyEntities();
         SoundManager.GetInstance().PlayOneShotSound("event:/FX/Menu/Select", transform.position);
-        SceneManager.LoadSceneAsync(scene);
+        SceneManager.LoadSceneAsync("Scenes/"+scene);
+    }
+
+    public void Quit()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.Exit(0);
+#else
+        Application.Quit();
+#endif
     }
 }

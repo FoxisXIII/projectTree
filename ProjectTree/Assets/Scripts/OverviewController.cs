@@ -78,7 +78,7 @@ public class OverviewController : MonoBehaviour
         {
             transform.position =
                 Vector3.MoveTowards(transform.position, position.transform.position, camMovSpeed * Time.deltaTime);
-            camRotSpeed = 5;
+            camRotSpeed = 8;
             transform.rotation = Quaternion.Lerp(transform.rotation, position.transform.rotation, camRotSpeed*Time.deltaTime);
 
             if (transform.position == position.transform.position)
