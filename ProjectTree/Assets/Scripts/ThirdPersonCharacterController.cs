@@ -472,6 +472,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         birdCamera.transform.position = fpsCamera.transform.position;
         birdCamera.transform.rotation = fpsCamera.transform.rotation;
+        idleSoundEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         birdCamera.SetActive(true);
         characterController.enabled = false;
         SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, birdCamera.transform.position);

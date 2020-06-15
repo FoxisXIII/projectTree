@@ -27,6 +27,8 @@ public class WaveController : MonoBehaviour
     private float spawnEnemyTime;
     private bool[] hordes;
 
+    private float timeToNextRound;
+
     void Awake()
     {
         GameController.GetInstance().MaxWaveEnemies = maxWaveEnemies;
@@ -72,7 +74,7 @@ public class WaveController : MonoBehaviour
 
     private void StartWave()
     {
-        if (!_canSpawn && nextRoundTime >= waveCooldown)
+        if (/*!_canSpawn && */nextRoundTime >= waveCooldown)
         {
             GameController.GetInstance().startWave();
             hud.SetBool("inRound", true);
@@ -92,15 +94,16 @@ public class WaveController : MonoBehaviour
                         currentHorde++;
                     }
                     else
-                        hordes[i] = true;
+                        hordes[i] = false;
 
                     if (currentHorde == maxHorde)
                         break;
                 }
             }
 
+            nextRoundTime = 0;
             bossInScenario = 0;
-            _canSpawn = true;
+            //_canSpawn = true;
         }
     }
 
@@ -112,14 +115,13 @@ public class WaveController : MonoBehaviour
             hud.SetBool("inRound", false);
             hud.SetBool("nextRound", true);
             _canEndWave = false;
-            _canSpawn = false;
-            nextRoundTime = 0;
+            //_canSpawn = false;
         }
     }
 
     public void SpawnEnemy()
     {
-        if (_canSpawn && !_canEndWave && spawnEnemyTime >= GameController.GetInstance().EnemiesSpawnRate &&
+        if (/*_canSpawn && !_canEndWave && */spawnEnemyTime >= GameController.GetInstance().EnemiesSpawnRate &&
             GameController.GetInstance().CurrentEnemies <
             GameController.GetInstance().MaxWaveEnemies)
         {
@@ -129,12 +131,14 @@ public class WaveController : MonoBehaviour
             spawnEnemyTime = 0;
         }
 
+        waveCooldown = GameController.GetInstance().EnemiesSpawnRate*GameController.GetInstance().MaxWaveEnemies + 60f;
+
         ChangeUiValues();
     }
 
     public void SpawnBoss()
     {
-        if (_canSpawn && !_canEndWave && spawnEnemyTime >= GameController.GetInstance().EnemiesSpawnRate)
+        if (/*_canSpawn && !_canEndWave && */spawnEnemyTime >= GameController.GetInstance().EnemiesSpawnRate)
         {
             if (bossInScenario < GameController.GetInstance().NumberOfBoses)
             {
@@ -150,15 +154,18 @@ public class WaveController : MonoBehaviour
             spawnEnemyTime = 0;
         }
 
+        waveCooldown = GameController.GetInstance().NumberOfBoses * GameController.GetInstance().EnemiesSpawnRate * 2f;
+
         ChangeUiValues();
     }
 
     private void ChangeUiValues()
     {
-        var waveEnemies = GameController.GetInstance().MaxWaveEnemies - GameController.GetInstance().DiedEnemies;
-        currentEnemiesImage.fillAmount =
-            1f - ((float) waveEnemies / (float) GameController.GetInstance().MaxWaveEnemies);
-        _canEndWave = GameController.GetInstance().DiedEnemies >= GameController.GetInstance().MaxWaveEnemies;
+        // var waveEnemies = GameController.GetInstance().MaxWaveEnemies - GameController.GetInstance().DiedEnemies;
+        // currentEnemiesImage.fillAmount =
+        //     1f - ((float) waveEnemies / (float) GameController.GetInstance().MaxWaveEnemies);
+        // _canEndWave = GameController.GetInstance().DiedEnemies >= GameController.GetInstance().MaxWaveEnemies;
+        currentEnemiesImage.fillAmount = nextRoundTime / waveCooldown;
     }
 
     public bool CanSpawn
