@@ -692,7 +692,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -12.621691, y: 8.083851, z: -14.417491, w: 7.0789013}
+  m_margin: {x: 0.19577152, y: 8.083851, z: 0.17362106, w: 7.0789013}
   m_textInfo:
     textComponent: {fileID: 1311108835}
     characterCount: 10
@@ -770,7 +770,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scene: Loading
-  dispose: {fileID: 0}
 --- !u!114 &1585318499
 MonoBehaviour:
   m_ObjectHideFlags: 0

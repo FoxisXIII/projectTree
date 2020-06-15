@@ -58,7 +58,7 @@ public class MoveToSystem : JobComponentSystem
                                 if (aiData.canFly)
                                     position.y += aiData.yOffset;
                                 direction = position - translation.Value;
-                            
+
                                 var magnitude = Magnitude(direction);
                                 if (magnitude > 1 && !aiData.stopByCollision)
                                 {
@@ -95,7 +95,7 @@ public class MoveToSystem : JobComponentSystem
                                 }
                             }
                         }
-                        else if(aiData.goToEntity)
+                        else if (aiData.goToEntity)
                         {
                             aiData.goToEntity = false;
                             aiData.entity = Entity.Null;
@@ -111,10 +111,7 @@ public class MoveToSystem : JobComponentSystem
                                 float3 direction;
 
                                 if (aiData.canFly)
-                                    direction = new float3(translations[aiData.entity].Value.x, 0,
-                                        translations[aiData.entity].Value.z) - new float3(
-                                        translation.Value.x,
-                                        0, translation.Value.z);
+                                    direction = translations[aiData.entity].Value - translation.Value;
                                 else
                                 {
                                     var destination = translations[aiData.entity].Value;
@@ -133,7 +130,6 @@ public class MoveToSystem : JobComponentSystem
                                         direction.y += aiData.yOffset;
                                     else
                                         gravityFactor.Value = 10;
-
 
                                     movementData = SetDirection(movementData, direction, magnitude);
                                 }
