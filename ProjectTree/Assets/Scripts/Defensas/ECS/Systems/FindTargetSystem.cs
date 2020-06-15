@@ -76,8 +76,8 @@ public class FindTargetSystem : JobComponentSystem
         private void AddEnemyInRange(Entity turret, Entity enemy)
         {
             var aiData = enemyGroup[enemy];
-            if (!aiData.goToEntity && !aiData.boss && (!playerGroup.Exists(turret) ||
-                                                       playerGroup.Exists(turret) && aiData.canAttackPlayer) ||
+            if (!aiData.goToEntity && !aiData.boss && !aiData.horde &&
+                (!playerGroup.Exists(turret) || playerGroup.Exists(turret) && aiData.canAttackPlayer) ||
                 aiData.horde && aiData.hordeMove)
             {
                 aiData.entity = turret;

@@ -155,7 +155,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         if (!GameController.GetInstance().GamePaused)
         {
-            Debug.Log((float) life / (float) maxLife);
+
             lifeImage.fillAmount = (float) life / (float) maxLife;
 
             if (life <= 0)
