@@ -157,19 +157,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         if (!GameController.GetInstance().GamePaused)
         {
-
-            lifeImage.fillAmount = (float) life / (float) maxLife;
-            Debug.Log("Vida Utilizada: "+life);
-            Debug.Log("Vida para comprovar: "+aLife);
-            if (aLife > life)
-            {
-                Debug.Log("ME HAN HECHO PUPA");
-                effectDamage.SetTrigger("Attacked");
-            }
-            else aLife = life;
-            if (life <= 0)
-                GameController.GetInstance().gameOver("KILLED BY X AE A12");
-
             if (Input.GetKeyDown(cameraChange) && !cameraChanged)
             {
                 ChangeCamera();
@@ -390,9 +377,12 @@ public class ThirdPersonCharacterController : MonoBehaviour
         if (life <= 0)
         {
             SoundManager.GetInstance().PlayOneShotSound(dieSoundPath, transform.position);
+            GameController.GetInstance().gameOver("KILLED BY X AE A12");
         }
         else
         {
+            lifeImage.fillAmount = (float) life / (float) maxLife;
+            effectDamage.SetTrigger("Attacked");
             SoundManager.GetInstance().PlayOneShotSound(hitSoundPath, transform.position);
             if (cameraChanged)
             {
