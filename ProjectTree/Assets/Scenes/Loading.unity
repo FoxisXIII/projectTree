@@ -1379,7 +1379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scene: Scenario
-  maxTime: 5
+  maxTime: 10
   slider: {fileID: 542781416}
 --- !u!1 &934530318
 GameObject:
