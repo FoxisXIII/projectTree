@@ -1559,7 +1559,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: PLAYER HEALTH
+  m_text: PLAYER
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b256f818e7d03f64286f9844afaed3bf, type: 2}
   m_sharedMaterial: {fileID: -2661052296197706002, guid: b256f818e7d03f64286f9844afaed3bf,
@@ -1634,10 +1634,10 @@ MonoBehaviour:
   m_margin: {x: -12.621691, y: -2.6821246, z: -14.417491, w: 16.544369}
   m_textInfo:
     textComponent: {fileID: 4983039921731050630}
-    characterCount: 13
+    characterCount: 6
     spriteCount: 0
-    spaceCount: 1
-    wordCount: 2
+    spaceCount: 0
+    wordCount: 1
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -7527,7 +7527,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: BASE HEALTH
+  m_text: GATE
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b256f818e7d03f64286f9844afaed3bf, type: 2}
   m_sharedMaterial: {fileID: -2661052296197706002, guid: b256f818e7d03f64286f9844afaed3bf,
@@ -7602,10 +7602,10 @@ MonoBehaviour:
   m_margin: {x: -4.510205, y: 0.16193631, z: -6.891999, w: 17.90702}
   m_textInfo:
     textComponent: {fileID: 4428682104775747810}
-    characterCount: 11
+    characterCount: 4
     spriteCount: 0
-    spaceCount: 1
-    wordCount: 2
+    spaceCount: 0
+    wordCount: 1
     linkCount: 0
     lineCount: 1
     pageCount: 1
