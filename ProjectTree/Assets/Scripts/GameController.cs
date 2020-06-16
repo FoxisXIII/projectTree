@@ -99,7 +99,7 @@ public class GameController
     {
         _currentEnemies = 0;
         _diedEnemies = 0;
-        UpdateResources(100);
+        //UpdateResources(100);
         if (_noBaseDamage)
             _base.Heal(100);
         if (_bossWave)
@@ -121,6 +121,7 @@ public class GameController
     {
         _diedEnemies++;
         _enemiesKilled++;
+        UpdateResources(1);
     }
 
     public void pauseGame(bool pause)
