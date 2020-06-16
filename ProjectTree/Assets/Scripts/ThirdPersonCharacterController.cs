@@ -55,6 +55,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [HideInInspector] public float life;
     public Image lifeImage;
     public TextMeshProUGUI ironText;
+    private float aLife;
+    public Animator effectDamage;
 
 
     [Header("Turrets")] public Transform instantiateTurrets;
@@ -134,7 +136,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         /* anim = GetComponent<Animator>();
          chest = anim.GetBoneTransform(HumanBodyBones.Chest);*/
-
+        aLife = maxLife;
         manager = World.DefaultGameObjectInjectionWorld.EntityManager;
         blobTrap = new BlobAssetStore();
         trapECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(trap,
@@ -157,7 +159,14 @@ public class ThirdPersonCharacterController : MonoBehaviour
         {
 
             lifeImage.fillAmount = (float) life / (float) maxLife;
-
+            Debug.Log("Vida Utilizada: "+life);
+            Debug.Log("Vida para comprovar: "+aLife);
+            if (aLife > life)
+            {
+                Debug.Log("ME HAN HECHO PUPA");
+                effectDamage.SetTrigger("Attacked");
+            }
+            else aLife = life;
             if (life <= 0)
                 GameController.GetInstance().gameOver("KILLED BY X AE A12");
 
