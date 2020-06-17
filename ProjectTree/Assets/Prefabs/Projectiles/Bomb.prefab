@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c5a2a0b32c94a9c4ba5ccb3f0f3cef28, type: 2}
+  - {fileID: 2100000, guid: dcc28aa4ee609c0418693b892a6d1a27, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -167,7 +167,7 @@ MonoBehaviour:
       m_Value: 0000000100010101010101010101010101010101010101010101010101010101
     m_RaisesCollisionEvents:
       m_Override: 0
-      m_Value: 1
+      m_Value: 0
     m_CustomTags:
       m_Override: 0
       m_Value: 0000000000000000
@@ -257,7 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40e4b52679fd3f7409f9ed9874404c74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 2147483647
-  ttl: 1
+  damage: 75
+  ttl: 2
   timer: 0
   explode: 0

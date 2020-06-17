@@ -23,32 +23,51 @@ public class ExplosionTriggerSystem : JobComponentSystem
     {
         public BufferFromEntity<Damage> damageGroup;
         public ComponentDataFromEntity<AIData> enemiesGroup;
-        public ComponentDataFromEntity<ExplosionComponent> explosionComponent;
+        public ComponentDataFromEntity<ExplosionComponent> explosionGroup;
+        public ComponentDataFromEntity<Translation> translationGroup;
 
         public void Execute(TriggerEvent triggerEvent)
         {
-            if (explosionComponent.HasComponent(triggerEvent.Entities.EntityA))
+            if (explosionGroup.HasComponent(triggerEvent.Entities.EntityA))
             {
                 MakeDamage(triggerEvent.Entities.EntityA, triggerEvent.Entities.EntityB);
             }
 
-            if (explosionComponent.HasComponent(triggerEvent.Entities.EntityB))
+            if (explosionGroup.HasComponent(triggerEvent.Entities.EntityB))
             {
                 MakeDamage(triggerEvent.Entities.EntityB, triggerEvent.Entities.EntityA);
             }
         }
 
-        private void MakeDamage(Entity entityA, Entity entityB)
+        private void MakeDamage(Entity bomb, Entity enemy)
         {
-            if (explosionComponent[entityA].explode)
+            var explosionComponent = explosionGroup[bomb];
+            if (explosionComponent.explode)
             {
-                if (damageGroup.Exists(entityB) &&
-                    enemiesGroup.Exists(entityB))
+                if (damageGroup.Exists(enemy) &&
+                    enemiesGroup.Exists(enemy))
                 {
-                    damageGroup[entityB].Add(new Damage
+                    var damage = (int) (explosionComponent.damage *
+                                        (1 - min(1,
+                                            (distance(translationGroup[bomb].Value, translationGroup[enemy].Value) -
+                                             2) / 6)));
+                    damageGroup[enemy].Add(new Damage
                     {
-                        Value = explosionComponent[entityA].damage
+                        Value = damage
                     });
+                }
+            }
+            else
+            {
+                if (damageGroup.Exists(enemy) &&
+                    enemiesGroup.Exists(enemy))
+                {
+                    if (distance(translationGroup[bomb].Value,
+                            translationGroup[enemy].Value) < 2f)
+                    {
+                        explosionComponent.timer =  explosionComponent.ttl;
+                        explosionGroup[bomb] = explosionComponent;
+                    }
                 }
             }
         }
@@ -71,8 +90,9 @@ public class ExplosionTriggerSystem : JobComponentSystem
         var triggerJob = new ExplosionTriggerJob
         {
             damageGroup = GetBufferFromEntity<Damage>(),
-            explosionComponent = GetComponentDataFromEntity<ExplosionComponent>(),
-            enemiesGroup = GetComponentDataFromEntity<AIData>()
+            explosionGroup = GetComponentDataFromEntity<ExplosionComponent>(),
+            enemiesGroup = GetComponentDataFromEntity<AIData>(),
+            translationGroup = GetComponentDataFromEntity<Translation>()
         };
         JobHandle collisionHandle =
             triggerJob.Schedule(stepPhysicsWorldSystem.Simulation, ref physicsWorld, inputDependencies);

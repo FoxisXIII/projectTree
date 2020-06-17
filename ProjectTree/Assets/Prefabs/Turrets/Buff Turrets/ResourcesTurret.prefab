@@ -132,7 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 10
   health: 0
-  resources: 5
+  resources: 1
   attack: 0
   speed: 0
   shotgun: 0

@@ -72,7 +72,7 @@ public class GameController
 
         _currentEnemies = 0;
         _diedEnemies = 0;
-        
+
         if (_waveCounter >= 1)
         {
             if (_waveCounter % 5 == 0)
@@ -161,6 +161,8 @@ public class GameController
         if (!lowLifeSoundEvent.Equals(null))
             lowLifeSoundEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         SoundManager.GetInstance().StopAllSounds();
+        
+        _iron = 60;
 
         SceneManager.LoadScene("Game Over");
     }

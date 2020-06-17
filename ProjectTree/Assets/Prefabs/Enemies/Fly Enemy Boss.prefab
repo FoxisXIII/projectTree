@@ -360,8 +360,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d296284c52b090045b60ce6fe2a4d96b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 1
-  maxValue: 1
+  value: 3
+  maxValue: 3
 --- !u!114 &836186321679039357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,13 +387,11 @@ MonoBehaviour:
   attackWait: 0
   counter: 0
   goToEntity: 0
-  entityPosition:
-    x: 0
-    y: 0
-    z: 0
   entity: {fileID: 0}
   stop: 0
   shot: 0
+  stopByCollision: 0
+  canAttackPlayer: 0
 --- !u!114 &756321872936039763
 MonoBehaviour:
   m_ObjectHideFlags: 0
