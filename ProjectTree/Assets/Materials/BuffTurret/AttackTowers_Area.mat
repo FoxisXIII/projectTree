@@ -23,7 +23,7 @@ Material:
     m_Floats:
     - Vector1_17380FEC: 1
     - Vector1_F9F35751: 1
-    - _offset: 1
+    - _offset: -1
     m_Colors:
     - Color_4E51BB03: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

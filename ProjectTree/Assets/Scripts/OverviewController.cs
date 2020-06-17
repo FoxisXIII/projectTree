@@ -143,7 +143,7 @@ public class OverviewController : MonoBehaviour
         goToCharacter = true;
         TurretHUD.SetActive(false);
         Cursor.visible = false;
-        attackTowerRange.SetFloat("_offset", 1f);
+        attackTowerRange.SetFloat("_offset", 1000f);
         SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, transform.position);
     }
 
