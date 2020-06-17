@@ -17,6 +17,12 @@ public class TowerButtons : MonoBehaviour,IPointerEnterHandler,IPointerExitHandl
         _textMeshPro = textToSet.GetComponent<TextMeshProUGUI>();
     }
 
+    private void OnDisable()
+    {
+        _textMeshPro.text = "Press C to place turrets";
+        previousText = "";
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         previousText = _textMeshPro.text;

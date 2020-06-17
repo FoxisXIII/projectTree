@@ -22,6 +22,7 @@ public class OverviewController : MonoBehaviour
     private BlobAssetStore blobTurret;
     private PreviewTurret _instantiatedPreviewTurret;
     private bool _turretCanBePlaced;
+    public GameObject PopupTextObject;
     private EntityManager _manager;
     private List<Entity> turretsToCreate;
     private int _indexToCreate;
@@ -166,6 +167,19 @@ public class OverviewController : MonoBehaviour
             if (_indexToCreate >= 2)
             {
                 SoundManager.GetInstance().PlayOneShotSound(turretAuraSoundPath, turret);
+            }
+        }
+        else
+        {
+            PopupTextObject.SetActive(true);
+            PopupText popupText = PopupTextObject.GetComponent<PopupText>();
+            if (GameController.GetInstance().iron < 20)
+            {
+                popupText.Setup("You don't have enough iron");
+            }
+            else
+            {
+                popupText.Setup("There's already a turret there");
             }
         }
     }
