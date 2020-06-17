@@ -12,6 +12,7 @@ public class PauseMenu : MonoBehaviour
     public static bool GameIsPaused = false;
 
     public Animator hud;
+    public GameObject ControlsPanel;
     
     public string enterMenuSoundPath;
     public string exitMenuSoundPath;
@@ -90,6 +91,12 @@ public class PauseMenu : MonoBehaviour
         hud.SetBool("pause", false);
         ChangeVolume(userVolume);
         canPause = false;
+    }
+
+    public void ShowControls(bool show)
+    {
+        //hud.SetBool("pause", !show);
+        ControlsPanel.SetActive(show);
     }
 
     public void ChangeVolume(float volume)
