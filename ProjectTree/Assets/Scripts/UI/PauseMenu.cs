@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Unity.Entities.Hybrid;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using Debug = FMOD.Debug;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -14,7 +16,8 @@ public class PauseMenu : MonoBehaviour
     public string enterMenuSoundPath;
     public string exitMenuSoundPath;
 
-    public float userVolume = 1;
+    private float userVolume;
+    public Slider slider;
     private bool canPause;
 
     // Start is called before the first frame update
@@ -23,6 +26,10 @@ public class PauseMenu : MonoBehaviour
         Resume();
         SoundManager.GetInstance().ChangeVolume(1);
         canPause = true;
+        userVolume = PlayerPrefs.GetFloat("VOLUME", 1);
+        slider.value = userVolume;
+        ChangeVolume(userVolume);
+        print(userVolume);
     }
 
     // Update is called once per frame
@@ -88,6 +95,7 @@ public class PauseMenu : MonoBehaviour
     public void ChangeVolume(float volume)
     {
         SoundManager.GetInstance().ChangeVolume(volume);
+        GameController.GetInstance().userVolume = userVolume;
         userVolume = volume;
     }
 

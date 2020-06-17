@@ -771,15 +771,15 @@ RectTransform:
   m_GameObject: {fileID: 515393138}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.24633522, y: 0.5056409, z: 1}
+  m_LocalScale: {x: 3.695028, y: 7.5846133, z: 1}
   m_Children:
   - {fileID: 683912913}
-  m_Father: {fileID: 1497323576}
+  m_Father: {fileID: 925626563}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.33330822, y: 0.2666626}
+  m_AnchoredPosition: {x: -4.9997, y: -446.00003}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &515393140
@@ -1655,6 +1655,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 622286445}
+  - {fileID: 515393139}
   - {fileID: 1497323576}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -1678,6 +1679,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scene: Scenario
   button: {fileID: 515393138}
+  loading: {fileID: 1497323575}
   maxTime: 5
   slider: {fileID: 542781416}
 --- !u!1 &934530318
@@ -3014,9 +3016,8 @@ RectTransform:
   m_LocalScale: {x: 15, y: 15, z: 1}
   m_Children:
   - {fileID: 542781418}
-  - {fileID: 515393139}
   m_Father: {fileID: 925626563}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

@@ -26,6 +26,7 @@ public class GameController
 
     [Header("FMOD paths")] public string startRoundSoundPath = "event:/FX/Round/Start";
     public string endRoundSoundPath = "event:/FX/Round/End";
+    public float userVolume = 1;
 
     //Recursos
     private int _beforeBossMaxWaveEnemies;
@@ -151,6 +152,7 @@ public class GameController
         }
 
         PlayerPrefs.SetString("DIE", text);
+        PlayerPrefs.SetFloat("VOLUME", userVolume);
 
         _player.idleSoundEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         if (!lowLifeSoundEvent.Equals(null))

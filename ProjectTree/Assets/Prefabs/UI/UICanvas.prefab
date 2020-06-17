@@ -735,7 +735,7 @@ MonoBehaviour:
   hud: {fileID: 474728040739047611}
   enterMenuSoundPath: event:/FX/Menu/Open
   exitMenuSoundPath: event:/FX/Menu/Close
-  userVolume: 1
+  slider: {fileID: 6204025995304906373}
 --- !u!95 &474728040739047611
 Animator:
   serializedVersion: 3
