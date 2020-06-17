@@ -57,6 +57,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public TextMeshProUGUI ironText;
     private float aLife;
     public Animator effectDamage;
+    public GameObject tooltipBox;
 
 
     [Header("Turrets")] public Transform instantiateTurrets;
@@ -384,6 +385,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         {
             lifeImage.fillAmount = (float) life / (float) maxLife;
             effectDamage.SetTrigger("Attacked");
+            tooltipBox.SetActive(false);
             SoundManager.GetInstance().PlayOneShotSound(hitSoundPath, transform.position);
             if (cameraChanged)
             {

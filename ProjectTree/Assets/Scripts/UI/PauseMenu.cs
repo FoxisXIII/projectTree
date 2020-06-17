@@ -4,17 +4,21 @@ using System.Collections.Generic;
 using Unity.Entities.Hybrid;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using Debug = FMOD.Debug;
 
 public class PauseMenu : MonoBehaviour
 {
     public static bool GameIsPaused = false;
 
     public Animator hud;
+    public GameObject ControlsPanel;
     
     public string enterMenuSoundPath;
     public string exitMenuSoundPath;
 
-    public float userVolume = 1;
+    private float userVolume;
+    public Slider slider;
     private bool canPause;
 
     // Start is called before the first frame update
@@ -23,23 +27,28 @@ public class PauseMenu : MonoBehaviour
         Resume();
         SoundManager.GetInstance().ChangeVolume(1);
         canPause = true;
+        userVolume = PlayerPrefs.GetFloat("VOLUME", 1);
+        slider.value = userVolume;
+        ChangeVolume(userVolume);
+        print(userVolume);
     }
 
     // Update is called once per frame
     void Update()
     {
         if(canPause)
-        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (GameIsPaused)
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Resume();
-                SoundManager.GetInstance().PlayOneShotSound(exitMenuSoundPath, GameController.GetInstance().Player.transform.position);
-            }
-            else
-            {
-                Pause();
-                
+                if (GameIsPaused)
+                {
+                    Resume();
+                    SoundManager.GetInstance().PlayOneShotSound(exitMenuSoundPath, GameController.GetInstance().Player.transform.position);
+                }
+                else
+                {
+                    Pause();
+                }
             }
         }
     }
@@ -84,9 +93,16 @@ public class PauseMenu : MonoBehaviour
         canPause = false;
     }
 
+    public void ShowControls(bool show)
+    {
+        //hud.SetBool("pause", !show);
+        ControlsPanel.SetActive(show);
+    }
+
     public void ChangeVolume(float volume)
     {
         SoundManager.GetInstance().ChangeVolume(volume);
+        GameController.GetInstance().userVolume = userVolume;
         userVolume = volume;
     }
 
