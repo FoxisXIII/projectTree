@@ -104,7 +104,7 @@ public class EnemySpawner : MonoBehaviour
 
         var movementData = _entityManager.GetComponentData<MovementData>(enemy);
         var maxSpeed = 5 * (GameController.GetInstance().WaveCounter + 1);
-        movementData.speed = Random.Range(125 + maxSpeed, math.min(250 + maxSpeed, 500));
+        movementData.speed = Random.Range(200 + maxSpeed, math.min(250 + maxSpeed, 500));
         _entityManager.SetComponentData(enemy, movementData);
 
 
@@ -156,6 +156,10 @@ public class EnemySpawner : MonoBehaviour
         aiData.attackDamage = 20;
         aiData.attackRate = Random.Range(.5f, 1f);
         _entityManager.SetComponentData(enemy, aiData);
+        
+        var movementData = _entityManager.GetComponentData<MovementData>(enemy);
+        movementData.speed = 100;
+        _entityManager.SetComponentData(enemy, movementData);
 
         var health = _entityManager.GetComponentData<HealthData>(enemy);
         health.value = GameController.GetInstance().WaveCounter * 20;

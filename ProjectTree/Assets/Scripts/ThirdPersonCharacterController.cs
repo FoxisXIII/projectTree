@@ -175,6 +175,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
                             ShotgunECS(LocFire.transform.position, LocFire.transform.forward);
                         else
                             ShootECS(LocFire.transform.position, LocFire.transform.rotation);
+                        SoundManager.GetInstance().PlayOneShotSound(shotSoundPath, LocFire.transform.position);
                         anim.SetBool("Shoting", true);
 
                         timer = 0f;
@@ -310,7 +311,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
         manager.SetComponentData(bullet, new Translation {Value = position});
         manager.SetComponentData(bullet, new Rotation {Value = rotation});
-        SoundManager.GetInstance().PlayOneShotSound(shotSoundPath, position);
         var damage = manager.GetComponentData<DealsDamage>(bullet);
         damage.Value = this.damage;
         manager.SetComponentData(bullet, damage);
