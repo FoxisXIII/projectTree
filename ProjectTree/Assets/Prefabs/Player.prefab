@@ -371,7 +371,7 @@ MonoBehaviour:
   jumpForce: 3
   Bullet: {fileID: 2780486008673328708, guid: 09f192d02fd26fc42ac8893add404947, type: 3}
   LocFire: {fileID: 3092778802942291440}
-  initFireRate: 0.5
+  initFireRate: 1
   fireRate: 0.388
   useECS: 1
   maxLife: 250
