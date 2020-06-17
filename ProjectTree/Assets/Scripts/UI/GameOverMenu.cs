@@ -24,7 +24,7 @@ public class GameOverMenu : MonoBehaviour
 
         killedBest.SetText(PlayerPrefs.GetInt("KILLED").ToString());
         roundsBest.SetText(PlayerPrefs.GetInt("ROUNDS").ToString());
-        towersBest.SetText(PlayerPrefs.GetInt("TURRETS").ToString());
+        towersBest.SetText(PlayerPrefs.GetInt("TOWERS").ToString());
 
         killed.SetText(GameController.GetInstance().EnemiesKilled.ToString());
         rounds.SetText(GameController.GetInstance().WaveCounter.ToString());

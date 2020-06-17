@@ -15,6 +15,7 @@ public class ChangeSceneNoButton : MonoBehaviour
     private bool stop;
 
     public Image slider;
+    public GameObject button;
 
     private void Start()
     {
@@ -24,12 +25,13 @@ public class ChangeSceneNoButton : MonoBehaviour
 
     private void Update()
     {
-        if(!stop)
+        if (!stop)
         {
             time += Time.deltaTime;
             if (time >= maxTime)
             {
-                changeScene();
+                slider.transform.parent.gameObject.SetActive(false);
+                button.SetActive(true);
                 stop = true;
             }
 
@@ -39,6 +41,6 @@ public class ChangeSceneNoButton : MonoBehaviour
 
     public void changeScene()
     {
-        SceneManager.LoadSceneAsync(scene);
+        SceneManager.LoadScene(scene);
     }
 }

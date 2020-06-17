@@ -53,6 +53,7 @@ public class GameController
     public int iron
     {
         get => _iron;
+        set => _iron = value;
     }
 
     public void UpdateResources(int value)
@@ -68,7 +69,9 @@ public class GameController
     {
         _waveCounter++;
 
-
+        _currentEnemies = 0;
+        _diedEnemies = 0;
+        
         if (_waveCounter >= 1)
         {
             if (_waveCounter % 5 == 0)
@@ -90,7 +93,7 @@ public class GameController
         }
 
         _noBaseDamage = true;
-        // _enemiesSpawnRate = Mathf.Max(.1f, _enemiesSpawnRate / 1.1f);
+        _enemiesSpawnRate = Mathf.Max(.1f, _enemiesSpawnRate / 1.1f);
         _waveInProcess = true;
         SoundManager.GetInstance().PlayOneShotSound(startRoundSoundPath, _player.transform.position);
     }
