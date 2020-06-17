@@ -41,9 +41,9 @@ public class TrapDeathSystem : JobComponentSystem
             }
             if (!trapComponent.cankill)
             {
-                if (trapComponent.Recover == 0)
+                if (trapComponent.Recover <= 0)
                     CloseTrap(manager, animationData, time);
-                if (trapComponent.Recover >= 2)
+                if (trapComponent.Recover >= trapComponent.Cooldown)
                 {
                     trapComponent.cankill = true;
                 }
