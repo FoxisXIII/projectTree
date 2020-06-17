@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ChangeScene : MonoBehaviour
+public class SceneChanger : MonoBehaviour
 {
     public string scene;
 
@@ -13,17 +13,16 @@ public class ChangeScene : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
-    public void changeScene()
+    public void Change()
     {
-        GameController.GetInstance().DestroyEntities();
         SoundManager.GetInstance().PlayOneShotSound("event:/FX/Menu/Select", transform.position);
-        SceneManager.LoadSceneAsync("Scenes/"+scene);
+        SceneManager.LoadScene(scene);
     }
 
     public void Quit()
     {
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.Exit(0);
+        UnityEditor.EditorApplication.ExitPlaymode();
 #else
         Application.Quit();
 #endif
