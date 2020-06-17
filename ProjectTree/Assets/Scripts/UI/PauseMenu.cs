@@ -29,17 +29,18 @@ public class PauseMenu : MonoBehaviour
     void Update()
     {
         if(canPause)
-        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (GameIsPaused)
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Resume();
-                SoundManager.GetInstance().PlayOneShotSound(exitMenuSoundPath, GameController.GetInstance().Player.transform.position);
-            }
-            else
-            {
-                Pause();
-                
+                if (GameIsPaused)
+                {
+                    Resume();
+                    SoundManager.GetInstance().PlayOneShotSound(exitMenuSoundPath, GameController.GetInstance().Player.transform.position);
+                }
+                else
+                {
+                    Pause();
+                }
             }
         }
     }
