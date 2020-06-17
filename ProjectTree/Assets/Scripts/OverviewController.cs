@@ -14,7 +14,6 @@ public class OverviewController : MonoBehaviour
 {
     public KeyCode cameraChange;
     private Camera _camera;
-    public Grid grid;
 
     public GameObject previewTurret;
     public GameObject[] prefabsTurrets;
@@ -36,12 +35,14 @@ public class OverviewController : MonoBehaviour
 
     [Header("FMOD")] public string turretCollocationSoundPath;
     public string turretShotSoundPath;
-    public string turretBombSoundPath;
     public string turretAuraSoundPath;
-    public string turretDestroySoundPath;
     public string turretHealSoundPath;
     public string turretBuffSoundPath;
     public string cameraTransitionSoundPath;
+
+    [Header("Turret Costs")] public int[] turretCosts;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -149,12 +150,14 @@ public class OverviewController : MonoBehaviour
     {
         GameController.GetInstance().Player.hud.SetBool("towers", false);
         CreatingSpot spot = _placeToCreate.GetComponent<CreatingSpot>();
-        if (GameController.GetInstance().iron >= 20 && !spot.HasTurret)
+        int turretCost = turretCosts[_indexToCreate];
+        print(turretCost);
+        if (GameController.GetInstance().iron >= turretCost && !spot.HasTurret)
         {
             Entity turret = _manager.Instantiate(turretsToCreate[_indexToCreate]);
             _manager.SetComponentData(turret, new Translation {Value = _placeToCreate.transform.position});
             spot.AddTurret(turret);
-            GameController.GetInstance().UpdateResources(-20);
+            GameController.GetInstance().UpdateResources(-turretCost);
             GameController.GetInstance().TowersPlaced++;
             _manager.AddComponent(turret, typeof(TurretFMODPaths));
             _manager.SetComponentData(turret, new TurretFMODPaths
@@ -173,7 +176,7 @@ public class OverviewController : MonoBehaviour
         {
             PopupTextObject.SetActive(true);
             PopupText popupText = PopupTextObject.GetComponent<PopupText>();
-            if (GameController.GetInstance().iron < 20)
+            if (GameController.GetInstance().iron < turretCost)
             {
                 popupText.Setup("You don't have enough iron");
             }
