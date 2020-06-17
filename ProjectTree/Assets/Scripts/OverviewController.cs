@@ -180,13 +180,13 @@ public class OverviewController : MonoBehaviour
         {
             PopupTextObject.SetActive(true);
             PopupText popupText = PopupTextObject.GetComponent<PopupText>();
-            if (GameController.GetInstance().iron < turretCost)
-            {
-                popupText.Setup("You don't have enough iron");
-            }
-            else
+            if (!_turretCanBePlaced)
             {
                 popupText.Setup("There's already a turret there");
+            }
+            else if (GameController.GetInstance().iron < turretCost)
+            {
+                popupText.Setup("Not enough iron");
             }
         }
     }

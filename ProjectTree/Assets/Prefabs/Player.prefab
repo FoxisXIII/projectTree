@@ -379,10 +379,13 @@ MonoBehaviour:
   lifeImage: {fileID: 0}
   ironText: {fileID: 0}
   effectDamage: {fileID: 0}
+  tooltipBox: {fileID: 0}
   instantiateTurrets: {fileID: 1271921907971335455}
   previewTrap: {fileID: 8247966145319658085, guid: f79829020872d854e8b1a9df9505ddf3,
     type: 3}
   trap: {fileID: 1998125748691647744, guid: bd7492baaa3e6d74b8c99a8e461252d7, type: 3}
+  trapCost: 10
+  PopupTextObject: {fileID: 0}
   hasBuff: 0
   initialDamage: 1
   damage: 0
