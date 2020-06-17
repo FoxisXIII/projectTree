@@ -17,7 +17,6 @@ public class ChangeSceneNoButton : MonoBehaviour
     private bool stop;
 
     public Image slider;
-    public GameObject button;
 
     private void Start()
     {

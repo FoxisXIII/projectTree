@@ -96,7 +96,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 7df12dc33a467bd4eb7737c0206c7fda, type: 3}
+        m_Texture: {fileID: 2800000, guid: 69b03c02e2a367347b48ed97a8df73fc, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
@@ -212,7 +212,7 @@ Material:
     - _CullModeForward: 0
     - _Cutoff: 0.5
     - _DabsRotation: 15
-    - _DabsTiling: 58
+    - _DabsTiling: 200
     - _DepthOffsetEnable: 0
     - _DetailAlbedoScale: 1
     - _DetailNormalScale: 1
