@@ -10,6 +10,8 @@ using UnityEngine.UI;
 public class ChangeSceneNoButton : MonoBehaviour
 {
     public string scene;
+    public GameObject button;
+    public GameObject loading;
     public float maxTime;
     private float time;
     private bool stop;
@@ -29,7 +31,7 @@ public class ChangeSceneNoButton : MonoBehaviour
             time += Time.deltaTime;
             if (time >= maxTime)
             {
-                changeScene();
+                ActivateButton();
                 stop = true;
             }
 
@@ -37,8 +39,10 @@ public class ChangeSceneNoButton : MonoBehaviour
         }
     }
 
-    public void changeScene()
+    public void ActivateButton()
     {
-        SceneManager.LoadSceneAsync(scene);
+        //SceneManager.LoadSceneAsync(scene);
+        button.SetActive(true);
+        loading.SetActive(false);
     }
 }
