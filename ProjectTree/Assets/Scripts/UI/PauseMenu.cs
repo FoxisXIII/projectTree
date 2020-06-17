@@ -15,17 +15,20 @@ public class PauseMenu : MonoBehaviour
     public string exitMenuSoundPath;
 
     public float userVolume = 1;
+    private bool canPause;
 
     // Start is called before the first frame update
     void Start()
     {
         Resume();
         SoundManager.GetInstance().ChangeVolume(1);
+        canPause = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(canPause)
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (GameIsPaused)
@@ -49,6 +52,7 @@ public class PauseMenu : MonoBehaviour
         hud.SetBool("startPause", true);
         hud.SetBool("pause", true);
         GameController.GetInstance().pauseGame(true);
+        canPause = false;
         SoundManager.GetInstance().PlayOneShotSound(enterMenuSoundPath, GameController.GetInstance().Player.transform.position);
         SoundManager.GetInstance().ChangeVolume(0.2f);
     }
@@ -77,11 +81,17 @@ public class PauseMenu : MonoBehaviour
         GameController.GetInstance().pauseGame(false);
         hud.SetBool("pause", false);
         ChangeVolume(userVolume);
+        canPause = false;
     }
 
     public void ChangeVolume(float volume)
     {
         SoundManager.GetInstance().ChangeVolume(volume);
         userVolume = volume;
+    }
+
+    public void CanPause()
+    {
+        canPause = true;
     }
 }
