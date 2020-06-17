@@ -425,6 +425,7 @@ GameObject:
   - component: {fileID: 256817872557147022}
   - component: {fileID: 256817872557147009}
   - component: {fileID: 256817872557147008}
+  - component: {fileID: 4972813003208170565}
   m_Layer: 5
   m_Name: TurretCanvas
   m_TagString: Untagged
@@ -514,6 +515,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &4972813003208170565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256817872557147011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f64832480875af4b969b72481667020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TooltipBox: {fileID: 0}
 --- !u!1 &256817872630807498
 GameObject:
   m_ObjectHideFlags: 0
@@ -526,6 +540,7 @@ GameObject:
   - component: {fileID: 256817872630807510}
   - component: {fileID: 256817872630807497}
   - component: {fileID: 256817872630807496}
+  - component: {fileID: 8898211474477759033}
   m_Layer: 0
   m_Name: ShootingTurretButton
   m_TagString: Untagged
@@ -647,6 +662,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8898211474477759033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256817872630807498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec6da5aab337c5438749617eca52fcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textToSet: {fileID: 0}
+  explanationText: Shoots bullets to nearby enemies
 --- !u!1 &256817872724167075
 GameObject:
   m_ObjectHideFlags: 0
@@ -2681,6 +2710,7 @@ GameObject:
   - component: {fileID: 256817873567871602}
   - component: {fileID: 256817873567871605}
   - component: {fileID: 256817873567871604}
+  - component: {fileID: 8829889456993751090}
   m_Layer: 0
   m_Name: HealthTurretButton
   m_TagString: Untagged
@@ -2802,6 +2832,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8829889456993751090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256817873567871606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec6da5aab337c5438749617eca52fcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textToSet: {fileID: 0}
+  explanationText: Heal for 1HP each second you are in range
 --- !u!1 &256817873587076372
 GameObject:
   m_ObjectHideFlags: 0
@@ -2946,6 +2990,7 @@ GameObject:
   - component: {fileID: 256817873594944084}
   - component: {fileID: 256817873594944087}
   - component: {fileID: 256817873594944086}
+  - component: {fileID: 4000718953017243747}
   m_Layer: 0
   m_Name: ResourcesTurretButton
   m_TagString: Untagged
@@ -3067,6 +3112,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4000718953017243747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256817873594944072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec6da5aab337c5438749617eca52fcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textToSet: {fileID: 0}
+  explanationText: Get 5 iron each second you are in range
 --- !u!1 &256817873658532264
 GameObject:
   m_ObjectHideFlags: 0
@@ -3886,6 +3945,7 @@ GameObject:
   - component: {fileID: 256817874009589648}
   - component: {fileID: 256817874009589651}
   - component: {fileID: 256817874009589650}
+  - component: {fileID: 7745077165652828344}
   m_Layer: 0
   m_Name: AttackTurretButton
   m_TagString: Untagged
@@ -4007,6 +4067,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7745077165652828344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256817874009589652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec6da5aab337c5438749617eca52fcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textToSet: {fileID: 0}
+  explanationText: Get double attack damage. This effect lasts while you are in range
+    and for 30 seconds after leaving out
 --- !u!1 &256817874034523233
 GameObject:
   m_ObjectHideFlags: 0
@@ -4019,6 +4094,7 @@ GameObject:
   - component: {fileID: 256817874034523245}
   - component: {fileID: 256817874034523244}
   - component: {fileID: 256817874034523247}
+  - component: {fileID: 368743409736762804}
   m_Layer: 0
   m_Name: ShotgunTurretButton
   m_TagString: Untagged
@@ -4140,6 +4216,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &368743409736762804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256817874034523233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec6da5aab337c5438749617eca52fcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textToSet: {fileID: 0}
+  explanationText: Shoot multiple bullets per shot. This effect lasts while you are
+    in range and for 30 seconds after leaving it
 --- !u!1 &256817874085075837
 GameObject:
   m_ObjectHideFlags: 0
@@ -4282,6 +4373,7 @@ GameObject:
   - component: {fileID: 256817874125141980}
   - component: {fileID: 256817874125141983}
   - component: {fileID: 256817874125141982}
+  - component: {fileID: 8086442772830704658}
   m_Layer: 0
   m_Name: BombTurretButton
   m_TagString: Untagged
@@ -4403,6 +4495,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8086442772830704658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256817874125141968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec6da5aab337c5438749617eca52fcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textToSet: {fileID: 0}
+  explanationText: Shoots bombs to nearby enemies
 --- !u!1 &256817874170650739
 GameObject:
   m_ObjectHideFlags: 0
@@ -5353,6 +5459,7 @@ GameObject:
   - component: {fileID: 256817874364926048}
   - component: {fileID: 256817874364926051}
   - component: {fileID: 256817874364926050}
+  - component: {fileID: 6939081885004401909}
   m_Layer: 0
   m_Name: SpeedTurretButton
   m_TagString: Untagged
@@ -5474,6 +5581,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6939081885004401909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256817874364926052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec6da5aab337c5438749617eca52fcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textToSet: {fileID: 0}
+  explanationText: Get double movement speed. This effect lasts while you are in
+    range and for 30 seconds after leaving it
 --- !u!1 &542421072232630371
 GameObject:
   m_ObjectHideFlags: 0
