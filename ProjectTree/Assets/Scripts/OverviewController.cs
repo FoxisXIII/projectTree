@@ -41,6 +41,7 @@ public class OverviewController : MonoBehaviour
     public string turretHealSoundPath;
     public string turretBuffSoundPath;
     public string cameraTransitionSoundPath;
+    public Material attackTowerRange;
 
     // Start is called before the first frame update
     void Start()
@@ -63,6 +64,7 @@ public class OverviewController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
         spotManager.EnableParticles();
         goToPosition = true;
+        attackTowerRange.SetFloat("_offset", -1f);
     }
 
     // Update is called once per frame
@@ -141,6 +143,7 @@ public class OverviewController : MonoBehaviour
         goToCharacter = true;
         TurretHUD.SetActive(false);
         Cursor.visible = false;
+        attackTowerRange.SetFloat("_offset", 1f);
         SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, transform.position);
     }
 

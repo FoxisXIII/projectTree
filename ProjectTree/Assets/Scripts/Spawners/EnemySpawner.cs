@@ -109,8 +109,8 @@ public class EnemySpawner : MonoBehaviour
 
 
         var health = _entityManager.GetComponentData<HealthData>(enemy);
-        health.value = GameController.GetInstance().WaveCounter;
-        health.maxValue = GameController.GetInstance().WaveCounter;
+        health.value = 3+GameController.GetInstance().WaveCounter;
+        health.maxValue = 3+GameController.GetInstance().WaveCounter;
         _entityManager.SetComponentData(enemy, health);
 
         _entityManager.SetComponentData(enemy,

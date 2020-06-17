@@ -35,6 +35,7 @@ public class BuffTurretSystem : JobComponentSystem
                         {
                             if (healthGroup.HasComponent(entityPlayer))
                             {
+                                Debug.Log("Heal");
                                 var healthData = healthGroup[entityPlayer];
                                 healthData.value = math.min(healthData.value + buffTurretData.health,
                                     healthData.maxValue);
@@ -45,7 +46,10 @@ public class BuffTurretSystem : JobComponentSystem
                             buffTurretData.buffTimer = 0;
                         }
                         else if (buffTurretData.buffTimer < buffTurretData.buffRate)
+                        {
                             buffTurretData.buffTimer += deltaTime;
+                            Debug.Log(buffTurretData.buffTimer);
+                        }
                         else if (buffTurretData.resources != 0 &&
                                  buffTurretData.buffTimer >= buffTurretData.buffRate)
                         {

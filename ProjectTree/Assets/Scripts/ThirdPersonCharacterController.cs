@@ -113,6 +113,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     public GameObject enemyDie;
     public GameObject towerDie;
     private LineRenderer lineRenderer;
+    private bool deaim;
 
 
     private void Awake()
@@ -158,6 +159,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     {
         if (!GameController.GetInstance().GamePaused)
         {
+            lifeImage.fillAmount = (float) life / (float) maxLife;
             if (Input.GetKeyDown(cameraChange) && !cameraChanged)
             {
                 ChangeCamera();
@@ -182,25 +184,55 @@ public class ThirdPersonCharacterController : MonoBehaviour
                         timer = 0f;
                     }
                 }
-                else if (Input.GetMouseButtonUp(0))
+                else if (Input.GetMouseButtonUp(0) && !Input.GetMouseButton(1))
                 {
-                    lineRenderer = LocFire.GetComponent<LineRenderer>();
                     lineRenderer.enabled = false;
                     anim.SetBool("Shoting", false);
                 }
 
-                if (Input.GetMouseButton(1))
+                if (Input.GetMouseButtonDown(1))
                 {
-                    if (Input.GetMouseButtonDown(1))
+                    CancelInvoke("Deaim");
+                    InvokeRepeating("Aim", 0, Time.deltaTime);
+                    lineRenderer.enabled = true;
+                    anim.SetBool("Shoting", true);
+                }
+                else if (Input.GetMouseButtonUp(1))
+                {
+                    CancelInvoke("Aim");
+                    InvokeRepeating("Deaim", 0, Time.deltaTime);
+                    deaim = true;
+                    if (!Input.GetMouseButton(0))
+                    {
+                        lineRenderer.enabled = false;
+                        anim.SetBool("Shoting", false);
+                    }
+                }
+                else if (!deaim&&!Input.GetMouseButton(1))
+                {
+                    CancelInvoke("Aim");
+                    InvokeRepeating("Deaim", 0, Time.deltaTime);
+                    deaim = true;
+                }
+
+                if (Input.GetMouseButton(2))
+                {
+                    if (Input.GetMouseButtonDown(2))
                     {
                         CreatePreviewTrap();
                     }
 
                     UpdatePreviewTrap();
                 }
-                else if (Input.GetMouseButtonUp(1))
+                else if (Input.GetMouseButtonUp(2))
                 {
                     CreateTrap();
+                }
+
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    lineRenderer.enabled = false;
+                    anim.SetBool("Shoting", false);
                 }
 
                 hor = Input.GetAxis("Horizontal");
@@ -225,10 +257,11 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 }
 
                 //speedper = WalkSpeed;
-                if (Input.GetKey(RunKey) )
+                if (Input.GetKey(RunKey))
                 {
                     speedper = RunSpeed;
-                }else speedper = WalkSpeed;
+                }
+                else speedper = WalkSpeed;
 
                 /*if (Input.GetKeyUp(RunKey))
                 {
@@ -236,7 +269,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 }*/
 
                 //movPlayer.magnitude >= 0.1f ? speedper : 0f
-                
+
                 anim.SetFloat("Speed", movPlayer.magnitude > 0.5F ? speedper : 0f);
                 anim.SetBool("onGround", characterController.isGrounded);
 
@@ -259,6 +292,24 @@ public class ThirdPersonCharacterController : MonoBehaviour
         else
         {
             idleSoundEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        }
+    }
+
+    public void Aim()
+    {
+        cine.m_Lens.FieldOfView = Mathf.Max(20, cine.m_Lens.FieldOfView - 75 * Time.deltaTime);
+
+        if (cine.m_Lens.FieldOfView == 20)
+            CancelInvoke("Aim");
+    }
+
+    public void Deaim()
+    {
+        cine.m_Lens.FieldOfView = Mathf.Min(40, cine.m_Lens.FieldOfView + 75 * Time.deltaTime);
+        if (cine.m_Lens.FieldOfView == 40)
+        {
+            deaim = false;
+            CancelInvoke("Deaim");
         }
     }
 
@@ -432,7 +483,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     public void IncreaseResources(int resources)
     {
-        StopBuffs();
         GameController.GetInstance().UpdateResources(resources);
     }
 
@@ -479,6 +529,11 @@ public class ThirdPersonCharacterController : MonoBehaviour
         characterController.enabled = false;
         SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, birdCamera.transform.position);
         fpsCamera.SetActive(false);
+        CancelInvoke("Aim");
+        InvokeRepeating("Deaim", 0, Time.deltaTime);
+        deaim = true;
+        lineRenderer.enabled = false;
+        anim.SetBool("Shoting", false);
         //hud.SetBool("towers", true);
 
         cameraChanged = true;

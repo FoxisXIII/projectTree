@@ -110,8 +110,7 @@ public class WaveController : MonoBehaviour
             nextRoundTime = 0;
             bossInScenario = 0;
             spawnEnemyTime = 0;
-            Debug.Log(GameController.GetInstance().MaxWaveEnemies +" - "+GameController.GetInstance().MaxWaveEnemies);
-            
+
             waveCooldown = GameController.GetInstance().EnemiesSpawnRate * GameController.GetInstance().MaxWaveEnemies +
                            60f;
             if (GameController.GetInstance().BossWave)

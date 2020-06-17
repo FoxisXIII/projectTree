@@ -30,7 +30,6 @@ public class PauseMenu : MonoBehaviour
         userVolume = PlayerPrefs.GetFloat("VOLUME", 1);
         slider.value = userVolume;
         ChangeVolume(userVolume);
-        print(userVolume);
     }
 
     // Update is called once per frame
