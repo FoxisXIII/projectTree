@@ -70,68 +70,72 @@ public class OverviewController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(cameraChange) && GameController.GetInstance().Player.cameraChanged)
+        if (!GameController.GetInstance().GamePaused)
         {
-            ChangeCamera();
-        }
-
-        camMovSpeed = 100;
-        if (goToPosition)
-        {
-            transform.position =
-                Vector3.MoveTowards(transform.position, position.transform.position, camMovSpeed * Time.deltaTime);
-            camRotSpeed = 8;
-            transform.rotation = Quaternion.Lerp(transform.rotation, position.transform.rotation, camRotSpeed*Time.deltaTime);
-
-            if (transform.position == position.transform.position)
-                goToPosition = false;
-        }
-
-        if (goToCharacter)
-        {
-            transform.position = Vector3.MoveTowards(transform.position,
-                GameController.GetInstance().Player.fpsCamera.transform.position, camMovSpeed * Time.deltaTime);
-            transform.rotation = Quaternion.Lerp(transform.rotation,
-                GameController.GetInstance().Player.fpsCamera.transform.rotation, camRotSpeed*Time.deltaTime);
-
-            if (transform.position == GameController.GetInstance().Player.fpsCamera.transform.position)
+            if (Input.GetKeyDown(cameraChange) && GameController.GetInstance().Player.cameraChanged)
             {
-                goToCharacter = false;
-                GameController.GetInstance().Player.characterController.enabled = true;
-                GameController.GetInstance().Player.fpsCamera.SetActive(true);
-                GameController.GetInstance().Player.cameraChanged = false;
-                gameObject.SetActive(false);
+                ChangeCamera();
             }
-        }
-        else
-        {
-            if (_creating)
+
+            camMovSpeed = 100;
+            if (goToPosition)
             {
-                for (int i = 1; i < turretsToCreate.Count + 1; i++)
+                transform.position =
+                    Vector3.MoveTowards(transform.position, position.transform.position, camMovSpeed * Time.deltaTime);
+                camRotSpeed = 8;
+                transform.rotation = Quaternion.Lerp(transform.rotation, position.transform.rotation,
+                    camRotSpeed * Time.deltaTime);
+
+                if (transform.position == position.transform.position)
+                    goToPosition = false;
+            }
+
+            if (goToCharacter)
+            {
+                transform.position = Vector3.MoveTowards(transform.position,
+                    GameController.GetInstance().Player.fpsCamera.transform.position, camMovSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation,
+                    GameController.GetInstance().Player.fpsCamera.transform.rotation, camRotSpeed * Time.deltaTime);
+
+                if (transform.position == GameController.GetInstance().Player.fpsCamera.transform.position)
                 {
-                    if (Input.GetKeyDown(i.ToString()))
+                    goToCharacter = false;
+                    GameController.GetInstance().Player.characterController.enabled = true;
+                    GameController.GetInstance().Player.fpsCamera.SetActive(true);
+                    GameController.GetInstance().Player.cameraChanged = false;
+                    gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                if (_creating)
+                {
+                    for (int i = 1; i < turretsToCreate.Count + 1; i++)
                     {
-                        _indexToCreate = i - 1;
-                        CreateTurret();
-                        _creating = false;
-                        TurretHUD.SetActive(false);
-                        break;
+                        if (Input.GetKeyDown(i.ToString()))
+                        {
+                            _indexToCreate = i - 1;
+                            CreateTurret();
+                            _creating = false;
+                            TurretHUD.SetActive(false);
+                            break;
+                        }
                     }
                 }
-            }
-            
-            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                if (hit.collider.CompareTag("TurretSpot") && Input.GetMouseButtonDown(0))
+
+                Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit))
                 {
-                    _creating = true;
-                    _placeToCreate = hit.collider.gameObject;
-                    TurretHUD.SetActive(true);
+                    if (hit.collider.CompareTag("TurretSpot") && Input.GetMouseButtonDown(0))
+                    {
+                        _creating = true;
+                        _placeToCreate = hit.collider.gameObject;
+                        TurretHUD.SetActive(true);
+                    }
                 }
+
             }
-            
         }
     }
 
