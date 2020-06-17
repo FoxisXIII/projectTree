@@ -2244,7 +2244,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraChange: 99
-  grid: {fileID: 1573130568}
   previewTurret: {fileID: 7019069708846604853, guid: 7fe3bea67a136aa428ef3bac3899923d,
     type: 3}
   prefabsTurrets:
@@ -2263,12 +2262,11 @@ MonoBehaviour:
   camRotSpeed: 10
   turretCollocationSoundPath: event:/FX/Turret/Collocation
   turretShotSoundPath: event:/FX/Turret/Shot
-  turretBombSoundPath: event:/FX/Turret/Bomb
   turretAuraSoundPath: event:/FX/Turret/Aura
-  turretDestroySoundPath: event:/FX/Turret/Destroy
   turretHealSoundPath: event:/FX/Character/Heal
   turretBuffSoundPath: event:/FX/Turret/Buff
   cameraTransitionSoundPath: event:/FX/Game/CameraTransition
+  turretCosts: 320000002c01000032000000c8000000f40100003200000032000000
 --- !u!81 &1013665880
 AudioListener:
   m_ObjectHideFlags: 0
