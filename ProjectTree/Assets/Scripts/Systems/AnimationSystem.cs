@@ -55,10 +55,10 @@ public class AnimationSystem : SystemBase
     private static void RotateHelixes(EntityManager manager, AnimationData animationData, float deltaTime)
     {
         var rotationHelixL = manager.GetComponentData<Rotation>(animationData.helixL);
-        rotationHelixL.Value = math.mul(rotationHelixL.Value, quaternion.RotateZ(90f * deltaTime));
+        rotationHelixL.Value = math.mul(rotationHelixL.Value, quaternion.RotateX(90f * deltaTime));
         manager.SetComponentData(animationData.helixL, rotationHelixL);
         var rotationHelixR = manager.GetComponentData<Rotation>(animationData.helixR);
-        rotationHelixR.Value = math.mul(rotationHelixR.Value, quaternion.RotateZ(90f * deltaTime));
+        rotationHelixR.Value = math.mul(rotationHelixR.Value, quaternion.RotateX(-90f * deltaTime));
         manager.SetComponentData(animationData.helixR, rotationHelixR);
     }
 }
