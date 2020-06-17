@@ -222,19 +222,20 @@ public class ThirdPersonCharacterController : MonoBehaviour
                     moveDir = Quaternion.Euler(0, targetAngle, 0f) * Vector3.forward;
                 }
 
-                speedper = WalkSpeed;
-                if (Input.GetKey(RunKey) && characterController.isGrounded)
+                //speedper = WalkSpeed;
+                if (Input.GetKey(RunKey) )
                 {
                     speedper = RunSpeed;
-                }
+                }else speedper = WalkSpeed;
 
-                if (Input.GetKeyUp(RunKey))
+                /*if (Input.GetKeyUp(RunKey))
                 {
                     speedper = WalkSpeed;
-                }
+                }*/
 
-
-                anim.SetFloat("Speed", movPlayer.magnitude >= 0.1f ? speedper : 0f);
+                //movPlayer.magnitude >= 0.1f ? speedper : 0f
+                
+                anim.SetFloat("Speed", movPlayer.magnitude > 0.5F ? speedper : 0f);
                 anim.SetBool("onGround", characterController.isGrounded);
 
                 if (movPlayer.Equals(Vector3.zero))
