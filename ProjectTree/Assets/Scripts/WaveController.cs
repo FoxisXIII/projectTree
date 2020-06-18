@@ -51,7 +51,7 @@ public class WaveController : MonoBehaviour
     private void Start()
     {
         GameController.GetInstance().WaveCounter = 0;
-        GameController.GetInstance().iron = 60;
+        GameController.GetInstance().iron = 200;
         EndWave();
     }
 

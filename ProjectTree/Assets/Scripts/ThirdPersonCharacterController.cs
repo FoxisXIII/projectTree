@@ -45,7 +45,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [Range(0, 1)] public float initFireRate;
     [HideInInspector] public float fireRate;
     private float timer;
-    
+
     private EntityManager manager;
     private Entity bulletEntityPrefab;
     private BlobAssetStore blobBullet;
@@ -79,6 +79,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private int shotgunRange;
     public GameObject attackBuffPrefab, shotgunBuffPrefab, speedBuffPrefab;
     private GameObject currentBuff;
+    [HideInInspector] public float buffTimer;
+    [HideInInspector] public float buffDisapear;
+    [HideInInspector] public bool startBuffTimer;
 
 
     [Header("Change camera")] public GameObject fpsCamera;
@@ -153,6 +156,15 @@ public class ThirdPersonCharacterController : MonoBehaviour
         if (!GameController.GetInstance().GamePaused)
         {
             lifeImage.fillAmount = (float) life / (float) maxLife;
+
+            if (hasBuff && startBuffTimer)
+            {
+                if (buffTimer >= buffDisapear)
+                    StopBuffs();
+                buffTimer += Time.deltaTime;
+                Debug.Log(buffTimer);
+            }
+
             if (Input.GetKeyDown(cameraChange) && !cameraChanged)
             {
                 ChangeCamera();
@@ -165,7 +177,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 {
                     if (timer >= fireRate)
                     {
-                        lineRenderer.enabled = true;
+                        // lineRenderer.enabled = true;
                         GameController.GetInstance().InstantiateParticles("Shot", LocFire.transform.position);
                         if (shotgun)
                             ShotgunECS(LocFire.transform.position, LocFire.transform.forward);
@@ -187,7 +199,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 {
                     CancelInvoke("Deaim");
                     InvokeRepeating("Aim", 0, Time.deltaTime);
-                    lineRenderer.enabled = true;
+                    // lineRenderer.enabled = true;
                     anim.SetBool("Shoting", true);
                 }
                 else if (Input.GetMouseButtonUp(1))
@@ -500,25 +512,28 @@ public class ThirdPersonCharacterController : MonoBehaviour
         GameController.GetInstance().UpdateResources(resources);
     }
 
-    public void IncreaseAttack(int Attack)
+    public void IncreaseAttack(int Attack, float t0BuffDisapear)
     {
         StopBuffs();
+        buffDisapear = t0BuffDisapear;
         damage = initialDamage * Attack;
         currentBuff = Instantiate(attackBuffPrefab, transform);
     }
 
-    public void IncreaseSpeed(int Speed)
+    public void IncreaseSpeed(int Speed, float t0BuffDisapear)
     {
         StopBuffs();
+        buffDisapear = t0BuffDisapear;
         WalkSpeed = this.Speed * Speed;
         RunSpeed = WalkSpeed * 2;
         fireRate = initFireRate / Speed;
         currentBuff = Instantiate(speedBuffPrefab, transform);
     }
 
-    public void Shotgun(int shotgun)
+    public void Shotgun(int shotgun, float t0BuffDisapear)
     {
         StopBuffs();
+        buffDisapear = t0BuffDisapear;
         this.shotgun = true;
         shotgunRange = shotgun;
         currentBuff = Instantiate(shotgunBuffPrefab, transform);
@@ -526,6 +541,9 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     public void StopBuffs()
     {
+        hasBuff = false;
+        startBuffTimer = false;
+        buffTimer = 0;
         WalkSpeed = this.Speed;
         RunSpeed = WalkSpeed * 2;
         fireRate = initFireRate;

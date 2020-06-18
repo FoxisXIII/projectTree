@@ -65,14 +65,10 @@ public class MoveToSystem : JobComponentSystem
                                     aiData.stop = false;
                                 }
                             }
-                        }
-
-                        if (aiData.goToEntity && translations.Exists(aiData.entity))
+                        }else if (aiData.goToEntity && translations.Exists(aiData.entity))
                         {
                             if (aiData.goToEntity)
                                 direction = translations[aiData.entity].Value - translation.Value;
-                            else
-                                direction = buffers[entity][aiData.counter].position - translation.Value;
 
                             if (!aiData.canFly)
                                 direction.y = 0;
@@ -95,11 +91,19 @@ public class MoveToSystem : JobComponentSystem
                                 }
                             }
                         }
-                        else if (aiData.goToEntity)
+                        else if (aiData.goToEntity&&!aiData.stopByCollision)
                         {
                             aiData.goToEntity = false;
                             aiData.entity = Entity.Null;
                             aiData.stop = false;
+                        }
+                        else if(!aiData.goToEntity)
+                        {
+                            direction = buffers[entity][aiData.counter].position - translation.Value;
+                            if (Magnitude(direction) > 1 && !aiData.stopByCollision)
+                            {
+                                aiData.stop = false;
+                            }
                         }
                     }
                     else

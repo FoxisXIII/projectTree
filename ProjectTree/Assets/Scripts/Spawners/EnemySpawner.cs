@@ -94,12 +94,12 @@ public class EnemySpawner : MonoBehaviour
         var random = Random.Range(0f, 1f);
 
         var aiData = _entityManager.GetComponentData<AIData>(enemy);
-        aiData.yOffset = aiData.canFly ? Random.Range(.25f, 2.5f) : 0;
+        aiData.yOffset = aiData.canFly ? Random.Range(.5f, 2.5f) : 0;
         aiData.state = 0;
         aiData.attackDamage = horde ? 5 : 1;
         aiData.attackRate = Random.Range(.5f, 1f);
         aiData.horde = horde;
-        aiData.canAttackPlayer = Random.Range(0f, 1f) < .25f;
+        aiData.canAttackPlayer = Random.Range(0f, 1f) < 15f;
         _entityManager.SetComponentData(enemy, aiData);
 
         var movementData = _entityManager.GetComponentData<MovementData>(enemy);

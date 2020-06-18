@@ -27,7 +27,8 @@ public class BuffTurretSystem : JobComponentSystem
 
         Entities
             .ForEach(
-                (ref BuffTurretData buffTurretData, ref Translation translation, ref Entity entity, ref TurretFMODPaths paths) =>
+                (ref BuffTurretData buffTurretData, ref Translation translation, ref Entity entity,
+                    ref TurretFMODPaths paths) =>
                 {
                     if (math.distance(playerPosition, translation.Value) <= buffTurretData.range)
                     {
@@ -59,14 +60,15 @@ public class BuffTurretSystem : JobComponentSystem
                         }
                         else if (buffTurretData.buffTimer < buffTurretData.buffRate)
                             buffTurretData.buffTimer += deltaTime;
-                        else if (!player.hasBuff || player.hasBuff && !player.buffEntity.Equals(entity))
+                        else if (!player.hasBuff || player.hasBuff && !player.buffEntity.Equals(entity) ||
+                                 player.startBuffTimer)
                         {
                             if (buffTurretData.attack != 0)
-                                player.IncreaseAttack(buffTurretData.attack);
+                                player.IncreaseAttack(buffTurretData.attack, buffTurretData.buffDisapear);
                             else if (buffTurretData.speed != 0)
-                                player.IncreaseSpeed(buffTurretData.speed);
+                                player.IncreaseSpeed(buffTurretData.speed, buffTurretData.buffDisapear);
                             else if (buffTurretData.shotgun != 0)
-                                player.Shotgun(buffTurretData.shotgun);
+                                player.Shotgun(buffTurretData.shotgun, buffTurretData.buffDisapear);
 
                             SoundManager.GetInstance().PlayOneShotSound(paths.BuffPath.ToString(), playerPosition);
                             player.buffEntity = entity;
@@ -77,17 +79,7 @@ public class BuffTurretSystem : JobComponentSystem
                     {
                         if (player.hasBuff)
                         {
-                            if (player.buffEntity.Equals(entity) &&
-                                buffTurretData.buffTimer >= buffTurretData.buffDisapear)
-                            {
-                                buffTurretData.buffTimer = 0;
-                                player.hasBuff = false;
-                                player.StopBuffs();
-                            }
-                            else
-                            {
-                                buffTurretData.buffTimer += deltaTime;
-                            }
+                            player.startBuffTimer = true;
                         }
                     }
                 }).WithoutBurst().Run();

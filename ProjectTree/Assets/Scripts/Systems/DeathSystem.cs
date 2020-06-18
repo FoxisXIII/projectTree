@@ -22,29 +22,37 @@ public class DeathSystem : JobComponentSystem
         var enemies = GetComponentDataFromEntity<AIData>();
         var translations = GetComponentDataFromEntity<Translation>();
         var parents = GetComponentDataFromEntity<ParentComponent>();
+        var player = GetComponentDataFromEntity<PlayerTag>();
 
         Entities.WithoutBurst().WithAll<Dead>().ForEach((Entity e) =>
         {
-            if (parents.Exists(e))
+            if(!player.Exists(e))
             {
-                var parent = parents[e].parent;
-                GameController.GetInstance().InstantiateParticles("TowerDie", translations[e].Value);
-                SoundManager.GetInstance().PlayOneShotSound("event:/FX/Turret/Destroy", translations[e].Value);
-                ecb.DestroyEntity(e);
-                ecb.DestroyEntity(parent);
-            }
+                if (parents.Exists(e))
+                {
+                    var parent = parents[e].parent;
+                    GameController.GetInstance().InstantiateParticles("TowerDie", translations[e].Value);
+                    SoundManager.GetInstance().PlayOneShotSound("event:/FX/Turret/Destroy", translations[e].Value);
+                    ecb.DestroyEntity(e);
+                    ecb.DestroyEntity(parent);
+                }
 
-            else if (enemies.Exists(e))
-            {
-                GameController.GetInstance().InstantiateParticles("EnemyDie", translations[e].Value);
-                GameController.GetInstance().RemoveEnemyWave();
+                else if (enemies.Exists(e))
+                {
+                    GameController.GetInstance().InstantiateParticles("EnemyDie", translations[e].Value);
+                    GameController.GetInstance().RemoveEnemyWave();
+                }
+                else
+                {
+                    GameController.GetInstance().InstantiateParticles("TowerDie", translations[e].Value);
+                }
+
+                ecb.DestroyEntity(e);
             }
             else
             {
-                GameController.GetInstance().InstantiateParticles("TowerDie", translations[e].Value);
+                // GameController.GetInstance().gameOver("KILLED BY X AE A12");
             }
-
-            ecb.DestroyEntity(e);
         }).Run();
 
         return default;

@@ -33,6 +33,8 @@ public class OverviewController : MonoBehaviour
     public int camMovSpeed;
     public int camRotSpeed;
 
+    public GameObject crosshair;
+
     [Header("FMOD")] public string turretCollocationSoundPath;
     public string turretShotSoundPath;
     public string turretAuraSoundPath;
@@ -67,6 +69,7 @@ public class OverviewController : MonoBehaviour
         spotManager.EnableParticles();
         goToPosition = true;
         attackTowerRange.SetFloat("_offset", -1f);
+        crosshair.SetActive(false);
     }
 
     // Update is called once per frame
@@ -149,6 +152,7 @@ public class OverviewController : MonoBehaviour
         goToPosition = false;
         goToCharacter = true;
         TurretHUD.SetActive(false);
+        crosshair.SetActive(true);
         Cursor.visible = false;
         attackTowerRange.SetFloat("_offset", 1000f);
         SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, transform.position);
