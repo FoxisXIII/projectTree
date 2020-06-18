@@ -289,6 +289,7 @@
             <e p="DI_System.cs" t="Include" />
             <e p="GameOverMenu.cs" t="Include" />
             <e p="PauseMenu.cs" t="Include" />
+            <e p="PopupText.cs" t="Include" />
             <e p="TowerButtons.cs" t="Include" />
             <e p="TurretCanvas.cs" t="Include" />
           </e>

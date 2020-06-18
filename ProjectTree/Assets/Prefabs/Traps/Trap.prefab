@@ -144,8 +144,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 2147483647
   Recover: 0
+  Cooldown: 4
   cankill: 0
-  times: 10
+  times: 5
 --- !u!114 &564839453855340414
 MonoBehaviour:
   m_ObjectHideFlags: 0

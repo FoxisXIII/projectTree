@@ -89,6 +89,7 @@ public class PauseMenu : MonoBehaviour
         GameController.GetInstance().pauseGame(false);
         hud.SetBool("pause", false);
         ChangeVolume(userVolume);
+        ControlsPanel.SetActive(false);
         canPause = false;
     }
 

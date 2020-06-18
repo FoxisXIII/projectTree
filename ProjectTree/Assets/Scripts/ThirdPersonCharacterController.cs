@@ -65,6 +65,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     [Header("Traps")] public GameObject previewTrap;
     public GameObject trap;
+    public int trapCost;
+    public GameObject PopupTextObject;
     private PreviewTurret _instantiatedPreviewTrap;
     private Entity trapECS;
     private BlobAssetStore blobTrap;
@@ -468,13 +470,22 @@ public class ThirdPersonCharacterController : MonoBehaviour
         var position = _instantiatedPreviewTrap.transform.position;
         var rotation = _instantiatedPreviewTrap.transform.rotation;
         Destroy(_instantiatedPreviewTrap.gameObject);
-        if (_turretCanBePlaced && GameController.GetInstance().iron >= 10)
+        if (_turretCanBePlaced && GameController.GetInstance().iron >= trapCost)
         {
             Entity trap = manager.Instantiate(trapECS);
             manager.SetComponentData(trap, new Translation {Value = position});
             manager.SetComponentData(trap, new Rotation {Value = rotation});
             manager.AddBuffer<EnemiesInRange>(trap);
-            GameController.GetInstance().UpdateResources(-10);
+            GameController.GetInstance().UpdateResources(-trapCost);
+        }
+        else
+        {
+            PopupTextObject.SetActive(true);
+            PopupText popupText = PopupTextObject.GetComponent<PopupText>();
+            if (GameController.GetInstance().iron < trapCost)
+            {
+                popupText.Setup("Not enough iron");
+            }
         }
     }
 

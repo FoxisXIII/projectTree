@@ -6,9 +6,9 @@ using Unity.Entities;
 [GenerateAuthoringComponent]
 public struct TrapComponent :IComponentData
 {
-        
         public int Damage;
         public float Recover;
+        public float Cooldown;
         public bool cankill;
         public int times;
 }

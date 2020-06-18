@@ -421,6 +421,7 @@ GameObject:
   - component: {fileID: 973097578300038094}
   - component: {fileID: 6826800060564907831}
   - component: {fileID: -8902293949520138493}
+  - component: {fileID: 8724046843010095390}
   m_Layer: 0
   m_Name: Bullet Tower
   m_TagString: Untagged
@@ -566,6 +567,19 @@ MonoBehaviour:
       m_Override: 0
       m_Value: 0000000000000000
   m_ConvexRadius_Deprecated: -1
+--- !u!114 &8724046843010095390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5080478677394002923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734d5ba7cc70c6841891a67cf7cf124e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cost: 50
 --- !u!1 &6437599505299082250
 GameObject:
   m_ObjectHideFlags: 0
@@ -741,7 +755,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb06762ac2354c4f81f476251eaea77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackSpeed: 0.103
+  AttackSpeed: 0.5
 --- !u!114 &4031021410045291055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -840,8 +854,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d296284c52b090045b60ce6fe2a4d96b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 100
-  maxValue: 100
+  value: 25
+  maxValue: 25
 --- !u!114 &91697505994964212
 MonoBehaviour:
   m_ObjectHideFlags: 0
