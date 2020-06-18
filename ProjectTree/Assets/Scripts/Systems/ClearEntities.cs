@@ -14,10 +14,6 @@ public class ClearEntities : SystemBase
 
     protected override void OnUpdate()
     {
-        //var entities = World.DefaultGameObjectInjectionWorld.EntityManager.GetAllEntities(Allocator.TempJob);
-        //World.DefaultGameObjectInjectionWorld.EntityManager.DestroyEntity(entities);
-        //entities.Dispose();
-
         EntityCommandBuffer commandBuffer = m_entityCommandBufferSystem.CreateCommandBuffer();
 
         Entities
