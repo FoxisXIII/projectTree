@@ -34,6 +34,9 @@ public class GameController
     private bool _noBaseDamage;
     private int _iron = 50;
     private Dictionary<string, GameObject> _particles;
+    
+    
+    public float userFeelings;
 
     private GameController()
     {
@@ -156,6 +159,7 @@ public class GameController
 
         PlayerPrefs.SetString("DIE", text);
         PlayerPrefs.SetFloat("VOLUME", userVolume);
+        PlayerPrefs.SetFloat("FEELINGS", userFeelings);
 
         _player.idleSoundEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         if (!lowLifeSoundEvent.Equals(null))

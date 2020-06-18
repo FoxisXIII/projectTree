@@ -20,11 +20,12 @@ public class HordeSystem : JobComponentSystem
         Entities
             .ForEach(
                 (ref AIData aiData, ref Translation translation, ref MovementData movementData,
-                    ref Entity entity, ref DynamicBuffer<CollisionEnemy> collisionEnemies) =>
+                    ref Entity entity, ref HealthData healthData) =>
                 {
-                    if (aiData.horde && currentEnemies == maxWaveEnemies)
+                    if (!aiData.hordeMove && aiData.horde && currentEnemies == maxWaveEnemies)
                     {
                         aiData.hordeMove = true;
+                        healthData.value = healthData.maxValue;
                     }
                 }).Run();
         return default;

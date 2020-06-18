@@ -5,7 +5,6 @@ using Unity.Entities.Hybrid;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Debug = FMOD.Debug;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -13,13 +12,15 @@ public class PauseMenu : MonoBehaviour
 
     public Animator hud;
     public GameObject ControlsPanel;
-    
+
     public string enterMenuSoundPath;
     public string exitMenuSoundPath;
 
     private float userVolume;
-    public Slider slider;
+    public Slider volumeSlider;
     private bool canPause;
+    private float userFeelings;
+    public Slider feelingsSlider;
 
     // Start is called before the first frame update
     void Start()
@@ -28,21 +29,26 @@ public class PauseMenu : MonoBehaviour
         SoundManager.GetInstance().ChangeVolume(1);
         canPause = true;
         userVolume = PlayerPrefs.GetFloat("VOLUME", 1);
-        slider.value = userVolume;
+        volumeSlider.value = userVolume;
         ChangeVolume(userVolume);
+
+        userFeelings = PlayerPrefs.GetFloat("FEELINGS", 1);
+        feelingsSlider.value = userFeelings;
+        ChangeFeelings(userFeelings);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(canPause)
+        if (canPause)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 if (GameIsPaused)
                 {
                     Resume();
-                    SoundManager.GetInstance().PlayOneShotSound(exitMenuSoundPath, GameController.GetInstance().Player.transform.position);
+                    SoundManager.GetInstance().PlayOneShotSound(exitMenuSoundPath,
+                        GameController.GetInstance().Player.transform.position);
                 }
                 else
                 {
@@ -61,7 +67,8 @@ public class PauseMenu : MonoBehaviour
         hud.SetBool("pause", true);
         GameController.GetInstance().pauseGame(true);
         canPause = false;
-        SoundManager.GetInstance().PlayOneShotSound(enterMenuSoundPath, GameController.GetInstance().Player.transform.position);
+        SoundManager.GetInstance()
+            .PlayOneShotSound(enterMenuSoundPath, GameController.GetInstance().Player.transform.position);
         SoundManager.GetInstance().ChangeVolume(0.2f);
     }
 
@@ -84,6 +91,7 @@ public class PauseMenu : MonoBehaviour
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
+
         Time.timeScale = 1;
         GameIsPaused = false;
         GameController.GetInstance().pauseGame(false);
@@ -104,6 +112,13 @@ public class PauseMenu : MonoBehaviour
         SoundManager.GetInstance().ChangeVolume(volume);
         GameController.GetInstance().userVolume = userVolume;
         userVolume = volume;
+    }
+
+    public void ChangeFeelings(float feelings)
+    {
+        GameController.GetInstance().Player.ChangeFeelings(feelings);
+        GameController.GetInstance().userFeelings = userFeelings;
+        userFeelings = feelings;
     }
 
     public void CanPause()
