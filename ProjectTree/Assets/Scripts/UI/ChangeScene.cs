@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,15 +16,14 @@ public class ChangeScene : MonoBehaviour
     }
     public void changeScene()
     {
-        GameController.GetInstance().DestroyEntities();
         SoundManager.GetInstance().PlayOneShotSound("event:/FX/Menu/Select", transform.position);
-        SceneManager.LoadSceneAsync("Scenes/"+scene);
+        SceneManager.LoadSceneAsync(scene);
     }
 
     public void Quit()
     {
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.Exit(0);
+        UnityEditor.EditorApplication.ExitPlaymode();
 #else
         Application.Quit();
 #endif
