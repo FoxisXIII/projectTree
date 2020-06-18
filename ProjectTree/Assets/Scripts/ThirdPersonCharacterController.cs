@@ -45,7 +45,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [Range(0, 1)] public float initFireRate;
     [HideInInspector] public float fireRate;
     private float timer;
-    
+
     private EntityManager manager;
     private Entity bulletEntityPrefab;
     private BlobAssetStore blobBullet;
@@ -89,9 +89,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [HideInInspector] public string lastAnimatorKey;
 
     [Header("Foot IK")] public Transform chest;
-    public float speedRotation;
+    public Transform weapon;
     public CinemachineFreeLook cine;
-    private float minRotate = -1f, maxRotate = 40f;
 
     [Header("Animaciones")] public Animator anim;
 
@@ -321,6 +320,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
         lineRenderer.SetPosition(0, LocFire.transform.position);
         lineRenderer.SetPosition(1, LocFire.transform.forward * 100 + LocFire.transform.position);
+
+        chest.rotation = quaternion.LookRotation(chest.forward, cam.transform.forward);
+        if (anim.GetBool("Shoting"))
+            weapon.rotation = quaternion.LookRotation(weapon.up, cam.transform.forward);
     }
 
     void setGravity()
