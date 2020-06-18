@@ -161,7 +161,7 @@ public class GameController
         if (!lowLifeSoundEvent.Equals(null))
             lowLifeSoundEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         SoundManager.GetInstance().StopAllSounds();
-        
+
         _iron = 60;
 
         SceneManager.LoadScene("Game Over");
@@ -180,18 +180,19 @@ public class GameController
     public void DestroyEntities()
     {
         World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<ClearEntities>().Update();
-        if (World.DefaultGameObjectInjectionWorld.IsCreated)
-        {
-            var systems = World.DefaultGameObjectInjectionWorld.Systems;
-            foreach (var s in systems)
-            {
-                s.Enabled = false;
-            }
-
-            World.DefaultGameObjectInjectionWorld.Dispose();
-        }
-
-        DefaultWorldInitialization.Initialize("Default World", false);
+        // var defaultWorldName = "Default World";
+        // if (World.DefaultGameObjectInjectionWorld.IsCreated)
+        // {
+        //     var systems = World.DefaultGameObjectInjectionWorld.Systems;
+        //     foreach (var s in systems)
+        //     {
+        //         s.Enabled = false;
+        //     }
+        //
+        //     defaultWorldName = World.DefaultGameObjectInjectionWorld.Name;
+        //     World.DefaultGameObjectInjectionWorld.Dispose();
+        // }
+        // DefaultWorldInitialization.Initialize(defaultWorldName, true);
     }
 
     #region Getters and Setters
