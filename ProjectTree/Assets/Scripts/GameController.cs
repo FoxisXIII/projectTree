@@ -32,7 +32,7 @@ public class GameController
     private int _beforeBossMaxWaveEnemies;
     private int _numberOfBoses;
     private bool _noBaseDamage;
-    private int _iron = 50;
+    private int _iron = 200;
     private Dictionary<string, GameObject> _particles;
     
     
@@ -140,33 +140,35 @@ public class GameController
     {
         SoundManager.GetInstance().PlayOneShotSound("event:/FX/Game/Lose", _player.transform.position);
         DestroyEntities();
-        _base.transform.parent.GetComponent<WaveController>().Dispose();
-
+        // _base.transform.parent.GetComponent<WaveController>().Dispose();
+        
         if (PlayerPrefs.GetInt("KILLED") < _enemiesKilled)
         {
             PlayerPrefs.SetInt("KILLED", _enemiesKilled);
         }
-
+        
         if (PlayerPrefs.GetInt("ROUNDS") < _waveCounter)
         {
             PlayerPrefs.SetInt("ROUNDS", _waveCounter);
         }
-
+        
         if (PlayerPrefs.GetInt("TOWERS") < _towersPlaced)
         {
             PlayerPrefs.SetInt("TOWERS", _towersPlaced);
         }
-
+        
         PlayerPrefs.SetString("DIE", text);
+        
         PlayerPrefs.SetFloat("VOLUME", userVolume);
         PlayerPrefs.SetFloat("FEELINGS", userFeelings);
-
+        
         _player.idleSoundEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         if (!lowLifeSoundEvent.Equals(null))
             lowLifeSoundEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        
         SoundManager.GetInstance().StopAllSounds();
-
-        _iron = 60;
+        
+        _iron = 200;
 
         SceneManager.LoadScene("Game Over");
     }
