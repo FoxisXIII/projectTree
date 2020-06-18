@@ -99,7 +99,7 @@ public class EnemySpawner : MonoBehaviour
         aiData.attackDamage = horde ? 5 : 1;
         aiData.attackRate = Random.Range(.5f, 1f);
         aiData.horde = horde;
-        aiData.canAttackPlayer = Random.Range(0f, 1f) < 15f;
+        aiData.canAttackPlayer = Random.Range(0f, 1f) < .25f;
         _entityManager.SetComponentData(enemy, aiData);
 
         var movementData = _entityManager.GetComponentData<MovementData>(enemy);
@@ -158,7 +158,7 @@ public class EnemySpawner : MonoBehaviour
         _entityManager.SetComponentData(enemy, aiData);
 
         var movementData = _entityManager.GetComponentData<MovementData>(enemy);
-        movementData.speed = 100;
+        movementData.speed = 150;
         _entityManager.SetComponentData(enemy, movementData);
 
         var health = _entityManager.GetComponentData<HealthData>(enemy);
