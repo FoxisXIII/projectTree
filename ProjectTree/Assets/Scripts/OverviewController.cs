@@ -183,7 +183,7 @@ public class OverviewController : MonoBehaviour
         {
             PopupTextObject.SetActive(true);
             PopupText popupText = PopupTextObject.GetComponent<PopupText>();
-            if (!_turretCanBePlaced)
+            if (spot.HasTurret)
             {
                 popupText.Setup("There's already a turret there");
             }
