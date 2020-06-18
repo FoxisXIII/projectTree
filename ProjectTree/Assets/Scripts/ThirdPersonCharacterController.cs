@@ -355,7 +355,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     void Jump()
     {
         Vector3 down = transform.TransformDirection(Vector3.down);
-        if (characterController.isGrounded && Input.GetButtonDown("Jump") && Physics.Raycast(transform.position, down, 5, ground))
+        if (Input.GetButtonDown("Jump") && Physics.Raycast(transform.position, down, .5f, ground))
         {
             VelCaida = jumpForce;
             moveDir.y = VelCaida;

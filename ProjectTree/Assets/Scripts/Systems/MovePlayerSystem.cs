@@ -17,9 +17,12 @@ public class MovePlayerSystem : ComponentSystem
 
     protected override void OnUpdate()
     {
-        Entities.WithAll<PlayerTag>().ForEach((ref Translation translation) =>
+        if (GameController.GetInstance().Player != null)
         {
-            translation.Value = GameController.GetInstance().Player.transform.position;
-        });
+            Entities.WithAll<PlayerTag>().ForEach((ref Translation translation) =>
+            {
+                translation.Value = GameController.GetInstance().Player.transform.position;
+            });
+        }
     }
 }

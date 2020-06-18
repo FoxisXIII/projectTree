@@ -140,7 +140,7 @@ public class GameController
     {
         SoundManager.GetInstance().PlayOneShotSound("event:/FX/Game/Lose", _player.transform.position);
         DestroyEntities();
-        _base.transform.parent.GetComponent<WaveController>().Dispose();
+        // _base.transform.parent.GetComponent<WaveController>().Dispose();
         
         if (PlayerPrefs.GetInt("KILLED") < _enemiesKilled)
         {
@@ -167,7 +167,7 @@ public class GameController
             lowLifeSoundEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         
         SoundManager.GetInstance().StopAllSounds();
-
+        
         _iron = 200;
 
         SceneManager.LoadScene("Game Over");

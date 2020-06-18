@@ -23,6 +23,7 @@ public class EnemiesCollisionsSystem : JobComponentSystem
     public struct CollisionJob : ICollisionEventsJob
     {
         public ComponentDataFromEntity<AIData> enemiesGroup;
+        public ComponentDataFromEntity<Translation> translationsGroup;
 
         public void Execute(CollisionEvent collisionEvent)
         {
@@ -46,7 +47,12 @@ public class EnemiesCollisionsSystem : JobComponentSystem
                 if (aiData.state == 1)
                 {
                     aiData.stop = true;
-                    aiData.stopByCollision = true;
+                    if (aiData.goToEntity &&
+                        math.distance(translationsGroup[aiData.entity].Value, translationsGroup[entityA].Value) >
+                        math.distance(translationsGroup[aiData.entity].Value, translationsGroup[entityB].Value))
+                        aiData.stopByCollision = true;
+                    else if (!aiData.goToEntity)
+                        aiData.stopByCollision = true;
                     enemiesGroup[entityA] = aiData;
                 }
             }
@@ -70,6 +76,7 @@ public class EnemiesCollisionsSystem : JobComponentSystem
         var collisionJob = new CollisionJob
         {
             enemiesGroup = GetComponentDataFromEntity<AIData>(),
+            translationsGroup = GetComponentDataFromEntity<Translation>()
         };
         JobHandle collisionHandle =
             collisionJob.Schedule(stepPhysicsWorldSystem.Simulation, ref physicsWorld, inputDependencies);
