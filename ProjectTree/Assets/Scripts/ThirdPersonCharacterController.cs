@@ -11,6 +11,7 @@ using Unity.Transforms;
 using UnityEngine;
 using UnityEngine.UI;
 using Quaternion = UnityEngine.Quaternion;
+using RaycastHit = Unity.Physics.RaycastHit;
 using Vector3 = UnityEngine.Vector3;
 
 public class ThirdPersonCharacterController : MonoBehaviour
@@ -44,8 +45,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [Range(0, 1)] public float initFireRate;
     [HideInInspector] public float fireRate;
     private float timer;
-
-    [Header("ECS")] public bool useECS = false;
+    
     private EntityManager manager;
     private Entity bulletEntityPrefab;
     private BlobAssetStore blobBullet;
@@ -55,7 +55,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
     [HideInInspector] public float life;
     public Image lifeImage;
     public TextMeshProUGUI ironText;
-    private float aLife;
     public Animator effectDamage;
     public GameObject tooltipBox;
 
@@ -70,7 +69,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private Entity trapECS;
     private BlobAssetStore blobTrap;
 
-    //Buffs
     [Header("BUFF")] [HideInInspector] public bool hasBuff;
     [HideInInspector] public Entity buffEntity;
     public int initialDamage;
@@ -90,13 +88,12 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     [HideInInspector] public string lastAnimatorKey;
 
-    [Header("Intento de vertical")] public Transform chest;
+    [Header("Foot IK")] public Transform chest;
     public float speedRotation;
     public CinemachineFreeLook cine;
     private float minRotate = -1f, maxRotate = 40f;
 
     [Header("Animaciones")] public Animator anim;
-    public HumanBodyBones bones;
 
 
     [Header("FMOD paths")] public string jumpSoundPath;
@@ -136,19 +133,13 @@ public class ThirdPersonCharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        /* anim = GetComponent<Animator>();
-         chest = anim.GetBoneTransform(HumanBodyBones.Chest);*/
-        aLife = maxLife;
         manager = World.DefaultGameObjectInjectionWorld.EntityManager;
         blobTrap = new BlobAssetStore();
         trapECS = GameObjectConversionUtility.ConvertGameObjectHierarchy(trap,
             GameObjectConversionSettings.FromWorld(manager.World, blobTrap));
-        if (useECS)
-        {
-            blobBullet = new BlobAssetStore();
-            bulletEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(Bullet,
-                GameObjectConversionSettings.FromWorld(manager.World, blobBullet));
-        }
+        blobBullet = new BlobAssetStore();
+        bulletEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(Bullet,
+            GameObjectConversionSettings.FromWorld(manager.World, blobBullet));
 
 
         GameController.GetInstance().UpdateResources(0);
@@ -208,7 +199,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
                         anim.SetBool("Shoting", false);
                     }
                 }
-                else if (!deaim&&!Input.GetMouseButton(1))
+                else if (!deaim && !Input.GetMouseButton(1))
                 {
                     CancelInvoke("Aim");
                     InvokeRepeating("Deaim", 0, Time.deltaTime);
@@ -457,19 +448,31 @@ public class ThirdPersonCharacterController : MonoBehaviour
         _instantiatedPreviewTrap.material.SetColor("_main_color", _turretCanBePlaced
             ? _instantiatedPreviewTrap.canBePlaced
             : _instantiatedPreviewTrap.canNotBePlaced);
+
+
+        UnityEngine.RaycastHit hit;
+        Ray ray = new Ray(_instantiatedPreviewTrap.transform.position + Vector3.up, Vector3.down);
+        if (Physics.Raycast(ray, out hit, _instantiatedPreviewTrap.distanceToGround + 1,
+            _instantiatedPreviewTrap.groundLayerMask))
+        {
+            var hitPoint = hit.point;
+            hitPoint.y += .25f;
+            _instantiatedPreviewTrap.transform.position = hitPoint;
+            _instantiatedPreviewTrap.transform.rotation =
+                Quaternion.LookRotation(_instantiatedPreviewTrap.transform.forward, hit.normal);
+        }
     }
 
     private void CreateTrap()
     {
+        var position = _instantiatedPreviewTrap.transform.position;
+        var rotation = _instantiatedPreviewTrap.transform.rotation;
         Destroy(_instantiatedPreviewTrap.gameObject);
-
         if (_turretCanBePlaced && GameController.GetInstance().iron >= 10)
         {
             Entity trap = manager.Instantiate(trapECS);
-            var position = instantiateTurrets.position;
-            position.y += 0f;
             manager.SetComponentData(trap, new Translation {Value = position});
-            manager.SetComponentData(trap, new Rotation {Value = transform.rotation});
+            manager.SetComponentData(trap, new Rotation {Value = rotation});
             manager.AddBuffer<EnemiesInRange>(trap);
             GameController.GetInstance().UpdateResources(-10);
         }

@@ -352,6 +352,9 @@ MonoBehaviour:
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 512
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
   validPoints:
   - {fileID: 1846723724220869951}
   - {fileID: 8829320860860484086}
