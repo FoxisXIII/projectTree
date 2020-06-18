@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMOD;
+using FMOD.Studio;
 using TMPro;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
+using Debug = FMOD.Debug;
 
 public class OverviewController : MonoBehaviour
 {
     public KeyCode cameraChange;
     private Camera _camera;
-    public Grid grid;
 
     public GameObject previewTurret;
     public GameObject[] prefabsTurrets;
@@ -18,10 +21,31 @@ public class OverviewController : MonoBehaviour
     private BlobAssetStore blobTurret;
     private PreviewTurret _instantiatedPreviewTurret;
     private bool _turretCanBePlaced;
+    public GameObject PopupTextObject;
     private EntityManager _manager;
     private List<Entity> turretsToCreate;
     private int _indexToCreate;
-    public GameObject toCreateText;
+    private GameObject _placeToCreate;
+    public GameObject position;
+    private bool goToPosition, goToCharacter;
+    public TurretSpots spotManager;
+    public GameObject TurretHUD;
+    public int camMovSpeed;
+    public int camRotSpeed;
+
+    public GameObject crosshair;
+
+    [Header("FMOD")] public string turretCollocationSoundPath;
+    public string turretShotSoundPath;
+    public string turretAuraSoundPath;
+    public string turretHealSoundPath;
+    public string turretBuffSoundPath;
+    public string cameraTransitionSoundPath;
+    public Material attackTowerRange;
+
+    [Header("Turret Costs")] public int[] turretCosts;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -42,98 +66,145 @@ public class OverviewController : MonoBehaviour
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
+        spotManager.EnableParticles();
+        goToPosition = true;
+        attackTowerRange.SetFloat("_offset", -1f);
+        crosshair.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(cameraChange) /*|| GameController.GetInstance().WaveInProcess*/)
+        if (!GameController.GetInstance().GamePaused)
         {
-            GameController.GetInstance().Player.characterController.enabled = true;
-            GameController.GetInstance().Player.fpsCamera.SetActive(true);
-            GameController.GetInstance().Player.cameraChanged = false;
-            Cursor.visible = false;
-            if (!ReferenceEquals(_instantiatedPreviewTurret, null))
+            if (Input.GetKeyDown(cameraChange) && GameController.GetInstance().Player.cameraChanged)
             {
-                Destroy(_instantiatedPreviewTurret);
-            }
-            gameObject.SetActive(false);
-        }
-
-        for (int i = 1; i < turretsToCreate.Count + 1; i++)
-        {
-            if (Input.GetKeyDown(i.ToString()))
-            {
-                _indexToCreate = i - 1;
-                CreatePreviewTurret();
-                _creating = true;
-            }
-        }
-
-        if (_creating)
-        {
-            if (Input.GetMouseButtonDown(1))
-            {
-                CreateTurret(_indexToCreate);
-                _creating = false;
+                ChangeCamera();
             }
 
-            UpdatePreviewTurret();
+            camMovSpeed = 100;
+            if (goToPosition)
+            {
+                transform.position =
+                    Vector3.MoveTowards(transform.position, position.transform.position, camMovSpeed * Time.deltaTime);
+                camRotSpeed = 8;
+                transform.rotation = Quaternion.Lerp(transform.rotation, position.transform.rotation,
+                    camRotSpeed * Time.deltaTime);
+
+                if (transform.position == position.transform.position)
+                    goToPosition = false;
+            }
+
+            if (goToCharacter)
+            {
+                transform.position = Vector3.MoveTowards(transform.position,
+                    GameController.GetInstance().Player.fpsCamera.transform.position, camMovSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation,
+                    GameController.GetInstance().Player.fpsCamera.transform.rotation, camRotSpeed * Time.deltaTime);
+
+                if (transform.position == GameController.GetInstance().Player.fpsCamera.transform.position)
+                {
+                    goToCharacter = false;
+                    GameController.GetInstance().Player.characterController.enabled = true;
+                    GameController.GetInstance().Player.fpsCamera.SetActive(true);
+                    GameController.GetInstance().Player.cameraChanged = false;
+                    gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                if (_creating)
+                {
+                    for (int i = 1; i < turretsToCreate.Count + 1; i++)
+                    {
+                        if (Input.GetKeyDown(i.ToString()))
+                        {
+                            _indexToCreate = i - 1;
+                            CreateTurret();
+                            _creating = false;
+                            TurretHUD.SetActive(false);
+                            break;
+                        }
+                    }
+                }
+
+                Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit))
+                {
+                    if (hit.collider.CompareTag("TurretSpot") && Input.GetMouseButtonDown(0))
+                    {
+                        _creating = true;
+                        _placeToCreate = hit.collider.gameObject;
+                        TurretHUD.SetActive(true);
+                        TurretHUD.GetComponent<TurretCanvas>().UpdateCosts(turretCosts);
+                    }
+                }
+
+            }
         }
     }
 
-    private void CreateTurret(int index)
+    public void ChangeCamera()
     {
-        Destroy(_instantiatedPreviewTurret.gameObject);
-        toCreateText.SetActive(false);
-
-        if (_turretCanBePlaced && GameController.GetInstance().RecursosA >= 20)
-        {
-            Entity turret = _manager.Instantiate(turretsToCreate[index]);
-            var position = _instantiatedPreviewTurret.gameObject.transform.position;
-            _manager.SetComponentData(turret, new Translation {Value = position});
-            _manager.AddBuffer<EnemiesInRange>(turret);
-            _manager.AddBuffer<TurretsInRange>(turret);
-            GameController.GetInstance().UpdateResources(-20);
-        }
+        _creating = false;
+        spotManager.DisableParticles();
+        goToPosition = false;
+        goToCharacter = true;
+        TurretHUD.SetActive(false);
+        crosshair.SetActive(true);
+        Cursor.visible = false;
+        attackTowerRange.SetFloat("_offset", 1000f);
+        SoundManager.GetInstance().PlayOneShotSound(cameraTransitionSoundPath, transform.position);
     }
 
-    private void UpdatePreviewTurret()
+    private void CreateTurret()
     {
-        _turretCanBePlaced = _instantiatedPreviewTurret.isValidPosition();
-        _instantiatedPreviewTurret.material.color = _turretCanBePlaced
-            ? _instantiatedPreviewTurret.canBePlaced
-            : _instantiatedPreviewTurret.canNotBePlaced;
-
-        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        GameController.GetInstance().Player.hud.SetBool("towers", false);
+        CreatingSpot spot = _placeToCreate.GetComponent<CreatingSpot>();
+        int turretCost = turretCosts[_indexToCreate];
+        print(turretCost);
+        if (GameController.GetInstance().iron >= turretCost && !spot.HasTurret)
         {
-            var gridPosition = grid.GetNearestpointOnGrid(hit.point);
-            if (!gridPosition.Equals(Vector3.zero))
+            Entity turret = _manager.Instantiate(turretsToCreate[_indexToCreate]);
+            _manager.SetComponentData(turret, new Translation {Value = _placeToCreate.transform.position});
+            spot.AddTurret(turret);
+            GameController.GetInstance().UpdateResources(-turretCost);
+            GameController.GetInstance().TowersPlaced++;
+            _manager.AddComponent(turret, typeof(TurretFMODPaths));
+            _manager.SetComponentData(turret, new TurretFMODPaths
             {
-                gridPosition.y += 1f;
-                _instantiatedPreviewTurret.gameObject.transform.position = gridPosition;
+                ShotPath = turretShotSoundPath,
+                HealPath = turretHealSoundPath,
+                BuffPath = turretBuffSoundPath
+            });
+            SoundManager.GetInstance().PlayOneShotSound(turretCollocationSoundPath, transform.position);
+            if (_indexToCreate >= 2)
+            {
+                SoundManager.GetInstance().PlayOneShotSound(turretAuraSoundPath, turret);
             }
         }
-    }
-
-    private void CreatePreviewTurret()
-    {
-        // if (!ReferenceEquals(_instantiatedPreviewTurret, null))
-        // {
-        //     //Destroy(_instantiatedPreviewTurret.gameObject);
-        //     Destroy(_instantiatedPreviewTurret);
-        // }
-        _instantiatedPreviewTurret = Instantiate(previewTurret).GetComponent<PreviewTurret>();
-        toCreateText.SetActive(true);
+        else
+        {
+            PopupTextObject.SetActive(true);
+            PopupText popupText = PopupTextObject.GetComponent<PopupText>();
+            if (spot.HasTurret)
+            {
+                popupText.Setup("There's already a turret there");
+            }
+            else if (GameController.GetInstance().iron < turretCost)
+            {
+                popupText.Setup("Not enough iron");
+            }
+        }
     }
 
     public void OnClick(int index)
     {
-        CreatePreviewTurret();
-        _creating = true;
-        _indexToCreate = index;
+        print("clicked");
+        _indexToCreate = index-1;
+        _creating = false;
+        CreateTurret();
     }
 
     private void OnDestroy()

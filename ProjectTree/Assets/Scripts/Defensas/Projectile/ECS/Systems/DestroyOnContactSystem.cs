@@ -26,13 +26,15 @@ public class DestroyOnContactSystem : JobComponentSystem
     {
         var destroyGroup = GetComponentDataFromEntity<DestroyOnContact>(true);
         var towerGroup = GetComponentDataFromEntity<TowerTag>(true);
+        var aiDataGroup = GetComponentDataFromEntity<AIData>(true);
         var ecb = ecbSystem.CreateCommandBuffer();
 
         var destroyCollisionJob = new DestroyCollisionJob
         {
             ecb = ecb,
             destroyGroup = destroyGroup,
-            towerGroup = towerGroup
+            towerGroup = towerGroup,
+            aiDataGroup = aiDataGroup
         };
 
         destroyCollisionJob.Schedule(_stepPhysicsWorld.Simulation, ref _buildPhysicsWorld.PhysicsWorld, inputDeps)
@@ -46,22 +48,27 @@ public class DestroyOnContactSystem : JobComponentSystem
         public EntityCommandBuffer ecb;
         [ReadOnly] public ComponentDataFromEntity<DestroyOnContact> destroyGroup;
         [ReadOnly] public ComponentDataFromEntity<TowerTag> towerGroup;
+        [ReadOnly] public ComponentDataFromEntity<AIData> aiDataGroup;
 
         public void Execute(CollisionEvent collisionEvent)
         {
-            if (!towerGroup.HasComponent(collisionEvent.Entities.EntityA) &&
-                !towerGroup.HasComponent(collisionEvent.Entities.EntityB))
+            if (destroyGroup.HasComponent(collisionEvent.Entities.EntityA))
             {
-                if (destroyGroup.HasComponent(collisionEvent.Entities.EntityA))
-                {
-                    ecb.DestroyEntity(collisionEvent.Entities.EntityA);
-                }
-
-                if (destroyGroup.HasComponent(collisionEvent.Entities.EntityB))
-                {
-                    ecb.DestroyEntity(collisionEvent.Entities.EntityB);
-                }
+                CheckDestroy(collisionEvent.Entities.EntityA, collisionEvent.Entities.EntityB);
             }
+
+            if (destroyGroup.HasComponent(collisionEvent.Entities.EntityB))
+            {
+                CheckDestroy(collisionEvent.Entities.EntityB, collisionEvent.Entities.EntityA);
+            }
+        }
+
+        private void CheckDestroy(Entity toDestroy, Entity entity)
+        {
+            if (destroyGroup[toDestroy].notDestroying == 0 && !towerGroup.Exists(entity))
+                ecb.DestroyEntity(toDestroy);
+            else if (destroyGroup[toDestroy].notDestroying == 1 && !aiDataGroup.Exists(entity))
+                ecb.DestroyEntity(toDestroy);
         }
     }
 }

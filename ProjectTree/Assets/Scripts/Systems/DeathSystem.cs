@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using FMOD;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
+using Unity.Transforms;
 using UnityEngine;
 
-[UpdateBefore(typeof(AttackPositionSystem))]
 public class DeathSystem : JobComponentSystem
 {
     private EndSimulationEntityCommandBufferSystem _entityCommandBufferSystem;
@@ -19,80 +20,41 @@ public class DeathSystem : JobComponentSystem
     {
         EntityCommandBuffer ecb = _entityCommandBufferSystem.CreateCommandBuffer();
         var enemies = GetComponentDataFromEntity<AIData>();
-        var enemiesInRange = GetBufferFromEntity<EnemiesInRange>();
-        var turretsInRange = GetBufferFromEntity<TurretsInRange>();
-        var collisions = GetBufferFromEntity<CollisionEnemy>();
+        var translations = GetComponentDataFromEntity<Translation>();
+        var parents = GetComponentDataFromEntity<ParentComponent>();
+        var player = GetComponentDataFromEntity<PlayerTag>();
 
         Entities.WithoutBurst().WithAll<Dead>().ForEach((Entity e) =>
         {
-            if (enemiesInRange.Exists(e)) RemoveBuffer(enemiesInRange[e]);
-            if (turretsInRange.Exists(e)) RemoveBuffer(turretsInRange[e]);
-            if (enemies.Exists(e))
+            if(!player.Exists(e))
             {
-                ResetCollisionBuffer(collisions[e]);
-                GameController.GetInstance().RemoveEnemyWave();
-            }
+                if (parents.Exists(e))
+                {
+                    var parent = parents[e].parent;
+                    GameController.GetInstance().InstantiateParticles("TowerDie", translations[e].Value);
+                    SoundManager.GetInstance().PlayOneShotSound("event:/FX/Turret/Destroy", translations[e].Value);
+                    ecb.DestroyEntity(e);
+                    ecb.DestroyEntity(parent);
+                }
 
-            ecb.DestroyEntity(e);
+                else if (enemies.Exists(e))
+                {
+                    GameController.GetInstance().InstantiateParticles("EnemyDie", translations[e].Value);
+                    GameController.GetInstance().RemoveEnemyWave();
+                }
+                else
+                {
+                    GameController.GetInstance().InstantiateParticles("TowerDie", translations[e].Value);
+                }
+
+                ecb.DestroyEntity(e);
+            }
+            else
+            {
+                // GameController.GetInstance().gameOver("KILLED BY X AE A12");
+            }
         }).Run();
 
         return default;
-    }
-
-    private void ResetCollisionBuffer(DynamicBuffer<CollisionEnemy> buffer)
-    {
-        EntityManager manager = World.DefaultGameObjectInjectionWorld.EntityManager;
-        for (int i = 0; i < buffer.Length; i++)
-        {
-            var enemy = buffer[i].Entity;
-
-            if (manager.Exists(enemy) && manager.HasComponent<AIData>(enemy))
-            {
-                var aiData = manager.GetComponentData<AIData>(enemy);
-                aiData.stop = false;
-                manager.SetComponentData(enemy, aiData);
-            }
-        }
-        buffer.Clear();
-    }
-
-    private void RemoveBuffer(DynamicBuffer<EnemiesInRange> buffer)
-    {
-        EntityManager manager = World.DefaultGameObjectInjectionWorld.EntityManager;
-        for (int i = 0; i < buffer.Length; i++)
-        {
-            var enemy = buffer[i].Value;
-
-            if (manager.Exists(enemy) && manager.HasComponent<AIData>(enemy))
-            {
-                var aiData = manager.GetComponentData<AIData>(enemy);
-                aiData.goToEntity = false;
-                aiData.stop = false;
-                aiData.state = 0;
-                aiData.entityPosition = float3.zero;
-                aiData.entity = Entity.Null;
-                manager.SetComponentData(enemy, aiData);
-            }
-        }
-        buffer.Clear();
-    }
-
-    private void RemoveBuffer(DynamicBuffer<TurretsInRange> buffer)
-    {
-        EntityManager manager = World.DefaultGameObjectInjectionWorld.EntityManager;
-        for (int i = 0; i < buffer.Length; i++)
-        {
-            var enemy = buffer[i].Value;
-
-            if (manager.Exists(enemy) && manager.HasComponent<AIData>(enemy))
-            {
-                var aiData = manager.GetComponentData<AIData>(enemy);
-                aiData.goToEntity = false;
-                aiData.entityPosition = float3.zero;
-                aiData.entity = Entity.Null;
-                manager.SetComponentData(enemy, aiData);
-            }
-        }
-        buffer.Clear();
     }
 }

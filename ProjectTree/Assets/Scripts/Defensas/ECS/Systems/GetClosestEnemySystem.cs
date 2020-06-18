@@ -33,33 +33,41 @@ public class GetClosestEnemySystem : ComponentSystem
                 }
             });
 
-        Entities.WithNone<TowerCurrentTarget>().WithAll<EnemiesInRange, TowerTag>().ForEach(
-            (Entity e, ref Translation position, DynamicBuffer<EnemiesInRange> inRange) =>
+        Entities.WithNone<TowerCurrentTarget>().WithAll<TowerTag>().ForEach(
+            (Entity e, ref Translation position, ref RangeComponent rangeComponent) =>
             {
                 var closestEnemy = Entity.Null;
                 float3 turretPos = position.Value;
                 float3 closestPos = float3.zero;
+                var maxDistance = rangeComponent.Value;
 
-                foreach (var enemy in inRange)
-                {
-                    if (manager.Exists(enemy.Value) && manager.HasComponent<Translation>(enemy.Value))
+                Entities
+                    .WithNone<Dead>()
+                    .ForEach((Entity enemy, ref AIData aiData, ref Translation translation) =>
                     {
-                        float3 enemyPos = manager.GetComponentData<Translation>(enemy.Value).Value;
-                        if (closestEnemy == Entity.Null)
+                        // if (aiData.entity.Equals(e))
+                        // {
+                        float3 enemyPos = manager.GetComponentData<Translation>(enemy).Value;
+                        var tower_enemy = math.distance(turretPos, enemyPos);
+                        if (tower_enemy <= maxDistance)
                         {
-                            closestEnemy = enemy.Value;
-                            closestPos = enemyPos;
-                        }
-                        else
-                        {
-                            if (math.distance(turretPos, enemyPos) < math.distance(turretPos, closestPos))
+                            if (closestEnemy == Entity.Null)
                             {
-                                closestEnemy = enemy.Value;
-                                closestPos = manager.GetComponentData<Translation>(enemy.Value).Value;
+                                closestEnemy = enemy;
+                                closestPos = enemyPos;
+                            }
+                            else
+                            {
+                                if (tower_enemy < math.distance(turretPos, closestPos))
+                                {
+                                    closestEnemy = enemy;
+                                    closestPos = manager.GetComponentData<Translation>(enemy).Value;
+                                }
                             }
                         }
-                    }
-                }
+
+                        // }
+                    });
 
                 if (closestEnemy != Entity.Null && manager.Exists(closestEnemy))
                 {

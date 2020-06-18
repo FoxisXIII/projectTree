@@ -23,9 +23,11 @@ public class BulletShootingSystem : ComponentSystem
 
     protected override void OnUpdate()
     {
+        // var paths = GetComponentDataFromEntity<TurretFMODPaths>();
+        
         Entities.WithAll<TowerTag, TowerCurrentTarget>().ForEach((Entity entity, ref AttackSpeedComponent attackSpeed,
             ref BulletPrefabComponent bullet, ref Translation position, ref Rotation rotation,
-            ref TowerCurrentTarget tct) =>
+            ref TowerCurrentTarget tct, ref ParentComponent parent) =>
         {
             timer -= Time.DeltaTime;
             if (timer <= 0)
@@ -33,10 +35,15 @@ public class BulletShootingSystem : ComponentSystem
                 Entity bulletEntity = EntityManager.Instantiate(bullet.prefab);
 
                 var enemyPos = EntityManager.GetComponentData<Translation>(tct.target).Value;
-                enemyPos.y += 1f;
+                // enemyPos.y += 1f;
                 var direction = Direction(position.Value, enemyPos);
 
                 EntityManager.SetComponentData(bulletEntity, new Translation {Value = position.Value});
+
+                TurretFMODPaths paths = EntityManager.GetComponentData<TurretFMODPaths>(parent.parent);
+                
+                if (!paths.Equals(null))
+                    SoundManager.GetInstance().PlayOneShotSound(paths.ShotPath.ToString(), position.Value);
 
                 var movementData = EntityManager.GetComponentData<MovementData>(bulletEntity);
 

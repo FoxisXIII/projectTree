@@ -10,12 +10,17 @@ PrefabInstance:
     - target: {fileID: -8472690541056764059, guid: c260176a97a79d14c814ee4055b7f849,
         type: 3}
       propertyPath: speed
-      value: 100
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: -8472690541056764059, guid: c260176a97a79d14c814ee4055b7f849,
         type: 3}
       propertyPath: lifeTime
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -2083086940199791340, guid: c260176a97a79d14c814ee4055b7f849,
+        type: 3}
+      propertyPath: notDestroying
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2740377096010578199, guid: c260176a97a79d14c814ee4055b7f849,
         type: 3}
@@ -71,6 +76,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2740377096010578199, guid: c260176a97a79d14c814ee4055b7f849,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2740377096010578199, guid: c260176a97a79d14c814ee4055b7f849,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2740377096010578199, guid: c260176a97a79d14c814ee4055b7f849,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3511667060062645267, guid: c260176a97a79d14c814ee4055b7f849,
         type: 3}
@@ -252,6 +272,11 @@ PrefabInstance:
       propertyPath: m_Material.m_CollidesWith.m_Value.Array.data[2]
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3511667060062645267, guid: c260176a97a79d14c814ee4055b7f849,
+        type: 3}
+      propertyPath: m_Material.m_CollidesWith.m_Value.Array.data[7]
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5137244523718503177, guid: c260176a97a79d14c814ee4055b7f849,
         type: 3}
       propertyPath: m_Name
@@ -260,7 +285,7 @@ PrefabInstance:
     - target: {fileID: 7339712148282690036, guid: c260176a97a79d14c814ee4055b7f849,
         type: 3}
       propertyPath: speed
-      value: 100
+      value: 10000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c260176a97a79d14c814ee4055b7f849, type: 3}

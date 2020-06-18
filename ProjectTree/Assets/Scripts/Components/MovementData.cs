@@ -12,4 +12,5 @@ public struct MovementData : IComponentData
 
     public bool lockRotation;
     public quaternion rotation;
+    public bool freezePosY;
 }
