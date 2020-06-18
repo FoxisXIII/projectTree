@@ -559,4 +559,10 @@ public class ThirdPersonCharacterController : MonoBehaviour
         transform.position = initialPosition;
         characterController.enabled = true;
     }
+
+    public void ChangeFeelings(float feelings)
+    {
+        cine.m_YAxis.m_MaxSpeed = .01f * feelings;
+        cine.m_XAxis.m_MaxSpeed = feelings;
+    }
 }
