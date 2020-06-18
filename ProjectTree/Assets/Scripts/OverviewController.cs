@@ -134,6 +134,7 @@ public class OverviewController : MonoBehaviour
                         _creating = true;
                         _placeToCreate = hit.collider.gameObject;
                         TurretHUD.SetActive(true);
+                        TurretHUD.GetComponent<TurretCanvas>().UpdateCosts(turretCosts);
                     }
                 }
 
