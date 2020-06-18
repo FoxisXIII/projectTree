@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Entities;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Debug = FMOD.Debug;
@@ -9,13 +10,14 @@ using Debug = FMOD.Debug;
 public class CreatingSpot : MonoBehaviour
 {
     public ParticleSystem _particleSystem;
+    public GameObject Sprite;
     private bool _hasTurret, _topView;
     private EntityManager _manager;
     private Entity _associatedTurret;
 
     private void Start()
     {
-        _particleSystem.Stop();
+        //_particleSystem.Stop();
         _manager = World.DefaultGameObjectInjectionWorld.EntityManager;
     }
 
@@ -27,7 +29,8 @@ public class CreatingSpot : MonoBehaviour
             {
                 _hasTurret = false;
                 if (_topView)
-                    _particleSystem.Play();
+                    Sprite.SetActive(true);
+                //_particleSystem.Play();
             }
         }
     }
@@ -36,10 +39,11 @@ public class CreatingSpot : MonoBehaviour
     {
         _hasTurret = true;
         _associatedTurret = turret;
-        if (_particleSystem.isPlaying)
-        {
-            _particleSystem.Stop();
-        }
+        Sprite.SetActive(false);
+        // if (_particleSystem.isPlaying)
+        // {
+        //     _particleSystem.Stop();
+        // }
     }
 
     public bool HasTurret => _hasTurret;
@@ -47,13 +51,15 @@ public class CreatingSpot : MonoBehaviour
     public void ActivateParticles()
     {
         if (!_hasTurret)
-            _particleSystem.Play();
+            Sprite.SetActive(true);
+        //_particleSystem.Play();
         _topView = true;
     }
 
     public void StopParticles()
     {
-        _particleSystem.Stop();
+        //_particleSystem.Stop();
+        Sprite.SetActive(false);
         _topView = false;
     }
 }
