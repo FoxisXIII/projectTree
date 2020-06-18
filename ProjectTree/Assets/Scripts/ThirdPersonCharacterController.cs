@@ -30,6 +30,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private float RunSpeed;
     private float speedper;
     public KeyCode RunKey = KeyCode.LeftShift;
+    public LayerMask ground;
 
     //Gravedad
     public float gravity = 9.8f;
@@ -341,7 +342,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     void Jump()
     {
-        if (characterController.isGrounded && Input.GetButtonDown("Jump"))
+        Vector3 down = transform.TransformDirection(Vector3.down);
+        if (characterController.isGrounded && Input.GetButtonDown("Jump") && Physics.Raycast(transform.position, down, 5, ground))
         {
             VelCaida = jumpForce;
             moveDir.y = VelCaida;
