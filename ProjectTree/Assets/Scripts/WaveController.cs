@@ -93,10 +93,12 @@ public class WaveController : MonoBehaviour
             switch (GameController.GetInstance().WaveCounter)
             {
                 case 0:
-                
+                    spawners[2].enabled = false;
+                    spawners[3].enabled = false;
                     break;
                 case 1:
-
+                    spawners[2].enabled = true;
+                    spawners[3].enabled = true;
                     break;
                 case 2:
                     hordes[2] = true;

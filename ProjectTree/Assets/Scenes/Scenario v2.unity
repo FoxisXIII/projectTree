@@ -619,6 +619,42 @@ PrefabInstance:
       propertyPath: min.Array.data[6].z
       value: 42.4
       objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: groundMovementSoundPath
+      value: event:/FX/Enemy/TankMovement
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: airMovementSoundPath
+      value: event:/FX/Enemy/DroneMovement
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: attackPlayerSoundPath
+      value: event:/FX/Enemy/AttackPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: attackBaseSoundPath
+      value: event:/FX/Enemy/AttackBase
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: hitSoundPath
+      value: event:/FX/Enemy/ReceiveDamage
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: dieSoundPath
+      value: event:/FX/Enemy/Die
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: fog
+      value: 
+      objectReference: {fileID: 7628261312902058135, guid: 904af15a199a49349a0ec9e765133fd4,
+        type: 3}
     - target: {fileID: 388499504665842041, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2232,6 +2268,42 @@ PrefabInstance:
       propertyPath: max.Array.data[5].z
       value: 39.1
       objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: groundMovementSoundPath
+      value: event:/FX/Enemy/TankMovement
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: airMovementSoundPath
+      value: event:/FX/Enemy/DroneMovement
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: attackPlayerSoundPath
+      value: event:/FX/Enemy/AttackPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: attackBaseSoundPath
+      value: event:/FX/Enemy/AttackBase
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: hitSoundPath
+      value: event:/FX/Enemy/ReceiveDamage
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: dieSoundPath
+      value: event:/FX/Enemy/Die
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: fog
+      value: 
+      objectReference: {fileID: 7126739505349254874, guid: b095fd29386d5084c9978253d067a1d8,
+        type: 3}
     - target: {fileID: 388499504665842041, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3041,6 +3113,42 @@ PrefabInstance:
       propertyPath: max.Array.data[5].z
       value: -6.95
       objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: groundMovementSoundPath
+      value: event:/FX/Enemy/TankMovement
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: airMovementSoundPath
+      value: event:/FX/Enemy/DroneMovement
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: attackPlayerSoundPath
+      value: event:/FX/Enemy/AttackPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: attackBaseSoundPath
+      value: event:/FX/Enemy/AttackBase
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: hitSoundPath
+      value: event:/FX/Enemy/ReceiveDamage
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: dieSoundPath
+      value: event:/FX/Enemy/Die
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: fog
+      value: 
+      objectReference: {fileID: 4549776125956516858, guid: 13bad95928b2efa458537d21f06fb1b0,
+        type: 3}
     - target: {fileID: 388499504665842041, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4710,7 +4818,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1116841120}
-  m_LocalRotation: {x: 0.11780081, y: -0.121319614, z: 0.014501944, w: 0.9854919}
+  m_LocalRotation: {x: 0.117800854, y: -0.12131969, z: 0.014501959, w: 0.9854919}
   m_LocalPosition: {x: 7.049128, y: -5.09236, z: -6.6564255}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -5633,6 +5741,42 @@ PrefabInstance:
       propertyPath: min.Array.data[6].z
       value: -48.4
       objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: groundMovementSoundPath
+      value: event:/FX/Enemy/TankMovement
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: airMovementSoundPath
+      value: event:/FX/Enemy/DroneMovement
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: attackPlayerSoundPath
+      value: event:/FX/Enemy/AttackPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: attackBaseSoundPath
+      value: event:/FX/Enemy/AttackBase
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: hitSoundPath
+      value: event:/FX/Enemy/ReceiveDamage
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: dieSoundPath
+      value: event:/FX/Enemy/Die
+      objectReference: {fileID: 0}
+    - target: {fileID: -3163979558320948062, guid: 31ea8994cb111c244893de412371a1c7,
+        type: 3}
+      propertyPath: fog
+      value: 
+      objectReference: {fileID: 5870727057079315320, guid: 7a4d153906aadac4f9abb97d9ade01cb,
+        type: 3}
     - target: {fileID: 388499504665842041, guid: 31ea8994cb111c244893de412371a1c7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7338,17 +7482,17 @@ PrefabInstance:
     - target: {fileID: 7157364506102183735, guid: 5d4f15b5956dd28479d9d71c402718a3,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.11859975
+      value: 0.11859978
       objectReference: {fileID: 0}
     - target: {fileID: 7157364506102183735, guid: 5d4f15b5956dd28479d9d71c402718a3,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.10964363
+      value: -0.10964366
       objectReference: {fileID: 0}
     - target: {fileID: 7157364506102183735, guid: 5d4f15b5956dd28479d9d71c402718a3,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.013187945
+      value: 0.013187951
       objectReference: {fileID: 0}
     - target: {fileID: 7157364506102183735, guid: 5d4f15b5956dd28479d9d71c402718a3,
         type: 3}
@@ -7413,17 +7557,17 @@ PrefabInstance:
     - target: {fileID: 7157364506508198687, guid: 5d4f15b5956dd28479d9d71c402718a3,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.12107998
+      value: -0.12108002
       objectReference: {fileID: 0}
     - target: {fileID: 7157364506508198687, guid: 5d4f15b5956dd28479d9d71c402718a3,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.01249926
+      value: 0.012499267
       objectReference: {fileID: 0}
     - target: {fileID: 7157364506508198687, guid: 5d4f15b5956dd28479d9d71c402718a3,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.1180471
+      value: 0.118047126
       objectReference: {fileID: 0}
     - target: {fileID: 7157364506508198687, guid: 5d4f15b5956dd28479d9d71c402718a3,
         type: 3}
