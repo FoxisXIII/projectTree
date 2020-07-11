@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\miki_\AppData\Local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\miki_\AppData\Local\JetBrains\Rider2020.1\resharper-host\Local\Transient\ReSharperHost\v201\SolutionCaches\_ProjectTree.-1035324771.00" t="ExcludeRecursive" />
-    <e p="D:\Documents\ProjectTree\ProjectTree" t="IncludeRecursive">
+    <e p="C:\Users\PC1\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\PC1\.Rider2019.2\system\resharper-host\Local\Transient\ReSharperHost\v192\SolutionCaches\_ProjectTree.-1801211860.00" t="ExcludeRecursive" />
+    <e p="C:\Users\PC1\Documents\ProjectTree\ProjectTree" t="IncludeRecursive">
       <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
