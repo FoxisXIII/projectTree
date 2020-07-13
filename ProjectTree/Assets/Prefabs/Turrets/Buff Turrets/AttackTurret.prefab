@@ -134,12 +134,12 @@ MonoBehaviour:
   range: 10
   health: 0
   resources: 0
-  attack: 2
+  attack: 4
   speed: 0
   shotgun: 0
   buffRate: 0
   buffTimer: 0
-  buffDisapear: 30
+  buffDisapear: 120
 --- !u!114 &-1662528915051369840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,8 +225,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d296284c52b090045b60ce6fe2a4d96b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 25
-  maxValue: 25
+  value: 100
+  maxValue: 100
 --- !u!114 &-7272559184271360357
 MonoBehaviour:
   m_ObjectHideFlags: 0

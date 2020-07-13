@@ -92,15 +92,16 @@ public class WaveController : MonoBehaviour
             
             switch (GameController.GetInstance().WaveCounter)
             {
-                case 0:
+                case 1:
                     spawners[2].enabled = false;
                     spawners[3].enabled = false;
                     break;
-                case 1:
+                case 2:
+                    maxWaveEnemies *= 2;
                     spawners[2].enabled = true;
                     spawners[3].enabled = true;
                     break;
-                case 2:
+                case 3:
                     hordes[2] = true;
                     hordes[3] = true;
                     break;
@@ -184,15 +185,15 @@ public class WaveController : MonoBehaviour
             int random;
             switch (GameController.GetInstance().WaveCounter)
             {
-                case 0:
+                case 1:
                     random = Random.Range(0, 1);
                     spawners[random].SpawnEnemy(false);
                     break;
-                case 1:
+                case 2:
                     random = Random.Range(0, spawners.Length);
                     spawners[random].SpawnEnemy(false);
                     break;
-                case 2:
+                case 3:
                     random = Random.Range(0, spawners.Length);
                     spawners[random].SpawnEnemy(hordes[random]);
                     break;
