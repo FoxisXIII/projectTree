@@ -51,7 +51,7 @@ public class WaveController : MonoBehaviour
     private void Start()
     {
         GameController.GetInstance().WaveCounter = 0;
-        GameController.GetInstance().iron = 200;
+        GameController.GetInstance().iron = 400;
         EndWave();
     }
 
@@ -102,11 +102,12 @@ public class WaveController : MonoBehaviour
                     spawners[3].enabled = true;
                     break;
                 case 3:
+                    maxWaveEnemies += maxWaveEnemies/2;
                     hordes[2] = true;
                     hordes[3] = true;
                     break;
                 default:
-                    SceneManager.LoadScene("Game Over");
+                    GameController.GetInstance().gameOver("You won!!");
                     break;
             }
 
@@ -186,7 +187,7 @@ public class WaveController : MonoBehaviour
             switch (GameController.GetInstance().WaveCounter)
             {
                 case 1:
-                    random = Random.Range(0, 1);
+                    random = Random.Range(0, 2);
                     spawners[random].SpawnEnemy(false);
                     break;
                 case 2:

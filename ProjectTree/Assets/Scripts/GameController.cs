@@ -32,7 +32,7 @@ public class GameController
     private int _beforeBossMaxWaveEnemies;
     private int _numberOfBoses;
     private bool _noBaseDamage;
-    private int _iron = 200;
+    private int _iron = 400;
     private Dictionary<string, GameObject> _particles;
     
     
