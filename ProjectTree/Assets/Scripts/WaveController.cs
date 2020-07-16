@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -26,6 +26,8 @@ public class WaveController : MonoBehaviour
     [SerializeField] private Animator hud;
     private float spawnEnemyTime;
     private bool[] hordes;
+
+    private bool finished = false;
 
     private float timeToNextRound;
 
@@ -75,6 +77,8 @@ public class WaveController : MonoBehaviour
         spawnEnemyTime += Time.deltaTime;
 
         nextRoundTimeText.SetText(Math.Max(Math.Round((Decimal) (waveCooldown - nextRoundTime), 0), 0).ToString());
+        if(finished&&(GameController.GetInstance().MaxWaveEnemies - GameController.GetInstance().DiedEnemies) <= 0)
+            GameController.GetInstance().gameOver("Thanks for playing!!");
     }
 
     private void StartAlternateWave()
@@ -103,11 +107,13 @@ public class WaveController : MonoBehaviour
                     break;
                 case 3:
                     maxWaveEnemies += maxWaveEnemies/2;
+                    hordes[0] = false;
+                    hordes[1] = false;
                     hordes[2] = true;
                     hordes[3] = true;
                     break;
                 default:
-                    GameController.GetInstance().gameOver("You won!!");
+                    finished = true;
                     break;
             }
 

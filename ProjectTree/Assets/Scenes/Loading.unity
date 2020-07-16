@@ -139,19 +139,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 1453043773871479701, guid: b049bd78ccbd1b84c98e8a9fb020c90d, type: 3}
---- !u!114 &33423087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4722514506742752610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ConversionMode: 1
 --- !u!1 &105480916
 GameObject:
   m_ObjectHideFlags: 0
@@ -882,19 +869,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -3298800115395149385, guid: b049bd78ccbd1b84c98e8a9fb020c90d, type: 3}
---- !u!114 &485735717
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1385135625511001091}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ConversionMode: 1
 --- !u!1 &515393138
 GameObject:
   m_ObjectHideFlags: 0
@@ -4001,7 +3975,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4460841924781464434}
   - component: {fileID: 485735716}
-  - component: {fileID: 485735717}
   m_Layer: 10
   m_Name: Collider
   m_TagString: Untagged
@@ -4276,7 +4249,6 @@ GameObject:
   - component: {fileID: 6912658430669450237}
   - component: {fileID: 2144765942720975869}
   - component: {fileID: 33423086}
-  - component: {fileID: 33423087}
   m_Layer: 9
   m_Name: Ground
   m_TagString: Untagged
