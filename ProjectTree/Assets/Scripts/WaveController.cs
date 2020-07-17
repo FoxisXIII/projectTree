@@ -77,8 +77,12 @@ public class WaveController : MonoBehaviour
         spawnEnemyTime += Time.deltaTime;
 
         nextRoundTimeText.SetText(Math.Max(Math.Round((Decimal) (waveCooldown - nextRoundTime), 0), 0).ToString());
-        if(finished&&(GameController.GetInstance().MaxWaveEnemies - GameController.GetInstance().DiedEnemies) <= 0)
+        if (finished && (GameController.GetInstance().MaxWaveEnemies - GameController.GetInstance().DiedEnemies) <= 0)
+        {
+            print((GameController.GetInstance().MaxWaveEnemies - GameController.GetInstance().DiedEnemies) <= 0);
+            print(GameController.GetInstance().DiedEnemies);
             GameController.GetInstance().gameOver("Thanks for playing!!");
+        }
     }
 
     private void StartAlternateWave()
@@ -122,7 +126,7 @@ public class WaveController : MonoBehaviour
             spawnEnemyTime = 0;
 
             waveCooldown = GameController.GetInstance().EnemiesSpawnRate * GameController.GetInstance().MaxWaveEnemies +
-                           60f;
+                           180f;
             if (GameController.GetInstance().BossWave)
                 waveCooldown += GameController.GetInstance().NumberOfBoses *
                                 GameController.GetInstance().EnemiesSpawnRate * 10f;

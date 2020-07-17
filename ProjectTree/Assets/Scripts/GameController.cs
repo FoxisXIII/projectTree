@@ -8,6 +8,8 @@ using Unity.Transforms;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Debug = FMOD.Debug;
+using Random = System.Random;
+using Random2 = UnityEngine.Random;
 
 public class GameController
 {
@@ -128,7 +130,7 @@ public class GameController
     {
         _diedEnemies++;
         _enemiesKilled++;
-        UpdateResources(1);
+        UpdateResources(Random2.Range(0, 2));
     }
 
     public void pauseGame(bool pause)
