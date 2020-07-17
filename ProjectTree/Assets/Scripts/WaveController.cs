@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -19,13 +20,14 @@ public class WaveController : MonoBehaviour
 
     private int bossInScenario;
 
-
     [SerializeField] private TextMeshProUGUI nextRoundTimeText;
     [SerializeField] private TextMeshProUGUI roundText;
     [SerializeField] private Image currentEnemiesImage;
     [SerializeField] private Animator hud;
     private float spawnEnemyTime;
     private bool[] hordes;
+
+    private bool finished = false;
 
     private float timeToNextRound;
 
@@ -51,17 +53,17 @@ public class WaveController : MonoBehaviour
     private void Start()
     {
         GameController.GetInstance().WaveCounter = 0;
-        GameController.GetInstance().iron = 200;
+        GameController.GetInstance().iron = 400;
         EndWave();
     }
 
     // Update is called once per frame
     void Update()
     {
-        StartWave();
+        StartAlternateWave();
 
         if (GameController.GetInstance().NormalWave)
-            SpawnEnemy();
+            AlternateSpawnEnemy();
         else if (GameController.GetInstance().BossWave)
             SpawnBoss();
 
@@ -75,6 +77,61 @@ public class WaveController : MonoBehaviour
         spawnEnemyTime += Time.deltaTime;
 
         nextRoundTimeText.SetText(Math.Max(Math.Round((Decimal) (waveCooldown - nextRoundTime), 0), 0).ToString());
+        if (finished && (GameController.GetInstance().MaxWaveEnemies - GameController.GetInstance().DiedEnemies) <= 0)
+        {
+            print((GameController.GetInstance().MaxWaveEnemies - GameController.GetInstance().DiedEnemies) <= 0);
+            print(GameController.GetInstance().DiedEnemies);
+            GameController.GetInstance().gameOver("Thanks for playing!!");
+        }
+    }
+
+    private void StartAlternateWave()
+    {
+
+        if ( /*!_canSpawn && */nextRoundTime >= waveCooldown)
+        {
+            GameController.GetInstance().startWave();
+
+            hud.SetBool("inRound", true);
+            hud.SetBool("nextRound", false);
+
+            roundText.SetText("ROUND " + GameController.GetInstance().WaveCounter);
+            resetHordes();
+            
+            switch (GameController.GetInstance().WaveCounter)
+            {
+                case 1:
+                    spawners[2].enabled = false;
+                    spawners[3].enabled = false;
+                    break;
+                case 2:
+                    maxWaveEnemies *= 2;
+                    spawners[2].enabled = true;
+                    spawners[3].enabled = true;
+                    break;
+                case 3:
+                    maxWaveEnemies += maxWaveEnemies/2;
+                    hordes[0] = false;
+                    hordes[1] = false;
+                    hordes[2] = true;
+                    hordes[3] = true;
+                    break;
+                default:
+                    finished = true;
+                    break;
+            }
+
+            nextRoundTime = 0;
+            bossInScenario = 0;
+            spawnEnemyTime = 0;
+
+            waveCooldown = GameController.GetInstance().EnemiesSpawnRate * GameController.GetInstance().MaxWaveEnemies +
+                           180f;
+            if (GameController.GetInstance().BossWave)
+                waveCooldown += GameController.GetInstance().NumberOfBoses *
+                                GameController.GetInstance().EnemiesSpawnRate * 10f;
+        }
+        
     }
 
     private void StartWave()
@@ -128,6 +185,38 @@ public class WaveController : MonoBehaviour
             hud.SetBool("nextRound", true);
             _canEndWave = false;
         }
+    }
+
+    private void AlternateSpawnEnemy()
+    {
+        if (spawnEnemyTime >= GameController.GetInstance().EnemiesSpawnRate &&
+            GameController.GetInstance().CurrentEnemies <
+            GameController.GetInstance().MaxWaveEnemies)
+        {
+            int random;
+            switch (GameController.GetInstance().WaveCounter)
+            {
+                case 1:
+                    random = Random.Range(0, 2);
+                    spawners[random].SpawnEnemy(false);
+                    break;
+                case 2:
+                    random = Random.Range(0, spawners.Length);
+                    spawners[random].SpawnEnemy(false);
+                    break;
+                case 3:
+                    random = Random.Range(0, spawners.Length);
+                    spawners[random].SpawnEnemy(hordes[random]);
+                    break;
+                default:
+                    SceneManager.LoadScene("Game Over");
+                    break;
+            }
+            
+            spawnEnemyTime = 0;
+        }
+
+        ChangeUiValues();
     }
 
     public void SpawnEnemy()

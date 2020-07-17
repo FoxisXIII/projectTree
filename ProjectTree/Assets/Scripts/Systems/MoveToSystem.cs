@@ -168,7 +168,7 @@ public class MoveToSystem : JobComponentSystem
                                 direction = translation.Value - buffers[entity][buffers[entity].Length - 1].position;
                                 if (Magnitude(direction) > .5f && aiData.counter < buffers[entity].Length - 1)
                                 {
-                                    if (aiData.horde && !aiData.hordeMove)
+                                    if (aiData.horde && !aiData.hordeMove && aiData.counter==5)
                                         aiData.stop = true;
                                     else
                                         aiData.counter++;

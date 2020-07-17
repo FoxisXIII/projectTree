@@ -10,6 +10,7 @@ TagManager:
   - Base
   - Preview Turret
   - TurretSpot
+  - Ground
   layers:
   - Default
   - TransparentFX

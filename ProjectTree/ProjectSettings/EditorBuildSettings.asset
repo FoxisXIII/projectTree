@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Loading.unity
     guid: 48e5da3cfa1d78d40989084fbfb16ee9
   - enabled: 1
-    path: Assets/Scenes/Scenario.unity
+    path: Assets/Scenes/Scenario v2.unity
     guid: 7f4d3e100005bcd4b87c81f55bef44f5
   - enabled: 1
     path: Assets/Scenes/Game Over.unity

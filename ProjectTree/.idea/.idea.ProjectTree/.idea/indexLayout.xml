@@ -10,7 +10,6 @@
       <Path>Library/PackageCache/com.unity.collections@0.8.0-preview.5</Path>
       <Path>Library/PackageCache/com.unity.dots.editor@0.6.0-preview</Path>
       <Path>Library/PackageCache/com.unity.entities@0.10.0-preview.6</Path>
-      <Path>Library/PackageCache/com.unity.entities@0.9.1-preview.15</Path>
       <Path>Library/PackageCache/com.unity.ext.nunit@1.0.0</Path>
       <Path>Library/PackageCache/com.unity.formats.fbx@3.1.0-preview.1</Path>
       <Path>Library/PackageCache/com.unity.ide.rider@1.2.1</Path>
@@ -20,13 +19,10 @@
       <Path>Library/PackageCache/com.unity.mathematics@1.1.0</Path>
       <Path>Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0-preview</Path>
       <Path>Library/PackageCache/com.unity.physics@0.3.2-preview</Path>
-      <Path>Library/PackageCache/com.unity.platforms@0.2.2-preview.7</Path>
       <Path>Library/PackageCache/com.unity.platforms@0.3.0-preview.2</Path>
       <Path>Library/PackageCache/com.unity.postprocessing@2.3.0</Path>
       <Path>Library/PackageCache/com.unity.progrids@3.0.3-preview.4</Path>
-      <Path>Library/PackageCache/com.unity.properties.ui@1.1.0-preview</Path>
       <Path>Library/PackageCache/com.unity.properties.ui@1.2.0-preview</Path>
-      <Path>Library/PackageCache/com.unity.properties@1.1.0-preview</Path>
       <Path>Library/PackageCache/com.unity.properties@1.2.0-preview</Path>
       <Path>Library/PackageCache/com.unity.recorder@2.1.0-preview.1</Path>
       <Path>Library/PackageCache/com.unity.render-pipelines.core@8.0.1</Path>
@@ -34,7 +30,6 @@
       <Path>Library/PackageCache/com.unity.rendering.hybrid@0.4.2-preview.16</Path>
       <Path>Library/PackageCache/com.unity.scriptablebuildpipeline@1.6.4-preview</Path>
       <Path>Library/PackageCache/com.unity.searcher@4.0.9</Path>
-      <Path>Library/PackageCache/com.unity.serialization@1.1.0-preview</Path>
       <Path>Library/PackageCache/com.unity.serialization@1.2.0-preview</Path>
       <Path>Library/PackageCache/com.unity.shadergraph@8.0.1</Path>
       <Path>Library/PackageCache/com.unity.test-framework.performance@2.0.8-preview</Path>
@@ -49,6 +44,7 @@
       <Path>.idea</Path>
       <Path>Library</Path>
       <Path>Logs</Path>
+      <Path>Temp</Path>
       <Path>UserSettings</Path>
       <Path>obj</Path>
     </explicitExcludes>

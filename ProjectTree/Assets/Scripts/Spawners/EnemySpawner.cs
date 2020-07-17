@@ -97,9 +97,9 @@ public class EnemySpawner : MonoBehaviour
         aiData.yOffset = aiData.canFly ? Random.Range(.5f, 2.5f) : 0;
         aiData.state = 0;
         aiData.attackDamage = horde ? 5 : 1;
-        aiData.attackRate = Random.Range(.5f, 1f);
+        aiData.attackRate = Random.Range(1f, 2f);
         aiData.horde = horde;
-        aiData.canAttackPlayer = Random.Range(0f, 1f) < .25f;
+        aiData.canAttackPlayer = Random.Range(0f, 1f) < .6f;
         _entityManager.SetComponentData(enemy, aiData);
 
         var movementData = _entityManager.GetComponentData<MovementData>(enemy);
@@ -109,7 +109,8 @@ public class EnemySpawner : MonoBehaviour
 
 
         var health = _entityManager.GetComponentData<HealthData>(enemy);
-        health.value = 3 + GameController.GetInstance().WaveCounter;
+        //TODO health.value = 3 + GameController.GetInstance().WaveCounter;
+        health.value = 3 + 10*GameController.GetInstance().WaveCounter;
         health.maxValue = horde ? GameController.GetInstance().WaveCounter * 5 : 3 + GameController.GetInstance().WaveCounter;
         _entityManager.SetComponentData(enemy, health);
 
